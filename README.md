@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # TrustRAG
 
 ## Project Overview
@@ -49,3 +50,6 @@ mypy src
 
 Further documentation resides in the `docs/` directory.
 
+=======
+# TrustRag
+>>>>>>> c296ff848edec9bc93dfa7857a4ff770eca3a9f1
