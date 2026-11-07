@@ -55,6 +55,25 @@ class Settings(BaseSettings):
 
     app: ApplicationConfig = Field(default_factory=ApplicationConfig)
     llm: LLMProviderConfig = Field(default_factory=LLMProviderConfig)
+    dataset: BaseModel = Field(default_factory=lambda: BaseModel())  # placeholder
+    retrieval: BaseModel = Field(default_factory=lambda: BaseModel())
+    generation: BaseModel = Field(default_factory=lambda: BaseModel())
+    msd: BaseModel = Field(default_factory=lambda: BaseModel())
+    guardrails: BaseModel = Field(default_factory=lambda: BaseModel())
+    experiments: BaseModel = Field(default_factory=lambda: BaseModel())
+
+    """Root settings combining all configuration sections.
+
+    Precedence (highest to lowest):
+    1. Environment variables prefixed with ``TRUSTRAG_``.
+    2. Values from ``configs/base.yaml``.
+    3. Model defaults.
+    """
+
+    model_config = SettingsConfigDict(env_prefix="TRUSTRAG_")
+
+    app: ApplicationConfig = Field(default_factory=ApplicationConfig)
+    llm: LLMProviderConfig = Field(default_factory=LLMProviderConfig)
 
     @classmethod
     def _load_yaml(cls) -> Dict[str, Any]:

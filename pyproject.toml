@@ -14,6 +14,78 @@ requires = ["setuptools>=64", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools]
+package-dir = {"" = "src"}
+packages = ["trustrag"]
+
+[tool.setuptools.package-data]
+"" = ["configs/*.yaml"]
+
+[dependency-groups]
+core = [
+    "numpy",
+    "pandas",
+    "scipy",
+    "pydantic",
+    "pydantic-settings",
+    "pyyaml",
+    "python-dotenv",
+    "tqdm",
+    "requests",
+    "httpx",
+    "tenacity",
+]
+ml = [
+    "torch",
+    "transformers",
+    "datasets",
+    "sentence-transformers",
+    "accelerate",
+    "tokenizers",
+    "scikit-learn",
+    "xgboost",
+    "joblib",
+    "faiss-cpu",
+]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "pytest-asyncio",
+    "ruff",
+    "mypy",
+    "pre-commit",
+    "ipykernel",
+]
+api = [
+    "fastapi",
+    "uvicorn[standard]",
+    "python-multipart",
+]
+experiment = [
+    "mlflow",
+    "matplotlib",
+    "plotly",
+]
+optional-llm = [
+    "openai",
+    "google-genai",
+    "anthropic",
+]
+
+name = "trustrag"
+version = "0.1.0"
+description = "TrustRAG Phase 00 foundation"
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+
+[project.urls]
+Homepage = "https://example.com/trustrag"
+
+[build-system]
+requires = ["setuptools>=64", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools]
 packages = ["src.trustrag"]
 
 [tool.setuptools.package-data]
