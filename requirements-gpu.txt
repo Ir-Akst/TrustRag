@@ -1,0 +1,4 @@
+# GPU-specific dependencies
+torch>=2.2.0; platform_system!='Windows'
+# For Windows, users may install appropriate CUDA build manually
+

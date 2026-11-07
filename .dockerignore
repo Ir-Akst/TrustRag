@@ -1,0 +1,12 @@
+# Ignore Python virtual environment
+.venv/
+
+# Ignore compiled files
+__pycache__/
+*.pyc
+*.pyo
+
+# Ignore OS files
+Thumbs.db
+Desktop.ini
+

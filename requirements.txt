@@ -1,0 +1,13 @@
+# Core dependencies
+numpy
+pandas
+scipy
+pydantic
+pydantic-settings
+pyyaml
+python-dotenv
+tqdm
+requests
+httpx
+tenacity
+
