@@ -1,0 +1,24 @@
+{
+  "dataset_name": "knowledge_poisoning",
+  "split_type": "custom",
+  "total_records": 150,
+  "train_count": 104,
+  "val_count": 22,
+  "test_count": 24,
+  "train_ratio_actual": 0.6933,
+  "val_ratio_actual": 0.1467,
+  "test_ratio_actual": 0.16,
+  "num_groups": 75,
+  "leakage_detected": false,
+  "group_overlaps": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "content_hash_overlaps": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "seed": 42
+}

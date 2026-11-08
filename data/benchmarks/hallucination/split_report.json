@@ -1,0 +1,24 @@
+{
+  "dataset_name": "hallucination",
+  "split_type": "custom",
+  "total_records": 11,
+  "train_count": 7,
+  "val_count": 1,
+  "test_count": 3,
+  "train_ratio_actual": 0.6364,
+  "val_ratio_actual": 0.0909,
+  "test_ratio_actual": 0.2727,
+  "num_groups": 11,
+  "leakage_detected": false,
+  "group_overlaps": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "content_hash_overlaps": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "seed": 42
+}

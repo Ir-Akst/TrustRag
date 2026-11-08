@@ -1,0 +1,24 @@
+{
+  "dataset_name": "clean_rag",
+  "split_type": "custom",
+  "total_records": 100,
+  "train_count": 70,
+  "val_count": 15,
+  "test_count": 15,
+  "train_ratio_actual": 0.7,
+  "val_ratio_actual": 0.15,
+  "test_ratio_actual": 0.15,
+  "num_groups": 100,
+  "leakage_detected": false,
+  "group_overlaps": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "content_hash_overlaps": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "seed": 42
+}

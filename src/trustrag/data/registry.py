@@ -1,38 +1,44 @@
-"""Dataset registry and loader orchestration.
+"""Dataset registry and loader orchestration for TrustRAG.
 
-The registry maps a logical dataset identifier (e.g., ``"natural_questions"``) to a
-concrete :class:`BaseAdapter` subclass that knows how to acquire and preprocess the
-raw source.  The public function :func:`load_dataset` uses the registry to create
-an adapter instance and returns an iterator of normalized Pydantic records.
+The registry maps logical dataset identifiers (e.g. ``"natural_questions"``, ``"ragtruth"``)
+to concrete :class:`BaseAdapter` classes and provides inspection, loading, and
+preprocessing pipelines.
 """
 
 from __future__ import annotations
 
-from typing import Dict, Iterable, Iterator, Type
+import logging
+from typing import Any, Dict, Iterator, List, Optional, Type, Union
 
-from .base import BaseAdapter
-from .exceptions import AcquisitionError, DataError
+from .base import BaseAdapter, DatasetMetadata, NormalizedRecord
+from .exceptions import AcquisitionError
 
-# Concrete adapters are imported lazily to avoid heavy optional dependencies at
-# import time.  The mapping contains the fully‑qualified class name; the class is
-# imported only when the dataset is requested.
+logger = logging.getLogger(__name__)
+
+# Complete registry of all 13 supported datasets across all 4 categories
 _REGISTRY: Dict[str, str] = {
-    # RAG QA datasets
+    # Category A: RAG & Question-Answering
     "natural_questions": "trustrag.data.loaders.natural_questions.NaturalQuestionsAdapter",
     "hotpotqa": "trustrag.data.loaders.hotpotqa.HotpotQAAdapter",
     "ms_marco": "trustrag.data.loaders.ms_marco.MSMarcoAdapter",
     "squad": "trustrag.data.loaders.squad.SQuADAdapter",
     "boolq": "trustrag.data.loaders.boolq.BoolQAdapter",
-    # Hallucination verification datasets – placeholders (local import adapters)
+    # Category B: Hallucination & Claim-Verification
     "halueval": "trustrag.data.loaders.halueval.HaluEvalAdapter",
-    # Security / poisoning datasets – placeholders
+    "ragtruth": "trustrag.data.loaders.ragtruth.RAGTruthAdapter",
+    "llm_aggrefact": "trustrag.data.loaders.llm_aggrefact.LLMAggreFactAdapter",
+    "wice": "trustrag.data.loaders.wice.WiCEAdapter",
+    "expertqa": "trustrag.data.loaders.expertqa.ExpertQAAdapter",
+    # Category C: Security & Poisoning
     "rsb": "trustrag.data.loaders.rsb.RSBAdapter",
-    # Training corpus – FineWeb (sample adapter)
+    "custom_security": "trustrag.data.loaders.custom_security.CustomSecurityAdapter",
+    # Category D: Training Corpus
     "fineweb": "trustrag.data.loaders.fineweb.FineWebAdapter",
 }
 
 
 def _resolve_adapter(class_path: str) -> Type[BaseAdapter]:
+    """Resolve an adapter class dynamically from its module path."""
     module_path, class_name = class_path.rsplit(".", 1)
     module = __import__(module_path, fromlist=[class_name])
     adapter_cls = getattr(module, class_name)
@@ -41,35 +47,78 @@ def _resolve_adapter(class_path: str) -> Type[BaseAdapter]:
     return adapter_cls
 
 
-def list_datasets() -> Iterator[str]:
-    """Yield all registered dataset identifiers."""
-    return iter(_REGISTRY.keys())
+def list_datasets() -> List[str]:
+    """Return all registered dataset identifiers."""
+    return list(_REGISTRY.keys())
+
+
+def get_adapter_class(name: str) -> Type[BaseAdapter]:
+    """Retrieve the adapter class for a registered dataset name."""
+    clean_name = name.lower().strip()
+    if clean_name not in _REGISTRY:
+        raise AcquisitionError(
+            f"Dataset '{name}' is not registered. Available datasets: {list(_REGISTRY.keys())}"
+        )
+    return _resolve_adapter(_REGISTRY[clean_name])
+
+
+def get_dataset_metadata(name: str) -> DatasetMetadata:
+    """Retrieve metadata for a registered dataset."""
+    adapter_cls = get_adapter_class(name)
+    return adapter_cls.metadata
 
 
 def load_dataset(
     name: str,
     *,
-    limit: int | None = None,
     split: str = "train",
+    limit: Optional[int] = None,
     offline: bool = False,
-) -> Iterator[BaseAdapter]:
-    """Load a dataset by name and yield normalized records.
+    local_path: Optional[str] = None,
+    config_name: Optional[str] = None,
+    deduplicate: bool = True,
+    clean: bool = True,
+) -> Iterator[NormalizedRecord]:
+    """Load a dataset by name and yield normalized, validated records.
 
     Parameters
     ----------
     name: str
-        Logical dataset identifier (as used in the registry).
-    limit: int | None
-        Maximum number of records to emit. ``None`` means no limit.
+        Logical dataset identifier (as registered in registry).
     split: str
-        Desired split name; adapters may ignore if the source does not have splits.
+        Desired split name (e.g. 'train', 'validation', 'test').
+    limit: int | None
+        Maximum records to yield.
     offline: bool
-        If ``True`` enforce offline mode – adapters should use cached data or raise
-        if the source is unavailable.
-    """
-    if name not in _REGISTRY:
-        raise AcquisitionError(f"Dataset '{name}' is not registered")
-    adapter_cls = _resolve_adapter(_REGISTRY[name])
-    adapter = adapter_cls(split=split, limit=limit, offline=offline)
-    return adapter.process()
+        Whether to enforce offline mode.
+    local_path: str | None
+        Optional local file path for direct import.
+    config_name: str | None
+        Optional configuration/subset name.
+    deduplicate: bool
+        Whether to deduplicate using content hash.
+    clean: bool
+        Whether to apply safe text normalization.
 
+    Yields
+    ------
+    NormalizedRecord
+        Validated Pydantic model record.
+    """
+    adapter_cls = get_adapter_class(name)
+    adapter = adapter_cls(
+        split=split,
+        limit=limit,
+        offline=offline,
+        local_path=local_path,
+        config_name=config_name,
+    )
+    return adapter.process(deduplicate=deduplicate, clean=clean)
+
+
+__all__ = [
+    "list_datasets",
+    "get_adapter_class",
+    "get_dataset_metadata",
+    "load_dataset",
+]

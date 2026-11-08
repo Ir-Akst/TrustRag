@@ -6,5 +6,6 @@ and allow overrides via environment variables. Additional configuration sections
 (e.g., ``DatasetConfig``, ``RetrievalConfig``) can be added later.
 """
 
-from .base import Settings  # Re-export for convenience
+from .settings import Settings, load_config
 
+__all__ = ["Settings", "load_config"]

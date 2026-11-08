@@ -1,0 +1,166 @@
+# configs/datasets.yaml
+# TrustRAG Phase 01: Dataset Engineering Configuration
+
+dataset:
+  smoke_test: false
+  offline_mode: false
+  default_cache_dir: "data/raw"
+  default_output_dir: "data/processed"
+  manifest_dir: "data/manifests"
+
+  preprocessing:
+    unicode_normalization: "NFKC"
+    collapse_whitespace: true
+    preserve_punctuation: true
+    deduplicate: true
+
+  splitting:
+    train_ratio: 0.70
+    val_ratio: 0.15
+    test_ratio: 0.15
+    seed: 42
+    group_key: null
+
+  datasets:
+    # ------------------------------------------------------------------
+    # Category A: RAG and Question-Answering Datasets
+    # ------------------------------------------------------------------
+    natural_questions:
+      name: "natural_questions"
+      enabled: true
+      source_uri: "google-research-datasets/natural_questions"
+      split: "train"
+      limit: 30000
+      smoke_test_limit: 100
+      config_name: "default"
+      description: "Google Natural Questions: real search queries paired with Wikipedia documents"
+
+    hotpotqa:
+      name: "hotpotqa"
+      enabled: true
+      source_uri: "hotpotqa/hotpot_qa"
+      split: "train"
+      limit: 30000
+      smoke_test_limit: 100
+      config_name: "distractor"
+      description: "HotpotQA: Multi-hop reasoning dataset with supporting Wikipedia facts"
+
+    ms_marco:
+      name: "ms_marco"
+      enabled: true
+      source_uri: "microsoft/ms_marco"
+      split: "train"
+      limit: 100000
+      smoke_test_limit: 100
+      config_name: "v1.1"
+      description: "Microsoft MARCO: Large-scale Bing query answering and passage ranking"
+
+    squad:
+      name: "squad"
+      enabled: true
+      source_uri: "rajpurkar/squad"
+      split: "train"
+      limit: 20000
+      smoke_test_limit: 100
+      config_name: "plain_text"
+      description: "Stanford Question Answering Dataset: questions over Wikipedia articles"
+
+    boolq:
+      name: "boolq"
+      enabled: true
+      source_uri: "google/boolq"
+      split: "train"
+      limit: 10000
+      smoke_test_limit: 100
+      config_name: "default"
+      description: "Google BoolQ: Naturally occurring yes/no boolean queries"
+
+    # ------------------------------------------------------------------
+    # Category B: Hallucination and Claim-Verification Datasets
+    # ------------------------------------------------------------------
+    halueval:
+      name: "halueval"
+      enabled: true
+      source_uri: "pminervini/HaluEval"
+      split: "data"
+      limit: 10000
+      smoke_test_limit: 100
+      config_name: "qa"
+      description: "HaluEval: Hallucination evaluation benchmark across QA, dialogue, and summarization"
+
+    ragtruth:
+      name: "ragtruth"
+      enabled: true
+      source_uri: "https://github.com/ParticleMedia/RAGTruth"
+      split: "test"
+      limit: 18000
+      smoke_test_limit: 100
+      local_path: null
+      description: "RAGTruth: Word-level and case-level hallucination detection benchmark"
+
+    llm_aggrefact:
+      name: "llm_aggrefact"
+      enabled: true
+      source_uri: "lytang/LLM-AggreFact"
+      split: "test"
+      limit: 5000
+      smoke_test_limit: 100
+      local_path: null
+      description: "LLM-AggreFact: Gated benchmark (CC-BY-ND-4.0). Evaluation benchmark ONLY; no training."
+
+    wice:
+      name: "wice"
+      enabled: true
+      source_uri: "https://github.com/ryokamoi/wice"
+      split: "test"
+      limit: 5000
+      smoke_test_limit: 100
+      local_path: null
+      description: "WiCE: Fine-grained textual entailment for claims in Wikipedia"
+
+    expertqa:
+      name: "expertqa"
+      enabled: true
+      source_uri: "https://github.com/chaitanyamalaviya/ExpertQA"
+      split: "test"
+      limit: 5000
+      smoke_test_limit: 100
+      local_path: null
+      description: "ExpertQA: Multi-domain factuality evaluations by certified domain experts"
+
+    # ------------------------------------------------------------------
+    # Category C: Security and Poisoning Datasets
+    # ------------------------------------------------------------------
+    rsb:
+      name: "rsb"
+      enabled: true
+      source_uri: "arXiv:2505.18543"
+      split: "test"
+      limit: 5000
+      smoke_test_limit: 100
+      local_path: null
+      description: "RSB: RAG Security Bench for evaluating poisoning attacks and defenses"
+
+    custom_security:
+      name: "custom_security"
+      enabled: true
+      source_uri: "trustrag/internal_security"
+      split: "train"
+      limit: 5000
+      smoke_test_limit: 100
+      local_path: null
+      description: "Custom TrustRAG security benchmark: paired clean and poisoned corpus passages"
+
+    # ------------------------------------------------------------------
+    # Category D: Training Corpus
+    # ------------------------------------------------------------------
+    fineweb:
+      name: "fineweb"
+      enabled: true
+      source_uri: "HuggingFaceFW/fineweb"
+      split: "train"
+      limit: 20000
+      smoke_test_limit: 100
+      config_name: "sample-10BT"
+      description: "FineWeb: High-quality English web dataset (training corpus, sample only)"
+

@@ -1,0 +1,73 @@
+{
+  "name": "boolq",
+  "version": "1.0.0",
+  "schema_version": "1.0.0",
+  "preprocessing_version": "1.0.0",
+  "source_identifier": "boolq",
+  "source_url": "google/boolq",
+  "source_revision": null,
+  "license": "CC-BY-SA-3.0",
+  "access_conditions": "open",
+  "retrieval_date": "2026-11-07T19:17:14.427540+00:00",
+  "config_name": "default",
+  "split_type": "custom",
+  "splits_included": [
+    "custom_test",
+    "custom_train",
+    "custom_val"
+  ],
+  "split_seed": 42,
+  "split_sizes": {
+    "custom_test": 15,
+    "custom_train": 70,
+    "custom_val": 15
+  },
+  "raw_records_count": 100,
+  "processed_records_count": 100,
+  "valid_records_count": 100,
+  "invalid_records_count": 0,
+  "duplicate_records_count": 0,
+  "empty_records_count": 0,
+  "record_type": "QueryRecord",
+  "files": [
+    {
+      "split": "custom_test",
+      "original_split": "test",
+      "processed_split": "custom_test",
+      "split_type": "custom",
+      "file_path": "custom_test.jsonl",
+      "format": "jsonl",
+      "record_count": 15,
+      "file_size_bytes": 12298,
+      "sha256": "b78ab07ac036e9d2405b7396894528b327173a6d2c1c1dd240421b131ccf11fc"
+    },
+    {
+      "split": "custom_train",
+      "original_split": "train",
+      "processed_split": "custom_train",
+      "split_type": "custom",
+      "file_path": "custom_train.jsonl",
+      "format": "jsonl",
+      "record_count": 70,
+      "file_size_bytes": 66854,
+      "sha256": "bfc1759cd62e87da4b9a72585377b28c7bafb77bce159272b5174e82b852375b"
+    },
+    {
+      "split": "custom_val",
+      "original_split": "val",
+      "processed_split": "custom_val",
+      "split_type": "custom",
+      "file_path": "custom_val.jsonl",
+      "format": "jsonl",
+      "record_count": 15,
+      "file_size_bytes": 14559,
+      "sha256": "1077922658522defd1a6ec67ac19ef36e776ed02a1f5eabf3beb0a732ea382fc"
+    }
+  ],
+  "known_limitations": "Binary yes/no answers only",
+  "intended_use": "Research evaluation and defense benchmarking",
+  "usage_category": "VALIDATION",
+  "permitted_for_training": true,
+  "permitted_for_evaluation": true,
+  "metadata": {}
+}

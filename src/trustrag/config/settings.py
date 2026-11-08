@@ -17,7 +17,7 @@ from pydantic_settings import BaseSettings, SettingsConfigDict
 
 
 class ApplicationConfig(BaseModel):
-    """Top‑level application configuration.
+    """Top-level application configuration.
 
     Attributes:
         env: Runtime environment (development, staging, production).
@@ -42,53 +42,91 @@ class LLMProviderConfig(BaseModel):
     local_base_url: str = Field(default="http://localhost:11434")
 
 
+from .dataset_config import DatasetRootConfig
+
+
+class SectionConfig(BaseModel):
+    """Generic section configuration placeholder."""
+    pass
+
+
 class Settings(BaseSettings):
     """Root settings combining all configuration sections.
 
     Precedence (highest to lowest):
-    1. Environment variables prefixed with ``TRUSTRAG_``.
-    2. Values from ``configs/base.yaml``.
-    3. Model defaults.
+    1. Explicit data passed to __init__
+    2. Environment variables prefixed with ``TRUSTRAG_``.
+    3. Values from ``configs/base.yaml`` and ``configs/datasets.yaml``.
+    4. Model defaults.
     """
 
-    model_config = SettingsConfigDict(env_prefix="TRUSTRAG_")
+    model_config = SettingsConfigDict(env_prefix="TRUSTRAG_", env_nested_delimiter="_")
 
     app: ApplicationConfig = Field(default_factory=ApplicationConfig)
     llm: LLMProviderConfig = Field(default_factory=LLMProviderConfig)
-    dataset: BaseModel = Field(default_factory=lambda: BaseModel())  # placeholder
-    retrieval: BaseModel = Field(default_factory=lambda: BaseModel())
-    generation: BaseModel = Field(default_factory=lambda: BaseModel())
-    msd: BaseModel = Field(default_factory=lambda: BaseModel())
-    guardrails: BaseModel = Field(default_factory=lambda: BaseModel())
-    experiments: BaseModel = Field(default_factory=lambda: BaseModel())
-
-    """Root settings combining all configuration sections.
-
-    Precedence (highest to lowest):
-    1. Environment variables prefixed with ``TRUSTRAG_``.
-    2. Values from ``configs/base.yaml``.
-    3. Model defaults.
-    """
-
-    model_config = SettingsConfigDict(env_prefix="TRUSTRAG_")
-
-    app: ApplicationConfig = Field(default_factory=ApplicationConfig)
-    llm: LLMProviderConfig = Field(default_factory=LLMProviderConfig)
+    dataset: DatasetRootConfig = Field(default_factory=DatasetRootConfig)
+    retrieval: SectionConfig = Field(default_factory=SectionConfig)
+    generation: SectionConfig = Field(default_factory=SectionConfig)
+    msd: SectionConfig = Field(default_factory=SectionConfig)
+    guardrails: SectionConfig = Field(default_factory=SectionConfig)
+    experiments: SectionConfig = Field(default_factory=SectionConfig)
 
     @classmethod
     def _load_yaml(cls) -> Dict[str, Any]:
-        config_path = Path(__file__).resolve().parents[2] / "configs" / "base.yaml"
+        config_path = Path(__file__).resolve().parents[3] / "configs" / "base.yaml"
         if not config_path.is_file():
-            return {}
-        with config_path.open("r", encoding="utf-8") as f:
-            return yaml.safe_load(f) or {}
+            # Try alternate lookup
+            config_path = Path(__file__).resolve().parents[2] / "configs" / "base.yaml"
+        data: Dict[str, Any] = {}
+        if config_path.is_file():
+            with config_path.open("r", encoding="utf-8") as f:
+                data = yaml.safe_load(f) or {}
+
+        # Load datasets.yaml if available
+        ds_path = config_path.parent / "datasets.yaml"
+        if ds_path.is_file():
+            with ds_path.open("r", encoding="utf-8") as f:
+                ds_data = yaml.safe_load(f) or {}
+                if "dataset" in ds_data:
+                    data["dataset"] = ds_data["dataset"]
+                else:
+                    data["dataset"] = ds_data
+        return data
 
     def __init__(self, **data: Any):
         yaml_data = self._load_yaml()
-        merged: Dict[str, Any] = {"app": yaml_data.get("app", {}), "llm": yaml_data.get("llm", {})}
-        merged.update(data)
+        merged: Dict[str, Any] = {}
+        for section in ("app", "llm", "dataset", "retrieval", "generation", "msd", "guardrails", "experiments"):
+            if section in yaml_data and isinstance(yaml_data[section], dict):
+                merged[section] = dict(yaml_data[section])
+
+        # Environment variable overrides (TRUSTRAG_<SECTION>_<FIELD>)
+        prefix = "TRUSTRAG_"
+        for k, v in os.environ.items():
+            if k.startswith(prefix):
+                rest = k[len(prefix):]
+                parts = rest.split("_", 1)
+                if len(parts) == 2:
+                    section = parts[0].lower()
+                    field_name = parts[1].lower()
+                    if section in ("app", "llm", "dataset", "retrieval", "generation", "msd", "guardrails", "experiments"):
+                        if section not in merged:
+                            merged[section] = {}
+                        merged[section][field_name] = v
+
+        # Explicit overrides take highest precedence
+        for k, v in data.items():
+            if isinstance(v, dict) and k in merged and isinstance(merged[k], dict):
+                merged[k].update(v)
+            else:
+                merged[k] = v
+
         super().__init__(**merged)
 
     def dict(self, *args, **kwargs):  # pragma: no cover – convenience wrapper
         return super().model_dump(*args, **kwargs)
 
+
+def load_config(**overrides: Any) -> Settings:
+    """Load configuration settings with optional overrides."""
+    return Settings(**overrides)

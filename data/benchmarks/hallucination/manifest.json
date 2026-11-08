@@ -1,0 +1,73 @@
+{
+  "name": "benchmark_hallucination",
+  "version": "1.0.0",
+  "schema_version": "1.0.0",
+  "preprocessing_version": "1.0.0",
+  "source_identifier": "benchmark_hallucination",
+  "source_url": "trustrag/benchmarks/hallucination",
+  "source_revision": null,
+  "license": "MIT",
+  "access_conditions": "open",
+  "retrieval_date": "2026-11-07T20:00:51.055374+00:00",
+  "config_name": null,
+  "split_type": "custom",
+  "splits_included": [
+    "train",
+    "val",
+    "test"
+  ],
+  "split_seed": 42,
+  "split_sizes": {
+    "train": 7,
+    "val": 1,
+    "test": 3
+  },
+  "raw_records_count": 11,
+  "processed_records_count": 11,
+  "valid_records_count": 11,
+  "invalid_records_count": 0,
+  "duplicate_records_count": 0,
+  "empty_records_count": 0,
+  "record_type": "ClaimVerificationRecord",
+  "files": [
+    {
+      "split": "train",
+      "original_split": "train",
+      "processed_split": "train",
+      "split_type": "custom",
+      "file_path": "train.jsonl",
+      "format": "jsonl",
+      "record_count": 7,
+      "file_size_bytes": 3760,
+      "sha256": "e2377a69cc64238ecb404449cb9e7b24d4d794380d98c236e66cd4e0542a438e"
+    },
+    {
+      "split": "val",
+      "original_split": "val",
+      "processed_split": "val",
+      "split_type": "custom",
+      "file_path": "val.jsonl",
+      "format": "jsonl",
+      "record_count": 1,
+      "file_size_bytes": 523,
+      "sha256": "a2bb0fbef7fed92f70e603e794586d40501836b90d88e8b875012ab5bda2fcf6"
+    },
+    {
+      "split": "test",
+      "original_split": "test",
+      "processed_split": "test",
+      "split_type": "custom",
+      "file_path": "test.jsonl",
+      "format": "jsonl",
+      "record_count": 3,
+      "file_size_bytes": 1551,
+      "sha256": "fc6a74dd7e88de8925e21d66cfd958464cbc4f999095dad670ef46ed24fc7cd2"
+    }
+  ],
+  "known_limitations": null,
+  "intended_use": "Evaluating MSD and reasoning-model claim verification accuracy",
+  "usage_category": "VALIDATION",
+  "permitted_for_training": true,
+  "permitted_for_evaluation": true,
+  "metadata": {}
+}
