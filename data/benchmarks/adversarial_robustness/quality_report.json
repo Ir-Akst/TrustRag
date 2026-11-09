@@ -1,18 +1,18 @@
 {
   "dataset_name": "adversarial_robustness",
-  "total_records": 250,
-  "valid_records": 250,
+  "total_records": 30,
+  "valid_records": 30,
   "invalid_records": 0,
-  "duplicate_records": 0,
+  "duplicate_records": 10,
   "empty_records": 0,
   "missing_required_fields": 0,
   "unknown_labels": 0,
   "missing_source_ids": 0,
-  "unique_documents": 250,
-  "unique_queries": 5,
+  "unique_documents": 20,
+  "unique_queries": 8,
   "unique_claims": 0,
   "error_samples": [],
   "is_healthy": true,
   "valid_rate": 1.0,
-  "duplicate_rate": 0.0
+  "duplicate_rate": 0.3333
 }

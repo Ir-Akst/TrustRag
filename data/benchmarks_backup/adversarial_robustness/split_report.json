@@ -1,0 +1,24 @@
+{
+  "dataset_name": "adversarial_robustness",
+  "split_type": "custom",
+  "total_records": 250,
+  "train_count": 174,
+  "val_count": 36,
+  "test_count": 40,
+  "train_ratio_actual": 0.696,
+  "val_ratio_actual": 0.144,
+  "test_ratio_actual": 0.16,
+  "num_groups": 125,
+  "leakage_detected": false,
+  "group_overlaps": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "content_hash_overlaps": {
+    "train_val": 0,
+    "train_test": 0,
+    "val_test": 0
+  },
+  "seed": 42
+}

@@ -1,0 +1,4 @@
+clean_rag: {'category': 'clean_rag', 'output_dir': 'data\\benchmarks\\clean_rag', 'total_records': 100, 'split_sizes': {'train': 70, 'val': 15, 'test': 15}, 'quality_status': 'HEALTHY', 'leakage_detected': False, 'manifest_verified': True}
+knowledge_poisoning: {'category': 'knowledge_poisoning', 'output_dir': 'data\\benchmarks\\knowledge_poisoning', 'total_records': 150, 'split_sizes': {'train': 104, 'val': 22, 'test': 24}, 'quality_status': 'HEALTHY', 'leakage_detected': False, 'manifest_verified': True}
+hallucination: Error: BenchmarkBuilder.build_hallucination() got an unexpected keyword argument 'limit'
+adversarial_robustness: Error: BenchmarkBuilder.build_adversarial_robustness() got an unexpected keyword argument 'limit'

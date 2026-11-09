@@ -1,7 +1,7 @@
 {
   "dataset_name": "clean_rag",
-  "total_records": 100,
-  "valid_records": 100,
+  "total_records": 10,
+  "valid_records": 10,
   "invalid_records": 0,
   "duplicate_records": 0,
   "empty_records": 0,
@@ -9,7 +9,7 @@
   "unknown_labels": 0,
   "missing_source_ids": 0,
   "unique_documents": 0,
-  "unique_queries": 100,
+  "unique_queries": 10,
   "unique_claims": 0,
   "error_samples": [],
   "is_healthy": true,

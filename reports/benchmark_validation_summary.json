@@ -1,0 +1,14 @@
+{
+  "clean_rag": {
+    "error": "manifest load failed: Manifest file not found: data\\benchmarks\\clean_rag"
+  },
+  "knowledge_poisoning": {
+    "error": "manifest load failed: Manifest file not found: data\\benchmarks\\knowledge_poisoning"
+  },
+  "hallucination": {
+    "error": "manifest load failed: Manifest file not found: data\\benchmarks\\hallucination"
+  },
+  "adversarial_robustness": {
+    "error": "manifest load failed: Manifest file not found: data\\benchmarks\\adversarial_robustness"
+  }
+}

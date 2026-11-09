@@ -1,0 +1,11 @@
+Total records: 2000
+Unique pair IDs: 1000
+Bad pairs (should be 0): 0
+
+Attack family distribution:
+  KNOWLEDGE_POISONING: 500
+  CONFLICTING_EVIDENCE: 500
+  PROMPT_INJECTION: 250
+  MALICIOUS_INSTRUCTION: 250
+  TRIGGER_DOS: 250
+  BENIGN_INSTRUCTION_LIKE: 250

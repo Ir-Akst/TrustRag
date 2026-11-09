@@ -8,7 +8,7 @@
   "source_revision": null,
   "license": "MIT",
   "access_conditions": "open",
-  "retrieval_date": "2026-11-07T20:00:51.197275+00:00",
+  "retrieval_date": "2026-11-08T16:59:23.403204+00:00",
   "config_name": null,
   "split_type": "custom",
   "splits_included": [
@@ -18,13 +18,13 @@
   ],
   "split_seed": 42,
   "split_sizes": {
-    "train": 174,
-    "val": 36,
-    "test": 40
+    "train": 22,
+    "val": 4,
+    "test": 4
   },
-  "raw_records_count": 250,
-  "processed_records_count": 250,
-  "valid_records_count": 250,
+  "raw_records_count": 30,
+  "processed_records_count": 30,
+  "valid_records_count": 30,
   "invalid_records_count": 0,
   "duplicate_records_count": 0,
   "empty_records_count": 0,
@@ -37,9 +37,9 @@
       "split_type": "custom",
       "file_path": "train.jsonl",
       "format": "jsonl",
-      "record_count": 174,
-      "file_size_bytes": 204936,
-      "sha256": "210710dae26ba3ff94f0813869299e4962795d4133001f7b8674baf6300ade5b"
+      "record_count": 22,
+      "file_size_bytes": 25652,
+      "sha256": "4e782aeecde569e3357180ae6890f86671e16efb4df26bb01b924a5088d34892"
     },
     {
       "split": "val",
@@ -48,9 +48,9 @@
       "split_type": "custom",
       "file_path": "val.jsonl",
       "format": "jsonl",
-      "record_count": 36,
-      "file_size_bytes": 42290,
-      "sha256": "d7e5819b87cdf580d970676041c7ad79cf4031c0886fab581d22eb5d7fb3df51"
+      "record_count": 4,
+      "file_size_bytes": 4824,
+      "sha256": "2dbaf50a91422a471b747c10f3955910fc537e2969c6ae9ef7a565b4991a4910"
     },
     {
       "split": "test",
@@ -59,9 +59,9 @@
       "split_type": "custom",
       "file_path": "test.jsonl",
       "format": "jsonl",
-      "record_count": 40,
-      "file_size_bytes": 47144,
-      "sha256": "24b20d20e27954004cb48dd2fca3bb7ffabe1c9bd48f57f51a2ae717a7cdee15"
+      "record_count": 4,
+      "file_size_bytes": 4586,
+      "sha256": "674d5c4da3034356a06f21023dfc040933a2e41c5f73efb8b30e4bcd3037ab0b"
     }
   ],
   "known_limitations": null,

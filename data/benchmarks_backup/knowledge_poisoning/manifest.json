@@ -1,0 +1,69 @@
+{
+  "name": "benchmark_knowledge_poisoning",
+  "source_identifier": "benchmark_knowledge_poisoning",
+  "source_url": "trustrag/benchmarks/knowledge_poisoning",
+  "source_revision": null,
+  "license": "MIT",
+  "access_conditions": "open",
+  "config_name": null,
+  "split_type": "custom",
+  "splits_included": [
+    "train",
+    "val",
+    "test"
+  ],
+  "split_seed": 42,
+  "split_sizes": {
+    "train": 104,
+    "val": 22,
+    "test": 24
+  },
+  "raw_records_count": 150,
+  "processed_records_count": 150,
+  "valid_records_count": 150,
+  "invalid_records_count": 0,
+  "duplicate_records_count": 0,
+  "empty_records_count": 0,
+  "record_type": "SecurityRecord",
+  "files": [
+    {
+      "split": "train",
+      "original_split": "train",
+      "processed_split": "train",
+      "split_type": "custom",
+      "file_path": "train.jsonl",
+      "format": "jsonl",
+      "record_count": 104,
+      "file_size_bytes": 119234,
+      "sha256": "e8cd264a2159395e09c84b56cc12412bd6e4dfd7e3265444498c0024b3dc4edd"
+    },
+    {
+      "split": "val",
+      "original_split": "val",
+      "processed_split": "val",
+      "split_type": "custom",
+      "file_path": "val.jsonl",
+      "format": "jsonl",
+      "record_count": 22,
+      "file_size_bytes": 25452,
+      "sha256": "0c11be481569ddb67fe45ab0242ac235ab689862ffc6a0847bf8f664fd2f13e1"
+    },
+    {
+      "split": "test",
+      "original_split": "test",
+      "processed_split": "test",
+      "split_type": "custom",
+      "file_path": "test.jsonl",
+      "format": "jsonl",
+      "record_count": 24,
+      "file_size_bytes": 27356,
+      "sha256": "12668740a6100b7330e95e9df34d60aa3b5a94bab6853cc7adfbc264b0fafd74"
+    }
+  ],
+  "known_limitations": null,
+  "intended_use": "Evaluating detector and guardrail resilience against targeted factual poisoning",
+  "usage_category": "SECURITY_BENCHMARK",
+  "permitted_for_training": true,
+  "permitted_for_evaluation": true,
+  "metadata": {}
+}

@@ -9,7 +9,7 @@
 - **Access Conditions:** `open`
 - **Workflow Usage Category:** `VALIDATION`
 - **Split Type:** `custom`
-- **Retrieval Date:** 2026-11-07T20:00:50.760138+00:00
+- **Retrieval Date:** 2026-11-08T16:59:23.293893+00:00
 - **Schema Version:** `1.0.0`
 - **Preprocessing Version:** `1.0.0`
 
@@ -19,24 +19,24 @@
 - **Permitted for Evaluation:** Yes
 
 ## Records and Split Statistics
-- **Raw Records:** 100
-- **Processed Records:** 100
-- **Valid Records:** 100
+- **Raw Records:** 10
+- **Processed Records:** 10
+- **Valid Records:** 10
 - **Duplicate Records:** 0
 - **Empty / Invalid Records:** 0
 - **Split Seed:** 42
 
 ### Partition Sizes
-- **train:** 70 records
-- **val:** 15 records
-- **test:** 15 records
+- **train:** 7 records
+- **val:** 1 records
+- **test:** 2 records
 
 ## Files and Checksums
 | Split | Split Type | Format | Records | Size (Bytes) | Relative Path | SHA-256 Checksum |
 |---|---|---|---:|---:|---|---|
-| train | custom | jsonl | 70 | 66854 | `train.jsonl` | `bfc1759cd62e87da...` |
-| val | custom | jsonl | 15 | 14559 | `val.jsonl` | `1077922658522def...` |
-| test | custom | jsonl | 15 | 12298 | `test.jsonl` | `b78ab07ac036e9d2...` |
+| train | custom | jsonl | 7 | 7374 | `train.jsonl` | `1bcd858846b4d2bd...` |
+| val | custom | jsonl | 1 | 961 | `val.jsonl` | `fc3deaa37531393a...` |
+| test | custom | jsonl | 2 | 1332 | `test.jsonl` | `0d53055226386817...` |
 
 ## Known Biases and Limitations
 None documented.
