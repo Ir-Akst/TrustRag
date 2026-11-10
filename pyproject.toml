@@ -48,7 +48,7 @@ core = [
 ml = [
     "torch",
     "transformers",
-    "datasets",
+    "datasets>=2.15,<3",
     "sentence-transformers",
     "accelerate",
     "tokenizers",

@@ -140,4 +140,13 @@
 - adversarial_robustness: **DEVELOPMENT_ONLY** (source IDs not traceable to raw custom_security).
 
 ## Verdict
-**NOT ACCEPTED — BLOCKED BY DEPENDENCY**
+## Integration Test Results
+
+- tests/integration/test_data_acquisition.py::test_boolq_sample_acquisition FAILED (module 'datasets' not installed)
+- tests/integration/test_data_acquisition.py::test_squad_sample_acquisition FAILED (module 'datasets' not installed)
+
+These tests require the Hugging Face `datasets` library and network access, which are unavailable in the offline environment.
+
+## Verdict
+
+**NOT ACCEPTED — BLOCKED BY MISSING DEPENDENCY (`datasets` library) and offline constraints**
