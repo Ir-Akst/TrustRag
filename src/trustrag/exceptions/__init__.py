@@ -8,7 +8,7 @@ class TrustRAGError(Exception):
     """Base class for all TrustRAG exceptions."""
     pass
 
-class ConfigurationError(TrustRAGError):
+class ConfigurationError(TrustRAGError, ValueError):
     """Raised when configuration loading or validation fails."""
     pass
 

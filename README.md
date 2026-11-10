@@ -7,12 +7,13 @@ TrustRAG is a research-grade Retrieval‑Augmented Generation (RAG) security sys
 ## Architecture Overview
 
 ```
-G1 (Input Guardrails) → MSD (Multi‑Signal Detection) → Retrieval → Generation → G3 (Output Verification)
+User Query → G1 (Input Guardrails) → Retrieval → G2 (Multi‑Signal Detection) → Generation → G3 (Output Verification) → SRM
 ```
 
 - **Phase 00:** Engineering foundation, structured logging, configuration hierarchy, error taxonomy, and reproducibility utilities.
 - **Phase 01:** Dataset engineering, multi-source acquisition, schema normalization, safe text cleaning, cryptographic deduplication, leakage-resistant splitting, dataset manifests, and dataset cards.
 - **Phase 02:** Dataset acquisition engineering, priority-tier acquisition management, pre-allocation disk safety, label taxonomy standardization, synthetic security generation (clean/poisoned paired records with zero leakage), and construction of 4 research benchmarks (`clean_rag`, `knowledge_poisoning`, `hallucination`, `adversarial_robustness`).
+- **Phase 03:** Core defense engine integrating G1 Input Guardrail, TF-IDF trust-aware retrieval with G2 Multi-Signal Detection (MSD), evidence-grounded generation, G3 claim-level evidence verification, HalluGuard-inspired SRM integration (configurable HTTP + deterministic fallback), and end-to-end `TrustRAGPipeline`.
 
 ## Setup
 
@@ -62,7 +63,19 @@ python -m trustrag.data.cli split-stats boolq --smoke-test --seed 42
 python -m trustrag.data.cli manifest boolq --dir data/processed/boolq
 ```
 
-Detailed documentation is available in [docs/dataset_engineering.md](docs/dataset_engineering.md).
+Detailed documentation is available in [docs/dataset_engineering.md](docs/dataset_engineering.md) and [docs/architecture.md](docs/architecture.md).
+
+## End-to-End Defense Pipeline CLI (Phase 03)
+
+Run the integrated `G1 -> Retrieval/G2 -> Generation -> G3 -> SRM` pipeline over local datasets:
+
+```bash
+# Clean RAG query execution
+python -m trustrag.pipeline.cli --corpus data/benchmarks/clean_rag/test.jsonl --query "Can an odd number be divided by an even number?" --top-k 2
+
+# Knowledge poisoning conflict & prompt-injection defense run
+python -m trustrag.pipeline.cli --corpus data/benchmarks/adversarial_robustness/train.jsonl --query "How do agents verify customer identity?" --top-k 2 --json
+```
 
 ## Testing
 
@@ -76,4 +89,4 @@ pytest -m integration
 
 ## Configuration
 
-Dataset targets, paths, preprocessing, and splitting parameters are configured in `configs/datasets.yaml` and can be overridden via `TRUSTRAG_` environment variables.
+Engine and defense parameters (G1 guardrails, retrieval, G2 MSD weights/thresholds, G3 verification, SRM backends) are configured in `configs/base.yaml`, dataset targets in `configs/datasets.yaml`, and all sections support `TRUSTRAG_<SECTION>_<FIELD>` environment overrides.

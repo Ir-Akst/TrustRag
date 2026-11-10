@@ -12,8 +12,10 @@ from pathlib import Path
 from typing import Any, Dict
 
 import yaml
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, ValidationError as PydanticValidationError
 from pydantic_settings import BaseSettings, SettingsConfigDict
+
+from trustrag.exceptions import ConfigurationError
 
 
 class ApplicationConfig(BaseModel):
@@ -43,6 +45,14 @@ class LLMProviderConfig(BaseModel):
 
 
 from .dataset_config import DatasetRootConfig
+from .engine_config import (
+    GenerationConfig,
+    GuardrailsConfig,
+    MSDConfig,
+    RetrievalConfig,
+    SRMConfig,
+    VerificationConfig,
+)
 
 
 class SectionConfig(BaseModel):
@@ -65,10 +75,12 @@ class Settings(BaseSettings):
     app: ApplicationConfig = Field(default_factory=ApplicationConfig)
     llm: LLMProviderConfig = Field(default_factory=LLMProviderConfig)
     dataset: DatasetRootConfig = Field(default_factory=DatasetRootConfig)
-    retrieval: SectionConfig = Field(default_factory=SectionConfig)
-    generation: SectionConfig = Field(default_factory=SectionConfig)
-    msd: SectionConfig = Field(default_factory=SectionConfig)
-    guardrails: SectionConfig = Field(default_factory=SectionConfig)
+    retrieval: RetrievalConfig = Field(default_factory=RetrievalConfig)
+    generation: GenerationConfig = Field(default_factory=GenerationConfig)
+    msd: MSDConfig = Field(default_factory=MSDConfig)
+    guardrails: GuardrailsConfig = Field(default_factory=GuardrailsConfig)
+    verification: VerificationConfig = Field(default_factory=VerificationConfig)
+    srm: SRMConfig = Field(default_factory=SRMConfig)
     experiments: SectionConfig = Field(default_factory=SectionConfig)
 
     @classmethod
@@ -96,7 +108,19 @@ class Settings(BaseSettings):
     def __init__(self, **data: Any):
         yaml_data = self._load_yaml()
         merged: Dict[str, Any] = {}
-        for section in ("app", "llm", "dataset", "retrieval", "generation", "msd", "guardrails", "experiments"):
+        sections = (
+            "app",
+            "llm",
+            "dataset",
+            "retrieval",
+            "generation",
+            "msd",
+            "guardrails",
+            "verification",
+            "srm",
+            "experiments",
+        )
+        for section in sections:
             if section in yaml_data and isinstance(yaml_data[section], dict):
                 merged[section] = dict(yaml_data[section])
 
@@ -109,7 +133,7 @@ class Settings(BaseSettings):
                 if len(parts) == 2:
                     section = parts[0].lower()
                     field_name = parts[1].lower()
-                    if section in ("app", "llm", "dataset", "retrieval", "generation", "msd", "guardrails", "experiments"):
+                    if section in sections:
                         if section not in merged:
                             merged[section] = {}
                         merged[section][field_name] = v
@@ -121,7 +145,10 @@ class Settings(BaseSettings):
             else:
                 merged[k] = v
 
-        super().__init__(**merged)
+        try:
+            super().__init__(**merged)
+        except PydanticValidationError as exc:
+            raise ConfigurationError(str(exc)) from exc
 
     def dict(self, *args, **kwargs):  # pragma: no cover – convenience wrapper
         return super().model_dump(*args, **kwargs)

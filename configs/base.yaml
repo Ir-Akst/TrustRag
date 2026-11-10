@@ -1,2 +1,69 @@
-base: {}
+app:
+  env: development
+  log_level: INFO
+  random_seed: 42
 
+guardrails:
+  enabled: true
+  max_input_length: 4096
+  flag_threshold: 0.35
+  block_threshold: 0.70
+  block_on_empty: true
+  strip_zero_width_for_analysis: true
+
+retrieval:
+  top_k: 5
+  candidate_multiplier: 3
+  min_relevance_score: 0.01
+  filtering_mode: remove_with_cap
+  filter_low_trust: true
+  enforce_removal_cap: true
+  removal_cap_ratio: 0.5
+  trust_weight: 0.45
+
+msd:
+  enabled: true
+  weight_perplexity: 0.8
+  weight_embedding_norm: 0.8
+  weight_query_match: 1.2
+  weight_instruction_content: 2.0
+  weight_consensus_deviation: 1.0
+  weight_provenance: 0.8
+  bias: 0.0
+  trust_threshold: 0.60
+  poison_threshold: 0.38
+  instruction_poison_threshold: 0.55
+  instruction_flag_threshold: 0.30
+  missing_signal_policy: coverage_attenuated
+  min_available_signals: 2
+  min_available_weight_ratio: 0.25
+  perplexity_backend: disabled
+  perplexity_reference_mean: 25.0
+  perplexity_reference_std: 15.0
+  perplexity_z_threshold: 2.0
+  embedding_backend: tfidf_raw
+  embedding_norm_reference_policy: require_configured
+  embedding_norm_z_threshold: 2.0
+  provenance_priors: {}
+  enable_freq_density: false
+
+generation:
+  mode: extractive
+  max_context_docs: 3
+  max_sentences_per_doc: 2
+  abstain_on_empty_context: true
+
+verification:
+  enabled: true
+  min_support_coverage: 0.65
+  min_relevance_for_check: 0.10
+  strict_numeric_matching: true
+  strict_negation_check: true
+
+srm:
+  enabled: true
+  backend: disabled
+  model_name: halluguard-srm-fallback
+  timeout_seconds: 5.0
+  temperature: 0.0
+  fallback_on_error: true
