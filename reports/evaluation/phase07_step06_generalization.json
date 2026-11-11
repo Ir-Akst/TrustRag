@@ -1,0 +1,249 @@
+{
+  "environment": {
+    "seed": 42,
+    "python": "3.14.9",
+    "machine": "x86_64",
+    "processor": "",
+    "hardware_note": "CPU-only Linux offline environment; Ollama daemon inactive",
+    "peak_traced_memory_mib": 6.688,
+    "total_runtime_s": 15.477,
+    "reproducibility_seed42_exact": true
+  },
+  "cached_domain_eval": {
+    "hallucination_all_n11": {
+      "n": 11,
+      "verdicts": {
+        "INSUFFICIENT_EVIDENCE": 8,
+        "CONTRADICTED": 2,
+        "SUPPORTED": 1
+      },
+      "false_supports_on_non_supported": 0,
+      "supported_binary_metrics": {
+        "count": 11,
+        "tp": 1,
+        "fp": 0,
+        "tn": 6,
+        "fn": 4,
+        "accuracy": 0.6364,
+        "precision": 1.0,
+        "recall": 0.2,
+        "f1": 0.3333,
+        "fpr": 0.0,
+        "fnr": 0.8,
+        "roc_auc": null,
+        "pr_auc": null
+      },
+      "latency_ms": {
+        "count": 11,
+        "mean": 5.7267,
+        "std": 1.4999,
+        "min": 4.4024,
+        "p50": 5.0064,
+        "p95": 8.46,
+        "p99": 9.1757,
+        "max": 9.3546
+      }
+    },
+    "expertqa_test_n3": {
+      "n": 3,
+      "verdicts": {
+        "INSUFFICIENT_EVIDENCE": 1,
+        "CONTRADICTED": 2
+      },
+      "false_supports_on_non_supported": 0,
+      "supported_binary_metrics": {
+        "count": 3,
+        "tp": 0,
+        "fp": 0,
+        "tn": 2,
+        "fn": 1,
+        "accuracy": 0.6667,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.0,
+        "fnr": 1.0,
+        "roc_auc": null,
+        "pr_auc": null
+      },
+      "latency_ms": {
+        "count": 3,
+        "mean": 6.227,
+        "std": 1.9031,
+        "min": 4.3748,
+        "p50": 5.4621,
+        "p95": 8.5059,
+        "p99": 8.7764,
+        "max": 8.8441
+      }
+    },
+    "wice_test_n3": {
+      "n": 3,
+      "verdicts": {
+        "INSUFFICIENT_EVIDENCE": 3
+      },
+      "false_supports_on_non_supported": 0,
+      "supported_binary_metrics": {
+        "count": 3,
+        "tp": 0,
+        "fp": 0,
+        "tn": 2,
+        "fn": 1,
+        "accuracy": 0.6667,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.0,
+        "fnr": 1.0,
+        "roc_auc": null,
+        "pr_auc": null
+      },
+      "latency_ms": {
+        "count": 3,
+        "mean": 4.8841,
+        "std": 0.1609,
+        "min": 4.6566,
+        "p50": 4.9965,
+        "p95": 4.9989,
+        "p99": 4.9991,
+        "max": 4.9992
+      }
+    },
+    "ragtruth_test_n5": {
+      "n": 5,
+      "verdicts": {
+        "SUPPORTED": 1,
+        "INSUFFICIENT_EVIDENCE": 4
+      },
+      "false_supports_on_non_supported": 0,
+      "supported_binary_metrics": {
+        "count": 5,
+        "tp": 1,
+        "fp": 0,
+        "tn": 2,
+        "fn": 2,
+        "accuracy": 0.6,
+        "precision": 1.0,
+        "recall": 0.3333,
+        "f1": 0.5,
+        "fpr": 0.0,
+        "fnr": 0.6667,
+        "roc_auc": null,
+        "pr_auc": null
+      },
+      "latency_ms": {
+        "count": 5,
+        "mean": 5.3062,
+        "std": 0.8322,
+        "min": 4.7176,
+        "p50": 4.883,
+        "p95": 6.5832,
+        "p99": 6.878,
+        "max": 6.9516
+      }
+    },
+    "g3_security_grounding_n8_queries": {
+      "clean_supported": 8,
+      "clean_total": 8,
+      "poison_contradicted_when_checked_against_clean": 5,
+      "poison_total": 7
+    }
+  },
+  "ten_axis_probes": {
+    "total_probes": 13,
+    "strict_exact_matches": 4,
+    "probes": [
+      {
+        "axis": "domain_transfer_medical",
+        "expected": "SUPPORTED",
+        "actual": "CONTRADICTED",
+        "strict_exact_match": false,
+        "note": "Medical paraphrased guideline"
+      },
+      {
+        "axis": "paraphrase_robustness",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "strict_exact_match": true,
+        "note": "Paraphrase synonyms via generalization.py"
+      },
+      {
+        "axis": "paraphrase_adversarial_passive",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "SUPPORTED",
+        "strict_exact_match": false,
+        "note": "Active/passive role swap must NOT yield SUPPORTED"
+      },
+      {
+        "axis": "unicode_nfkc_confusable",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "strict_exact_match": true,
+        "note": "Verifier receives raw evidence text if pipeline didn't NFKC-clean doc"
+      },
+      {
+        "axis": "markdown_table_structured",
+        "expected": "SUPPORTED",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "strict_exact_match": false,
+        "note": "Markdown table + M shorthand expansion"
+      },
+      {
+        "axis": "multi_hop_2hop",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "strict_exact_match": true,
+        "note": "2-hop transitive bridge in generalization.py"
+      },
+      {
+        "axis": "multi_hop_3hop",
+        "expected": "SUPPORTED",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "strict_exact_match": false,
+        "note": "3-hop chain beyond current 2-hop limit"
+      },
+      {
+        "axis": "numerical_reasoning_mismatch",
+        "expected": "CONTRADICTED",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "strict_exact_match": false,
+        "note": "Numeric substitution detection"
+      },
+      {
+        "axis": "temporal_contradiction",
+        "expected": "CONTRADICTED",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "strict_exact_match": false,
+        "note": "Temporal obsolescence mismatch"
+      },
+      {
+        "axis": "conditional_deontic",
+        "expected": "CONTRADICTED",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "strict_exact_match": false,
+        "note": "Conditional/deontic hedge dropped"
+      },
+      {
+        "axis": "intra_document_conflict",
+        "expected": "UNCERTAIN",
+        "actual": "SUPPORTED",
+        "strict_exact_match": false,
+        "note": "Intra-document self-contradiction"
+      },
+      {
+        "axis": "unit_conversion_length",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "strict_exact_match": true,
+        "note": "km <-> meters normalization"
+      },
+      {
+        "axis": "unit_conversion_temp",
+        "expected": "SUPPORTED",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "strict_exact_match": false,
+        "note": "Temperature C <-> F unsupported in generalization.py"
+      }
+    ]
+  }
+}
