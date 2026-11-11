@@ -5,8 +5,8 @@
     "machine": "x86_64",
     "processor": "",
     "hardware_note": "CPU-only Linux offline environment; Ollama daemon inactive",
-    "peak_traced_memory_mib": 6.688,
-    "total_runtime_s": 15.477,
+    "peak_traced_memory_mib": 6.676,
+    "total_runtime_s": 17.189,
     "reproducibility_seed42_exact": true
   },
   "cached_domain_eval": {
@@ -35,13 +35,13 @@
       },
       "latency_ms": {
         "count": 11,
-        "mean": 5.7267,
-        "std": 1.4999,
-        "min": 4.4024,
-        "p50": 5.0064,
-        "p95": 8.46,
-        "p99": 9.1757,
-        "max": 9.3546
+        "mean": 5.9267,
+        "std": 1.4935,
+        "min": 4.6862,
+        "p50": 5.1975,
+        "p95": 8.6493,
+        "p99": 9.3003,
+        "max": 9.463
       }
     },
     "expertqa_test_n3": {
@@ -68,13 +68,13 @@
       },
       "latency_ms": {
         "count": 3,
-        "mean": 6.227,
-        "std": 1.9031,
-        "min": 4.3748,
-        "p50": 5.4621,
-        "p95": 8.5059,
-        "p99": 8.7764,
-        "max": 8.8441
+        "mean": 6.5929,
+        "std": 2.0461,
+        "min": 4.6132,
+        "p50": 5.7552,
+        "p95": 9.0448,
+        "p99": 9.3372,
+        "max": 9.4103
       }
     },
     "wice_test_n3": {
@@ -100,13 +100,13 @@
       },
       "latency_ms": {
         "count": 3,
-        "mean": 4.8841,
-        "std": 0.1609,
-        "min": 4.6566,
-        "p50": 4.9965,
-        "p95": 4.9989,
-        "p99": 4.9991,
-        "max": 4.9992
+        "mean": 4.8196,
+        "std": 0.0567,
+        "min": 4.7569,
+        "p50": 4.8076,
+        "p95": 4.8855,
+        "p99": 4.8924,
+        "max": 4.8942
       }
     },
     "ragtruth_test_n5": {
@@ -133,13 +133,13 @@
       },
       "latency_ms": {
         "count": 5,
-        "mean": 5.3062,
-        "std": 0.8322,
-        "min": 4.7176,
-        "p50": 4.883,
-        "p95": 6.5832,
-        "p99": 6.878,
-        "max": 6.9516
+        "mean": 5.4463,
+        "std": 0.8659,
+        "min": 4.8766,
+        "p50": 5.1069,
+        "p95": 6.7626,
+        "p99": 7.0854,
+        "max": 7.1661
       }
     },
     "g3_security_grounding_n8_queries": {

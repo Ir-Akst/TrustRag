@@ -8,7 +8,6 @@ from __future__ import annotations
 
 import itertools
 import json
-import math
 import platform
 import time
 import tracemalloc
@@ -16,12 +15,14 @@ from collections import Counter, defaultdict
 from pathlib import Path
 from typing import Any
 
-import numpy as np
-
-from trustrag.adaptive import AdaptiveConfig, AdaptiveDefenseController, AdaptiveMode, TrustCalibrator
+from trustrag.adaptive import (
+    AdaptiveConfig,
+    AdaptiveDefenseController,
+    AdaptiveMode,
+    TrustCalibrator,
+)
 from trustrag.adaptive.calibration import compute_calibration_metrics, compute_reliability_diagram
-from trustrag.config import MSDConfig, Settings, VerificationConfig, load_config
-from trustrag.data.schemas import SecurityRecord
+from trustrag.config import VerificationConfig, load_config
 from trustrag.detection import MultiSignalDetector
 from trustrag.detection.signals import evaluate_freq_density_heuristic
 from trustrag.engine.schemas import EvidenceDocument, G3AnswerVerdict
@@ -98,7 +99,6 @@ def _run_pipeline_security(
     """Run Original RAG (A), Static TrustRAG (B), or Adaptive TrustRAG (C) on mixed security corpus."""
     corpus = [r["doc"] for r in rows]
     attack_by_id = {r["record_id"]: r["is_attack"] for r in rows}
-    family_by_id = {r["record_id"]: r["attack_family"] for r in rows}
 
     settings = load_config()
     settings.app.random_seed = SEED
@@ -612,7 +612,7 @@ def _eval_g3_on_datasets(sec_rows: list[dict[str, Any]], sec_grouped: dict[str, 
         # items: (claim, doc_text, expected_label_raw)
         y_true_sup = []
         y_pred_sup = []
-        verdict_counts = Counter()
+        verdict_counts: Counter[str] = Counter()
         false_supports_on_non_sup = 0
         lats = []
         for claim, doc_txt, lbl in items:
@@ -641,21 +641,21 @@ def _eval_g3_on_datasets(sec_rows: list[dict[str, Any]], sec_grouped: dict[str, 
     )
 
     # 2. expertqa (n=3)
-    eq_rows = [json.loads(l) for l in Path("data/raw/expertqa/test.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+    eq_rows = [json.loads(ln) for ln in Path("data/raw/expertqa/test.jsonl").read_text(encoding="utf-8").splitlines() if ln.strip()]
     out["expertqa_test_n3"] = _run_claim_set(
         "expertqa_n3",
         [(r["claim"], r["evidence"], r["label"]) for r in eq_rows],
     )
 
     # 3. wice (n=3)
-    wc_rows = [json.loads(l) for l in Path("data/raw/wice/test.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+    wc_rows = [json.loads(ln) for ln in Path("data/raw/wice/test.jsonl").read_text(encoding="utf-8").splitlines() if ln.strip()]
     out["wice_test_n3"] = _run_claim_set(
         "wice_n3",
         [(r["claim"], r["evidence"], r["label"]) for r in wc_rows],
     )
 
     # 4. ragtruth (n=5)
-    rt_rows = [json.loads(l) for l in Path("data/raw/ragtruth/test.jsonl").read_text(encoding="utf-8").splitlines() if l.strip()]
+    rt_rows = [json.loads(ln) for ln in Path("data/raw/ragtruth/test.jsonl").read_text(encoding="utf-8").splitlines() if ln.strip()]
     out["ragtruth_test_n5"] = _run_claim_set(
         "ragtruth_n5",
         [(r["response"], r["passage"], r["label"]) for r in rt_rows],
@@ -788,7 +788,7 @@ def _run_step06_generalization_probes() -> dict[str, Any]:
         ("domain_transfer_medical", "Paracetamol safe daily maximum for healthy adults is 4000 mg.", "Clinical guidelines advise that healthy adults should not exceed 4,000 mg of paracetamol in a 24-hour window.", "SUPPORTED", "Medical paraphrased guideline"),
         ("paraphrase_robustness", "Paris serves as the national capital of France.", "France's capital city is Paris.", "SUPPORTED", "Paraphrase synonyms via generalization.py"),
         ("paraphrase_adversarial_passive", "The firewall blocked the malicious packet.", "The malicious packet blocked the firewall.", "INSUFFICIENT_EVIDENCE", "Active/passive role swap must NOT yield SUPPORTED"),
-        ("unicode_nfkc_confusable", "AES-256 uses a 256-bit symmetric key.", "ＡＥＳ－２５６ uses a 256\u200b-bit symmetric key.", "INSUFFICIENT_EVIDENCE", "Verifier receives raw evidence text if pipeline didn't NFKC-clean doc"),
+        ("unicode_nfkc_confusable", "AES-256 uses a 256-bit symmetric key.", "\uff21\uff25\uff33\uff0d\uff12\uff15\uff16 uses a 256\u200b-bit symmetric key.", "INSUFFICIENT_EVIDENCE", "Verifier receives raw evidence text if pipeline didn't NFKC-clean doc"),
         ("markdown_table_structured", "Tokyo has a population of 14000000.", "| City | Population |\n|---|---|\n| Tokyo | 14M |\n| Kyoto | 1.4M |", "SUPPORTED", "Markdown table + M shorthand expansion"),
         ("multi_hop_2hop", "Alice lives in France.", "Alice lives in Paris. Paris is located in France.", "SUPPORTED", "2-hop transitive bridge in generalization.py"),
         ("multi_hop_3hop", "Alice lives in Europe.", "Alice lives in Paris. Paris is in France. France is in Europe.", "SUPPORTED", "3-hop chain beyond current 2-hop limit"),
@@ -804,7 +804,6 @@ def _run_step06_generalization_probes() -> dict[str, Any]:
     for axis, claim, doc, exp, note in probes:
         rep = verifier.verify(claim, [EvidenceDocument(doc_id="p1", text=doc)])
         got = rep.verdict.value if rep.verdict else rep.overall_status.value
-        ok = (got == exp) or (exp == "CONTRADICTED" and got in {"CONTRADICTED", "INSUFFICIENT", "UNCERTAIN"})
         strict_exact = (got == exp)
         if strict_exact:
             passed += 1
@@ -828,7 +827,7 @@ def main() -> None:
     calibrator = TrustCalibrator.load_json("configs/adaptive/platt_calibrator_v1.json")
     sec_rows, sec_grouped = _load_security_pool()
 
-    # Step 04 Experiments A–H
+    # Step 04 Experiments A-H
     exp_a_sec = _run_pipeline_security("A_Original_RAG", sec_rows, sec_grouped, mode="original_rag")
     exp_b_sec = _run_pipeline_security("B_Static_TrustRAG", sec_rows, sec_grouped, mode="static_trustrag")
     exp_c_sec = _run_pipeline_security("C_Phase06_Adaptive", sec_rows, sec_grouped, mode="adaptive_p06", calibrator=calibrator)

@@ -5,8 +5,8 @@
     "machine": "x86_64",
     "processor": "",
     "hardware_note": "CPU-only Linux offline environment; Ollama daemon inactive",
-    "peak_traced_memory_mib": 6.688,
-    "total_runtime_s": 15.477,
+    "peak_traced_memory_mib": 6.676,
+    "total_runtime_s": 17.189,
     "reproducibility_seed42_exact": true
   },
   "dataset": "backup_security_combined_test (n=64: kp=24 + adv=40)",
