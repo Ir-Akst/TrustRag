@@ -2046,6 +2046,13 @@ class OutputEvidenceVerifier:
             for idx, claim_txt in enumerate(raw_claims, start=1)
         ]
 
+        from trustrag.verification.generalization import refine_claim_with_generalization
+
+        items = [
+            refine_claim_with_generalization(item, trusted_documents, self.verify_claim)
+            for item in items
+        ]
+
         supported = [c for c in items if c.verdict == G3ClaimVerdict.SUPPORTED]
         contradicted = [c for c in items if c.verdict == G3ClaimVerdict.CONTRADICTED]
         uncertain = [c for c in items if c.verdict == G3ClaimVerdict.UNCERTAIN]

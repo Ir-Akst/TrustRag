@@ -120,7 +120,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="sensitive_path_or_destructive_cmd",
         category="MALICIOUS_COMMAND",
         pattern=re.compile(
-            r"(?:~/\.ssh/id_rsa|/etc/shadow|\brm\s+-rf\s+/|\bInvoke-Expression\b|\bIEX\s*\(|;\s*DROP\s+TABLE\b|<script[^>]*>)",
+            r"(?:~/\.ssh/id_rsa|/etc/shadow|\brm\s+-rf\s+/|\bInvoke-Expression\b|\bIEX\s*\(|(?:;\s*|\b)DROP\s+TABLE\b\s*[a-zA-Z_]\w*\s*;|;\s*DROP\s+TABLE\b|<script[^>]*>)",
             re.IGNORECASE,
         ),
         severity=0.85,
@@ -160,7 +160,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="answer_manipulation_directive",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"\b(?:when\s+answering\s+(?:this|the)\s+(?:query|question|user),?\s+(?:always|never|only|you\s+must)|you\s+must\s+(?:always\s+)?(?:reply|respond|answer|state|output)\s+(?:only\s+)?that|ignore\s+other\s+(?:sources|passages|documents)\s+and\s+(?:state|output|say))\b",
+            r"\b(?:when\s+answering\s+(?:this|the)\s+(?:query|question|user),?\s+(?:always|never|only|you\s+must)|you\s+must\s+(?:always\s+)?(?:reply|respond|answer|state|output)\s+(?:only\s+)?that|ignore\s+other\s+(?:sources|passages|documents)\s+and\s+(?:state|output|say)|(?:override|disregard|replace)\s+(?:all\s+)?(?:previous|prior|other)\s+(?:answers?|outputs?|responses?|findings?)|(?:important\s+)?system\s+(?:update|alert|notice|directive)\s*:\s*(?:report|state|output|answer|ignore|always))\b",
             re.IGNORECASE,
         ),
         severity=0.75,

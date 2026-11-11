@@ -23,12 +23,19 @@ def build_parser() -> argparse.ArgumentParser:
     )
     parser.add_argument(
         "--query",
-        required=True,
+        default="",
         help="User query to evaluate through G1 -> Retrieval/G2 -> Generation -> G3 -> SRM",
     )
     parser.add_argument("--top-k", type=int, default=3, help="Number of trusted documents to select")
     parser.add_argument("--limit", type=int, default=200, help="Max records to index from corpus JSONL")
     parser.add_argument("--json", action="store_true", help="Emit full PipelineResponse as formatted JSON")
+    parser.add_argument("--adaptive", action="store_true", help="Run via Phase 05/06 adaptive TrustRAGService")
+    parser.add_argument(
+        "--calibrator",
+        default="configs/adaptive/platt_calibrator_v1.json",
+        help="Optional calibration JSON artifact used with --adaptive",
+    )
+    parser.add_argument("--health", action="store_true", help="Print service health/readiness JSON and exit")
     return parser
 
 
@@ -40,6 +47,32 @@ def main(argv: Optional[List[str]] = None) -> int:
     if not corpus_path.is_file():
         print(f"Error: Corpus file not found at '{corpus_path}'.", file=sys.stderr)
         return 1
+
+    if not args.health and not args.query.strip():
+        parser.error("--query is required unless --health is specified.")
+
+    if args.adaptive or args.health:
+        from trustrag.serving import ProductionQueryRequest, TrustRAGService
+
+        cal_path = args.calibrator if Path(args.calibrator).is_file() else None
+        service = TrustRAGService.from_jsonl(
+            corpus_path,
+            limit=args.limit,
+            adaptive=bool(args.adaptive),
+            calibrator_path=cal_path,
+        )
+        if args.health:
+            print(service.health().model_dump_json(indent=2))
+            return 0
+        resp = service.handle_query(ProductionQueryRequest(query=args.query, top_k=args.top_k))
+        if args.json:
+            print(resp.model_dump_json(indent=2))
+        else:
+            print(
+                f"[{resp.status}] mode={resp.adaptive_mode} g1={resp.g1_decision} "
+                f"g3={resp.g3_verdict} lat={resp.latency_ms}ms\nAnswer: {resp.answer}"
+            )
+        return 0
 
     pipeline = TrustRAGPipeline.from_jsonl(corpus_path, limit=args.limit)
     response = pipeline.run(args.query, top_k=args.top_k)

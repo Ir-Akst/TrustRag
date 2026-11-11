@@ -1,0 +1,27 @@
+{
+  "before_static": {
+    "n": 100,
+    "mean_ms": 360.1814,
+    "p50_ms": 361.6977,
+    "p95_ms": 570.8928,
+    "p99_ms": 666.1568,
+    "qps": 2.78,
+    "cpu_util_pct": 99.54,
+    "peak_heap_mib": 4.8026
+  },
+  "before_complete_adaptive": {
+    "n": 100,
+    "mean_ms": 267.8358,
+    "p50_ms": 255.3556,
+    "p95_ms": 364.9544,
+    "p99_ms": 403.853,
+    "qps": 3.73,
+    "cpu_util_pct": 99.66,
+    "peak_heap_mib": 8.1996
+  },
+  "micro_overhead": {
+    "calibration_per_doc_us": 9.738,
+    "drift_eval_window_ms": 2.4222,
+    "feedback_record_plus_summarize_us": 13.479
+  }
+}

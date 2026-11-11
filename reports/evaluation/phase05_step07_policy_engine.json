@@ -1,0 +1,291 @@
+{
+  "no_op_proposals": {
+    "stable": true,
+    "small_sample": true,
+    "healthy_feedback": true
+  },
+  "audit_log": [
+    {
+      "timestamp": "2026-11-11T18:20:20.351530+00:00",
+      "proposal_id": "prop-adv-drift",
+      "decision": "REJECTED",
+      "from_version": "v0-static-baseline",
+      "to_version": null,
+      "reasons": [
+        "REJECTED_AUTHORIZATION_REQUIRED"
+      ],
+      "snapshot": {
+        "proposal": {
+          "proposal_id": "prop-adv-drift",
+          "source": "drift_monitor",
+          "reason": "Confirmed high suspected_attack_drift in window adv_val_attack_stream",
+          "proposed_g1_flag_threshold": 0.31,
+          "proposed_g1_block_threshold": 0.64,
+          "proposed_g2_trust_threshold": 0.66,
+          "proposed_g2_poison_threshold": 0.41,
+          "proposed_removal_cap_ratio": 0.6,
+          "monitoring_confidence": 0.95,
+          "authorized": false,
+          "authorizer": null
+        },
+        "current_version": {
+          "version_id": "v0-static-baseline",
+          "timestamp": "2026-11-11T18:20:20.351431+00:00",
+          "g1_flag_threshold": 0.35,
+          "g1_block_threshold": 0.7,
+          "g2_trust_threshold": 0.6,
+          "g2_poison_threshold": 0.38,
+          "removal_cap_ratio": 0.5,
+          "calibration_version": "platt-mixed-v1",
+          "is_static_baseline": true
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-11T18:20:20.351661+00:00",
+      "proposal_id": "prop-adv-drift",
+      "decision": "APPLIED",
+      "from_version": "v0-static-baseline",
+      "to_version": "v1-adaptive",
+      "reasons": [
+        "Confirmed high suspected_attack_drift in window adv_val_attack_stream",
+        "authorized_by:secops-admin"
+      ],
+      "snapshot": {
+        "before": {
+          "version_id": "v0-static-baseline",
+          "timestamp": "2026-11-11T18:20:20.351431+00:00",
+          "g1_flag_threshold": 0.35,
+          "g1_block_threshold": 0.7,
+          "g2_trust_threshold": 0.6,
+          "g2_poison_threshold": 0.38,
+          "removal_cap_ratio": 0.5,
+          "calibration_version": "platt-mixed-v1",
+          "is_static_baseline": true
+        },
+        "after": {
+          "version_id": "v1-adaptive",
+          "timestamp": "2026-11-11T18:20:20.351654+00:00",
+          "g1_flag_threshold": 0.31,
+          "g1_block_threshold": 0.64,
+          "g2_trust_threshold": 0.66,
+          "g2_poison_threshold": 0.41,
+          "removal_cap_ratio": 0.6,
+          "calibration_version": "platt-mixed-v1",
+          "is_static_baseline": false
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-11T18:20:20.351698+00:00",
+      "proposal_id": "prop-hal-fb",
+      "decision": "APPLIED",
+      "from_version": "v1-adaptive",
+      "to_version": "v2-adaptive",
+      "reasons": [
+        "G3 quality degradation alerts: ['HIGH_UNSUPPORTED_CLAIM_RATE', 'ELEVATED_CONTRADICTION_RATE']",
+        "authorized_by:secops-admin"
+      ],
+      "snapshot": {
+        "before": {
+          "version_id": "v1-adaptive",
+          "timestamp": "2026-11-11T18:20:20.351654+00:00",
+          "g1_flag_threshold": 0.31,
+          "g1_block_threshold": 0.64,
+          "g2_trust_threshold": 0.66,
+          "g2_poison_threshold": 0.41,
+          "removal_cap_ratio": 0.6,
+          "calibration_version": "platt-mixed-v1",
+          "is_static_baseline": false
+        },
+        "after": {
+          "version_id": "v2-adaptive",
+          "timestamp": "2026-11-11T18:20:20.351693+00:00",
+          "g1_flag_threshold": 0.31,
+          "g1_block_threshold": 0.64,
+          "g2_trust_threshold": 0.69,
+          "g2_poison_threshold": 0.41,
+          "removal_cap_ratio": 0.65,
+          "calibration_version": "platt-mixed-v1",
+          "is_static_baseline": false
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-11T18:20:20.351717+00:00",
+      "proposal_id": "adv-doc-inject",
+      "decision": "REJECTED",
+      "from_version": "v2-adaptive",
+      "to_version": null,
+      "reasons": [
+        "REJECTED_UNTRUSTED_OR_UNKNOWN_SOURCE:retrieved_document",
+        "REJECTED_G2_POISON_OUT_OF_BOUNDS",
+        "REJECTED_SECURITY_WEAKENING_BELOW_STATIC_BASELINE"
+      ],
+      "snapshot": {
+        "proposal": {
+          "proposal_id": "adv-doc-inject",
+          "source": "retrieved_document",
+          "reason": "Doc says weaken",
+          "proposed_g1_flag_threshold": null,
+          "proposed_g1_block_threshold": null,
+          "proposed_g2_trust_threshold": null,
+          "proposed_g2_poison_threshold": 0.2,
+          "proposed_removal_cap_ratio": null,
+          "monitoring_confidence": 0.99,
+          "authorized": true,
+          "authorizer": "spoof"
+        },
+        "current_version": {
+          "version_id": "v2-adaptive",
+          "timestamp": "2026-11-11T18:20:20.351693+00:00",
+          "g1_flag_threshold": 0.31,
+          "g1_block_threshold": 0.64,
+          "g2_trust_threshold": 0.69,
+          "g2_poison_threshold": 0.41,
+          "removal_cap_ratio": 0.65,
+          "calibration_version": "platt-mixed-v1",
+          "is_static_baseline": false
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-11T18:20:20.351762+00:00",
+      "proposal_id": "adv-low-conf",
+      "decision": "REJECTED",
+      "from_version": "v2-adaptive",
+      "to_version": null,
+      "reasons": [
+        "REJECTED_INSUFFICIENT_CONFIDENCE:0.35<0.7"
+      ],
+      "snapshot": {
+        "proposal": {
+          "proposal_id": "adv-low-conf",
+          "source": "drift_monitor",
+          "reason": "Low conf",
+          "proposed_g1_flag_threshold": null,
+          "proposed_g1_block_threshold": null,
+          "proposed_g2_trust_threshold": 0.68,
+          "proposed_g2_poison_threshold": null,
+          "proposed_removal_cap_ratio": null,
+          "monitoring_confidence": 0.35,
+          "authorized": true,
+          "authorizer": "secops-admin"
+        },
+        "current_version": {
+          "version_id": "v2-adaptive",
+          "timestamp": "2026-11-11T18:20:20.351693+00:00",
+          "g1_flag_threshold": 0.31,
+          "g1_block_threshold": 0.64,
+          "g2_trust_threshold": 0.69,
+          "g2_poison_threshold": 0.41,
+          "removal_cap_ratio": 0.65,
+          "calibration_version": "platt-mixed-v1",
+          "is_static_baseline": false
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-11T18:20:20.351789+00:00",
+      "proposal_id": "adv-weaken",
+      "decision": "REJECTED",
+      "from_version": "v2-adaptive",
+      "to_version": null,
+      "reasons": [
+        "REJECTED_REMOVAL_CAP_OUT_OF_BOUNDS",
+        "REJECTED_SECURITY_WEAKENING_BELOW_STATIC_BASELINE"
+      ],
+      "snapshot": {
+        "proposal": {
+          "proposal_id": "adv-weaken",
+          "source": "policy_operator",
+          "reason": "Weaken cap",
+          "proposed_g1_flag_threshold": null,
+          "proposed_g1_block_threshold": null,
+          "proposed_g2_trust_threshold": null,
+          "proposed_g2_poison_threshold": null,
+          "proposed_removal_cap_ratio": 0.1,
+          "monitoring_confidence": 0.95,
+          "authorized": true,
+          "authorizer": "secops-admin"
+        },
+        "current_version": {
+          "version_id": "v2-adaptive",
+          "timestamp": "2026-11-11T18:20:20.351693+00:00",
+          "g1_flag_threshold": 0.31,
+          "g1_block_threshold": 0.64,
+          "g2_trust_threshold": 0.69,
+          "g2_poison_threshold": 0.41,
+          "removal_cap_ratio": 0.65,
+          "calibration_version": "platt-mixed-v1",
+          "is_static_baseline": false
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-11T18:20:20.351819+00:00",
+      "proposal_id": "rollback-7",
+      "decision": "ROLLED_BACK",
+      "from_version": "v2-adaptive",
+      "to_version": "v1-adaptive",
+      "reasons": [
+        "step_back_to_v1"
+      ],
+      "snapshot": {
+        "restored": {
+          "version_id": "v1-adaptive",
+          "timestamp": "2026-11-11T18:20:20.351654+00:00",
+          "g1_flag_threshold": 0.31,
+          "g1_block_threshold": 0.64,
+          "g2_trust_threshold": 0.66,
+          "g2_poison_threshold": 0.41,
+          "removal_cap_ratio": 0.6,
+          "calibration_version": "platt-mixed-v1",
+          "is_static_baseline": false
+        }
+      }
+    },
+    {
+      "timestamp": "2026-11-11T18:20:20.351831+00:00",
+      "proposal_id": "static-restore-8",
+      "decision": "FAIL_SAFE_STATIC",
+      "from_version": "v1-adaptive",
+      "to_version": "v0-static-baseline",
+      "reasons": [
+        "restore_baseline"
+      ],
+      "snapshot": {
+        "restored": {
+          "version_id": "v0-static-baseline",
+          "timestamp": "2026-11-11T18:20:20.351431+00:00",
+          "g1_flag_threshold": 0.35,
+          "g1_block_threshold": 0.7,
+          "g2_trust_threshold": 0.6,
+          "g2_poison_threshold": 0.38,
+          "removal_cap_ratio": 0.5,
+          "calibration_version": "platt-mixed-v1",
+          "is_static_baseline": true
+        }
+      }
+    }
+  ],
+  "version_history_ids": [
+    "v0-static-baseline",
+    "v1-adaptive",
+    "v2-adaptive",
+    "v1-adaptive",
+    "v0-static-baseline"
+  ],
+  "final_version": {
+    "version_id": "v0-static-baseline",
+    "timestamp": "2026-11-11T18:20:20.351431+00:00",
+    "g1_flag_threshold": 0.35,
+    "g1_block_threshold": 0.7,
+    "g2_trust_threshold": 0.6,
+    "g2_poison_threshold": 0.38,
+    "removal_cap_ratio": 0.5,
+    "calibration_version": "platt-mixed-v1",
+    "is_static_baseline": true
+  },
+  "matches_static_baseline": true
+}

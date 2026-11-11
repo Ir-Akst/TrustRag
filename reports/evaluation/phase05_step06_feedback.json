@@ -1,0 +1,57 @@
+{
+  "boolq_val_25": {
+    "window_size": 25,
+    "verdict_counts": {
+      "SUPPORTED": 17,
+      "PARTIALLY_SUPPORTED": 1,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "UNCERTAIN": 7
+    },
+    "unsupported_claim_rate": 0.0649,
+    "contradiction_rate": 0.0,
+    "abstention_rate": 0.0,
+    "mean_support_coverage": 0.9351,
+    "low_evidence_doc_ids": [],
+    "degradation_detected": false,
+    "alerts": []
+  },
+  "hallucination_all": {
+    "window_size": 11,
+    "verdict_counts": {
+      "SUPPORTED": 1,
+      "PARTIALLY_SUPPORTED": 0,
+      "CONTRADICTED": 2,
+      "INSUFFICIENT_EVIDENCE": 8,
+      "UNCERTAIN": 0
+    },
+    "unsupported_claim_rate": 0.7273,
+    "contradiction_rate": 0.1818,
+    "abstention_rate": 0.9091,
+    "mean_support_coverage": 0.0909,
+    "low_evidence_doc_ids": [],
+    "degradation_detected": true,
+    "alerts": [
+      "HIGH_UNSUPPORTED_CLAIM_RATE",
+      "ELEVATED_CONTRADICTION_RATE"
+    ]
+  },
+  "adv_val_pool": {
+    "window_size": 5,
+    "verdict_counts": {
+      "SUPPORTED": 3,
+      "PARTIALLY_SUPPORTED": 0,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "UNCERTAIN": 2
+    },
+    "unsupported_claim_rate": 0.4286,
+    "contradiction_rate": 0.0,
+    "abstention_rate": 0.0,
+    "mean_support_coverage": 0.5714,
+    "low_evidence_doc_ids": [],
+    "degradation_detected": false,
+    "alerts": []
+  },
+  "promotion_allowed": false
+}

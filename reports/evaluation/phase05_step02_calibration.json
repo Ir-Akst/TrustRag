@@ -1,0 +1,1072 @@
+{
+  "train_counts": {
+    "adv": 174,
+    "kp": 104,
+    "clean_rag": 150
+  },
+  "artifacts": {
+    "platt_security_only": {
+      "version": "platt-sec-v1",
+      "method": "platt",
+      "fitted_datasets": [
+        "adversarial_robustness",
+        "knowledge_poisoning"
+      ],
+      "fitted_splits": [
+        "train"
+      ],
+      "fit_seed": 42,
+      "sample_count": 278,
+      "clean_count": 158,
+      "attack_count": 120,
+      "class_weight": null,
+      "platt_coef": 1.89422578,
+      "platt_intercept": -1.32539019,
+      "use_logit_transform": true,
+      "isotonic_x_thresholds": [],
+      "isotonic_y_thresholds": [],
+      "temperature": null,
+      "clip_eps": 0.0001,
+      "created_at": "2026-11-11T18:03:30.944964+00:00",
+      "artifact_sha256": "18b436f52e2755344cb16465f5566a3cb5cb52b6fc62dfde6e7fa2c839da0981"
+    },
+    "platt_mixed_clean": {
+      "version": "platt-mixed-v1",
+      "method": "platt",
+      "fitted_datasets": [
+        "adversarial_robustness",
+        "knowledge_poisoning",
+        "clean_rag"
+      ],
+      "fitted_splits": [
+        "train"
+      ],
+      "fit_seed": 42,
+      "sample_count": 428,
+      "clean_count": 308,
+      "attack_count": 120,
+      "class_weight": null,
+      "platt_coef": 2.71326212,
+      "platt_intercept": -1.71367122,
+      "use_logit_transform": true,
+      "isotonic_x_thresholds": [],
+      "isotonic_y_thresholds": [],
+      "temperature": null,
+      "clip_eps": 0.0001,
+      "created_at": "2026-11-11T18:03:30.946877+00:00",
+      "artifact_sha256": "f3c2ce6b0e4586ca1e946e87bda8a7dd9afd851cf985bc2df3dc3cffbb7e1ed9"
+    },
+    "platt_balanced": {
+      "version": "platt-bal-v1",
+      "method": "platt",
+      "fitted_datasets": [
+        "adversarial_robustness",
+        "knowledge_poisoning",
+        "clean_rag"
+      ],
+      "fitted_splits": [
+        "train"
+      ],
+      "fit_seed": 42,
+      "sample_count": 428,
+      "clean_count": 308,
+      "attack_count": 120,
+      "class_weight": "balanced",
+      "platt_coef": 2.8656024,
+      "platt_intercept": -2.80753138,
+      "use_logit_transform": true,
+      "isotonic_x_thresholds": [],
+      "isotonic_y_thresholds": [],
+      "temperature": null,
+      "clip_eps": 0.0001,
+      "created_at": "2026-11-11T18:03:30.950703+00:00",
+      "artifact_sha256": "402be5b5652c7f9834b02d4e2ef41f8ceaaa952d73c19bfe93f11c3df38a0090"
+    },
+    "isotonic_mixed": {
+      "version": "iso-mixed-v1",
+      "method": "isotonic",
+      "fitted_datasets": [
+        "adversarial_robustness",
+        "knowledge_poisoning",
+        "clean_rag"
+      ],
+      "fitted_splits": [
+        "train"
+      ],
+      "fit_seed": 42,
+      "sample_count": 428,
+      "clean_count": 308,
+      "attack_count": 120,
+      "class_weight": null,
+      "platt_coef": null,
+      "platt_intercept": null,
+      "use_logit_transform": true,
+      "isotonic_x_thresholds": [
+        0.2648,
+        0.3447,
+        0.6594,
+        0.7352,
+        0.742,
+        0.7838,
+        0.7904,
+        0.9257
+      ],
+      "isotonic_y_thresholds": [
+        0.0,
+        0.0,
+        0.51376147,
+        0.51376147,
+        0.74647887,
+        0.74647887,
+        1.0,
+        1.0
+      ],
+      "temperature": null,
+      "clip_eps": 0.0001,
+      "created_at": "2026-11-11T18:03:30.951808+00:00",
+      "artifact_sha256": "186f7e6c35f6ceb1df6d422937403bb7042fab4d164c7e5c9e835fd396bec165"
+    },
+    "temperature_mixed": {
+      "version": "temp-mixed-v1",
+      "method": "temperature",
+      "fitted_datasets": [
+        "adversarial_robustness",
+        "knowledge_poisoning",
+        "clean_rag"
+      ],
+      "fitted_splits": [
+        "train"
+      ],
+      "fit_seed": 42,
+      "sample_count": 428,
+      "clean_count": 308,
+      "attack_count": 120,
+      "class_weight": null,
+      "platt_coef": null,
+      "platt_intercept": null,
+      "use_logit_transform": true,
+      "isotonic_x_thresholds": [],
+      "isotonic_y_thresholds": [],
+      "temperature": 0.68717212,
+      "clip_eps": 0.0001,
+      "created_at": "2026-11-11T18:03:30.952807+00:00",
+      "artifact_sha256": "e90ae5ff6174c71d3391ef4ee40307d5d5fe647e0cdfc44d2622544202e83f79"
+    }
+  },
+  "val_evaluations": {
+    "static": {
+      "adv_val": {
+        "method": "none",
+        "dataset_name": "adversarial_robustness",
+        "split": "val",
+        "sample_count": 36,
+        "clean_count": 21,
+        "attack_count": 15,
+        "brier_score": 0.1905,
+        "ece": 0.1414,
+        "precision": 1.0,
+        "recall": 0.4,
+        "f1": 0.5714,
+        "fpr": 0.0,
+        "fnr": 0.6,
+        "roc_auc": 0.7238,
+        "pr_auc": 0.7718,
+        "reliability_bins": [
+          {
+            "bin_index": 0,
+            "lower_bound": 0.0,
+            "upper_bound": 0.2,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 1,
+            "lower_bound": 0.2,
+            "upper_bound": 0.4,
+            "count": 6,
+            "mean_confidence": 0.279,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.279
+          },
+          {
+            "bin_index": 2,
+            "lower_bound": 0.4,
+            "upper_bound": 0.6,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 3,
+            "lower_bound": 0.6,
+            "upper_bound": 0.8,
+            "count": 24,
+            "mean_confidence": 0.7429,
+            "empirical_clean_rate": 0.625,
+            "calibration_gap": 0.1179
+          },
+          {
+            "bin_index": 4,
+            "lower_bound": 0.8,
+            "upper_bound": 1.0,
+            "count": 6,
+            "mean_confidence": 0.9023,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.0977
+          }
+        ]
+      },
+      "kp_val": {
+        "method": "none",
+        "dataset_name": "knowledge_poisoning",
+        "split": "val",
+        "sample_count": 22,
+        "clean_count": 11,
+        "attack_count": 11,
+        "brier_score": 0.1649,
+        "ece": 0.198,
+        "precision": 1.0,
+        "recall": 0.5455,
+        "f1": 0.7059,
+        "fpr": 0.0,
+        "fnr": 0.4545,
+        "roc_auc": 0.8802,
+        "pr_auc": 0.8784,
+        "reliability_bins": [
+          {
+            "bin_index": 0,
+            "lower_bound": 0.0,
+            "upper_bound": 0.2,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 1,
+            "lower_bound": 0.2,
+            "upper_bound": 0.4,
+            "count": 6,
+            "mean_confidence": 0.3447,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.3447
+          },
+          {
+            "bin_index": 2,
+            "lower_bound": 0.4,
+            "upper_bound": 0.6,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 3,
+            "lower_bound": 0.6,
+            "upper_bound": 0.8,
+            "count": 10,
+            "mean_confidence": 0.6841,
+            "empirical_clean_rate": 0.5,
+            "calibration_gap": 0.1841
+          },
+          {
+            "bin_index": 4,
+            "lower_bound": 0.8,
+            "upper_bound": 1.0,
+            "count": 6,
+            "mean_confidence": 0.9257,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.0743
+          }
+        ]
+      },
+      "combined_val": {
+        "brier_score": 0.1808,
+        "ece": 0.1629,
+        "count": 58,
+        "tp": 12,
+        "fp": 0,
+        "tn": 32,
+        "fn": 14,
+        "accuracy": 0.7586,
+        "precision": 1.0,
+        "recall": 0.4615,
+        "f1": 0.6316,
+        "fpr": 0.0,
+        "fnr": 0.5385,
+        "roc_auc": 0.8059,
+        "pr_auc": 0.8168
+      }
+    },
+    "platt_security_only": {
+      "adv_val": {
+        "method": "platt",
+        "dataset_name": "adversarial_robustness",
+        "split": "val",
+        "sample_count": 36,
+        "clean_count": 21,
+        "attack_count": 15,
+        "brier_score": 0.1822,
+        "ece": 0.1237,
+        "precision": 0.6667,
+        "recall": 0.4,
+        "f1": 0.5,
+        "fpr": 0.1429,
+        "fnr": 0.6,
+        "roc_auc": 0.7238,
+        "pr_auc": 0.7718,
+        "reliability_bins": [
+          {
+            "bin_index": 0,
+            "lower_bound": 0.0,
+            "upper_bound": 0.2,
+            "count": 6,
+            "mean_confidence": 0.0427,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.0427
+          },
+          {
+            "bin_index": 1,
+            "lower_bound": 0.2,
+            "upper_bound": 0.4,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 2,
+            "lower_bound": 0.4,
+            "upper_bound": 0.6,
+            "count": 3,
+            "mean_confidence": 0.5102,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.4898
+          },
+          {
+            "bin_index": 3,
+            "lower_bound": 0.6,
+            "upper_bound": 0.8,
+            "count": 21,
+            "mean_confidence": 0.6863,
+            "empirical_clean_rate": 0.5714,
+            "calibration_gap": 0.1148
+          },
+          {
+            "bin_index": 4,
+            "lower_bound": 0.8,
+            "upper_bound": 1.0,
+            "count": 6,
+            "mean_confidence": 0.9472,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.0528
+          }
+        ]
+      },
+      "kp_val": {
+        "method": "platt",
+        "dataset_name": "knowledge_poisoning",
+        "split": "val",
+        "sample_count": 22,
+        "clean_count": 11,
+        "attack_count": 11,
+        "brier_score": 0.1202,
+        "ece": 0.0441,
+        "precision": 0.6875,
+        "recall": 1.0,
+        "f1": 0.8148,
+        "fpr": 0.4545,
+        "fnr": 0.0,
+        "roc_auc": 0.8802,
+        "pr_auc": 0.8784,
+        "reliability_bins": [
+          {
+            "bin_index": 0,
+            "lower_bound": 0.0,
+            "upper_bound": 0.2,
+            "count": 6,
+            "mean_confidence": 0.0729,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.0729
+          },
+          {
+            "bin_index": 1,
+            "lower_bound": 0.2,
+            "upper_bound": 0.4,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 2,
+            "lower_bound": 0.4,
+            "upper_bound": 0.6,
+            "count": 10,
+            "mean_confidence": 0.5348,
+            "empirical_clean_rate": 0.5,
+            "calibration_gap": 0.0348
+          },
+          {
+            "bin_index": 3,
+            "lower_bound": 0.6,
+            "upper_bound": 0.8,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 4,
+            "lower_bound": 0.8,
+            "upper_bound": 1.0,
+            "count": 6,
+            "mean_confidence": 0.9693,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.0307
+          }
+        ]
+      },
+      "combined_val": {
+        "brier_score": 0.1587,
+        "ece": 0.0815,
+        "count": 58,
+        "tp": 17,
+        "fp": 8,
+        "tn": 24,
+        "fn": 9,
+        "accuracy": 0.7069,
+        "precision": 0.68,
+        "recall": 0.6538,
+        "f1": 0.6667,
+        "fpr": 0.25,
+        "fnr": 0.3462,
+        "roc_auc": 0.8059,
+        "pr_auc": 0.8168
+      }
+    },
+    "platt_mixed_clean": {
+      "adv_val": {
+        "method": "platt",
+        "dataset_name": "adversarial_robustness",
+        "split": "val",
+        "sample_count": 36,
+        "clean_count": 21,
+        "attack_count": 15,
+        "brier_score": 0.1968,
+        "ece": 0.1613,
+        "precision": 0.6667,
+        "recall": 0.4,
+        "f1": 0.5,
+        "fpr": 0.1429,
+        "fnr": 0.6,
+        "roc_auc": 0.7238,
+        "pr_auc": 0.7718,
+        "reliability_bins": [
+          {
+            "bin_index": 0,
+            "lower_bound": 0.0,
+            "upper_bound": 0.2,
+            "count": 6,
+            "mean_confidence": 0.014,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.014
+          },
+          {
+            "bin_index": 1,
+            "lower_bound": 0.2,
+            "upper_bound": 0.4,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 2,
+            "lower_bound": 0.4,
+            "upper_bound": 0.6,
+            "count": 3,
+            "mean_confidence": 0.5606,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.4394
+          },
+          {
+            "bin_index": 3,
+            "lower_bound": 0.6,
+            "upper_bound": 0.8,
+            "count": 16,
+            "mean_confidence": 0.7628,
+            "empirical_clean_rate": 0.75,
+            "calibration_gap": 0.0128
+          },
+          {
+            "bin_index": 4,
+            "lower_bound": 0.8,
+            "upper_bound": 1.0,
+            "count": 11,
+            "mean_confidence": 0.9273,
+            "empirical_clean_rate": 0.5455,
+            "calibration_gap": 0.3818
+          }
+        ]
+      },
+      "kp_val": {
+        "method": "platt",
+        "dataset_name": "knowledge_poisoning",
+        "split": "val",
+        "sample_count": 22,
+        "clean_count": 11,
+        "attack_count": 11,
+        "brier_score": 0.1243,
+        "ece": 0.0529,
+        "precision": 0.8,
+        "recall": 0.7273,
+        "f1": 0.7619,
+        "fpr": 0.1818,
+        "fnr": 0.2727,
+        "roc_auc": 0.8802,
+        "pr_auc": 0.8784,
+        "reliability_bins": [
+          {
+            "bin_index": 0,
+            "lower_bound": 0.0,
+            "upper_bound": 0.2,
+            "count": 6,
+            "mean_confidence": 0.0306,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.0306
+          },
+          {
+            "bin_index": 1,
+            "lower_bound": 0.2,
+            "upper_bound": 0.4,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 2,
+            "lower_bound": 0.4,
+            "upper_bound": 0.6,
+            "count": 4,
+            "mean_confidence": 0.5502,
+            "empirical_clean_rate": 0.5,
+            "calibration_gap": 0.0502
+          },
+          {
+            "bin_index": 3,
+            "lower_bound": 0.6,
+            "upper_bound": 0.8,
+            "count": 6,
+            "mean_confidence": 0.6241,
+            "empirical_clean_rate": 0.5,
+            "calibration_gap": 0.1241
+          },
+          {
+            "bin_index": 4,
+            "lower_bound": 0.8,
+            "upper_bound": 1.0,
+            "count": 6,
+            "mean_confidence": 0.9941,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.0059
+          }
+        ]
+      },
+      "combined_val": {
+        "brier_score": 0.1693,
+        "ece": 0.1121,
+        "count": 58,
+        "tp": 14,
+        "fp": 5,
+        "tn": 27,
+        "fn": 12,
+        "accuracy": 0.7069,
+        "precision": 0.7368,
+        "recall": 0.5385,
+        "f1": 0.6222,
+        "fpr": 0.1562,
+        "fnr": 0.4615,
+        "roc_auc": 0.8059,
+        "pr_auc": 0.8168
+      }
+    },
+    "platt_balanced": {
+      "adv_val": {
+        "method": "platt",
+        "dataset_name": "adversarial_robustness",
+        "split": "val",
+        "sample_count": 36,
+        "clean_count": 21,
+        "attack_count": 15,
+        "brier_score": 0.201,
+        "ece": 0.2448,
+        "precision": 0.4,
+        "recall": 0.6667,
+        "f1": 0.5,
+        "fpr": 0.7143,
+        "fnr": 0.3333,
+        "roc_auc": 0.7238,
+        "pr_auc": 0.7718,
+        "reliability_bins": [
+          {
+            "bin_index": 0,
+            "lower_bound": 0.0,
+            "upper_bound": 0.2,
+            "count": 6,
+            "mean_confidence": 0.0041,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.0041
+          },
+          {
+            "bin_index": 1,
+            "lower_bound": 0.2,
+            "upper_bound": 0.4,
+            "count": 3,
+            "mean_confidence": 0.3229,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.6771
+          },
+          {
+            "bin_index": 2,
+            "lower_bound": 0.4,
+            "upper_bound": 0.6,
+            "count": 16,
+            "mean_confidence": 0.5592,
+            "empirical_clean_rate": 0.75,
+            "calibration_gap": 0.1908
+          },
+          {
+            "bin_index": 3,
+            "lower_bound": 0.6,
+            "upper_bound": 0.8,
+            "count": 5,
+            "mean_confidence": 0.7075,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.7075
+          },
+          {
+            "bin_index": 4,
+            "lower_bound": 0.8,
+            "upper_bound": 1.0,
+            "count": 6,
+            "mean_confidence": 0.9725,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.0275
+          }
+        ]
+      },
+      "kp_val": {
+        "method": "platt",
+        "dataset_name": "knowledge_poisoning",
+        "split": "val",
+        "sample_count": 22,
+        "clean_count": 11,
+        "attack_count": 11,
+        "brier_score": 0.1287,
+        "ece": 0.0706,
+        "precision": 0.6875,
+        "recall": 1.0,
+        "f1": 0.8148,
+        "fpr": 0.4545,
+        "fnr": 0.0,
+        "roc_auc": 0.8802,
+        "pr_auc": 0.8784,
+        "reliability_bins": [
+          {
+            "bin_index": 0,
+            "lower_bound": 0.0,
+            "upper_bound": 0.2,
+            "count": 6,
+            "mean_confidence": 0.0095,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.0095
+          },
+          {
+            "bin_index": 1,
+            "lower_bound": 0.2,
+            "upper_bound": 0.4,
+            "count": 10,
+            "mean_confidence": 0.3575,
+            "empirical_clean_rate": 0.5,
+            "calibration_gap": 0.1425
+          },
+          {
+            "bin_index": 2,
+            "lower_bound": 0.4,
+            "upper_bound": 0.6,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 3,
+            "lower_bound": 0.6,
+            "upper_bound": 0.8,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 4,
+            "lower_bound": 0.8,
+            "upper_bound": 1.0,
+            "count": 6,
+            "mean_confidence": 0.9881,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.0119
+          }
+        ]
+      },
+      "combined_val": {
+        "brier_score": 0.1736,
+        "ece": 0.1787,
+        "count": 58,
+        "tp": 21,
+        "fp": 20,
+        "tn": 12,
+        "fn": 5,
+        "accuracy": 0.569,
+        "precision": 0.5122,
+        "recall": 0.8077,
+        "f1": 0.6269,
+        "fpr": 0.625,
+        "fnr": 0.1923,
+        "roc_auc": 0.8059,
+        "pr_auc": 0.8168
+      }
+    },
+    "isotonic_mixed": {
+      "adv_val": {
+        "method": "isotonic",
+        "dataset_name": "adversarial_robustness",
+        "split": "val",
+        "sample_count": 36,
+        "clean_count": 21,
+        "attack_count": 15,
+        "brier_score": 0.1478,
+        "ece": 0.0357,
+        "precision": 0.7692,
+        "recall": 0.6667,
+        "f1": 0.7143,
+        "fpr": 0.1429,
+        "fnr": 0.3333,
+        "roc_auc": 0.8381,
+        "pr_auc": 0.7718,
+        "reliability_bins": [
+          {
+            "bin_index": 0,
+            "lower_bound": 0.0,
+            "upper_bound": 0.2,
+            "count": 6,
+            "mean_confidence": 0.0,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.0
+          },
+          {
+            "bin_index": 1,
+            "lower_bound": 0.2,
+            "upper_bound": 0.4,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 2,
+            "lower_bound": 0.4,
+            "upper_bound": 0.6,
+            "count": 7,
+            "mean_confidence": 0.5138,
+            "empirical_clean_rate": 0.4286,
+            "calibration_gap": 0.0852
+          },
+          {
+            "bin_index": 3,
+            "lower_bound": 0.6,
+            "upper_bound": 0.8,
+            "count": 17,
+            "mean_confidence": 0.7465,
+            "empirical_clean_rate": 0.7059,
+            "calibration_gap": 0.0406
+          },
+          {
+            "bin_index": 4,
+            "lower_bound": 0.8,
+            "upper_bound": 1.0,
+            "count": 6,
+            "mean_confidence": 1.0,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.0
+          }
+        ]
+      },
+      "kp_val": {
+        "method": "isotonic",
+        "dataset_name": "knowledge_poisoning",
+        "split": "val",
+        "sample_count": 22,
+        "clean_count": 11,
+        "attack_count": 11,
+        "brier_score": 0.1137,
+        "ece": 0.0063,
+        "precision": 0.6875,
+        "recall": 1.0,
+        "f1": 0.8148,
+        "fpr": 0.4545,
+        "fnr": 0.0,
+        "roc_auc": 0.8967,
+        "pr_auc": 0.858,
+        "reliability_bins": [
+          {
+            "bin_index": 0,
+            "lower_bound": 0.0,
+            "upper_bound": 0.2,
+            "count": 6,
+            "mean_confidence": 0.0,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.0
+          },
+          {
+            "bin_index": 1,
+            "lower_bound": 0.2,
+            "upper_bound": 0.4,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 2,
+            "lower_bound": 0.4,
+            "upper_bound": 0.6,
+            "count": 10,
+            "mean_confidence": 0.5138,
+            "empirical_clean_rate": 0.5,
+            "calibration_gap": 0.0138
+          },
+          {
+            "bin_index": 3,
+            "lower_bound": 0.6,
+            "upper_bound": 0.8,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 4,
+            "lower_bound": 0.8,
+            "upper_bound": 1.0,
+            "count": 6,
+            "mean_confidence": 1.0,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.0
+          }
+        ]
+      },
+      "combined_val": {
+        "brier_score": 0.1349,
+        "ece": 0.0246,
+        "count": 58,
+        "tp": 21,
+        "fp": 8,
+        "tn": 24,
+        "fn": 5,
+        "accuracy": 0.7759,
+        "precision": 0.7241,
+        "recall": 0.8077,
+        "f1": 0.7636,
+        "fpr": 0.25,
+        "fnr": 0.1923,
+        "roc_auc": 0.8726,
+        "pr_auc": 0.8209
+      }
+    },
+    "temperature_mixed": {
+      "adv_val": {
+        "method": "temperature",
+        "dataset_name": "adversarial_robustness",
+        "split": "val",
+        "sample_count": 36,
+        "clean_count": 21,
+        "attack_count": 15,
+        "brier_score": 0.2009,
+        "ece": 0.2023,
+        "precision": 1.0,
+        "recall": 0.4,
+        "f1": 0.5714,
+        "fpr": 0.0,
+        "fnr": 0.6,
+        "roc_auc": 0.7238,
+        "pr_auc": 0.7718,
+        "reliability_bins": [
+          {
+            "bin_index": 0,
+            "lower_bound": 0.0,
+            "upper_bound": 0.2,
+            "count": 4,
+            "mean_confidence": 0.1845,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.1845
+          },
+          {
+            "bin_index": 1,
+            "lower_bound": 0.2,
+            "upper_bound": 0.4,
+            "count": 2,
+            "mean_confidence": 0.2347,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.2347
+          },
+          {
+            "bin_index": 2,
+            "lower_bound": 0.4,
+            "upper_bound": 0.6,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 3,
+            "lower_bound": 0.6,
+            "upper_bound": 0.8,
+            "count": 3,
+            "mean_confidence": 0.7407,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.2593
+          },
+          {
+            "bin_index": 4,
+            "lower_bound": 0.8,
+            "upper_bound": 1.0,
+            "count": 27,
+            "mean_confidence": 0.8629,
+            "empirical_clean_rate": 0.6667,
+            "calibration_gap": 0.1962
+          }
+        ]
+      },
+      "kp_val": {
+        "method": "temperature",
+        "dataset_name": "knowledge_poisoning",
+        "split": "val",
+        "sample_count": 22,
+        "clean_count": 11,
+        "attack_count": 11,
+        "brier_score": 0.1674,
+        "ece": 0.1994,
+        "precision": 1.0,
+        "recall": 0.5455,
+        "f1": 0.7059,
+        "fpr": 0.0,
+        "fnr": 0.4545,
+        "roc_auc": 0.8802,
+        "pr_auc": 0.8784,
+        "reliability_bins": [
+          {
+            "bin_index": 0,
+            "lower_bound": 0.0,
+            "upper_bound": 0.2,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 1,
+            "lower_bound": 0.2,
+            "upper_bound": 0.4,
+            "count": 6,
+            "mean_confidence": 0.2819,
+            "empirical_clean_rate": 0.0,
+            "calibration_gap": 0.2819
+          },
+          {
+            "bin_index": 2,
+            "lower_bound": 0.4,
+            "upper_bound": 0.6,
+            "count": 0,
+            "mean_confidence": null,
+            "empirical_clean_rate": null,
+            "calibration_gap": null
+          },
+          {
+            "bin_index": 3,
+            "lower_bound": 0.6,
+            "upper_bound": 0.8,
+            "count": 10,
+            "mean_confidence": 0.7546,
+            "empirical_clean_rate": 0.5,
+            "calibration_gap": 0.2546
+          },
+          {
+            "bin_index": 4,
+            "lower_bound": 0.8,
+            "upper_bound": 1.0,
+            "count": 6,
+            "mean_confidence": 0.9752,
+            "empirical_clean_rate": 1.0,
+            "calibration_gap": 0.0248
+          }
+        ]
+      },
+      "combined_val": {
+        "brier_score": 0.1882,
+        "ece": 0.1692,
+        "count": 58,
+        "tp": 12,
+        "fp": 0,
+        "tn": 32,
+        "fn": 14,
+        "accuracy": 0.7586,
+        "precision": 1.0,
+        "recall": 0.4615,
+        "f1": 0.6316,
+        "fpr": 0.0,
+        "fnr": 0.5385,
+        "roc_auc": 0.8059,
+        "pr_auc": 0.8168
+      }
+    }
+  },
+  "boolq_val_clean_retention": {
+    "static": {
+      "n": 150,
+      "mean_trust": 0.7349,
+      "below_trust_threshold_count": 0
+    },
+    "platt_security_only": {
+      "n": 150,
+      "mean_trust": 0.6459,
+      "below_trust_threshold_count": 83
+    },
+    "platt_mixed_clean": {
+      "n": 150,
+      "mean_trust": 0.7326,
+      "below_trust_threshold_count": 0
+    },
+    "platt_balanced": {
+      "n": 150,
+      "mean_trust": 0.5308,
+      "below_trust_threshold_count": 89
+    },
+    "isotonic_mixed": {
+      "n": 150,
+      "mean_trust": 0.6253,
+      "below_trust_threshold_count": 89
+    },
+    "temperature_mixed": {
+      "n": 150,
+      "mean_trust": 0.8132,
+      "below_trust_threshold_count": 0
+    }
+  }
+}

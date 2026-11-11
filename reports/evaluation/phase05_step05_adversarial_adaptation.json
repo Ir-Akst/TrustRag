@@ -1,0 +1,390 @@
+{
+  "Static_TrustRAG": {
+    "doc_poisoned_metrics": {
+      "count": 64,
+      "tp": 10,
+      "fp": 0,
+      "tn": 35,
+      "fn": 19,
+      "accuracy": 0.7031,
+      "precision": 1.0,
+      "recall": 0.3448,
+      "f1": 0.5128,
+      "fpr": 0.0,
+      "fnr": 0.6552,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "doc_flagged_metrics": {
+      "count": 64,
+      "tp": 25,
+      "fp": 21,
+      "tn": 14,
+      "fn": 4,
+      "accuracy": 0.6094,
+      "precision": 0.5435,
+      "recall": 0.8621,
+      "f1": 0.6667,
+      "fpr": 0.6,
+      "fnr": 0.1379,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "query_attack_asr": 0.5714,
+    "query_attack_prevention": 0.4286,
+    "per_family_prevention": {
+      "CONFLICTING_EVIDENCE": {
+        "prevented": 0,
+        "total": 7,
+        "rate": 0.0
+      },
+      "KNOWLEDGE_POISONING": {
+        "prevented": 0,
+        "total": 8,
+        "rate": 0.0
+      },
+      "MALICIOUS_INSTRUCTION": {
+        "prevented": 3,
+        "total": 3,
+        "rate": 1.0
+      },
+      "PROMPT_INJECTION": {
+        "prevented": 7,
+        "total": 7,
+        "rate": 1.0
+      },
+      "TRIGGER_DOS": {
+        "prevented": 4,
+        "total": 4,
+        "rate": 1.0
+      }
+    },
+    "unseen_probes": {
+      "prevented": 1,
+      "total": 3,
+      "rate": 0.3333
+    },
+    "clean_rag_test": {
+      "n": 15,
+      "recall_at_5": 0.8,
+      "mean_retention": 0.3067
+    },
+    "threshold_stability": {
+      "unique_g2_trust_thrs": [
+        0.6
+      ],
+      "std_g2_trust_thr": 0.0
+    }
+  },
+  "Calibrated_TrustRAG": {
+    "doc_poisoned_metrics": {
+      "count": 64,
+      "tp": 10,
+      "fp": 0,
+      "tn": 35,
+      "fn": 19,
+      "accuracy": 0.7031,
+      "precision": 1.0,
+      "recall": 0.3448,
+      "f1": 0.5128,
+      "fpr": 0.0,
+      "fnr": 0.6552,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "doc_flagged_metrics": {
+      "count": 64,
+      "tp": 25,
+      "fp": 21,
+      "tn": 14,
+      "fn": 4,
+      "accuracy": 0.6094,
+      "precision": 0.5435,
+      "recall": 0.8621,
+      "f1": 0.6667,
+      "fpr": 0.6,
+      "fnr": 0.1379,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "query_attack_asr": 0.5714,
+    "query_attack_prevention": 0.4286,
+    "per_family_prevention": {
+      "CONFLICTING_EVIDENCE": {
+        "prevented": 0,
+        "total": 7,
+        "rate": 0.0
+      },
+      "KNOWLEDGE_POISONING": {
+        "prevented": 0,
+        "total": 8,
+        "rate": 0.0
+      },
+      "MALICIOUS_INSTRUCTION": {
+        "prevented": 3,
+        "total": 3,
+        "rate": 1.0
+      },
+      "PROMPT_INJECTION": {
+        "prevented": 7,
+        "total": 7,
+        "rate": 1.0
+      },
+      "TRIGGER_DOS": {
+        "prevented": 4,
+        "total": 4,
+        "rate": 1.0
+      }
+    },
+    "unseen_probes": {
+      "prevented": 1,
+      "total": 3,
+      "rate": 0.3333
+    },
+    "clean_rag_test": {
+      "n": 15,
+      "recall_at_5": 0.8,
+      "mean_retention": 0.3067
+    },
+    "threshold_stability": {
+      "unique_g2_trust_thrs": [
+        0.6
+      ],
+      "std_g2_trust_thr": 0.0
+    }
+  },
+  "Context_Aware_TrustRAG": {
+    "doc_poisoned_metrics": {
+      "count": 64,
+      "tp": 10,
+      "fp": 0,
+      "tn": 35,
+      "fn": 19,
+      "accuracy": 0.7031,
+      "precision": 1.0,
+      "recall": 0.3448,
+      "f1": 0.5128,
+      "fpr": 0.0,
+      "fnr": 0.6552,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "doc_flagged_metrics": {
+      "count": 64,
+      "tp": 25,
+      "fp": 21,
+      "tn": 14,
+      "fn": 4,
+      "accuracy": 0.6094,
+      "precision": 0.5435,
+      "recall": 0.8621,
+      "f1": 0.6667,
+      "fpr": 0.6,
+      "fnr": 0.1379,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "query_attack_asr": 0.5714,
+    "query_attack_prevention": 0.4286,
+    "per_family_prevention": {
+      "CONFLICTING_EVIDENCE": {
+        "prevented": 0,
+        "total": 7,
+        "rate": 0.0
+      },
+      "KNOWLEDGE_POISONING": {
+        "prevented": 0,
+        "total": 8,
+        "rate": 0.0
+      },
+      "MALICIOUS_INSTRUCTION": {
+        "prevented": 3,
+        "total": 3,
+        "rate": 1.0
+      },
+      "PROMPT_INJECTION": {
+        "prevented": 7,
+        "total": 7,
+        "rate": 1.0
+      },
+      "TRIGGER_DOS": {
+        "prevented": 4,
+        "total": 4,
+        "rate": 1.0
+      }
+    },
+    "unseen_probes": {
+      "prevented": 1,
+      "total": 3,
+      "rate": 0.3333
+    },
+    "clean_rag_test": {
+      "n": 15,
+      "recall_at_5": 0.8,
+      "mean_retention": 0.3067
+    },
+    "threshold_stability": {
+      "unique_g2_trust_thrs": [
+        0.55,
+        0.64
+      ],
+      "std_g2_trust_thr": 0.0298
+    }
+  },
+  "Drift_Aware_TrustRAG": {
+    "doc_poisoned_metrics": {
+      "count": 64,
+      "tp": 10,
+      "fp": 0,
+      "tn": 35,
+      "fn": 19,
+      "accuracy": 0.7031,
+      "precision": 1.0,
+      "recall": 0.3448,
+      "f1": 0.5128,
+      "fpr": 0.0,
+      "fnr": 0.6552,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "doc_flagged_metrics": {
+      "count": 64,
+      "tp": 25,
+      "fp": 21,
+      "tn": 14,
+      "fn": 4,
+      "accuracy": 0.6094,
+      "precision": 0.5435,
+      "recall": 0.8621,
+      "f1": 0.6667,
+      "fpr": 0.6,
+      "fnr": 0.1379,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "query_attack_asr": 0.5714,
+    "query_attack_prevention": 0.4286,
+    "per_family_prevention": {
+      "CONFLICTING_EVIDENCE": {
+        "prevented": 0,
+        "total": 7,
+        "rate": 0.0
+      },
+      "KNOWLEDGE_POISONING": {
+        "prevented": 0,
+        "total": 8,
+        "rate": 0.0
+      },
+      "MALICIOUS_INSTRUCTION": {
+        "prevented": 3,
+        "total": 3,
+        "rate": 1.0
+      },
+      "PROMPT_INJECTION": {
+        "prevented": 7,
+        "total": 7,
+        "rate": 1.0
+      },
+      "TRIGGER_DOS": {
+        "prevented": 4,
+        "total": 4,
+        "rate": 1.0
+      }
+    },
+    "unseen_probes": {
+      "prevented": 1,
+      "total": 3,
+      "rate": 0.3333
+    },
+    "clean_rag_test": {
+      "n": 15,
+      "recall_at_5": 0.8,
+      "mean_retention": 0.3067
+    },
+    "threshold_stability": {
+      "unique_g2_trust_thrs": [
+        0.6,
+        0.66
+      ],
+      "std_g2_trust_thr": 0.029
+    }
+  },
+  "Complete_Adaptive_TrustRAG": {
+    "doc_poisoned_metrics": {
+      "count": 64,
+      "tp": 10,
+      "fp": 0,
+      "tn": 35,
+      "fn": 19,
+      "accuracy": 0.7031,
+      "precision": 1.0,
+      "recall": 0.3448,
+      "f1": 0.5128,
+      "fpr": 0.0,
+      "fnr": 0.6552,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "doc_flagged_metrics": {
+      "count": 64,
+      "tp": 25,
+      "fp": 21,
+      "tn": 14,
+      "fn": 4,
+      "accuracy": 0.6094,
+      "precision": 0.5435,
+      "recall": 0.8621,
+      "f1": 0.6667,
+      "fpr": 0.6,
+      "fnr": 0.1379,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "query_attack_asr": 0.5714,
+    "query_attack_prevention": 0.4286,
+    "per_family_prevention": {
+      "CONFLICTING_EVIDENCE": {
+        "prevented": 0,
+        "total": 7,
+        "rate": 0.0
+      },
+      "KNOWLEDGE_POISONING": {
+        "prevented": 0,
+        "total": 8,
+        "rate": 0.0
+      },
+      "MALICIOUS_INSTRUCTION": {
+        "prevented": 3,
+        "total": 3,
+        "rate": 1.0
+      },
+      "PROMPT_INJECTION": {
+        "prevented": 7,
+        "total": 7,
+        "rate": 1.0
+      },
+      "TRIGGER_DOS": {
+        "prevented": 4,
+        "total": 4,
+        "rate": 1.0
+      }
+    },
+    "unseen_probes": {
+      "prevented": 1,
+      "total": 3,
+      "rate": 0.3333
+    },
+    "clean_rag_test": {
+      "n": 15,
+      "recall_at_5": 0.8,
+      "mean_retention": 0.3067
+    },
+    "threshold_stability": {
+      "unique_g2_trust_thrs": [
+        0.64,
+        0.66
+      ],
+      "std_g2_trust_thr": 0.0097
+    }
+  }
+}

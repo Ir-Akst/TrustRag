@@ -803,25 +803,9 @@ def evaluate_g1_probe_suite(
 
 def _compute_calibration(y_true_clean: Sequence[int], probs_clean: Sequence[float], n_bins: int = 5) -> dict[str, float]:
     """Compute Brier score and Expected Calibration Error (ECE) for trust_score vs is_clean."""
-    if not y_true_clean:
-        return {"brier_score": 0.0, "ece": 0.0}
-    brier = sum((p - y) ** 2 for y, p in zip(y_true_clean, probs_clean, strict=False)) / len(y_true_clean)
-    ece = 0.0
-    n = len(y_true_clean)
-    for b in range(n_bins):
-        lo = b / n_bins
-        hi = (b + 1) / n_bins
-        idxs = [
-            i
-            for i, p in enumerate(probs_clean)
-            if (lo <= p < hi) or (b == n_bins - 1 and p == 1.0)
-        ]
-        if not idxs:
-            continue
-        avg_conf = sum(probs_clean[i] for i in idxs) / len(idxs)
-        avg_acc = sum(y_true_clean[i] for i in idxs) / len(idxs)
-        ece += (len(idxs) / n) * abs(avg_conf - avg_acc)
-    return {"brier_score": round(brier, 4), "ece": round(ece, 4)}
+    from trustrag.adaptive.calibration import compute_calibration_metrics
+
+    return compute_calibration_metrics(y_true_clean, probs_clean, n_bins=n_bins)
 
 
 def evaluate_g2_msd(

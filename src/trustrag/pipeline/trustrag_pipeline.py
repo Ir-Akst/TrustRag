@@ -166,7 +166,6 @@ class TrustRAGPipeline:
 
         # Pre-generation fail-closed evidence gate: quarantine G2 POISONED, security-UNCERTAIN,
         # and unassessed documents BEFORE generation, G3, and SRM.
-        trusted_doc_ids = {d.doc_id for d in trusted_docs}
         assessed_by_doc_id = {a.document_id: a for a in retrieval_res.assessments}
         trusted_assessments = [assessed_by_doc_id[d.doc_id] for d in trusted_docs if d.doc_id in assessed_by_doc_id]
         unassessed_doc_ids: Set[str] = {d.doc_id for d in trusted_docs if d.doc_id not in assessed_by_doc_id}

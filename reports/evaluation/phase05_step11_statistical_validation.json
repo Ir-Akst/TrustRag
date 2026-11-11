@@ -1,0 +1,87 @@
+{
+  "calibration_val_n58": {
+    "brier_static_ci": {
+      "mean": 0.1808,
+      "ci_low": 0.1289,
+      "ci_high": 0.2382,
+      "n": 58
+    },
+    "brier_platt_ci": {
+      "mean": 0.1693,
+      "ci_low": 0.1121,
+      "ci_high": 0.2339,
+      "n": 58
+    },
+    "brier_paired_comparison": {
+      "n": 58,
+      "mean_a": 0.1808,
+      "mean_b": 0.1693,
+      "mean_diff_b_minus_a": -0.0115,
+      "cohens_d": -0.1589,
+      "p_value": 0.223755,
+      "significant_0_05": false
+    },
+    "classification_mcnemar": {
+      "n": 58,
+      "b_a_only": 5,
+      "c_b_only": 2,
+      "discordant": 7,
+      "p_value": 0.453125,
+      "method": "exact_binomial",
+      "significant_0_05": false
+    }
+  },
+  "boolq_val_recall_n100": {
+    "original_rag_wilson": [
+      0.9,
+      0.8256,
+      0.9448
+    ],
+    "static_trustrag_wilson": [
+      0.82,
+      0.7333,
+      0.883
+    ],
+    "complete_adaptive_wilson": [
+      0.84,
+      0.7558,
+      0.899
+    ],
+    "static_vs_adaptive_mcnemar": {
+      "n": 100,
+      "b_a_only": 0,
+      "c_b_only": 2,
+      "discordant": 2,
+      "p_value": 0.5,
+      "method": "exact_binomial",
+      "significant_0_05": false
+    },
+    "latency_ms_static_vs_adaptive_paired": {
+      "n": 100,
+      "mean_a": 24.2591,
+      "mean_b": 37.138,
+      "mean_diff_b_minus_a": 12.8789,
+      "cohens_d": 1.9927,
+      "p_value": 0.0002,
+      "significant_0_05": true
+    }
+  },
+  "security_asr_wilson": {
+    "n_attack_targets": 12,
+    "E1_Original_RAG": [
+      0.6667,
+      0.3906,
+      0.8619
+    ],
+    "E2_Static_TrustRAG": [
+      0.3333,
+      0.1381,
+      0.6094
+    ],
+    "E7_Complete_Adaptive_TrustRAG": [
+      0.3333,
+      0.1381,
+      0.6094
+    ]
+  }
+}
