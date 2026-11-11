@@ -31,6 +31,7 @@ from trustrag.engine.schemas import EvidenceDocument, SignalDetail
 from trustrag.engine.text_utils import (
     check_repetitive_flood,
     compute_lexical_overlap,
+    count_fullwidth_ascii_confusables,
     detect_obfuscation,
     extract_numbers_and_units,
     fold_mixed_script_confusables,
@@ -415,6 +416,7 @@ def evaluate_instruction_content_signal(
 
     has_obf, cleaned_obf_text, obf_count = detect_obfuscation(doc.text)
     folded_text, mixed_conf_count = fold_mixed_script_confusables(cleaned_obf_text or doc.text)
+    fullwidth_conf_count = count_fullwidth_ascii_confusables(doc.text)
 
     texts_to_scan: List[str] = [doc.text]
     if cleaned_obf_text and cleaned_obf_text != doc.text:
@@ -444,8 +446,8 @@ def evaluate_instruction_content_signal(
         flags.append("DOC_HIDDEN_DIRECTIVE")
         indicators.append("rule=html_directive(category=HIDDEN_DIRECTIVE)")
 
-    total_obf_count = obf_count + mixed_conf_count
-    if has_obf or mixed_conf_count > 0 or evasive_norm_hit:
+    total_obf_count = obf_count + mixed_conf_count + fullwidth_conf_count
+    if has_obf or mixed_conf_count > 0 or fullwidth_conf_count > 0 or evasive_norm_hit:
         eff_count = max(total_obf_count, 1)
         risks.append(0.75 if eff_count >= 5 else 0.40)
         flags.append("DOC_OBFUSCATION")

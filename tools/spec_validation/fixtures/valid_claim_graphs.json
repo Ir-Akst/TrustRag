@@ -1,0 +1,54 @@
+[
+  {
+    "graph_id": "clm_graph_active_01",
+    "claim_text": "Dr. Smith administers 500 mg aspirin daily.",
+    "is_passive": false,
+    "unknown_agent": false,
+    "nodes": [
+      { "node_id": "n_agent_1", "node_type": "entity", "text": "Dr. Smith", "is_unknown": false },
+      { "node_id": "n_pred_1", "node_type": "predicate", "text": "administers", "is_unknown": false },
+      { "node_id": "n_patient_1", "node_type": "entity", "text": "aspirin", "is_unknown": false },
+      { "node_id": "n_qty_1", "node_type": "quantity", "text": "500 mg", "is_unknown": false, "attributes": { "value": 500, "unit": "mg" } },
+      { "node_id": "n_temp_1", "node_type": "temporal", "text": "daily", "is_unknown": false, "attributes": { "frequency": "P1D" } }
+    ],
+    "edges": [
+      { "edge_id": "e_sub_1", "source_id": "n_agent_1", "target_id": "n_pred_1", "relation": "agent_of" },
+      { "edge_id": "e_obj_1", "source_id": "n_patient_1", "target_id": "n_pred_1", "relation": "patient_of" },
+      { "edge_id": "e_qty_1", "source_id": "n_qty_1", "target_id": "n_patient_1", "relation": "quantifies" },
+      { "edge_id": "e_tmp_1", "source_id": "n_temp_1", "target_id": "n_pred_1", "relation": "temporally_bounds" }
+    ]
+  },
+  {
+    "graph_id": "clm_graph_passive_unknown_agent_02",
+    "claim_text": "Potassium is checked monthly.",
+    "is_passive": true,
+    "unknown_agent": true,
+    "nodes": [
+      { "node_id": "n_patient_2", "node_type": "entity", "text": "Potassium", "is_unknown": false },
+      { "node_id": "n_pred_2", "node_type": "predicate", "text": "is checked", "is_unknown": false, "attributes": { "voice": "passive" } },
+      { "node_id": "n_agent_unknown", "node_type": "entity", "text": "UNKNOWN_AGENT", "is_unknown": true },
+      { "node_id": "n_temp_2", "node_type": "temporal", "text": "monthly", "is_unknown": false, "attributes": { "frequency": "P1M" } }
+    ],
+    "edges": [
+      { "edge_id": "e_patient_2", "source_id": "n_patient_2", "target_id": "n_pred_2", "relation": "patient_of" },
+      { "edge_id": "e_agent_unk", "source_id": "n_agent_unknown", "target_id": "n_pred_2", "relation": "agent_of" },
+      { "edge_id": "e_tmp_2", "source_id": "n_temp_2", "target_id": "n_pred_2", "relation": "temporally_bounds" }
+    ]
+  },
+  {
+    "graph_id": "clm_graph_passive_explicit_agent_03",
+    "claim_text": "Vitals are recorded by the triage nurse.",
+    "is_passive": true,
+    "unknown_agent": false,
+    "nodes": [
+      { "node_id": "n_patient_3", "node_type": "entity", "text": "Vitals", "is_unknown": false },
+      { "node_id": "n_pred_3", "node_type": "predicate", "text": "are recorded", "is_unknown": false, "attributes": { "voice": "passive" } },
+      { "node_id": "n_agent_3", "node_type": "entity", "text": "triage nurse", "is_unknown": false }
+    ],
+    "edges": [
+      { "edge_id": "e_pat_3", "source_id": "n_patient_3", "target_id": "n_pred_3", "relation": "patient_of" },
+      { "edge_id": "e_ag_3", "source_id": "n_agent_3", "target_id": "n_pred_3", "relation": "agent_of" }
+    ]
+  }
+]
+

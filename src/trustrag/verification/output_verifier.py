@@ -1049,6 +1049,35 @@ def _evaluate_polarity(claim: str, span: str) -> Tuple[bool, str]:
     return True, "Polarity consistent."
 
 
+_OUTER_WARNING_MODIFIERS: Set[str] = {
+    "daily", "weekly", "monthly", "yearly", "hourly", "annually",
+    "maximum", "minimum", "max", "min",
+}
+
+
+def _is_unmatched_negated_outer_clause(claim: str, span: str) -> bool:
+    """Return True when span negation resides strictly in an unmatched warning clause before a temporal/conditional subordinator."""
+    if has_strict_negation(claim) or not has_strict_negation(span):
+        return False
+    parts = re.split(r"\b(?:when|while|after|before)\b", span, maxsplit=1, flags=re.IGNORECASE)
+    if len(parts) != 2:
+        return False
+    head_clause, tail_clause = parts[0], parts[1]
+    if not has_strict_negation(head_clause) or has_strict_negation(tail_clause):
+        return False
+    head_tokens = {
+        _simple_verb_stem(w)
+        for w in tokenize_content_words(head_clause, include_negations=False)
+        if w not in _OUTER_WARNING_MODIFIERS
+    }
+    if not head_tokens:
+        return False
+    claim_tokens = {_simple_verb_stem(w) for w in tokenize_content_words(claim, include_negations=False)}
+    tail_tokens = {_simple_verb_stem(w) for w in tokenize_content_words(tail_clause, include_negations=False)}
+    # Require zero semantic overlap with the negated outer predicate/object and shared context in the subordinate clause.
+    return not (head_tokens & claim_tokens) and len(tail_tokens & claim_tokens) >= 2
+
+
 def _normalize_to_dimension(val_str: str, unit: str) -> Optional[Tuple[str, float]]:
     if not unit or unit not in _UNIT_DIMENSIONS:
         return None
@@ -1574,6 +1603,7 @@ class OutputEvidenceVerifier:
                 index=index,
                 precomputed_sims=pred_sims[idx - 1],
                 required_predicate_text=pred_body,
+                full_claim_text=claim_text,
             )
             for idx, (pred_txt, pred_body) in enumerate(pred_pairs, start=1)
         ]
@@ -1688,6 +1718,7 @@ class OutputEvidenceVerifier:
         index: _EvidenceSpanIndex,
         precomputed_sims: Optional[Sequence[float]] = None,
         required_predicate_text: Optional[str] = None,
+        full_claim_text: Optional[str] = None,
     ) -> ClaimVerificationItem:
         """Verify a single proposition against indexed spans with polarity, numeric/frequency, scope, and slot checks."""
         sim_list = (
@@ -1727,6 +1758,7 @@ class OutputEvidenceVerifier:
                 if self.config.strict_negation_check
                 else (True, "Polarity check disabled.")
             )
+            polarity_contradicts = (not polarity_ok) and not _is_unmatched_negated_outer_clause(claim_text, span)
             num_ok, num_conflict, num_note, grounded_num_tokens = (
                 _evaluate_numbers_with_grounded_tokens(claim_text, span)
                 if self.config.strict_numeric_matching
@@ -1746,7 +1778,14 @@ class OutputEvidenceVerifier:
                 if len(pred_body_tokens & grounded_union) / len(pred_body_tokens) < self.config.min_support_coverage:
                     pred_body_ok = False
             slot_conflict, slot_note = _evaluate_entity_slot_conflict(claim_text, span)
-            scope_ok, scope_note = _evaluate_restrictive_scope(claim_text, span)
+            scope_target = claim_text
+            if (
+                full_claim_text
+                and required_predicate_text
+                and len(_expand_coordinated_predicates_with_bodies(span)) > 1
+            ):
+                scope_target = full_claim_text
+            scope_ok, scope_note = _evaluate_restrictive_scope(scope_target, span)
 
             span_word_set = index.span_word_sets[idx]
             missing_entities = [ent for ent in proper_entities if ent not in span_word_set]
@@ -1754,9 +1793,9 @@ class OutputEvidenceVerifier:
 
             topic_shared = (len(matched_tokens) >= 2) and (coverage >= 0.30 or sim >= 0.25)
 
-            if (not polarity_ok and topic_shared) or (num_conflict and topic_shared) or slot_conflict:
+            if (polarity_contradicts and topic_shared) or (num_conflict and topic_shared) or slot_conflict:
                 span_outcome = EvidenceOutcome.CONTRADICTS
-                note = slot_note if slot_conflict else (pol_note if not polarity_ok else num_note)
+                note = slot_note if slot_conflict else (pol_note if polarity_contradicts else num_note)
             elif (
                 polarity_ok
                 and num_ok
@@ -1771,6 +1810,8 @@ class OutputEvidenceVerifier:
             else:
                 span_outcome = EvidenceOutcome.NOT_ENOUGH_EVIDENCE
                 reasons = []
+                if not polarity_ok:
+                    reasons.append(pol_note)
                 if not scope_ok:
                     reasons.append(scope_note)
                 if not entities_ok:

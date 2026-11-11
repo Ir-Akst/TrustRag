@@ -1,0 +1,27 @@
+[
+  {
+    "graph_id": "evd_graph_valid_01",
+    "evidence_id": "ev_001",
+    "document_id": "doc_med_42",
+    "passage_text": "Aspirin reduces severe fever in adult patients.",
+    "provenance": {
+      "source": "clinical_guidelines_2026",
+      "timestamp": "2026-01-15T08:00:00Z",
+      "trust_level": "TRUSTED",
+      "signature_verified": true,
+      "key_id": "key_ed25519_pub_01"
+    },
+    "nodes": [
+      { "node_id": "en_1", "node_type": "entity", "text": "Aspirin", "span": [0, 7] },
+      { "node_id": "en_2", "node_type": "predicate", "text": "reduces", "span": [8, 15] },
+      { "node_id": "en_3", "node_type": "entity", "text": "severe fever", "span": [16, 28] },
+      { "node_id": "en_4", "node_type": "condition", "text": "in adult patients", "span": [29, 46] }
+    ],
+    "edges": [
+      { "edge_id": "ee_1", "source_id": "en_1", "target_id": "en_2", "relation": "agent_of" },
+      { "edge_id": "ee_2", "source_id": "en_3", "target_id": "en_2", "relation": "patient_of" },
+      { "edge_id": "ee_3", "source_id": "en_4", "target_id": "en_2", "relation": "conditions" }
+    ]
+  }
+]
+

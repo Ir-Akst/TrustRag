@@ -1,0 +1,66 @@
+[
+  {
+    "id": "err_dangling_edge",
+    "expected_error": "Dangling edge reference: source or target not in nodes",
+    "data": {
+      "graph_id": "clm_graph_bad_01",
+      "claim_text": "Invalid graph with dangling edge",
+      "is_passive": false,
+      "unknown_agent": false,
+      "nodes": [
+        { "node_id": "n_1", "node_type": "entity", "text": "Patient" },
+        { "node_id": "n_2", "node_type": "predicate", "text": "takes" }
+      ],
+      "edges": [
+        { "edge_id": "e_1", "source_id": "n_1", "target_id": "n_nonexistent", "relation": "agent_of" }
+      ]
+    }
+  },
+  {
+    "id": "err_invalid_node_type",
+    "expected_error": "Invalid node type",
+    "data": {
+      "graph_id": "clm_graph_bad_02",
+      "claim_text": "Invalid node type test",
+      "is_passive": false,
+      "unknown_agent": false,
+      "nodes": [
+        { "node_id": "n_1", "node_type": "magical_type", "text": "Patient" }
+      ],
+      "edges": []
+    }
+  },
+  {
+    "id": "err_quantity_unbound",
+    "expected_error": "Quantity node must have a quantifies edge to an entity or predicate",
+    "data": {
+      "graph_id": "clm_graph_bad_03",
+      "claim_text": "Dose 500 mg floating",
+      "is_passive": false,
+      "unknown_agent": false,
+      "nodes": [
+        { "node_id": "n_pred_1", "node_type": "predicate", "text": "takes" },
+        { "node_id": "n_qty_1", "node_type": "quantity", "text": "500 mg" }
+      ],
+      "edges": []
+    }
+  },
+  {
+    "id": "err_passive_missing_patient",
+    "expected_error": "Passive construction requires patient_of edge",
+    "data": {
+      "graph_id": "clm_graph_bad_04",
+      "claim_text": "Is checked monthly",
+      "is_passive": true,
+      "unknown_agent": true,
+      "nodes": [
+        { "node_id": "n_pred_1", "node_type": "predicate", "text": "is checked" },
+        { "node_id": "n_unk", "node_type": "entity", "text": "UNKNOWN_AGENT", "is_unknown": true }
+      ],
+      "edges": [
+        { "edge_id": "e_1", "source_id": "n_unk", "target_id": "n_pred_1", "relation": "agent_of" }
+      ]
+    }
+  }
+]
+

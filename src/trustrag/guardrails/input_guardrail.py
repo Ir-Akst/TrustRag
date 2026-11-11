@@ -23,6 +23,7 @@ from trustrag.engine.schemas import (
 )
 from trustrag.engine.text_utils import (
     check_repetitive_flood,
+    count_fullwidth_ascii_confusables,
     detect_obfuscation,
     fold_mixed_script_confusables,
     match_threat_patterns,
@@ -120,11 +121,12 @@ class InputGuardrail:
 
         matches: List[G1MatchDetail] = []
 
-        # 2. Check zero-width / control-character / mixed-script confusable obfuscation before cleaning
+        # 2. Check zero-width / control-character / mixed-script / fullwidth confusable obfuscation before cleaning
         has_obf, deobfuscated, obf_count = detect_obfuscation(original_input)
         folded_input, mixed_conf_count = fold_mixed_script_confusables(deobfuscated)
-        total_obf = obf_count + mixed_conf_count
-        if has_obf or mixed_conf_count > 0:
+        fullwidth_conf_count = count_fullwidth_ascii_confusables(original_input)
+        total_obf = obf_count + mixed_conf_count + fullwidth_conf_count
+        if has_obf or mixed_conf_count > 0 or fullwidth_conf_count > 0:
             matches.append(
                 G1MatchDetail(
                     rule_name="zero_width_or_control_obfuscation",

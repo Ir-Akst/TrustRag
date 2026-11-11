@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "G3PipelineContractSchema",
+  "description": "Closed canonical schema for pipeline stage definitions, inputs, outputs, and containment invariants",
+  "type": "object",
+  "required": [
+    "pipeline_id",
+    "version",
+    "canonical_stages",
+    "containment_policy",
+    "data_flow_invariants"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "pipeline_id": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "canonical_stages": {
+      "type": "array",
+      "minItems": 10,
+      "maxItems": 10,
+      "items": {
+        "type": "object",
+        "required": ["stage_index", "stage_name", "input_type", "output_type", "quarantine_action"],
+        "additionalProperties": false,
+        "properties": {
+          "stage_index": { "type": "integer" },
+          "stage_name": { "type": "string" },
+          "input_type": { "type": "string" },
+          "output_type": { "type": "string" },
+          "quarantine_action": { "type": "string", "enum": ["BLOCK_EARLY", "NONE", "FLAG_AND_PASS", "ISOLATE_CANDIDATE", "CONTAIN_AND_DOWNRANK", "ABSTAIN_ON_EMPTY", "REDACT_OR_BLOCK", "VERIFY_OR_UNVERIFY", "FALLBACK_ON_ERROR", "SAFE_RETURN"] }
+        }
+      }
+    },
+    "containment_policy": {
+      "type": "object",
+      "required": ["quarantine_reach_generation", "quarantine_reach_g3", "quarantine_reach_srm", "public_redaction_required"],
+      "additionalProperties": false,
+      "properties": {
+        "quarantine_reach_generation": { "type": "boolean", "enum": [false] },
+        "quarantine_reach_g3": { "type": "boolean", "enum": [false] },
+        "quarantine_reach_srm": { "type": "boolean", "enum": [false] },
+        "public_redaction_required": { "type": "boolean", "enum": [true] }
+      }
+    },
+    "data_flow_invariants": {
+      "type": "array",
+      "items": { "type": "string" }
+    }
+  }
+}
+

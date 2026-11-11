@@ -1,0 +1,42 @@
+[
+  {
+    "id": "err_evidence_dangling_edge",
+    "expected_error": "Dangling edge reference in evidence graph",
+    "data": {
+      "graph_id": "evd_graph_bad_01",
+      "evidence_id": "ev_bad_01",
+      "document_id": "doc_bad",
+      "passage_text": "Sample text",
+      "provenance": {
+        "source": "unverified",
+        "timestamp": "2026-01-01T00:00:00Z",
+        "trust_level": "UNCERTAIN",
+        "signature_verified": false
+      },
+      "nodes": [
+        { "node_id": "en_1", "node_type": "entity", "text": "Sample", "span": [0, 6] }
+      ],
+      "edges": [
+        { "edge_id": "ee_1", "source_id": "en_1", "target_id": "en_999", "relation": "agent_of" }
+      ]
+    }
+  },
+  {
+    "id": "err_evidence_missing_provenance",
+    "expected_error": "Evidence graph missing required provenance fields",
+    "data": {
+      "graph_id": "evd_graph_bad_02",
+      "evidence_id": "ev_bad_02",
+      "document_id": "doc_bad",
+      "passage_text": "Sample text",
+      "provenance": {
+        "source": "incomplete"
+      },
+      "nodes": [
+        { "node_id": "en_1", "node_type": "entity", "text": "Sample", "span": [0, 6] }
+      ],
+      "edges": []
+    }
+  }
+]
+

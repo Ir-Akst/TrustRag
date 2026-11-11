@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "G3CanonicalProvenanceSchema",
+  "description": "RFC 8785 canonical JSON provenance verification schema",
+  "type": "object",
+  "required": [
+    "payload",
+    "canonical_hash",
+    "signature",
+    "key_id",
+    "algorithm",
+    "validity_period",
+    "revocation_status",
+    "source_id"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "payload": {
+      "type": "object",
+      "required": ["doc_id", "content_hash", "source", "timestamp", "trust_prior"],
+      "additionalProperties": false,
+      "properties": {
+        "doc_id": { "type": "string" },
+        "content_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "source": { "type": "string" },
+        "timestamp": { "type": "string" },
+        "trust_prior": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+      }
+    },
+    "canonical_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "signature": {
+      "type": "string",
+      "minLength": 32
+    },
+    "key_id": {
+      "type": "string"
+    },
+    "algorithm": {
+      "type": "string",
+      "enum": ["Ed25519", "HMAC-SHA256"]
+    },
+    "validity_period": {
+      "type": "object",
+      "required": ["not_before", "not_after"],
+      "additionalProperties": false,
+      "properties": {
+        "not_before": { "type": "string" },
+        "not_after": { "type": "string" }
+      }
+    },
+    "revocation_status": {
+      "type": "object",
+      "required": ["is_revoked"],
+      "additionalProperties": false,
+      "properties": {
+        "is_revoked": { "type": "boolean" },
+        "revoked_at": { "type": ["string", "null"] },
+        "reason": { "type": ["string", "null"] }
+      }
+    },
+    "source_id": {
+      "type": "string"
+    }
+  }
+}
+

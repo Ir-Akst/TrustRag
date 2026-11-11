@@ -196,8 +196,41 @@ def _is_emoji_base_char(ch: str) -> bool:
     return unicodedata.category(ch) in {"So", "Sk"}
 
 
+def _is_complex_script_char(ch: str) -> bool:
+    """Return True if char belongs to Arabic/Persian, Indic/Brahmic, or SE Asian complex scripts using ZWNJ/ZWJ."""
+    cp = ord(ch)
+    return (
+        (0x0600 <= cp <= 0x06FF)      # Arabic / Persian
+        or (0x0750 <= cp <= 0x077F)   # Arabic Supplement
+        or (0x08A0 <= cp <= 0x08FF)   # Arabic Extended-A
+        or (0xFB50 <= cp <= 0xFDFF)   # Arabic Presentation Forms-A
+        or (0xFE70 <= cp <= 0xFEFF)   # Arabic Presentation Forms-B (excluding FEFF handled earlier)
+        or (0x0900 <= cp <= 0x0DFF)   # Devanagari, Bengali, Gurmukhi, Gujarati, Oriya, Tamil, Telugu, Kannada, Malayalam, Sinhala
+        or (0x0E00 <= cp <= 0x109F)   # Thai, Lao, Tibetan, Myanmar
+        or (0x1780 <= cp <= 0x17FF)   # Khmer
+    ) and cp != 0xFEFF
+
+
+def _is_valid_script_joiner(text: str, idx: int) -> bool:
+    """Validate whether U+200C (ZWNJ) or U+200D (ZWJ) sits within an authentic script or emoji sequence."""
+    if idx <= 0 or idx + 1 >= len(text):
+        return False
+    prev_ch = text[idx - 1]
+    next_ch = text[idx + 1]
+    ch = text[idx]
+    if ch == "\u200c":
+        return _is_complex_script_char(prev_ch) and _is_complex_script_char(next_ch)
+    if ch == "\u200d":
+        if _is_complex_script_char(prev_ch) and _is_complex_script_char(next_ch):
+            return True
+        prev_emoji = _is_emoji_base_char(prev_ch) or prev_ch in {"\ufe0e", "\ufe0f", "\U0001f3fb", "\U0001f3fc", "\U0001f3fd", "\U0001f3fe", "\U0001f3ff"}
+        next_emoji = _is_emoji_base_char(next_ch)
+        return prev_emoji and next_emoji
+    return False
+
+
 def _is_suspicious_invisible_char(text: str, idx: int) -> bool:
-    """Distinguish malicious invisible/format obfuscation from legitimate emoji variation selectors."""
+    """Distinguish malicious invisible/format obfuscation from legitimate emoji and complex-script joiners."""
     ch = text[idx]
     if ch in {"\ufe0e", "\ufe0f"} and idx > 0:
         prev_ch = text[idx - 1]
@@ -206,11 +239,18 @@ def _is_suspicious_invisible_char(text: str, idx: int) -> bool:
         if prev_ch in "0123456789#*" and idx + 1 < len(text) and text[idx + 1] == "\u20e3":
             return False
         return True
+    if ch in {"\u200c", "\u200d"}:
+        return not _is_valid_script_joiner(text, idx)
     if ZERO_WIDTH_OR_CONTROL_RE.match(ch):
         return True
     if unicodedata.category(ch) == "Cf":
         return True
     return False
+
+
+def count_fullwidth_ascii_confusables(text: str) -> int:
+    """Count fullwidth ASCII Latin compatibility characters (U+FF21..U+FF3A, U+FF41..U+FF5A)."""
+    return sum(1 for ch in text if (0xFF21 <= ord(ch) <= 0xFF3A) or (0xFF41 <= ord(ch) <= 0xFF5A))
 
 
 def detect_obfuscation(text: str) -> Tuple[bool, str, int]:
@@ -873,6 +913,7 @@ __all__ = [
     "SHARED_THREAT_PATTERNS",
     "detect_obfuscation",
     "fold_mixed_script_confusables",
+    "count_fullwidth_ascii_confusables",
     "tokenize_content_words",
     "extract_numbers_and_units",
     "ScheduleAssertion",

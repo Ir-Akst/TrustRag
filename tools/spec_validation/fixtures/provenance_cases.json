@@ -1,0 +1,107 @@
+[
+  {
+    "case_id": "prov_valid_signed",
+    "description": "Valid signed payload conforming to RFC 8785 with valid key and algorithm",
+    "payload": {
+      "doc_id": "doc_trusted_101",
+      "content_hash": "a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2",
+      "source": "nih_clinical_guidelines",
+      "timestamp": "2026-03-01T12:00:00Z",
+      "trust_prior": 0.95
+    },
+    "canonical_hash": "c4d5e6f7a8b9c4d5e6f7a8b9c4d5e6f7a8b9c4d5e6f7a8b9c4d5e6f7a8b9c4d5",
+    "signature": "3045022100abcdef1234567890abcdef1234567890abcdef1234567890abcdef123456780220abcdef1234567890abcdef1234567890abcdef1234567890abcdef12345678",
+    "key_id": "ed25519_key_nih_2026",
+    "algorithm": "Ed25519",
+    "validity_period": {
+      "not_before": "2026-01-01T00:00:00Z",
+      "not_after": "2026-12-31T23:59:59Z"
+    },
+    "revocation_status": {
+      "is_revoked": false,
+      "revoked_at": null,
+      "reason": null
+    },
+    "source_id": "nih_clinical_guidelines",
+    "current_time": "2026-06-01T00:00:00Z",
+    "expected_status": "VALID_TRUSTED"
+  },
+  {
+    "case_id": "prov_expired_key",
+    "description": "Signed payload with expired signing key",
+    "payload": {
+      "doc_id": "doc_old_202",
+      "content_hash": "b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3",
+      "source": "hospital_records_2024",
+      "timestamp": "2024-05-01T10:00:00Z",
+      "trust_prior": 0.85
+    },
+    "canonical_hash": "d5e6f7a8b9c4d5e6f7a8b9c4d5e6f7a8b9c4d5e6f7a8b9c4d5e6f7a8b9c4d5e6",
+    "signature": "3045022100bcdef1234567890abcdef1234567890abcdef1234567890abcdef123456780220abcdef1234567890abcdef1234567890abcdef1234567890abcdef12345678",
+    "key_id": "ed25519_key_hosp_2024",
+    "algorithm": "Ed25519",
+    "validity_period": {
+      "not_before": "2024-01-01T00:00:00Z",
+      "not_after": "2024-12-31T23:59:59Z"
+    },
+    "revocation_status": {
+      "is_revoked": false,
+      "revoked_at": null,
+      "reason": null
+    },
+    "source_id": "hospital_records_2024",
+    "current_time": "2026-06-01T00:00:00Z",
+    "expected_status": "EXPIRED_KEY"
+  },
+  {
+    "case_id": "prov_revoked_key",
+    "description": "Signed payload with revoked signing key",
+    "payload": {
+      "doc_id": "doc_compromised_303",
+      "content_hash": "c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4",
+      "source": "compromised_vendor",
+      "timestamp": "2026-02-01T10:00:00Z",
+      "trust_prior": 0.90
+    },
+    "canonical_hash": "e6f7a8b9c4d5e6f7a8b9c4d5e6f7a8b9c4d5e6f7a8b9c4d5e6f7a8b9c4d5e6f7",
+    "signature": "3045022100cdef1234567890abcdef1234567890abcdef1234567890abcdef123456780220abcdef1234567890abcdef1234567890abcdef1234567890abcdef12345678",
+    "key_id": "ed25519_key_comp_2026",
+    "algorithm": "Ed25519",
+    "validity_period": {
+      "not_before": "2026-01-01T00:00:00Z",
+      "not_after": "2026-12-31T23:59:59Z"
+    },
+    "revocation_status": {
+      "is_revoked": true,
+      "revoked_at": "2026-02-15T00:00:00Z",
+      "reason": "Key compromise detected"
+    },
+    "source_id": "compromised_vendor",
+    "current_time": "2026-06-01T00:00:00Z",
+    "expected_status": "REVOKED_KEY"
+  },
+  {
+    "case_id": "prov_disallowed_algorithm",
+    "description": "Signed payload using insecure algorithm not in allowlist (MD5-RSA)",
+    "payload": {
+      "doc_id": "doc_insecure_404",
+      "content_hash": "d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5f6a1b2c3d4e5",
+      "source": "legacy_source",
+      "timestamp": "2026-03-01T10:00:00Z",
+      "trust_prior": 0.70
+    },
+    "canonical_hash": "f7a8b9c4d5e6f7a8b9c4d5e6f7a8b9c4d5e6f7a8b9c4d5e6f7a8b9c4d5e6f7a8",
+    "signature": "abcdef1234567890abcdef1234567890abcdef1234567890",
+    "key_id": "rsa_key_legacy_2026",
+    "algorithm": "MD5-RSA",
+    "validity_period": {
+      "not_before": "2026-01-01T00:00:00Z",
+      "not_after": "2026-12-31T23:59:59Z"
+    },
+    "revocation_status": { "is_revoked": false },
+    "source_id": "legacy_source",
+    "current_time": "2026-06-01T00:00:00Z",
+    "expected_status": "DISALLOWED_ALGORITHM"
+  }
+]
+

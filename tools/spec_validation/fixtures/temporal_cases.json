@@ -1,0 +1,53 @@
+[
+  {
+    "test_id": "temp_closed_exact_match",
+    "description": "Evidence and claim match exact closed interval [2024-01-01, 2024-12-31]",
+    "evidence_interval": { "start": "2024-01-01", "end": "2024-12-31", "is_open_ended": false },
+    "claim_interval": { "start": "2024-01-01", "end": "2024-12-31", "is_open_ended": false },
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "test_id": "temp_finite_evidence_open_claim_leak",
+    "description": "Finite historical evidence [2020-01-01, 2022-12-31] vs open-ended current/permanent claim [2020-01-01, +inf)",
+    "evidence_interval": { "start": "2020-01-01", "end": "2022-12-31", "is_open_ended": false },
+    "claim_interval": { "start": "2020-01-01", "end": null, "is_open_ended": true },
+    "expected_verdict": "INSUFFICIENT_EVIDENCE",
+    "security_rule": "Finite evidence must never fully support an unrestricted open-ended claim"
+  },
+  {
+    "test_id": "temp_non_overlapping_intervals",
+    "description": "Evidence covers [2021-01-01, 2021-12-31], claim asserts [2024-01-01, 2024-12-31]",
+    "evidence_interval": { "start": "2021-01-01", "end": "2021-12-31", "is_open_ended": false },
+    "claim_interval": { "start": "2024-01-01", "end": "2024-12-31", "is_open_ended": false },
+    "expected_verdict": "INSUFFICIENT_EVIDENCE"
+  },
+  {
+    "test_id": "temp_partial_overlap",
+    "description": "Evidence covers [2023-01-01, 2023-06-30], claim asserts [2023-01-01, 2023-12-31]",
+    "evidence_interval": { "start": "2023-01-01", "end": "2023-06-30", "is_open_ended": false },
+    "claim_interval": { "start": "2023-01-01", "end": "2023-12-31", "is_open_ended": false },
+    "expected_verdict": "INSUFFICIENT_EVIDENCE"
+  },
+  {
+    "test_id": "temp_claim_subset_of_evidence",
+    "description": "Evidence covers full year [2024-01-01, 2024-12-31], claim asserts March [2024-03-01, 2024-03-31]",
+    "evidence_interval": { "start": "2024-01-01", "end": "2024-12-31", "is_open_ended": false },
+    "claim_interval": { "start": "2024-03-01", "end": "2024-03-31", "is_open_ended": false },
+    "expected_verdict": "SUPPORTED"
+  },
+  {
+    "test_id": "temp_missing_reference_time",
+    "description": "Claim specifies relative date 'currently' or 'yesterday' without reference timestamp",
+    "evidence_interval": { "start": "2024-01-01", "end": "2024-12-31", "is_open_ended": false },
+    "claim_interval": { "relative_term": "currently", "reference_time": null },
+    "expected_verdict": "UNCERTAIN"
+  },
+  {
+    "test_id": "temp_conflicting_timestamps",
+    "description": "Two conflicting source timestamps for the same event",
+    "conflicting_sources": true,
+    "timestamps": ["2023-05-10T10:00:00Z", "2023-05-12T14:00:00Z"],
+    "expected_verdict": "UNCERTAIN"
+  }
+]
+

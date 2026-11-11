@@ -1,7 +1,7 @@
 # TrustRAG — Implementation Status
 
 > **Current Phase Completed:** Phase 03 — Core Engine and Complete Defense Integration  
-> **Last Updated:** 2026-11-10  
+> **Last Updated:** 2026-11-11  
 > **Repository:** `C:\Users\aksha\OneDrive\Desktop\TrustRag`
 
 ---
@@ -13,7 +13,7 @@
 | **Phase 00** | Core Foundation | Config, structured JSON logging, error hierarchy, hardware detection, seed reproducibility | **COMPLETE** | 100% Passed (9/9) |
 | **Phase 01** | Dataset Engineering | 13 dataset adapters, safe text cleaning, SHA-256 deduplication, grouped splitting, portable manifests, isolation validator | **COMPLETE** | 100% Passed (68/68) |
 | **Phase 02** | Acquisition & Benchmarks | Priority tier acquisition, pre-allocation disk safety, standardized taxonomy, synthetic security generator, 4 research benchmarks, quality reporting | **COMPLETE** | 100% Passed (24/24) |
-| **Phase 03** | Core Engine & Defense Integration | G1 Input Guardrail, TF-IDF Trust-Aware Retrieval + `floor(K/2)` cap (`K=min(top_k, candidates)`), 6-signal non-amplifying G2 MSD (`CLEAN`/`POISONED`/`UNCERTAIN`), Generator, G3 Verification (`SUPPORTED`/`PARTIALLY_SUPPORTED`/`CONTRADICTED`/`INSUFFICIENT_EVIDENCE`/`UNCERTAIN`) + Round 2–4 atomic conjunct/predicate-body grounding, clause-scoped `ScheduleAssertion` clinical schedules, same-doc rank-guarded contradiction resolution, fail-closed pre-generation security & unassessed-doc gate, public `g2_assessments`/F4 redaction & opt-in diagnostics, Unicode `\u00ad` obfuscation detection, SRM, `TrustRAGPipeline` | **COMPLETE** | 100% Passed (190/190) |
+| **Phase 03** | Core Engine & Defense Integration | G1 Input Guardrail, TF-IDF Trust-Aware Retrieval + `floor(K/2)` cap (`K=min(top_k, candidates)`), 6-signal non-amplifying G2 MSD (`CLEAN`/`POISONED`/`UNCERTAIN`), Generator, Stage 7 Generated-Answer Unicode Inspection, G3 Verification (`SUPPORTED`/`PARTIALLY_SUPPORTED`/`CONTRADICTED`/`INSUFFICIENT_EVIDENCE`/`UNCERTAIN`) + Rounds 2–6 remediation (atomic predicate-body & coordinator grounding, matrix/tail irregular-past splits, `ScheduleAssertion`, context-aware Unicode/ZWNJ/fullwidth defense, subordinate-clause outer negation & compound restrictive-scope handling), SRM, `TrustRAGPipeline`, isolated spec validator (`tools/spec_validation/`) | **COMPLETE** | 100% Passed (202/202) |
 | **Phase 04** | Evaluation & Experimental Benchmarking | Large-scale defense evaluation & reporting | **NOT STARTED** | - |
 
 ---
@@ -72,9 +72,10 @@
 ---
 
 ## Test Suite Execution Summary
-- **Total Unit Test Cases:** 291 selected tests (`pytest -v`, exit code 0: 101 Foundation & Phase 01/02 Data + 24 Phase 03 Defense + 32 G2 MSD + 134 G3 Output Evidence Verification)
-- **Passing:** 291 (100% of selected)
+- **Total Unit Test Cases:** 303 selected tests (`pytest -q`, exit code 0: 101 Foundation & Phase 01/02 Data + 202 Phase 03 Defense/G2/G3)
+- **Passing:** 303 (100% of selected)
 - **Failing:** 0
 - **Deselected (Live Network Integration Tests):** 2 (`-m 'not integration'` default in `pyproject.toml`)
+- **Specification & Runtime Conformance Suite (`python tools/spec_validation/run_all_validations.py`):** Passed (10/10 validators, 13/13 gates, exit code 0)
 - **Syntax Compilation (`python -m compileall -q src tests`):** Passed (exit code 0)
 

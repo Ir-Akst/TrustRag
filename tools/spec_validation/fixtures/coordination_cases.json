@@ -1,0 +1,93 @@
+{
+  "operators": ["AND", "OR", "SEQ", "CONTRAST"],
+  "states": ["SUPPORTED", "CONTRADICTED", "INSUFFICIENT", "UNCERTAIN"],
+  "rules": {
+    "AND": {
+      "SUPPORTED_SUPPORTED": "SUPPORTED",
+      "SUPPORTED_CONTRADICTED": "CONTRADICTED",
+      "SUPPORTED_INSUFFICIENT": "INSUFFICIENT",
+      "SUPPORTED_UNCERTAIN": "UNCERTAIN",
+      "CONTRADICTED_CONTRADICTED": "CONTRADICTED",
+      "CONTRADICTED_INSUFFICIENT": "CONTRADICTED",
+      "CONTRADICTED_UNCERTAIN": "CONTRADICTED",
+      "INSUFFICIENT_INSUFFICIENT": "INSUFFICIENT",
+      "INSUFFICIENT_UNCERTAIN": "UNCERTAIN",
+      "UNCERTAIN_UNCERTAIN": "UNCERTAIN"
+    },
+    "OR": {
+      "note": "Safety-critical G3 invariant: An unverified disjunct cannot be validated as factual knowledge without grounding for all asserted disjuncts.",
+      "SUPPORTED_SUPPORTED": "SUPPORTED",
+      "SUPPORTED_CONTRADICTED": "CONTRADICTED",
+      "SUPPORTED_INSUFFICIENT": "INSUFFICIENT",
+      "SUPPORTED_UNCERTAIN": "UNCERTAIN",
+      "CONTRADICTED_CONTRADICTED": "CONTRADICTED",
+      "CONTRADICTED_INSUFFICIENT": "CONTRADICTED",
+      "CONTRADICTED_UNCERTAIN": "CONTRADICTED",
+      "INSUFFICIENT_INSUFFICIENT": "INSUFFICIENT",
+      "INSUFFICIENT_UNCERTAIN": "UNCERTAIN",
+      "UNCERTAIN_UNCERTAIN": "UNCERTAIN"
+    },
+    "SEQ": {
+      "note": "Sequence requires both propositions grounded AND explicit temporal precedence (step_1 precedes step_2).",
+      "SUPPORTED_SUPPORTED_CORRECT_ORDER": "SUPPORTED",
+      "SUPPORTED_SUPPORTED_REVERSED_ORDER": "CONTRADICTED",
+      "SUPPORTED_CONTRADICTED": "CONTRADICTED",
+      "SUPPORTED_INSUFFICIENT": "INSUFFICIENT",
+      "CONTRADICTED_ANY": "CONTRADICTED",
+      "INSUFFICIENT_ANY": "INSUFFICIENT"
+    },
+    "CONTRAST": {
+      "note": "Contrastive clauses (while, but, whereas, yet) require both propositions verified and contrast relation valid.",
+      "SUPPORTED_SUPPORTED_VALID_CONTRAST": "SUPPORTED",
+      "SUPPORTED_CONTRADICTED": "CONTRADICTED",
+      "SUPPORTED_INSUFFICIENT": "INSUFFICIENT",
+      "SUPPORTED_UNCERTAIN": "UNCERTAIN",
+      "CONTRADICTED_ANY": "CONTRADICTED",
+      "INSUFFICIENT_ANY": "INSUFFICIENT"
+    }
+  },
+  "test_probes": [
+    {
+      "probe_id": "crd_and_sup_insuf",
+      "operator": "AND",
+      "prop_a": "The medicine reduces fever",
+      "verdict_a": "SUPPORTED",
+      "prop_b": "cures cancer",
+      "verdict_b": "INSUFFICIENT",
+      "expected_coordinated_verdict": "INSUFFICIENT",
+      "cannot_be_supported": true
+    },
+    {
+      "probe_id": "crd_or_sup_insuf",
+      "operator": "OR",
+      "prop_a": "The medicine reduces fever",
+      "verdict_a": "SUPPORTED",
+      "prop_b": "is toxic",
+      "verdict_b": "INSUFFICIENT",
+      "expected_coordinated_verdict": "INSUFFICIENT",
+      "cannot_be_supported": true
+    },
+    {
+      "probe_id": "crd_while_sup_insuf",
+      "operator": "CONTRAST",
+      "prop_a": "The medicine reduces fever",
+      "verdict_a": "SUPPORTED",
+      "prop_b": "causing coma",
+      "verdict_b": "INSUFFICIENT",
+      "expected_coordinated_verdict": "INSUFFICIENT",
+      "cannot_be_supported": true
+    },
+    {
+      "probe_id": "crd_seq_order_reversed",
+      "operator": "SEQ",
+      "prop_a": "Patient underwent surgery",
+      "verdict_a": "SUPPORTED",
+      "prop_b": "Patient was diagnosed with appendicitis",
+      "verdict_b": "SUPPORTED",
+      "sequence_relation": "REVERSED",
+      "expected_coordinated_verdict": "CONTRADICTED",
+      "cannot_be_supported": true
+    }
+  ]
+}
+

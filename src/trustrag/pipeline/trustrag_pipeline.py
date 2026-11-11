@@ -22,6 +22,11 @@ from trustrag.engine.schemas import (
     TrustReport,
     VerificationStatus,
 )
+from trustrag.engine.text_utils import (
+    count_fullwidth_ascii_confusables,
+    detect_obfuscation,
+    fold_mixed_script_confusables,
+)
 from trustrag.generation.generator import AnswerGenerator
 from trustrag.guardrails.input_guardrail import InputGuardrail
 from trustrag.retrieval.retriever import TrustAwareRetriever
@@ -210,9 +215,22 @@ class TrustRAGPipeline:
         )
         trace.append(f"GENERATION:mode={gen.generator_mode},abstained={gen.abstained}")
 
+        # 4b. Generated-Answer Unicode Inspection (Stage 7 of canonical specification)
+        has_ans_obf, cleaned_ans_txt, ans_obf_count = detect_obfuscation(gen.answer_text or "")
+        folded_ans_txt, ans_mixed_count = fold_mixed_script_confusables(cleaned_ans_txt or gen.answer_text or "")
+        ans_fw_count = count_fullwidth_ascii_confusables(gen.answer_text or "")
+        ans_unicode_flagged = bool(has_ans_obf or ans_mixed_count > 0 or ans_fw_count > 0)
+        verify_answer_text = folded_ans_txt if ans_unicode_flagged else gen.answer_text
+        if ans_unicode_flagged:
+            trace.append(
+                f"ANSWER_UNICODE:FLAGGED(obf={ans_obf_count},mixed={ans_mixed_count},fullwidth={ans_fw_count})"
+            )
+        else:
+            trace.append("ANSWER_UNICODE:CLEAN")
+
         # 5. G3 Claim-Level Output Evidence Verification strictly against admissible evidence
         g3_report = self.verifier.verify(
-            gen.answer_text,
+            verify_answer_text,
             admissible_docs,
             abstained=gen.abstained,
         )
@@ -223,7 +241,7 @@ class TrustRAGPipeline:
         # 6. SRM-Assisted Reasoning strictly on admissible evidence passages
         srm_request = SRMRequest(
             query=g1.normalized_input,
-            candidate_answer=gen.answer_text,
+            candidate_answer=verify_answer_text,
             evidence_passages=[{"doc_id": d.doc_id, "text": d.text} for d in admissible_docs],
             g2_trust_scores={
                 a.doc_id: a.trust_score
@@ -249,10 +267,10 @@ class TrustRAGPipeline:
         # 7. Final Overall Trust Decision (security quarantine takes precedence over generator/fallback SRM abstention)
         if g3_report.overall_status == VerificationStatus.CONTRADICTED:
             overall_decision = "CONTRADICTED"
-        elif trusted_has_poisoned or trusted_has_uncertain_security or trusted_has_unassessed:
-            # Explicit pre-generation security guard: surviving G2 POISONED, obfuscation/instruction-risk
-            # UNCERTAIN, or unassessed documents must yield FLAGGED even when zero admissible docs cause
-            # abstention/REFUSE or when external SRM returns TRUSTWORTHY.
+        elif trusted_has_poisoned or trusted_has_uncertain_security or trusted_has_unassessed or ans_unicode_flagged:
+            # Explicit pre-generation security guard and answer Unicode guard: surviving G2 POISONED,
+            # obfuscation/instruction-risk UNCERTAIN, unassessed docs, or obfuscated generated answers
+            # must yield FLAGGED even when zero admissible docs cause abstention or external SRM is TRUSTWORTHY.
             overall_decision = "FLAGGED"
         elif gen.abstained:
             overall_decision = "ABSTAINED"
@@ -271,7 +289,7 @@ class TrustRAGPipeline:
             overall_decision = "TRUSTED"
 
         # 8. Safe Public Output & Private Diagnostic Quarantine Policy
-        unsafe_output_quarantined = bool(quarantined_docs)
+        unsafe_output_quarantined = bool(quarantined_docs) or ans_unicode_flagged
         diag_quarantined_answer: Optional[str] = None
         public_answer = gen.answer_text
         public_evidence = list(admissible_docs)
@@ -281,12 +299,20 @@ class TrustRAGPipeline:
             if not gen.abstained:
                 diag_quarantined_answer = gen.answer_text
             public_abstained = True
-            public_answer = (
-                "Output withheld for safety: surviving retrieved context contains security-quarantined "
-                "or unassessed document(s) excluded prior to generation. Detailed diagnostics are held "
-                "exclusively for trusted in-process inspection via get_diagnostics(authorized=True)."
-            )
-            trace.append("OUTPUT:QUARANTINED_POISONED_CONTEXT")
+            if ans_unicode_flagged and not quarantined_docs:
+                public_answer = (
+                    "Output withheld for safety: generated answer contains suspicious Unicode obfuscation "
+                    "or confusable characters. Detailed diagnostics are held exclusively for trusted "
+                    "in-process inspection via get_diagnostics(authorized=True)."
+                )
+                trace.append("OUTPUT:QUARANTINED_UNSAFE_ANSWER_UNICODE")
+            else:
+                public_answer = (
+                    "Output withheld for safety: surviving retrieved context contains security-quarantined "
+                    "or unassessed document(s) excluded prior to generation. Detailed diagnostics are held "
+                    "exclusively for trusted in-process inspection via get_diagnostics(authorized=True)."
+                )
+                trace.append("OUTPUT:QUARANTINED_POISONED_CONTEXT")
 
         safe_to_display = (overall_decision == "TRUSTED") and not unsafe_output_quarantined
         trace.append(f"FINAL:{overall_decision}")
