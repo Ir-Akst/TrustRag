@@ -247,32 +247,36 @@ def _check_temporal_currency(
             continue
         early_ents = {e.lower() for e in _extract_cap_entities(earliest_txt)}
         late_ents = {e.lower() for e in _extract_cap_entities(latest_txt)}
-        if (cl_entities & early_ents) and not (cl_entities & late_ents) and late_ents:
-            if any(w in latest_txt.lower() for w in ("became", "replaced", "succeeded", "took over", "appointed", "is now")):
-                ref = EvidenceReference(
-                    doc_id=doc.doc_id,
-                    source_id=doc.source_id,
-                    source_dataset=doc.source_dataset,
-                    provenance=doc.provenance,
-                    matched_span=doc.text[:220],
-                    similarity_score=0.70,
-                    polarity_match=False,
-                    numeric_match=False,
-                    coverage_score=0.70,
-                    alignment_note=f"Historical ({earliest_y}) role superseded in {latest_y}.",
-                    span_outcome="CONTRADICTED",
-                )
-                return item.model_copy(
-                    update={
-                        "outcome": EvidenceOutcome.CONTRADICTS,
-                        "verdict": G3ClaimVerdict.CONTRADICTED,
-                        "unsupported_flag": True,
-                        "confidence": 0.80,
-                        "contradicting_evidence_refs": [ref],
-                        "evidence_refs": [ref],
-                        "explanation": f"Temporal contradiction: {earliest_y} entity superseded by {latest_y} successor in document '{doc.doc_id}'.",
-                    }
-                )
+        if (
+            (cl_entities & early_ents)
+            and not (cl_entities & late_ents)
+            and late_ents
+            and any(w in latest_txt.lower() for w in ("became", "replaced", "succeeded", "took over", "appointed", "is now"))
+        ):
+            ref = EvidenceReference(
+                doc_id=doc.doc_id,
+                source_id=doc.source_id,
+                source_dataset=doc.source_dataset,
+                provenance=doc.provenance,
+                matched_span=doc.text[:220],
+                similarity_score=0.70,
+                polarity_match=False,
+                numeric_match=False,
+                coverage_score=0.70,
+                alignment_note=f"Historical ({earliest_y}) role superseded in {latest_y}.",
+                span_outcome="CONTRADICTED",
+            )
+            return item.model_copy(
+                update={
+                    "outcome": EvidenceOutcome.CONTRADICTS,
+                    "verdict": G3ClaimVerdict.CONTRADICTED,
+                    "unsupported_flag": True,
+                    "confidence": 0.80,
+                    "contradicting_evidence_refs": [ref],
+                    "evidence_refs": [ref],
+                    "explanation": f"Temporal contradiction: {earliest_y} entity superseded by {latest_y} successor in document '{doc.doc_id}'.",
+                }
+            )
     return None
 
 
