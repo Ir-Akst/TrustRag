@@ -1,0 +1,26 @@
+{
+  "version": "platt-mixed-v1",
+  "method": "platt",
+  "fitted_datasets": [
+    "adversarial_robustness",
+    "knowledge_poisoning",
+    "clean_rag"
+  ],
+  "fitted_splits": [
+    "train"
+  ],
+  "fit_seed": 42,
+  "sample_count": 428,
+  "clean_count": 308,
+  "attack_count": 120,
+  "class_weight": null,
+  "platt_coef": 2.71326212,
+  "platt_intercept": -1.71367122,
+  "use_logit_transform": true,
+  "isotonic_x_thresholds": [],
+  "isotonic_y_thresholds": [],
+  "temperature": null,
+  "clip_eps": 0.0001,
+  "created_at": "2026-11-11T18:03:30.946877+00:00",
+  "artifact_sha256": "f3c2ce6b0e4586ca1e946e87bda8a7dd9afd851cf985bc2df3dc3cffbb7e1ed9"
+}

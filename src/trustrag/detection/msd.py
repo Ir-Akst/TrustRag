@@ -61,11 +61,13 @@ class MultiSignalDetector:
         perplexity_callable: Optional[Callable[[str], float]] = None,
         embedding_callable: Optional[Callable[[Sequence[str]], Sequence[np.ndarray]]] = None,
         answer_callable: Optional[Callable[[str, EvidenceDocument], str]] = None,
+        calibrator: Optional[Any] = None,
     ) -> None:
         self.config = config or MSDConfig()
         self.perplexity_callable = perplexity_callable
         self.embedding_callable = embedding_callable
         self.answer_callable = answer_callable
+        self.calibrator = calibrator
 
     def _resolve_doc_embeddings(
         self,
@@ -327,6 +329,17 @@ class MultiSignalDetector:
                     s.effective_weight = 0.0
                 trust_score = round(_sigmoid(self.config.bias), 4)
 
+            doc_config_snapshot = dict(config_snapshot)
+            doc_config_snapshot["raw_trust_score"] = trust_score
+            if self.calibrator is not None and not insufficient_signals:
+                cal_score, cal_fallback = self.calibrator.calibrate_score(trust_score)
+                art = getattr(self.calibrator, "artifact", None)
+                doc_config_snapshot["calibration_active"] = bool(not cal_fallback and getattr(self.calibrator, "is_active", False))
+                doc_config_snapshot["calibration_fallback"] = bool(cal_fallback)
+                doc_config_snapshot["calibration_version"] = getattr(art, "version", None) if art is not None else None
+                doc_config_snapshot["calibrated_trust_score"] = cal_score
+                trust_score = cal_score
+
             reason_codes: List[str] = []
             for s in signals_dict.values():
                 reason_codes.extend(s.flags)
@@ -387,7 +400,7 @@ class MultiSignalDetector:
                     available_signals_count=len(available_list),
                     available_weight_ratio=round(weight_ratio, 4),
                     missing_signal_policy=self.config.missing_signal_policy,
-                    config_snapshot=config_snapshot,
+                    config_snapshot=doc_config_snapshot,
                     reason_codes=list(dict.fromkeys(reason_codes)),
                     original_retrieval_score=round(float(orig_score), 4) if orig_score is not None else None,
                     adjusted_retrieval_score=adjusted_score,

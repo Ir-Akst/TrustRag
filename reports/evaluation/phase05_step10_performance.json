@@ -1,0 +1,54 @@
+{
+  "hardware": "CPU-only Linux (no GPU accelerator)",
+  "before": {
+    "before_static": {
+      "n": 100,
+      "mean_ms": 360.1814,
+      "p50_ms": 361.6977,
+      "p95_ms": 570.8928,
+      "p99_ms": 666.1568,
+      "qps": 2.78,
+      "cpu_util_pct": 99.54,
+      "peak_heap_mib": 4.8026
+    },
+    "before_complete_adaptive": {
+      "n": 100,
+      "mean_ms": 267.8358,
+      "p50_ms": 255.3556,
+      "p95_ms": 364.9544,
+      "p99_ms": 403.853,
+      "qps": 3.73,
+      "cpu_util_pct": 99.66,
+      "peak_heap_mib": 8.1996
+    },
+    "micro_overhead": {
+      "calibration_per_doc_us": 9.738,
+      "drift_eval_window_ms": 2.4222,
+      "feedback_record_plus_summarize_us": 13.479
+    }
+  },
+  "after": {
+    "static": {
+      "n": 100,
+      "mean_ms": 77.2698,
+      "p50_ms": 71.8134,
+      "p95_ms": 136.4389,
+      "p99_ms": 161.2671,
+      "qps": 12.94,
+      "cpu_util_pct": 99.59,
+      "peak_heap_mib": 9.0511
+    },
+    "complete_adaptive": {
+      "n": 100,
+      "mean_ms": 132.268,
+      "p50_ms": 117.4069,
+      "p95_ms": 243.8907,
+      "p99_ms": 294.6037,
+      "qps": 7.56,
+      "cpu_util_pct": 99.03,
+      "peak_heap_mib": 7.0434
+    }
+  },
+  "speedup_adaptive_mean": 2.02,
+  "heap_reduction_adaptive_pct": 14.1
+}

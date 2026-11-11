@@ -1,0 +1,522 @@
+{
+  "boolq_val_in_distribution": {
+    "window_id": "boolq_val_in_distribution",
+    "overall_severity": "none",
+    "classification": "stable",
+    "confidence": 0.48,
+    "signal_results": {
+      "F1_perplexity": {
+        "stream_name": "F1_perplexity",
+        "stream_type": "continuous",
+        "baseline_n": 0,
+        "current_n": 0,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": null,
+        "insufficient_sample": true,
+        "drifted": false
+      },
+      "F2_embedding_norm": {
+        "stream_name": "F2_embedding_norm",
+        "stream_type": "continuous",
+        "baseline_n": 0,
+        "current_n": 0,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": null,
+        "insufficient_sample": true,
+        "drifted": false
+      },
+      "F3_query_match": {
+        "stream_name": "F3_query_match",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 120,
+        "psi": 0.0937,
+        "ks_statistic": 0.2083,
+        "ks_p_value": 0.003413,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": false
+      },
+      "F4_instruction_risk": {
+        "stream_name": "F4_instruction_risk",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 120,
+        "psi": 0.0,
+        "ks_statistic": 0.0,
+        "ks_p_value": 1.0,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": false
+      },
+      "F5_consensus_dev": {
+        "stream_name": "F5_consensus_dev",
+        "stream_type": "continuous",
+        "baseline_n": 179,
+        "current_n": 116,
+        "psi": 0.0305,
+        "ks_statistic": 0.0603,
+        "ks_p_value": 0.941657,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": false
+      },
+      "F6_provenance": {
+        "stream_name": "F6_provenance",
+        "stream_type": "categorical",
+        "baseline_n": 180,
+        "current_n": 120,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": 0.0,
+        "insufficient_sample": false,
+        "drifted": false
+      },
+      "G2_trust_score": {
+        "stream_name": "G2_trust_score",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 120,
+        "psi": 0.0175,
+        "ks_statistic": 0.0861,
+        "ks_p_value": 0.638208,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": false
+      },
+      "G3_verdict": {
+        "stream_name": "G3_verdict",
+        "stream_type": "categorical",
+        "baseline_n": 180,
+        "current_n": 120,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": 0.0524,
+        "insufficient_sample": false,
+        "drifted": false
+      },
+      "retrieval_quality": {
+        "stream_name": "retrieval_quality",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 120,
+        "psi": 0.2056,
+        "ks_statistic": 0.2583,
+        "ks_p_value": 0.00011,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": false
+      }
+    },
+    "summary_metrics": {
+      "baseline_n": 180.0,
+      "current_n": 120.0,
+      "active_streams": 7.0,
+      "drifted_streams": 0.0,
+      "delta_inst_high_rate": 0.0,
+      "delta_trust_mean": 0.0022,
+      "delta_f5_mean": -0.0271,
+      "delta_retrieval_quality": -0.034
+    },
+    "recommended_action": "none"
+  },
+  "clean_rag_val_domain_shift": {
+    "window_id": "clean_rag_val_domain_shift",
+    "overall_severity": "moderate",
+    "classification": "quality_degradation",
+    "confidence": 0.84,
+    "signal_results": {
+      "F1_perplexity": {
+        "stream_name": "F1_perplexity",
+        "stream_type": "continuous",
+        "baseline_n": 0,
+        "current_n": 0,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": null,
+        "insufficient_sample": true,
+        "drifted": false
+      },
+      "F2_embedding_norm": {
+        "stream_name": "F2_embedding_norm",
+        "stream_type": "continuous",
+        "baseline_n": 0,
+        "current_n": 0,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": null,
+        "insufficient_sample": true,
+        "drifted": false
+      },
+      "F3_query_match": {
+        "stream_name": "F3_query_match",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 25,
+        "psi": 0.7574,
+        "ks_statistic": 0.3978,
+        "ks_p_value": 0.001234,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "F4_instruction_risk": {
+        "stream_name": "F4_instruction_risk",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 25,
+        "psi": 0.0027,
+        "ks_statistic": 0.0,
+        "ks_p_value": 1.0,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": false
+      },
+      "F5_consensus_dev": {
+        "stream_name": "F5_consensus_dev",
+        "stream_type": "continuous",
+        "baseline_n": 179,
+        "current_n": 19,
+        "psi": 1.1211,
+        "ks_statistic": 0.1285,
+        "ks_p_value": 0.902163,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "F6_provenance": {
+        "stream_name": "F6_provenance",
+        "stream_type": "categorical",
+        "baseline_n": 180,
+        "current_n": 26,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": 0.8813,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "G2_trust_score": {
+        "stream_name": "G2_trust_score",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 25,
+        "psi": 2.238,
+        "ks_statistic": 0.6378,
+        "ks_p_value": 0.0,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "G3_verdict": {
+        "stream_name": "G3_verdict",
+        "stream_type": "categorical",
+        "baseline_n": 180,
+        "current_n": 26,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": 0.0772,
+        "insufficient_sample": false,
+        "drifted": false
+      },
+      "retrieval_quality": {
+        "stream_name": "retrieval_quality",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 26,
+        "psi": 3.7672,
+        "ks_statistic": 0.9167,
+        "ks_p_value": 0.0,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      }
+    },
+    "summary_metrics": {
+      "baseline_n": 180.0,
+      "current_n": 26.0,
+      "active_streams": 7.0,
+      "drifted_streams": 5.0,
+      "delta_inst_high_rate": 0.0,
+      "delta_trust_mean": 0.1016,
+      "delta_f5_mean": 0.0275,
+      "delta_retrieval_quality": -0.2204
+    },
+    "recommended_action": "propose_review"
+  },
+  "adv_val_attack_stream": {
+    "window_id": "adv_val_attack_stream",
+    "overall_severity": "high",
+    "classification": "suspected_attack_drift",
+    "confidence": 0.95,
+    "signal_results": {
+      "F1_perplexity": {
+        "stream_name": "F1_perplexity",
+        "stream_type": "continuous",
+        "baseline_n": 0,
+        "current_n": 0,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": null,
+        "insufficient_sample": true,
+        "drifted": false
+      },
+      "F2_embedding_norm": {
+        "stream_name": "F2_embedding_norm",
+        "stream_type": "continuous",
+        "baseline_n": 0,
+        "current_n": 0,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": null,
+        "insufficient_sample": true,
+        "drifted": false
+      },
+      "F3_query_match": {
+        "stream_name": "F3_query_match",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 36,
+        "psi": 3.4271,
+        "ks_statistic": 0.8056,
+        "ks_p_value": 0.0,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "F4_instruction_risk": {
+        "stream_name": "F4_instruction_risk",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 36,
+        "psi": 1.3661,
+        "ks_statistic": 0.1667,
+        "ks_p_value": 0.35053,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "F5_consensus_dev": {
+        "stream_name": "F5_consensus_dev",
+        "stream_type": "continuous",
+        "baseline_n": 179,
+        "current_n": 36,
+        "psi": 2.3431,
+        "ks_statistic": 0.5382,
+        "ks_p_value": 0.0,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "F6_provenance": {
+        "stream_name": "F6_provenance",
+        "stream_type": "categorical",
+        "baseline_n": 180,
+        "current_n": 36,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": 1.0,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "G2_trust_score": {
+        "stream_name": "G2_trust_score",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 36,
+        "psi": 2.6521,
+        "ks_statistic": 0.3222,
+        "ks_p_value": 0.003149,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "G3_verdict": {
+        "stream_name": "G3_verdict",
+        "stream_type": "categorical",
+        "baseline_n": 180,
+        "current_n": 36,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": 0.0655,
+        "insufficient_sample": false,
+        "drifted": false
+      },
+      "retrieval_quality": {
+        "stream_name": "retrieval_quality",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 36,
+        "psi": 5.0637,
+        "ks_statistic": 0.6667,
+        "ks_p_value": 0.0,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      }
+    },
+    "summary_metrics": {
+      "baseline_n": 180.0,
+      "current_n": 36.0,
+      "active_streams": 7.0,
+      "drifted_streams": 6.0,
+      "delta_inst_high_rate": 0.1667,
+      "delta_trust_mean": -0.0132,
+      "delta_f5_mean": -0.3216,
+      "delta_retrieval_quality": 0.0531
+    },
+    "recommended_action": "tighten_thresholds"
+  },
+  "kp_val_attack_stream": {
+    "window_id": "kp_val_attack_stream",
+    "overall_severity": "moderate",
+    "classification": "suspected_attack_drift",
+    "confidence": 0.95,
+    "signal_results": {
+      "F1_perplexity": {
+        "stream_name": "F1_perplexity",
+        "stream_type": "continuous",
+        "baseline_n": 0,
+        "current_n": 0,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": null,
+        "insufficient_sample": true,
+        "drifted": false
+      },
+      "F2_embedding_norm": {
+        "stream_name": "F2_embedding_norm",
+        "stream_type": "continuous",
+        "baseline_n": 0,
+        "current_n": 0,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": null,
+        "insufficient_sample": true,
+        "drifted": false
+      },
+      "F3_query_match": {
+        "stream_name": "F3_query_match",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 16,
+        "psi": 3.5262,
+        "ks_statistic": 0.7861,
+        "ks_p_value": 0.0,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "F4_instruction_risk": {
+        "stream_name": "F4_instruction_risk",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 16,
+        "psi": 0.0055,
+        "ks_statistic": 0.0,
+        "ks_p_value": 1.0,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": false
+      },
+      "F5_consensus_dev": {
+        "stream_name": "F5_consensus_dev",
+        "stream_type": "continuous",
+        "baseline_n": 179,
+        "current_n": 16,
+        "psi": 2.0128,
+        "ks_statistic": 0.4965,
+        "ks_p_value": 0.000728,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "F6_provenance": {
+        "stream_name": "F6_provenance",
+        "stream_type": "categorical",
+        "baseline_n": 180,
+        "current_n": 16,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": 0.9999,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "G2_trust_score": {
+        "stream_name": "G2_trust_score",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 16,
+        "psi": 1.0344,
+        "ks_statistic": 0.375,
+        "ks_p_value": 0.023251,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      },
+      "G3_verdict": {
+        "stream_name": "G3_verdict",
+        "stream_type": "categorical",
+        "baseline_n": 180,
+        "current_n": 16,
+        "psi": null,
+        "ks_statistic": null,
+        "ks_p_value": null,
+        "js_divergence": 0.0227,
+        "insufficient_sample": false,
+        "drifted": false
+      },
+      "retrieval_quality": {
+        "stream_name": "retrieval_quality",
+        "stream_type": "continuous",
+        "baseline_n": 180,
+        "current_n": 16,
+        "psi": 3.7099,
+        "ks_statistic": 0.75,
+        "ks_p_value": 0.0,
+        "js_divergence": null,
+        "insufficient_sample": false,
+        "drifted": true
+      }
+    },
+    "summary_metrics": {
+      "baseline_n": 180.0,
+      "current_n": 16.0,
+      "active_streams": 7.0,
+      "drifted_streams": 5.0,
+      "delta_inst_high_rate": 0.0,
+      "delta_trust_mean": 0.066,
+      "delta_f5_mean": -0.2883,
+      "delta_retrieval_quality": 0.0857
+    },
+    "recommended_action": "propose_review"
+  },
+  "small_sample_n5": {
+    "window_id": "small_sample_n5",
+    "overall_severity": "insufficient_sample",
+    "classification": "insufficient_sample",
+    "confidence": 0.3333,
+    "signal_results": {},
+    "summary_metrics": {
+      "baseline_n": 180.0,
+      "current_n": 5.0
+    },
+    "recommended_action": "none"
+  }
+}

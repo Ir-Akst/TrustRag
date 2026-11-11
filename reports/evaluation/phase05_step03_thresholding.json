@@ -1,0 +1,108 @@
+{
+  "security_val": {
+    "static": {
+      "flagged_or_poisoned": {
+        "count": 58,
+        "tp": 26,
+        "fp": 20,
+        "tn": 12,
+        "fn": 0,
+        "accuracy": 0.6552,
+        "precision": 0.5652,
+        "recall": 1.0,
+        "f1": 0.7222,
+        "fpr": 0.625,
+        "fnr": 0.0,
+        "roc_auc": null,
+        "pr_auc": null
+      },
+      "poisoned_only": {
+        "count": 58,
+        "tp": 12,
+        "fp": 0,
+        "tn": 32,
+        "fn": 14,
+        "accuracy": 0.7586,
+        "precision": 1.0,
+        "recall": 0.4615,
+        "f1": 0.6316,
+        "fpr": 0.0,
+        "fnr": 0.5385,
+        "roc_auc": null,
+        "pr_auc": null
+      },
+      "trust_thresholds_used": [
+        0.6
+      ],
+      "reasons": {
+        "STATIC": 8
+      }
+    },
+    "context_aware": {
+      "flagged_or_poisoned": {
+        "count": 58,
+        "tp": 26,
+        "fp": 20,
+        "tn": 12,
+        "fn": 0,
+        "accuracy": 0.6552,
+        "precision": 0.5652,
+        "recall": 1.0,
+        "f1": 0.7222,
+        "fpr": 0.625,
+        "fnr": 0.0,
+        "roc_auc": null,
+        "pr_auc": null
+      },
+      "poisoned_only": {
+        "count": 58,
+        "tp": 12,
+        "fp": 0,
+        "tn": 32,
+        "fn": 14,
+        "accuracy": 0.7586,
+        "precision": 1.0,
+        "recall": 0.4615,
+        "f1": 0.6316,
+        "fpr": 0.0,
+        "fnr": 0.5385,
+        "roc_auc": null,
+        "pr_auc": null
+      },
+      "trust_thresholds_used": [
+        0.64
+      ],
+      "reasons": {
+        "CTX_TIGHTEN_EVIDENCE_CONFLICT_OR_RISK": 8
+      }
+    }
+  },
+  "boolq_val": {
+    "static": {
+      "recall_at_5": 0.82,
+      "mean_retention": 0.794,
+      "trust_thresholds_used": [
+        0.6
+      ],
+      "reasons": {
+        "STATIC": 100
+      }
+    },
+    "context_aware": {
+      "recall_at_5": 0.82,
+      "mean_retention": 0.794,
+      "trust_thresholds_used": [
+        0.55,
+        0.6,
+        0.62,
+        0.64
+      ],
+      "reasons": {
+        "CTX_TIGHTEN_LOW_PROVENANCE_POOL": 32,
+        "CTX_STABILIZE_CLEAN_DIVERSE_POOL": 12,
+        "CTX_TIGHTEN_EVIDENCE_CONFLICT_OR_RISK": 35,
+        "CTX_NOMINAL_STATIC": 21
+      }
+    }
+  }
+}
