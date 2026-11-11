@@ -151,6 +151,8 @@ class ThresholdBounds(BaseModel):
     g1_block_max: float = Field(default=0.75, ge=0.50, le=0.90)
     removal_cap_ratio_min: float = Field(default=0.50, ge=0.20, le=0.80)
     removal_cap_ratio_max: float = Field(default=0.75, ge=0.30, le=0.90)
+    trust_weight_min: float = Field(default=0.20, ge=0.10, le=0.45)
+    trust_weight_max: float = Field(default=0.55, ge=0.45, le=0.80)
 
 
 class ContextFeatures(BaseModel):
@@ -176,6 +178,7 @@ class ThresholdRecommendation(BaseModel):
     g2_trust_threshold: float
     g2_poison_threshold: float
     removal_cap_ratio: float
+    trust_weight: float = 0.45
     used_static_fallback: bool = False
     reason_codes: list[str] = Field(default_factory=list)
     context_snapshot: dict[str, Any] = Field(default_factory=dict)

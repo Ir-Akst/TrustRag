@@ -119,6 +119,7 @@ class ContextAwareThresholdSelector:
             g2_trust_threshold=self.msd.trust_threshold,
             g2_poison_threshold=self.msd.poison_threshold,
             removal_cap_ratio=self.retrieval.removal_cap_ratio,
+            trust_weight=self.retrieval.trust_weight,
             used_static_fallback=True,
             reason_codes=[reason],
             context_snapshot={},
@@ -136,17 +137,20 @@ class ContextAwareThresholdSelector:
             self.audit_log.append(rec)
             return rec
 
+        b = self.bounds
         base_g1_flag = self.guardrails.flag_threshold
         base_g1_block = self.guardrails.block_threshold
         base_g2_trust = self.msd.trust_threshold
         base_g2_poison = self.msd.poison_threshold
         base_cap = self.retrieval.removal_cap_ratio
+        base_tw = self.retrieval.trust_weight
 
         g1_flag = base_g1_flag
         g1_block = base_g1_block
         g2_trust = base_g2_trust
         g2_poison = base_g2_poison
         cap_ratio = base_cap
+        trust_w = base_tw
         reasons: list[str] = []
 
         # Strict invariant: G1 risk, instructional ambiguity, or elevated retrieval conflict/security uncertainty
@@ -157,14 +161,22 @@ class ContextAwareThresholdSelector:
             g2_trust += 0.08
             g2_poison += 0.05
             cap_ratio += 0.15
+            trust_w = min(b.trust_weight_max, base_tw + 0.10)
             reasons.append("CTX_TIGHTEN_SUSPICIOUS_QUERY")
         elif context.security_uncertainty_ratio >= 0.25 or context.conflict_ratio >= 0.25:
             g2_trust += 0.04
             g2_poison += 0.02
             cap_ratio += 0.10
+            if context.security_uncertainty_ratio == 0.0:
+                # Topical conflict with zero instruction/low-trust anomalies: limit trust penalty on rank
+                trust_w = max(b.trust_weight_min, 0.20)
+            else:
+                trust_w = min(b.trust_weight_max, base_tw + 0.05)
             reasons.append("CTX_TIGHTEN_EVIDENCE_CONFLICT_OR_RISK")
         elif context.provenance_coverage < 0.20 and context.candidate_count >= 5:
             g2_trust += 0.02
+            if context.security_uncertainty_ratio == 0.0:
+                trust_w = max(b.trust_weight_min, 0.20)
             reasons.append("CTX_TIGHTEN_LOW_PROVENANCE_POOL")
         elif (
             context.query_intent in {"factual", "analytical"}
@@ -176,21 +188,24 @@ class ContextAwareThresholdSelector:
             and (context.provenance_coverage >= 0.50 or context.evidence_diversity >= 0.60)
         ):
             # Benign high-diversity clean context: reduce borderline G2 UNCERTAIN margin mildly
-            # while never weakening g2_poison_threshold, G1 thresholds, or removal cap.
+            # and reduce clean-pool reranking distortion while keeping poison/G1/removal cap frozen.
             g2_trust -= 0.05
+            trust_w = max(b.trust_weight_min, 0.20)
             reasons.append("CTX_STABILIZE_CLEAN_DIVERSE_POOL")
         else:
+            if context.security_uncertainty_ratio == 0.0 and context.g1_risk_score == 0.0:
+                trust_w = max(b.trust_weight_min, 0.20)
             reasons.append("CTX_NOMINAL_STATIC")
 
         # Hard clamping: security floors ensure zero weakening of poison detection, G1 blocking, or removal cap
-        b = self.bounds
         g1_flag = round(min(min(base_g1_flag, b.g1_flag_max), max(b.g1_flag_min, g1_flag)), 4)
         g1_block = round(min(min(base_g1_block, b.g1_block_max), max(b.g1_block_min, g1_block)), 4)
         g2_trust = round(min(b.g2_trust_max, max(b.g2_trust_min, g2_trust)), 4)
         g2_poison = round(min(b.g2_poison_max, max(max(base_g2_poison, b.g2_poison_min), g2_poison)), 4)
         cap_ratio = round(min(b.removal_cap_ratio_max, max(max(base_cap, b.removal_cap_ratio_min), cap_ratio)), 4)
+        trust_w = round(min(b.trust_weight_max, max(b.trust_weight_min, trust_w)), 4)
 
-        values = (g1_flag, g1_block, g2_trust, g2_poison, cap_ratio)
+        values = (g1_flag, g1_block, g2_trust, g2_poison, cap_ratio, trust_w)
         if (
             not all(math.isfinite(v) for v in values)
             or g2_poison >= g2_trust
@@ -206,6 +221,7 @@ class ContextAwareThresholdSelector:
             g2_trust_threshold=g2_trust,
             g2_poison_threshold=g2_poison,
             removal_cap_ratio=cap_ratio,
+            trust_weight=trust_w,
             used_static_fallback=False,
             reason_codes=reasons,
             context_snapshot=context.model_dump(),

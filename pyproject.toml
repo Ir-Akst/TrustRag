@@ -11,6 +11,7 @@ Homepage = "https://example.com/trustrag"
 
 [project.scripts]
 trustrag-data = "trustrag.data.cli:main"
+trustrag-pipeline = "trustrag.pipeline.cli:main"
 
 [build-system]
 requires = ["setuptools>=64", "wheel"]
@@ -21,7 +22,13 @@ package-dir = {"" = "src"}
 packages = ["trustrag"]
 
 [tool.setuptools.package-data]
-"*" = ["configs/*.yaml"]
+"*" = ["configs/*.yaml", "configs/adaptive/*.json"]
+
+[tool.mypy]
+mypy_path = "src"
+ignore_missing_imports = true
+explicit_package_bases = true
+warn_unused_configs = true
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]

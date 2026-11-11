@@ -1,0 +1,123 @@
+{
+  "real_world_retrieval": {
+    "boolq_val_n100": {
+      "original_rag_wilson": [
+        0.9,
+        0.8256,
+        0.9448
+      ],
+      "static_trustrag_wilson": [
+        0.82,
+        0.7333,
+        0.883
+      ],
+      "phase06_adaptive_wilson": [
+        0.84,
+        0.7558,
+        0.899
+      ],
+      "static_vs_phase06_mcnemar": {
+        "n": 100,
+        "b_a_only": 0,
+        "c_b_only": 2,
+        "discordant": 2,
+        "p_value": 0.5,
+        "method": "exact_binomial",
+        "significant_0_05": false
+      },
+      "latency_paired_static_vs_phase06": {
+        "n": 100,
+        "mean_a": 40.3465,
+        "mean_b": 62.6127,
+        "mean_diff_b_minus_a": 22.2662,
+        "cohens_d": 1.5223,
+        "p_value": 0.0002,
+        "significant_0_05": true
+      }
+    },
+    "clean_rag_test_n15": {
+      "static_recall_at_5": 0.8,
+      "phase06_recall_at_5": 0.8
+    }
+  },
+  "real_world_cross_domain_verification": {
+    "expertqa_test": {
+      "n": 3,
+      "verdicts": {
+        "INSUFFICIENT_EVIDENCE": 1,
+        "CONTRADICTED": 2
+      },
+      "false_supports_on_non_supported": 0
+    },
+    "ragtruth_test": {
+      "n": 5,
+      "verdicts": {
+        "INSUFFICIENT_EVIDENCE": 5
+      },
+      "false_supports_on_non_supported": 0
+    },
+    "wice_test": {
+      "n": 3,
+      "verdicts": {
+        "INSUFFICIENT_EVIDENCE": 3
+      },
+      "false_supports_on_non_supported": 0
+    }
+  },
+  "curated_synthetic_security": {
+    "sec_test_poisoned_metrics": {
+      "count": 64,
+      "tp": 10,
+      "fp": 0,
+      "tn": 35,
+      "fn": 19,
+      "accuracy": 0.7031,
+      "precision": 1.0,
+      "recall": 0.3448,
+      "f1": 0.5128,
+      "fpr": 0.0,
+      "fnr": 0.6552,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "sec_test_corpus_asr": 0.5714,
+    "unseen_paraphrase_unicode_probes": {
+      "prevented": 3,
+      "total": 3,
+      "rate": 1.0
+    },
+    "sql_injection_drop_table_blocked": true
+  },
+  "production_concurrency": {
+    "workers_1": {
+      "n_requests": 96,
+      "wall_seconds": 4.4469,
+      "aggregate_qps": 21.59,
+      "mean_req_ms": 46.2231,
+      "p95_req_ms": 95.1927,
+      "p99_req_ms": 104.9726,
+      "blocked": 16,
+      "fail_safe_fallbacks": 0
+    },
+    "workers_4": {
+      "n_requests": 96,
+      "wall_seconds": 5.6781,
+      "aggregate_qps": 16.91,
+      "mean_req_ms": 236.1765,
+      "p95_req_ms": 413.791,
+      "p99_req_ms": 696.3369,
+      "blocked": 16,
+      "fail_safe_fallbacks": 0
+    },
+    "workers_8": {
+      "n_requests": 96,
+      "wall_seconds": 4.5248,
+      "aggregate_qps": 21.22,
+      "mean_req_ms": 372.5749,
+      "p95_req_ms": 511.1599,
+      "p99_req_ms": 536.4259,
+      "blocked": 16,
+      "fail_safe_fallbacks": 0
+    }
+  }
+}

@@ -329,7 +329,7 @@ class MultiSignalDetector:
                     s.effective_weight = 0.0
                 trust_score = round(_sigmoid(self.config.bias), 4)
 
-            doc_config_snapshot = dict(config_snapshot)
+            doc_config_snapshot: Dict[str, Any] = dict(config_snapshot)
             doc_config_snapshot["raw_trust_score"] = trust_score
             if self.calibrator is not None and not insufficient_signals:
                 cal_score, cal_fallback = self.calibrator.calibrate_score(trust_score)

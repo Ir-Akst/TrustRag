@@ -47,7 +47,11 @@ class TelemetryRecord:
         retention_ratio = min(1.0, len(retained_docs) / max(1, requested_top_k))
         rels = [a.original_retrieval_score for a in assessments if a.original_retrieval_score is not None]
         mean_rel = float(sum(rels) / len(rels)) if rels else 0.0
-        g3_v = g3_report.verdict.value if g3_report is not None else None
+        g3_v = (
+            g3_report.verdict.value
+            if g3_report is not None and g3_report.verdict is not None
+            else (g3_report.overall_status.to_answer_verdict().value if g3_report is not None else None)
+        )
 
         for a in assessments:
             prov = (a.provenance or "").strip().lower()

@@ -276,6 +276,7 @@ class AdaptiveDefenseController:
         adapted.msd.trust_threshold = rec.g2_trust_threshold
         adapted.msd.poison_threshold = rec.g2_poison_threshold
         adapted.retrieval.removal_cap_ratio = rec.removal_cap_ratio
+        adapted.retrieval.trust_weight = rec.trust_weight
 
         detector = MultiSignalDetector(config=adapted.msd, calibrator=active_cal)
         retriever = self._clone_indexed_retriever(
@@ -291,7 +292,7 @@ class AdaptiveDefenseController:
         assessments = list(diag.get("raw_g2_assessments") or (resp.trust_report.g2_assessments if resp.trust_report else []))
         g3_verdict = (
             resp.trust_report.g3_verification.verdict.value
-            if resp.trust_report and resp.trust_report.g3_verification
+            if resp.trust_report and resp.trust_report.g3_verification and resp.trust_report.g3_verification.verdict
             else None
         )
 
