@@ -110,11 +110,13 @@ class BaseAdapter(ABC):
         limit: Optional[int] = None,
         cache_dir: Optional[Union[str, Path]] = None,
         offline: bool = False,
+        local_path: Optional[Union[str, Path]] = None,
         config_name: Optional[str] = None,
     ) -> None:
         self.split = split
         self.limit = limit
         self.offline = offline
+        self.local_path = Path(local_path) if local_path else None
         self.config_name = config_name or getattr(self.metadata, "default_config", None)
         self.cache_dir = Path(cache_dir) if cache_dir else Path("data/raw") / self.metadata.name
         self.stats = ProcessingStats()
@@ -231,8 +233,8 @@ class BaseAdapter(ABC):
                     continue
 
                 # Deduplication check
-                record_id = getattr(record, "record_id", None) or getattr(record, "document_id", None) or getattr(record, "query_id", "")
-                content_hash = getattr(record, "content_hash", "")
+                record_id = str(getattr(record, "record_id", None) or getattr(record, "document_id", None) or getattr(record, "query_id", "") or "")
+                content_hash = str(getattr(record, "content_hash", "") or "")
                 if deduplicate and not self.deduplicator.check_and_add(record_id, content_hash):
                     self.stats.duplicate_records += 1
                     continue

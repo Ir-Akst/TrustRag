@@ -1,0 +1,460 @@
+{
+  "experiment_id": "g3_linguistic_suite_g3_linguistic_suite_eval_ed2dae3f96",
+  "experiment_name": "g3_linguistic_suite",
+  "timestamp": "2026-11-11T16:30:43.274048Z",
+  "dataset": "g3_linguistic_suite",
+  "split": "eval",
+  "dataset_path": "tools/spec_validation/fixtures/historical_regression_cases.json",
+  "dataset_manifest_checksum": null,
+  "partition_file_sha256": null,
+  "is_synthetic": true,
+  "model": "g3-verifier-plus-pipeline-stage7",
+  "backend": "tfidf_rule_linguistic",
+  "configuration": {
+    "experiment_name": "g3_linguistic_suite",
+    "dataset_name": "g3_linguistic_suite",
+    "split": "eval",
+    "dataset_dir": null,
+    "model_name": "g3-verifier-plus-pipeline-stage7",
+    "backend": "tfidf_rule_linguistic",
+    "random_seed": 42,
+    "top_k": 5,
+    "limit": null,
+    "is_synthetic": true,
+    "parameters": {}
+  },
+  "random_seed": 42,
+  "total_examples": 25,
+  "successful_examples": 25,
+  "failed_examples": 0,
+  "skipped_examples": 0,
+  "invalid_examples": 0,
+  "metrics": {
+    "total_cases": 25,
+    "passed_cases": 25,
+    "pass_rate": 1.0,
+    "false_support_count": 0,
+    "failures": [],
+    "latency_ms": {
+      "count": 25,
+      "mean": 3.7697,
+      "std": 3.7687,
+      "min": 1.2111,
+      "p50": 1.9697,
+      "p95": 11.7553,
+      "p99": 12.4141,
+      "max": 12.6185
+    },
+    "execution_accounting": {
+      "total_examples": 25,
+      "successful_examples": 25,
+      "failed_examples": 0,
+      "skipped_examples": 0,
+      "invalid_examples": 0
+    }
+  },
+  "execution_time_seconds": 0.094806,
+  "errors": [],
+  "sample_outcomes": [
+    {
+      "sample_id": "h1_mand_or_cures",
+      "status": "success",
+      "latency_ms": 6.9256,
+      "prediction": {
+        "actual_verdict": "INSUFFICIENT_EVIDENCE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "HIGH-01_coordination_or"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h1_mand_or_toxic",
+      "status": "success",
+      "latency_ms": 2.1254,
+      "prediction": {
+        "actual_verdict": "INSUFFICIENT_EVIDENCE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "HIGH-01_coordination_or"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h1_mand_while_coma",
+      "status": "success",
+      "latency_ms": 1.9697,
+      "prediction": {
+        "actual_verdict": "INSUFFICIENT_EVIDENCE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "HIGH-01_coordination_while"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h1_mand_aswell_paralysis",
+      "status": "success",
+      "latency_ms": 1.963,
+      "prediction": {
+        "actual_verdict": "INSUFFICIENT_EVIDENCE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "HIGH-01_coordination_as_well_as"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h1_nor_neg_ev",
+      "status": "success",
+      "latency_ms": 2.0922,
+      "prediction": {
+        "actual_verdict": "INSUFFICIENT_EVIDENCE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "HIGH-01_coordination_nor"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h1_yet_long_shared_prefix",
+      "status": "success",
+      "latency_ms": 2.1322,
+      "prediction": {
+        "actual_verdict": "INSUFFICIENT_EVIDENCE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "HIGH-01_coordination_yet"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h1_pos_and_or",
+      "status": "success",
+      "latency_ms": 2.0459,
+      "prediction": {
+        "actual_verdict": "SUPPORTED",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "SUPPORTED",
+        "category": "HIGH-01_positive_control"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h2_irreg_withdrew",
+      "status": "success",
+      "latency_ms": 2.4114,
+      "prediction": {
+        "actual_verdict": "INSUFFICIENT_EVIDENCE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "HIGH-02_matrix_irregular_past"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h2_irreg_overcame",
+      "status": "success",
+      "latency_ms": 2.6016,
+      "prediction": {
+        "actual_verdict": "INSUFFICIENT_EVIDENCE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "HIGH-02_matrix_irregular_past"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h2_pos_comma_series",
+      "status": "success",
+      "latency_ms": 1.6225,
+      "prediction": {
+        "actual_verdict": "SUPPORTED",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "SUPPORTED",
+        "category": "HIGH-02_positive_control"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h3_same_sched_diff_subj",
+      "status": "success",
+      "latency_ms": 1.6444,
+      "prediction": {
+        "actual_verdict": "INSUFFICIENT_EVIDENCE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "HIGH-03_schedule_subject_association"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h3_plural_no_aux_diff_subj",
+      "status": "success",
+      "latency_ms": 1.3491,
+      "prediction": {
+        "actual_verdict": "INSUFFICIENT_EVIDENCE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "HIGH-03_schedule_subject_association"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h3_pos_active",
+      "status": "success",
+      "latency_ms": 1.4502,
+      "prediction": {
+        "actual_verdict": "SUPPORTED",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "SUPPORTED",
+        "category": "HIGH-03_positive_control"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "h3_pos_passive",
+      "status": "success",
+      "latency_ms": 1.3436,
+      "prediction": {
+        "actual_verdict": "SUPPORTED",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "SUPPORTED",
+        "category": "HIGH-03_positive_control"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "3a_comparative_faster",
+      "status": "success",
+      "latency_ms": 1.3956,
+      "prediction": {
+        "actual_verdict": "INSUFFICIENT_EVIDENCE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "SECTION_3A_comparative_unsupported"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "sec3d_vs_supplement_e0100",
+      "status": "success",
+      "latency_ms": 12.6185,
+      "prediction": {
+        "actual_verdict": "POISONED_QUARANTINE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "POISONED_QUARANTINE",
+        "category": "SECTION_3D_unicode_bypass"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "sec3d_hangul_filler_3164",
+      "status": "success",
+      "latency_ms": 7.3022,
+      "prediction": {
+        "actual_verdict": "POISONED_QUARANTINE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "POISONED_QUARANTINE",
+        "category": "SECTION_3D_unicode_bypass"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "sec2_benign_emoji_1",
+      "status": "success",
+      "latency_ms": 11.7669,
+      "prediction": {
+        "actual_verdict": "CLEAN_ALLOW",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "CLEAN_ALLOW",
+        "category": "SECTION_2_benign_emoji_clean"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "sec2_benign_emoji_clinic",
+      "status": "success",
+      "latency_ms": 11.7087,
+      "prediction": {
+        "actual_verdict": "CLEAN_ALLOW",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "CLEAN_ALLOW",
+        "category": "SECTION_2_benign_emoji_clean"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "ling_partial_01",
+      "status": "success",
+      "latency_ms": 1.4305,
+      "prediction": {
+        "actual_verdict": "PARTIALLY_SUPPORTED",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "PARTIALLY_SUPPORTED",
+        "category": "PARTIAL_SUPPORT"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "ling_conflict_01",
+      "status": "success",
+      "latency_ms": 1.5549,
+      "prediction": {
+        "actual_verdict": "UNCERTAIN",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "CONFLICTING_EVIDENCE"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "ling_dosage_01",
+      "status": "success",
+      "latency_ms": 1.4836,
+      "prediction": {
+        "actual_verdict": "CONTRADICTED",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "CONTRADICTED",
+        "category": "DOSAGE_NUMERIC_DIFF"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "ling_scope_01",
+      "status": "success",
+      "latency_ms": 1.4613,
+      "prediction": {
+        "actual_verdict": "INSUFFICIENT_EVIDENCE",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "NOT_SUPPORTED",
+        "category": "RESTRICTIVE_SCOPE"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "ling_neg_01",
+      "status": "success",
+      "latency_ms": 1.2111,
+      "prediction": {
+        "actual_verdict": "CONTRADICTED",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "CONTRADICTED",
+        "category": "EXPLICIT_NEGATION"
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "ling_unicode_ans_01",
+      "status": "success",
+      "latency_ms": 10.6328,
+      "prediction": {
+        "actual_verdict": "QUARANTINED_BY_STAGE7",
+        "passed": true,
+        "false_supported": false
+      },
+      "ground_truth": {
+        "expected": "QUARANTINED_BY_STAGE7",
+        "category": "UNICODE_ANSWER_OBFUSCATION"
+      },
+      "metadata": {},
+      "error": null
+    }
+  ]
+}

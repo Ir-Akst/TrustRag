@@ -1,0 +1,3 @@
+sample_id,status,latency_ms,prediction,ground_truth,error
+_can an odd number be divided b,success,4.7467,"{""retrieved_ids"": [""_can an odd number be divided b_doc""], ""abstained"": false, ""overall_decision"": ""TRUSTED"", ""boolean_em"": 0.0, ""gt_doc_cited"": 1.0, ""passage_overlap"": 0.2381, ""faithful"": 1.0}","{""gt_doc_id"": ""_can an odd number be divided b_doc"", ""answer"": ""yes""}",
+_can u drive in canada with us ,success,4.0892,"{""retrieved_ids"": [""_can u drive in canada with us _doc""], ""abstained"": false, ""overall_decision"": ""TRUSTED"", ""boolean_em"": 0.0, ""gt_doc_cited"": 1.0, ""passage_overlap"": 1.0, ""faithful"": 1.0}","{""gt_doc_id"": ""_can u drive in canada with us _doc"", ""answer"": ""yes""}",

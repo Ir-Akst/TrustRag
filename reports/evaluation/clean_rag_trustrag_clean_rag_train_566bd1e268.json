@@ -1,0 +1,2491 @@
+{
+  "experiment_id": "clean_rag_trustrag_clean_rag_train_566bd1e268",
+  "experiment_name": "clean_rag_trustrag",
+  "timestamp": "2026-11-11T16:23:30.770793Z",
+  "dataset": "clean_rag",
+  "split": "train",
+  "dataset_path": "data/benchmarks_backup/clean_rag/train.jsonl",
+  "dataset_manifest_checksum": "5a60a9571bb888dff1b2db6b5918ee22b41298d915234f47650b8cea7ca94ada",
+  "partition_file_sha256": "4268d94ea7827ab475e9eabc80a4d2e63942a0f488da41711ad282932164a244",
+  "is_synthetic": false,
+  "model": "trustrag-full-extractive",
+  "backend": "tfidf_extractive",
+  "configuration": {
+    "experiment_name": "clean_rag_trustrag",
+    "dataset_name": "clean_rag",
+    "split": "train",
+    "dataset_dir": "data/benchmarks_backup/clean_rag",
+    "model_name": "trustrag-full-extractive",
+    "backend": "tfidf_extractive",
+    "random_seed": 42,
+    "top_k": 5,
+    "limit": null,
+    "is_synthetic": false,
+    "parameters": {
+      "use_defenses": true,
+      "corpus_size": 70,
+      "g1_enabled": true,
+      "g2_enabled": true,
+      "g3_enabled": true,
+      "srm_enabled": true
+    }
+  },
+  "random_seed": 42,
+  "total_examples": 70,
+  "successful_examples": 70,
+  "failed_examples": 0,
+  "skipped_examples": 0,
+  "invalid_examples": 0,
+  "metrics": {
+    "corpus_size": 70,
+    "top_k": 5,
+    "precision_at_1": 0.7571,
+    "precision_at_5": 0.361,
+    "recall_at_1": 0.7571,
+    "recall_at_5": 0.8571,
+    "mrr": 0.7945,
+    "mean_top1_relevance": 0.2361,
+    "mean_evidence_relevance": 0.1305,
+    "boolean_exact_match": 0.0,
+    "extractive_gt_doc_hit_rate": 0.8286,
+    "mean_gt_passage_overlap": 0.3036,
+    "answer_faithfulness_rate": 0.6429,
+    "abstention_rate": 0.0143,
+    "mean_input_tokens": 256.61,
+    "mean_output_tokens": 146.1,
+    "latency_ms": {
+      "count": 70,
+      "mean": 19.984,
+      "std": 9.6834,
+      "min": 2.3765,
+      "p50": 18.8514,
+      "p95": 37.7244,
+      "p99": 39.8237,
+      "max": 41.5511
+    },
+    "throughput_qps": 50.04,
+    "execution_accounting": {
+      "total_examples": 70,
+      "successful_examples": 70,
+      "failed_examples": 0,
+      "skipped_examples": 0,
+      "invalid_examples": 0
+    }
+  },
+  "execution_time_seconds": 2.076178,
+  "errors": [],
+  "sample_outcomes": [
+    {
+      "sample_id": "_is house tax and property tax ",
+      "status": "success",
+      "latency_ms": 18.4526,
+      "prediction": {
+        "retrieved_ids": [
+          "_is house tax and property tax _doc",
+          "_is federal income tax the same_doc",
+          "_can an odd number be divided b_doc",
+          "_does the president live in the_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.1852,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is house tax and property tax _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.25,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.3857,
+        "mean_relevance": 0.137875,
+        "input_tokens": 364,
+        "output_tokens": 159
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is pain experienced in a missi",
+      "status": "success",
+      "latency_ms": 15.2182,
+      "prediction": {
+        "retrieved_ids": [
+          "_is pain experienced in a missi_doc",
+          "_is it bad to wash your hair wi_doc",
+          "_is salt lake city the biggest _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2683,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is pain experienced in a missi_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.3333333333333333,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1169,
+        "mean_relevance": 0.08120000000000001,
+        "input_tokens": 284,
+        "output_tokens": 192
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is harry potter and the escape",
+      "status": "success",
+      "latency_ms": 19.9689,
+      "prediction": {
+        "retrieved_ids": [
+          "_is harry potter and the escape_doc",
+          "_is there a group called the fi_doc",
+          "_is it legal to do a cover of a_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "CONTRADICTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2308,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is harry potter and the escape_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.3333333333333333,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.4081,
+        "mean_relevance": 0.14933333333333335,
+        "input_tokens": 303,
+        "output_tokens": 250
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there a difference between ",
+      "status": "success",
+      "latency_ms": 15.6389,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there a difference between _doc",
+          "_is pureed tomatoes the same as_doc",
+          "_can carbon form polar covalent_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2203,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there a difference between _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.3333333333333333,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.0933,
+        "mean_relevance": 0.06566666666666666,
+        "input_tokens": 233,
+        "output_tokens": 122
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can an odd number be divided b",
+      "status": "success",
+      "latency_ms": 10.4335,
+      "prediction": {
+        "retrieved_ids": [
+          "_can an odd number be divided b_doc",
+          "_does p o box come before stree_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.1923,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can an odd number be divided b_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2107,
+        "mean_relevance": 0.1401,
+        "input_tokens": 229,
+        "output_tokens": 75
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there a play off for third ",
+      "status": "success",
+      "latency_ms": 30.2584,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there a play off for third _doc",
+          "_did anyone from the 1980 us ho_doc",
+          "_were the twin towers the world_doc",
+          "_do the runners up on survivor _doc",
+          "_is there such a thing as a tur_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.253,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there a play off for third _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1367,
+        "mean_relevance": 0.0717,
+        "input_tokens": 252,
+        "output_tokens": 170
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can minors drink with parents ",
+      "status": "success",
+      "latency_ms": 39.0476,
+      "prediction": {
+        "retrieved_ids": [
+          "_were the twin towers the world_doc",
+          "_is durham university part of t_doc",
+          "_did deion sanders ever win a w_doc",
+          "_is the old panama canal still _doc",
+          "_does deadpool have a kid in th_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0221,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can minors drink with parents _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.1077,
+        "mean_relevance": 0.07376,
+        "input_tokens": 290,
+        "output_tokens": 178
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is the show bloodline based on",
+      "status": "success",
+      "latency_ms": 22.4896,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there a sequel to love find_doc",
+          "_is the show bloodline based on_doc",
+          "_is there any next part of aven_doc",
+          "_does it cost money to renounce_doc",
+          "_is there a tiebreaker in final_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.4194,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is the show bloodline based on_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.2,
+        "r_at_1": 0.0,
+        "r_at_k": 1.0,
+        "mrr": 0.5,
+        "top1_relevance": 0.087,
+        "mean_relevance": 0.058899999999999994,
+        "input_tokens": 264,
+        "output_tokens": 215
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is it bad to wash your hair wi",
+      "status": "success",
+      "latency_ms": 7.0872,
+      "prediction": {
+        "retrieved_ids": [
+          "_is it bad to wash your hair wi_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.5217,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is it bad to wash your hair wi_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.3078,
+        "mean_relevance": 0.3078,
+        "input_tokens": 107,
+        "output_tokens": 61
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_will there be a season 8 of va",
+      "status": "success",
+      "latency_ms": 26.8051,
+      "prediction": {
+        "retrieved_ids": [
+          "_will there be a season 8 of va_doc",
+          "_is the tv show the resident ov_doc",
+          "_is mount everest a part of the_doc",
+          "_is harry potter and the escape_doc",
+          "_is a fire 7 the same as a kind_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.3279,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_will there be a season 8 of va_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2405,
+        "mean_relevance": 0.08206,
+        "input_tokens": 232,
+        "output_tokens": 143
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is durham university part of t",
+      "status": "success",
+      "latency_ms": 20.4502,
+      "prediction": {
+        "retrieved_ids": [
+          "_is durham university part of t_doc",
+          "_is there a play off for third _doc",
+          "_is there a player in the nfl m_doc",
+          "_is a german shepard the same a_doc",
+          "_did deion sanders ever win a w_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.3333,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is durham university part of t_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2923,
+        "mean_relevance": 0.08326,
+        "input_tokens": 228,
+        "output_tokens": 183
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is the tv show the resident ov",
+      "status": "success",
+      "latency_ms": 29.3725,
+      "prediction": {
+        "retrieved_ids": [
+          "_is the tv show the resident ov_doc",
+          "_will there be a season 8 of va_doc",
+          "_do the runners up on survivor _doc",
+          "_did anyone from the 1980 us ho_doc",
+          "_does damon and elena get toget_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2796,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is the tv show the resident ov_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1849,
+        "mean_relevance": 0.08144,
+        "input_tokens": 303,
+        "output_tokens": 156
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_does magnesium citrate have ci",
+      "status": "success",
+      "latency_ms": 11.026,
+      "prediction": {
+        "retrieved_ids": [
+          "_does magnesium citrate have ci_doc",
+          "_do female ferrets die if they _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.6176,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_does magnesium citrate have ci_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.498,
+        "mean_relevance": 0.26065,
+        "input_tokens": 159,
+        "output_tokens": 91
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_does p o box come before stree",
+      "status": "success",
+      "latency_ms": 15.7131,
+      "prediction": {
+        "retrieved_ids": [
+          "_does p o box come before stree_doc",
+          "_can there be a word without a _doc",
+          "_do female ferrets die if they _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.1605,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_does p o box come before stree_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.3333333333333333,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.4611,
+        "mean_relevance": 0.16773333333333332,
+        "input_tokens": 306,
+        "output_tokens": 156
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_does a spark plug keep an engi",
+      "status": "success",
+      "latency_ms": 24.4465,
+      "prediction": {
+        "retrieved_ids": [
+          "_does a spark plug keep an engi_doc",
+          "_do female ferrets die if they _doc",
+          "_is a fire 7 the same as a kind_doc",
+          "_is an engine speed sensor the _doc",
+          "_do you need to break in a car_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.3091,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_does a spark plug keep an engi_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2876,
+        "mean_relevance": 0.09838,
+        "input_tokens": 384,
+        "output_tokens": 185
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is a cape and a cloak the same",
+      "status": "success",
+      "latency_ms": 6.1783,
+      "prediction": {
+        "retrieved_ids": [
+          "_is a cape and a cloak the same_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.5417,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is a cape and a cloak the same_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2896,
+        "mean_relevance": 0.2896,
+        "input_tokens": 51,
+        "output_tokens": 43
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_does it cost money to renounce",
+      "status": "success",
+      "latency_ms": 20.5317,
+      "prediction": {
+        "retrieved_ids": [
+          "_do female ferrets die if they _doc",
+          "_is house tax and property tax _doc",
+          "_does it cost money to renounce_doc",
+          "_does only the winner get money_doc",
+          "_do the runners up on survivor _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.3438,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_does it cost money to renounce_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.2,
+        "r_at_1": 0.0,
+        "r_at_k": 1.0,
+        "mrr": 0.3333333333333333,
+        "top1_relevance": 0.0327,
+        "mean_relevance": 0.0497,
+        "input_tokens": 357,
+        "output_tokens": 137
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is a fire 7 the same as a kind",
+      "status": "success",
+      "latency_ms": 18.9848,
+      "prediction": {
+        "retrieved_ids": [
+          "_is a fire 7 the same as a kind_doc",
+          "_is mount everest a part of the_doc",
+          "_are there nuclear power plants_doc",
+          "_is the tv show the resident ov_doc",
+          "_were the twin towers the world_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.1524,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is a fire 7 the same as a kind_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2876,
+        "mean_relevance": 0.08374000000000001,
+        "input_tokens": 235,
+        "output_tokens": 154
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can you drink alcohol with you",
+      "status": "success",
+      "latency_ms": 27.2526,
+      "prediction": {
+        "retrieved_ids": [
+          "_can minors drink with parents _doc",
+          "_can you drink alcohol with you_doc",
+          "_has wisconsin ever been in the_doc",
+          "_does damon and elena get toget_doc",
+          "_did the girl in the lost world_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2687,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can you drink alcohol with you_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.2,
+        "r_at_1": 0.0,
+        "r_at_k": 1.0,
+        "mrr": 0.5,
+        "top1_relevance": 0.1755,
+        "mean_relevance": 0.08356,
+        "input_tokens": 275,
+        "output_tokens": 179
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_do penguins have feathers aris",
+      "status": "success",
+      "latency_ms": 6.668,
+      "prediction": {
+        "retrieved_ids": [
+          "_do penguins have feathers aris_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.6098,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_do penguins have feathers aris_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.216,
+        "mean_relevance": 0.216,
+        "input_tokens": 98,
+        "output_tokens": 61
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_do you need to break in a car",
+      "status": "success",
+      "latency_ms": 13.011,
+      "prediction": {
+        "retrieved_ids": [
+          "_do you need to break in a car_doc",
+          "_do the runners up on survivor _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2301,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_do you need to break in a car_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1517,
+        "mean_relevance": 0.0937,
+        "input_tokens": 320,
+        "output_tokens": 120
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there a golf course at the ",
+      "status": "success",
+      "latency_ms": 27.7727,
+      "prediction": {
+        "retrieved_ids": [
+          "_did anyone from the 1980 us ho_doc",
+          "_has anyone hit a hole in one o_doc",
+          "_do the runners up on survivor _doc",
+          "_do you need to break in a car_doc",
+          "_is there a golf course at the _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0377,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there a golf course at the _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.2,
+        "r_at_1": 0.0,
+        "r_at_k": 1.0,
+        "mrr": 0.2,
+        "top1_relevance": 0.0572,
+        "mean_relevance": 0.0751,
+        "input_tokens": 289,
+        "output_tokens": 172
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_does deadpool have a kid in th",
+      "status": "success",
+      "latency_ms": 17.9371,
+      "prediction": {
+        "retrieved_ids": [
+          "_does deadpool have a kid in th_doc",
+          "_is there any next part of aven_doc",
+          "_do female ferrets die if they _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2308,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_does deadpool have a kid in th_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.3333333333333333,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2161,
+        "mean_relevance": 0.09646666666666666,
+        "input_tokens": 319,
+        "output_tokens": 180
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is federal income tax the same",
+      "status": "success",
+      "latency_ms": 21.1304,
+      "prediction": {
+        "retrieved_ids": [
+          "_is federal income tax the same_doc",
+          "_is house tax and property tax _doc",
+          "_can minors drink with parents _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2745,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is federal income tax the same_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.3333333333333333,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.401,
+        "mean_relevance": 0.1953,
+        "input_tokens": 409,
+        "output_tokens": 227
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is an engine speed sensor the ",
+      "status": "success",
+      "latency_ms": 22.3367,
+      "prediction": {
+        "retrieved_ids": [
+          "_is an engine speed sensor the _doc",
+          "_does a spark plug keep an engi_doc",
+          "_is angular frequency and angul_doc",
+          "_do you need to break in a car_doc",
+          "_do radio waves travel at the s_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.3659,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is an engine speed sensor the _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2738,
+        "mean_relevance": 0.08997999999999999,
+        "input_tokens": 287,
+        "output_tokens": 196
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is indiana jones temple of doo",
+      "status": "success",
+      "latency_ms": 13.1011,
+      "prediction": {
+        "retrieved_ids": [
+          "_is indiana jones temple of doo_doc",
+          "_is there a sequel to love find_doc",
+          "_is the tv show the resident ov_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2708,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is indiana jones temple of doo_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.3333333333333333,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.35,
+        "mean_relevance": 0.1325333333333333,
+        "input_tokens": 273,
+        "output_tokens": 170
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there any next part of aven",
+      "status": "success",
+      "latency_ms": 9.7699,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there any next part of aven_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.6792,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there any next part of aven_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2575,
+        "mean_relevance": 0.2575,
+        "input_tokens": 119,
+        "output_tokens": 90
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is it legal to do a cover of a",
+      "status": "success",
+      "latency_ms": 19.4231,
+      "prediction": {
+        "retrieved_ids": [
+          "_can you drink alcohol with you_doc",
+          "_can minors drink with parents _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0331,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is it legal to do a cover of a_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.2787,
+        "mean_relevance": 0.1655,
+        "input_tokens": 228,
+        "output_tokens": 179
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can carbon form polar covalent",
+      "status": "success",
+      "latency_ms": 11.6694,
+      "prediction": {
+        "retrieved_ids": [
+          "_can carbon form polar covalent_doc",
+          "_does magnesium citrate have ci_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2386,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can carbon form polar covalent_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.182,
+        "mean_relevance": 0.11225,
+        "input_tokens": 194,
+        "output_tokens": 106
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is columbus day a national hol",
+      "status": "success",
+      "latency_ms": 32.2046,
+      "prediction": {
+        "retrieved_ids": [
+          "_is columbus day a national hol_doc",
+          "_does the president live in the_doc",
+          "_are there nuclear power plants_doc",
+          "_were the twin towers the world_doc",
+          "_can an emt-basic start an iv_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.4586,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is columbus day a national hol_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2907,
+        "mean_relevance": 0.09462000000000001,
+        "input_tokens": 317,
+        "output_tokens": 251
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is pureed tomatoes the same as",
+      "status": "success",
+      "latency_ms": 8.233,
+      "prediction": {
+        "retrieved_ids": [
+          "_is pureed tomatoes the same as_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 1.0,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is pureed tomatoes the same as_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.4722,
+        "mean_relevance": 0.4722,
+        "input_tokens": 44,
+        "output_tokens": 48
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can there be a word without a ",
+      "status": "success",
+      "latency_ms": 7.4987,
+      "prediction": {
+        "retrieved_ids": [
+          "_can there be a word without a _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 1.0,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can there be a word without a _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.3971,
+        "mean_relevance": 0.3971,
+        "input_tokens": 76,
+        "output_tokens": 84
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_does only the winner get money",
+      "status": "success",
+      "latency_ms": 18.7181,
+      "prediction": {
+        "retrieved_ids": [
+          "_does only the winner get money_doc",
+          "_do female ferrets die if they _doc",
+          "_do the runners up on survivor _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.3647,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_does only the winner get money_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.3333333333333333,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2095,
+        "mean_relevance": 0.0856,
+        "input_tokens": 308,
+        "output_tokens": 154
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there such a thing as a tur",
+      "status": "success",
+      "latency_ms": 8.8502,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there such a thing as a tur_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.7778,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there such a thing as a tur_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.3074,
+        "mean_relevance": 0.3074,
+        "input_tokens": 93,
+        "output_tokens": 84
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_has anyone hit a hole in one o",
+      "status": "success",
+      "latency_ms": 16.4582,
+      "prediction": {
+        "retrieved_ids": [
+          "_has anyone hit a hole in one o_doc",
+          "_can an odd number be divided b_doc",
+          "_is there a sequel to love find_doc",
+          "_will there be a second season _doc",
+          "_do all triangles have at least_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.1932,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_has anyone hit a hole in one o_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.4538,
+        "mean_relevance": 0.12464,
+        "input_tokens": 291,
+        "output_tokens": 134
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_has wisconsin ever been in the",
+      "status": "success",
+      "latency_ms": 36.7314,
+      "prediction": {
+        "retrieved_ids": [
+          "_has anyone come back from 3-0 _doc",
+          "_did deion sanders ever win a w_doc",
+          "_is the show bloodline based on_doc",
+          "_does deadpool have a kid in th_doc",
+          "_were the twin towers the world_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0659,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_has wisconsin ever been in the_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.1136,
+        "mean_relevance": 0.05788,
+        "input_tokens": 312,
+        "output_tokens": 195
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_does damon and elena get toget",
+      "status": "success",
+      "latency_ms": 37.7187,
+      "prediction": {
+        "retrieved_ids": [
+          "_does damon and elena get toget_doc",
+          "_will there be a season 8 of va_doc",
+          "_is the tv show the resident ov_doc",
+          "_do female ferrets die if they _doc",
+          "_does magnesium citrate have ci_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.0864,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_does damon and elena get toget_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.3774,
+        "mean_relevance": 0.11884000000000002,
+        "input_tokens": 771,
+        "output_tokens": 140
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there a player in the nfl m",
+      "status": "success",
+      "latency_ms": 22.6531,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there a player in the nfl m_doc",
+          "_did deion sanders ever win a w_doc",
+          "_do the runners up on survivor _doc",
+          "_is there a tiebreaker in final_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.3333,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there a player in the nfl m_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.25,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1185,
+        "mean_relevance": 0.06695,
+        "input_tokens": 328,
+        "output_tokens": 173
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is the other boleyn girl part ",
+      "status": "success",
+      "latency_ms": 29.5748,
+      "prediction": {
+        "retrieved_ids": [
+          "_is the show bloodline based on_doc",
+          "_has anyone come back from 3-0 _doc",
+          "_does deadpool have a kid in th_doc",
+          "_is the tv show the resident ov_doc",
+          "_did the girl in the lost world_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is the other boleyn girl part _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.0803,
+        "mean_relevance": 0.06817999999999999,
+        "input_tokens": 297,
+        "output_tokens": 171
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there a group called the fi",
+      "status": "success",
+      "latency_ms": 21.6894,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there a group called the fi_doc",
+          "_is there a play off for third _doc",
+          "_is durham university part of t_doc",
+          "_is a fire 7 the same as a kind_doc",
+          "_are t rex and tyrannosaurus re_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.4024,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there a group called the fi_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1132,
+        "mean_relevance": 0.07121999999999999,
+        "input_tokens": 206,
+        "output_tokens": 187
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is mount everest a part of the",
+      "status": "success",
+      "latency_ms": 9.6833,
+      "prediction": {
+        "retrieved_ids": [
+          "_is mount everest a part of the_doc",
+          "_can you drink alcohol with you_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.5098,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is mount everest a part of the_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1995,
+        "mean_relevance": 0.10475000000000001,
+        "input_tokens": 140,
+        "output_tokens": 85
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can an emt-basic start an iv",
+      "status": "success",
+      "latency_ms": 12.2924,
+      "prediction": {
+        "retrieved_ids": [
+          "_can an emt-basic start an iv_doc",
+          "_do you need to break in a car_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.314,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can an emt-basic start an iv_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.0808,
+        "mean_relevance": 0.05735,
+        "input_tokens": 300,
+        "output_tokens": 115
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_has no 1 court at wimbledon go",
+      "status": "success",
+      "latency_ms": 37.729,
+      "prediction": {
+        "retrieved_ids": [
+          "_does magnesium citrate have ci_doc",
+          "_were the twin towers the world_doc",
+          "_did anyone from the 1980 us ho_doc",
+          "_do all triangles have at least_doc",
+          "_can carbon form polar covalent_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0247,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_has no 1 court at wimbledon go_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.047,
+        "mean_relevance": 0.029959999999999997,
+        "input_tokens": 210,
+        "output_tokens": 173
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_has anyone come back from 3-0 ",
+      "status": "success",
+      "latency_ms": 2.3765,
+      "prediction": {
+        "retrieved_ids": [],
+        "abstained": true,
+        "overall_decision": "ABSTAINED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_has anyone come back from 3-0 _doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.0,
+        "mean_relevance": 0.0,
+        "input_tokens": 10,
+        "output_tokens": 10
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_do radio waves travel at the s",
+      "status": "success",
+      "latency_ms": 16.1868,
+      "prediction": {
+        "retrieved_ids": [
+          "_do radio waves travel at the s_doc",
+          "_is angular frequency and angul_doc",
+          "_is an engine speed sensor the _doc",
+          "_do you need to break in a car_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.1786,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_do radio waves travel at the s_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.25,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.408,
+        "mean_relevance": 0.1243,
+        "input_tokens": 214,
+        "output_tokens": 161
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_did anyone from the 1980 us ho",
+      "status": "success",
+      "latency_ms": 37.036,
+      "prediction": {
+        "retrieved_ids": [
+          "_did anyone from the 1980 us ho_doc",
+          "_does damon and elena get toget_doc",
+          "_is there any next part of aven_doc",
+          "_has anyone come back from 3-0 _doc",
+          "_is there a tiebreaker in final_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2024,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_did anyone from the 1980 us ho_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.3254,
+        "mean_relevance": 0.09668000000000002,
+        "input_tokens": 745,
+        "output_tokens": 204
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_do all triangles have at least",
+      "status": "success",
+      "latency_ms": 13.7699,
+      "prediction": {
+        "retrieved_ids": [
+          "_do all triangles have at least_doc",
+          "_has no 1 court at wimbledon go_doc",
+          "_can someone die from a bullet _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2121,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_do all triangles have at least_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.3333333333333333,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.377,
+        "mean_relevance": 0.14353333333333332,
+        "input_tokens": 171,
+        "output_tokens": 166
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_are t rex and tyrannosaurus re",
+      "status": "success",
+      "latency_ms": 7.3791,
+      "prediction": {
+        "retrieved_ids": [
+          "_are t rex and tyrannosaurus re_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.3279,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_are t rex and tyrannosaurus re_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.3101,
+        "mean_relevance": 0.3101,
+        "input_tokens": 118,
+        "output_tokens": 47
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is the old panama canal still ",
+      "status": "success",
+      "latency_ms": 21.9436,
+      "prediction": {
+        "retrieved_ids": [
+          "_do you need to break in a car_doc",
+          "_do female ferrets die if they _doc",
+          "_does only the winner get money_doc",
+          "_is it bad to wash your hair wi_doc",
+          "_is a tablespoon bigger than a _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0174,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is the old panama canal still _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.0685,
+        "mean_relevance": 0.044020000000000004,
+        "input_tokens": 375,
+        "output_tokens": 172
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_do blue and pink cotton candy ",
+      "status": "success",
+      "latency_ms": 8.3669,
+      "prediction": {
+        "retrieved_ids": [
+          "_do blue and pink cotton candy _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.6897,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_do blue and pink cotton candy _doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.3381,
+        "mean_relevance": 0.3381,
+        "input_tokens": 115,
+        "output_tokens": 83
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_did to kill a mockingbird win ",
+      "status": "success",
+      "latency_ms": 27.4961,
+      "prediction": {
+        "retrieved_ids": [
+          "_did to kill a mockingbird win _doc",
+          "_can minors drink with parents _doc",
+          "_does only the winner get money_doc",
+          "_has anyone come back from 3-0 _doc",
+          "_does damon and elena get toget_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2376,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_did to kill a mockingbird win _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.0755,
+        "mean_relevance": 0.04126,
+        "input_tokens": 258,
+        "output_tokens": 218
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there such a thing as a flo",
+      "status": "success",
+      "latency_ms": 17.3891,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there such a thing as a flo_doc",
+          "_did the girl in the lost world_doc",
+          "_is anne with an e filmed on pe_doc",
+          "_are t rex and tyrannosaurus re_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.3099,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there such a thing as a flo_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.25,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.3051,
+        "mean_relevance": 0.11687499999999999,
+        "input_tokens": 271,
+        "output_tokens": 148
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_do female ferrets die if they ",
+      "status": "success",
+      "latency_ms": 10.865,
+      "prediction": {
+        "retrieved_ids": [
+          "_do female ferrets die if they _doc",
+          "_are t rex and tyrannosaurus re_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2308,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_do female ferrets die if they _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.23,
+        "mean_relevance": 0.12635000000000002,
+        "input_tokens": 223,
+        "output_tokens": 92
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_do the runners up on survivor ",
+      "status": "success",
+      "latency_ms": 17.9267,
+      "prediction": {
+        "retrieved_ids": [
+          "_do the runners up on survivor _doc",
+          "_does only the winner get money_doc",
+          "_has anyone come back from 3-0 _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.1846,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_do the runners up on survivor _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.3333333333333333,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1622,
+        "mean_relevance": 0.09886666666666667,
+        "input_tokens": 309,
+        "output_tokens": 187
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there a sequel to love find",
+      "status": "success",
+      "latency_ms": 27.9183,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there a sequel to love find_doc",
+          "_will there be a second season _doc",
+          "_is there any next part of aven_doc",
+          "_is the show bloodline based on_doc",
+          "_does damon and elena get toget_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.1705,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there a sequel to love find_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.355,
+        "mean_relevance": 0.10708,
+        "input_tokens": 219,
+        "output_tokens": 188
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_will there be a second season ",
+      "status": "success",
+      "latency_ms": 31.9186,
+      "prediction": {
+        "retrieved_ids": [
+          "_will there be a season 8 of va_doc",
+          "_is the tv show the resident ov_doc",
+          "_will there be a second season _doc",
+          "_is mount everest a part of the_doc",
+          "_is there a play off for third _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.4906,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_will there be a second season _doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.2,
+        "r_at_1": 0.0,
+        "r_at_k": 1.0,
+        "mrr": 0.3333333333333333,
+        "top1_relevance": 0.1433,
+        "mean_relevance": 0.0779,
+        "input_tokens": 219,
+        "output_tokens": 141
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_are there nuclear power plants",
+      "status": "success",
+      "latency_ms": 22.2887,
+      "prediction": {
+        "retrieved_ids": [
+          "_do you need to break in a car_doc",
+          "_is there such a thing as a flo_doc",
+          "_is house tax and property tax _doc",
+          "_are there nuclear power plants_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0202,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_are there nuclear power plants_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.25,
+        "r_at_1": 0.0,
+        "r_at_k": 1.0,
+        "mrr": 0.25,
+        "top1_relevance": 0.0228,
+        "mean_relevance": 0.060725,
+        "input_tokens": 455,
+        "output_tokens": 163
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there a tiebreaker in final",
+      "status": "success",
+      "latency_ms": 26.4665,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there a play off for third _doc",
+          "_is the other boleyn girl part _doc",
+          "_has anyone come back from 3-0 _doc",
+          "_do you need to break in a car_doc",
+          "_is there a sequel to love find_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0565,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there a tiebreaker in final_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.058,
+        "mean_relevance": 0.04284,
+        "input_tokens": 240,
+        "output_tokens": 178
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_were the twin towers the world",
+      "status": "success",
+      "latency_ms": 28.7497,
+      "prediction": {
+        "retrieved_ids": [
+          "_were the twin towers the world_doc",
+          "_is there such a thing as a tur_doc",
+          "_is harry potter and the escape_doc",
+          "_is there a player in the nfl m_doc",
+          "_is there a play off for third _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2437,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_were the twin towers the world_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.4104,
+        "mean_relevance": 0.09656,
+        "input_tokens": 300,
+        "output_tokens": 222
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_did deion sanders ever win a w",
+      "status": "success",
+      "latency_ms": 38.8964,
+      "prediction": {
+        "retrieved_ids": [
+          "_has anyone come back from 3-0 _doc",
+          "_did deion sanders ever win a w_doc",
+          "_were the twin towers the world_doc",
+          "_does deadpool have a kid in th_doc",
+          "_is the show bloodline based on_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.3168,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_did deion sanders ever win a w_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.2,
+        "r_at_1": 0.0,
+        "r_at_k": 1.0,
+        "mrr": 0.5,
+        "top1_relevance": 0.1194,
+        "mean_relevance": 0.06658,
+        "input_tokens": 348,
+        "output_tokens": 197
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is a german shepard the same a",
+      "status": "success",
+      "latency_ms": 7.0222,
+      "prediction": {
+        "retrieved_ids": [
+          "_is a german shepard the same a_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2466,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is a german shepard the same a_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2808,
+        "mean_relevance": 0.2808,
+        "input_tokens": 154,
+        "output_tokens": 47
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is the jaguar s type rear whee",
+      "status": "success",
+      "latency_ms": 29.831,
+      "prediction": {
+        "retrieved_ids": [
+          "_will there be a second season _doc",
+          "_do radio waves travel at the s_doc",
+          "_is the other boleyn girl part _doc",
+          "_has anyone hit a hole in one o_doc",
+          "_is there a tiebreaker in final_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0106,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is the jaguar s type rear whee_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.0135,
+        "mean_relevance": 0.03186,
+        "input_tokens": 176,
+        "output_tokens": 149
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is a tablespoon bigger than a ",
+      "status": "success",
+      "latency_ms": 8.117,
+      "prediction": {
+        "retrieved_ids": [
+          "_is a tablespoon bigger than a _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 1.0,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is a tablespoon bigger than a _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.0883,
+        "mean_relevance": 0.0883,
+        "input_tokens": 76,
+        "output_tokens": 82
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_does the president live in the",
+      "status": "success",
+      "latency_ms": 17.4123,
+      "prediction": {
+        "retrieved_ids": [
+          "_does the president live in the_doc",
+          "_do female ferrets die if they _doc",
+          "_is house tax and property tax _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2308,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_does the president live in the_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.3333333333333333,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2975,
+        "mean_relevance": 0.11426666666666667,
+        "input_tokens": 359,
+        "output_tokens": 117
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_does the dorsal root ganglion ",
+      "status": "success",
+      "latency_ms": 10.8604,
+      "prediction": {
+        "retrieved_ids": [
+          "_does the dorsal root ganglion _doc",
+          "_do female ferrets die if they _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.5517,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_does the dorsal root ganglion _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.5497,
+        "mean_relevance": 0.2865,
+        "input_tokens": 159,
+        "output_tokens": 93
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is anne with an e filmed on pe",
+      "status": "success",
+      "latency_ms": 18.6406,
+      "prediction": {
+        "retrieved_ids": [
+          "_is anne with an e filmed on pe_doc",
+          "_can there be a word without a _doc",
+          "_is house tax and property tax _doc",
+          "_is a tablespoon bigger than a _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2167,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is anne with an e filmed on pe_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.25,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1408,
+        "mean_relevance": 0.062025000000000004,
+        "input_tokens": 287,
+        "output_tokens": 165
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is angular frequency and angul",
+      "status": "success",
+      "latency_ms": 11.0561,
+      "prediction": {
+        "retrieved_ids": [
+          "_is angular frequency and angul_doc",
+          "_can someone die from a bullet _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2979,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is angular frequency and angul_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.5576,
+        "mean_relevance": 0.3175,
+        "input_tokens": 130,
+        "output_tokens": 127
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can someone die from a bullet ",
+      "status": "success",
+      "latency_ms": 33.2646,
+      "prediction": {
+        "retrieved_ids": [
+          "_can someone die from a bullet _doc",
+          "_has anyone hit a hole in one o_doc",
+          "_do female ferrets die if they _doc",
+          "_does a spark plug keep an engi_doc",
+          "_does damon and elena get toget_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.4,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can someone die from a bullet _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1464,
+        "mean_relevance": 0.052480000000000006,
+        "input_tokens": 326,
+        "output_tokens": 186
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is salt lake city the biggest ",
+      "status": "success",
+      "latency_ms": 21.9434,
+      "prediction": {
+        "retrieved_ids": [
+          "_is salt lake city the biggest _doc",
+          "_were the twin towers the world_doc",
+          "_does magnesium citrate have ci_doc",
+          "_is the tv show the resident ov_doc",
+          "_is there a difference between _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2523,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is salt lake city the biggest _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.4482,
+        "mean_relevance": 0.12454000000000001,
+        "input_tokens": 300,
+        "output_tokens": 167
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_did the girl in the lost world",
+      "status": "success",
+      "latency_ms": 41.5511,
+      "prediction": {
+        "retrieved_ids": [
+          "_were the twin towers the world_doc",
+          "_do female ferrets die if they _doc",
+          "_is harry potter and the escape_doc",
+          "_is there a play off for third _doc",
+          "_is there such a thing as a tur_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0063,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_did the girl in the lost world_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.0464,
+        "mean_relevance": 0.028699999999999996,
+        "input_tokens": 321,
+        "output_tokens": 173
+      },
+      "error": null
+    }
+  ]
+}

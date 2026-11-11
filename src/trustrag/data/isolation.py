@@ -11,6 +11,7 @@ from __future__ import annotations
 from enum import Enum
 from typing import Set, Union
 
+from .base import DatasetMetadata
 from .exceptions import UsageIsolationError, ValidationError
 
 
@@ -61,10 +62,15 @@ class DatasetUsageValidator:
             try:
                 metadata = get_dataset_metadata(dataset_or_metadata.lower())
             except Exception:
-                # Minimal mock metadata for unknown or ad-hoc strings
+                # Minimal metadata for unknown or ad-hoc strings
                 metadata = DatasetMetadata(
                     name=dataset_or_metadata,
                     category="unknown",
+                    description="Ad-hoc dataset",
+                    source_uri="local",
+                    license="Unknown",
+                    access_type="local_only",
+                    record_type="DocumentRecord",
                     permitted_for_training=True,
                     permitted_for_evaluation=True,
                 )

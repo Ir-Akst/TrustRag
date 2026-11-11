@@ -9,7 +9,7 @@ from __future__ import annotations
 import re
 import unicodedata
 from dataclasses import dataclass
-from typing import List, Sequence, Set, Tuple
+from typing import List, Optional, Sequence, Set, Tuple
 
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer

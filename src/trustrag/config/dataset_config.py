@@ -6,7 +6,7 @@ Loads settings from ``configs/datasets.yaml`` and supports environment overrides
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Union
 
 import yaml
 from pydantic import BaseModel, Field, model_validator

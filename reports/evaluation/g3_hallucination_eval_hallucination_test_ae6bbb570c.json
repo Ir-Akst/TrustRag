@@ -1,0 +1,227 @@
+{
+  "experiment_id": "g3_hallucination_eval_hallucination_test_ae6bbb570c",
+  "experiment_name": "g3_hallucination_eval",
+  "timestamp": "2026-11-11T16:30:06.226379Z",
+  "dataset": "hallucination",
+  "split": "test",
+  "dataset_path": "data/benchmarks/hallucination/test.jsonl",
+  "dataset_manifest_checksum": "b5e2a0b65d3782598451f8fc643e20d7f019be8dc5c00a0712248b6064941e8c",
+  "partition_file_sha256": "dd23492b3f1b27c526d3d19e4750a82b4bb0d719d173f27df07216a8734af17d",
+  "is_synthetic": false,
+  "model": "g3-output-evidence-verifier",
+  "backend": "tfidf_rule_linguistic",
+  "configuration": {
+    "experiment_name": "g3_hallucination_eval",
+    "dataset_name": "hallucination",
+    "split": "test",
+    "dataset_dir": "data/benchmarks/hallucination",
+    "model_name": "g3-output-evidence-verifier",
+    "backend": "tfidf_rule_linguistic",
+    "random_seed": 42,
+    "top_k": 5,
+    "limit": null,
+    "is_synthetic": false,
+    "parameters": {
+      "enabled": true,
+      "min_support_coverage": 0.65,
+      "min_relevance_for_check": 0.1,
+      "strict_numeric_matching": true,
+      "strict_negation_check": true
+    }
+  },
+  "random_seed": 42,
+  "total_examples": 3,
+  "successful_examples": 3,
+  "failed_examples": 0,
+  "skipped_examples": 0,
+  "invalid_examples": 0,
+  "metrics": {
+    "answer_level_multiclass": {
+      "count": 3,
+      "accuracy": 0.6667,
+      "macro_f1": 0.5556,
+      "per_class": {
+        "SUPPORTED": {
+          "support": 1,
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "CONTRADICTED": {
+          "support": 1,
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "NOT_ENOUGH_EVIDENCE": {
+          "support": 1,
+          "tp": 1,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667
+        }
+      }
+    },
+    "claim_level_multiclass": {
+      "count": 3,
+      "accuracy": 0.6667,
+      "macro_f1": 0.5556,
+      "per_class": {
+        "SUPPORTED": {
+          "support": 1,
+          "tp": 0,
+          "fp": 0,
+          "fn": 1,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0
+        },
+        "CONTRADICTED": {
+          "support": 1,
+          "tp": 1,
+          "fp": 0,
+          "fn": 0,
+          "precision": 1.0,
+          "recall": 1.0,
+          "f1": 1.0
+        },
+        "NOT_ENOUGH_EVIDENCE": {
+          "support": 1,
+          "tp": 1,
+          "fp": 1,
+          "fn": 0,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667
+        }
+      }
+    },
+    "unsupported_detection_binary": {
+      "count": 3,
+      "tp": 2,
+      "fp": 1,
+      "tn": 0,
+      "fn": 0,
+      "accuracy": 0.6667,
+      "precision": 0.6667,
+      "recall": 1.0,
+      "f1": 0.8,
+      "fpr": 1.0,
+      "fnr": 0.0,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "contradiction_detection_rate": 1.0,
+    "false_support_rate": 0.0,
+    "false_support_count": 0,
+    "evidence_traceability_rate": 1.0,
+    "misclassified_cases": [
+      {
+        "sample_id": "expertqa_001",
+        "source_dataset": "expertqa",
+        "gt": "SUPPORTED",
+        "pred": "NOT_ENOUGH_EVIDENCE",
+        "raw_verdict": "INSUFFICIENT_EVIDENCE",
+        "claim": "CRISPR-Cas9 acts as RNA-guided molecular scissors to induce double-strand DNA breaks."
+      }
+    ],
+    "latency_ms": {
+      "count": 3,
+      "mean": 2.7804,
+      "std": 1.7108,
+      "min": 1.5235,
+      "p50": 1.6185,
+      "p95": 4.8412,
+      "p99": 5.1277,
+      "max": 5.1993
+    },
+    "execution_accounting": {
+      "total_examples": 3,
+      "successful_examples": 3,
+      "failed_examples": 0,
+      "skipped_examples": 0,
+      "invalid_examples": 0
+    }
+  },
+  "execution_time_seconds": 0.008437,
+  "errors": [],
+  "sample_outcomes": [
+    {
+      "sample_id": "wice_003",
+      "status": "success",
+      "latency_ms": 5.1993,
+      "prediction": {
+        "answer_verdict_raw": "INSUFFICIENT_EVIDENCE",
+        "mapped_label": "NOT_ENOUGH_EVIDENCE",
+        "claim_count": 1,
+        "claim_preds": [
+          "NOT_ENOUGH_EVIDENCE"
+        ],
+        "gt_unsupported": 1,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "NOT_ENOUGH_EVIDENCE",
+        "source_dataset": "wice",
+        "claim": "The artist completed seven oil paintings during his residency in Florence."
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "expertqa_001",
+      "status": "success",
+      "latency_ms": 1.6185,
+      "prediction": {
+        "answer_verdict_raw": "INSUFFICIENT_EVIDENCE",
+        "mapped_label": "NOT_ENOUGH_EVIDENCE",
+        "claim_count": 1,
+        "claim_preds": [
+          "NOT_ENOUGH_EVIDENCE"
+        ],
+        "gt_unsupported": 0,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "SUPPORTED",
+        "source_dataset": "expertqa",
+        "claim": "CRISPR-Cas9 acts as RNA-guided molecular scissors to induce double-strand DNA breaks."
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "expertqa_002",
+      "status": "success",
+      "latency_ms": 1.5235,
+      "prediction": {
+        "answer_verdict_raw": "CONTRADICTED",
+        "mapped_label": "CONTRADICTED",
+        "claim_count": 1,
+        "claim_preds": [
+          "CONTRADICTED"
+        ],
+        "gt_unsupported": 1,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "CONTRADICTED",
+        "source_dataset": "expertqa",
+        "claim": "Penicillin is effective against acute viral influenza infections."
+      },
+      "metadata": {},
+      "error": null
+    }
+  ]
+}

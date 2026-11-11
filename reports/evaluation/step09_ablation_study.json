@@ -1,0 +1,143 @@
+{
+  "seed": 42,
+  "top_k": 5,
+  "clean_queries_n": 15,
+  "corpus_injection_pairs_n": 29,
+  "direct_query_threats_n": 14,
+  "architectural_isolation_note": "TrustAwareRetriever/TrustRAGPipeline invokes MultiSignalDetector unconditionally even when MSDConfig.enabled=False; therefore E1/E2/E4 isolate raw TF-IDF retrieval directly via _retrieve_indexed_candidates while E3/E5/E6/E7 invoke full retrieve_trusted/run.",
+  "arms": [
+    {
+      "arm": "E1_Original_RAG",
+      "flags": {
+        "g1": false,
+        "g2": false,
+        "g3": false,
+        "srm": false
+      },
+      "clean_recall_at_5": 0.8,
+      "clean_faithfulness": 0.7333,
+      "clean_fpr_block_or_quarantine": 0.0,
+      "corpus_injection_asr": 0.4483,
+      "corpus_injection_prevented_or_flagged": 0.5517,
+      "direct_query_attack_asr": 1.0,
+      "combined_threat_asr": 0.6279,
+      "mean_latency_ms": 9.6818,
+      "p95_latency_ms": 13.6237,
+      "throughput_qps": 103.29
+    },
+    {
+      "arm": "E2_RAG_G1",
+      "flags": {
+        "g1": true,
+        "g2": false,
+        "g3": false,
+        "srm": false
+      },
+      "clean_recall_at_5": 0.8,
+      "clean_faithfulness": 0.7333,
+      "clean_fpr_block_or_quarantine": 0.0,
+      "corpus_injection_asr": 0.4483,
+      "corpus_injection_prevented_or_flagged": 0.5517,
+      "direct_query_attack_asr": 0.0,
+      "combined_threat_asr": 0.3023,
+      "mean_latency_ms": 4.1639,
+      "p95_latency_ms": 6.9523,
+      "throughput_qps": 240.16
+    },
+    {
+      "arm": "E3_RAG_G2",
+      "flags": {
+        "g1": false,
+        "g2": true,
+        "g3": false,
+        "srm": false
+      },
+      "clean_recall_at_5": 0.8,
+      "clean_faithfulness": 0.7333,
+      "clean_fpr_block_or_quarantine": 0.0,
+      "corpus_injection_asr": 0.1379,
+      "corpus_injection_prevented_or_flagged": 0.8621,
+      "direct_query_attack_asr": 1.0,
+      "combined_threat_asr": 0.4186,
+      "mean_latency_ms": 14.7386,
+      "p95_latency_ms": 26.5766,
+      "throughput_qps": 67.85
+    },
+    {
+      "arm": "E4_RAG_G3",
+      "flags": {
+        "g1": false,
+        "g2": false,
+        "g3": true,
+        "srm": false
+      },
+      "clean_recall_at_5": 0.8,
+      "clean_faithfulness": 0.7333,
+      "clean_fpr_block_or_quarantine": 0.0,
+      "corpus_injection_asr": 0.4483,
+      "corpus_injection_prevented_or_flagged": 0.5517,
+      "direct_query_attack_asr": 1.0,
+      "combined_threat_asr": 0.6279,
+      "mean_latency_ms": 18.0366,
+      "p95_latency_ms": 34.9172,
+      "throughput_qps": 55.44
+    },
+    {
+      "arm": "E5_RAG_G1_G2",
+      "flags": {
+        "g1": true,
+        "g2": true,
+        "g3": false,
+        "srm": false
+      },
+      "clean_recall_at_5": 0.8,
+      "clean_faithfulness": 0.7333,
+      "clean_fpr_block_or_quarantine": 0.0,
+      "corpus_injection_asr": 0.1379,
+      "corpus_injection_prevented_or_flagged": 0.8621,
+      "direct_query_attack_asr": 0.0,
+      "combined_threat_asr": 0.093,
+      "mean_latency_ms": 12.865,
+      "p95_latency_ms": 26.1103,
+      "throughput_qps": 77.73
+    },
+    {
+      "arm": "E6_RAG_G1_G2_G3",
+      "flags": {
+        "g1": true,
+        "g2": true,
+        "g3": true,
+        "srm": false
+      },
+      "clean_recall_at_5": 0.8,
+      "clean_faithfulness": 0.7333,
+      "clean_fpr_block_or_quarantine": 0.0,
+      "corpus_injection_asr": 0.1379,
+      "corpus_injection_prevented_or_flagged": 1.0,
+      "direct_query_attack_asr": 0.0,
+      "combined_threat_asr": 0.093,
+      "mean_latency_ms": 17.2233,
+      "p95_latency_ms": 46.1831,
+      "throughput_qps": 58.06
+    },
+    {
+      "arm": "E7_Full_TrustRAG_SRM_Fallback",
+      "flags": {
+        "g1": true,
+        "g2": true,
+        "g3": true,
+        "srm": true
+      },
+      "clean_recall_at_5": 0.8,
+      "clean_faithfulness": 0.7333,
+      "clean_fpr_block_or_quarantine": 0.0,
+      "corpus_injection_asr": 0.1379,
+      "corpus_injection_prevented_or_flagged": 1.0,
+      "direct_query_attack_asr": 0.0,
+      "combined_threat_asr": 0.093,
+      "mean_latency_ms": 12.9164,
+      "p95_latency_ms": 27.0628,
+      "throughput_qps": 77.42
+    }
+  ]
+}

@@ -110,7 +110,8 @@ class ManifestManager:
         file_size = p.stat().st_size if p.is_file() else 0
         if record_count is None and p.is_file():
             if p.suffix == ".jsonl":
-                record_count = sum(1 for line in p.open("r", encoding="utf-8") if line.strip())
+                with p.open("r", encoding="utf-8") as fh:
+                    record_count = sum(1 for line in fh if line.strip())
             else:
                 record_count = 0
         return ManifestFileEntry(

@@ -580,7 +580,11 @@ def evaluate_consensus_deviation_signals(
     sem_matrix = np.zeros((n, n), dtype=float)
     has_sem_matrix = False
     if doc_embeddings is not None and len(doc_embeddings) == n:
-        valid_vecs = [(i, doc_embeddings[i]) for i in non_empty_indices if doc_embeddings[i] is not None]
+        valid_vecs: List[Tuple[int, np.ndarray]] = []
+        for i in non_empty_indices:
+            vec = doc_embeddings[i]
+            if vec is not None:
+                valid_vecs.append((i, vec))
         if len(valid_vecs) >= 2:
             # Ensure matching dimensions before cosine computation
             dim = len(valid_vecs[0][1])
