@@ -1,0 +1,143 @@
+{
+  "experiment_id": "clean_rag_baseline_clean_rag_test_f7f98cd4da",
+  "experiment_name": "clean_rag_baseline",
+  "timestamp": "2026-11-11T16:23:27.052119Z",
+  "dataset": "clean_rag",
+  "split": "test",
+  "dataset_path": "data/benchmarks/clean_rag/test.jsonl",
+  "dataset_manifest_checksum": "830def566479a271ba6e58a3c9da4a44529c6279f5e236cf69ec6ccac6f7f156",
+  "partition_file_sha256": "ee55d8b39c4c7867b744669be6f69565ae65eb41cf96163877b20e8be89cafb4",
+  "is_synthetic": false,
+  "model": "original-rag-tfidf-extractive",
+  "backend": "tfidf_extractive",
+  "configuration": {
+    "experiment_name": "clean_rag_baseline",
+    "dataset_name": "clean_rag",
+    "split": "test",
+    "dataset_dir": "data/benchmarks/clean_rag",
+    "model_name": "original-rag-tfidf-extractive",
+    "backend": "tfidf_extractive",
+    "random_seed": 42,
+    "top_k": 5,
+    "limit": null,
+    "is_synthetic": false,
+    "parameters": {
+      "use_defenses": false,
+      "corpus_size": 2,
+      "g1_enabled": false,
+      "g2_enabled": false,
+      "g3_enabled": false,
+      "srm_enabled": false
+    }
+  },
+  "random_seed": 42,
+  "total_examples": 2,
+  "successful_examples": 2,
+  "failed_examples": 0,
+  "skipped_examples": 0,
+  "invalid_examples": 0,
+  "metrics": {
+    "corpus_size": 2,
+    "top_k": 5,
+    "precision_at_1": 1.0,
+    "precision_at_5": 1.0,
+    "recall_at_1": 1.0,
+    "recall_at_5": 1.0,
+    "mrr": 1.0,
+    "mean_top1_relevance": 0.2046,
+    "mean_evidence_relevance": 0.2046,
+    "boolean_exact_match": 0.0,
+    "extractive_gt_doc_hit_rate": 1.0,
+    "mean_gt_passage_overlap": 0.619,
+    "answer_faithfulness_rate": 1.0,
+    "abstention_rate": 0.0,
+    "mean_input_tokens": 63.0,
+    "mean_output_tokens": 30.5,
+    "latency_ms": {
+      "count": 2,
+      "mean": 1.8362,
+      "std": 0.1537,
+      "min": 1.6825,
+      "p50": 1.8362,
+      "p95": 1.9745,
+      "p99": 1.9868,
+      "max": 1.9899
+    },
+    "throughput_qps": 544.6,
+    "execution_accounting": {
+      "total_examples": 2,
+      "successful_examples": 2,
+      "failed_examples": 0,
+      "skipped_examples": 0,
+      "invalid_examples": 0
+    }
+  },
+  "execution_time_seconds": 0.008629,
+  "errors": [],
+  "sample_outcomes": [
+    {
+      "sample_id": "_can an odd number be divided b",
+      "status": "success",
+      "latency_ms": 1.9899,
+      "prediction": {
+        "retrieved_ids": [
+          "_can an odd number be divided b_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "BYPASSED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2381,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can an odd number be divided b_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2018,
+        "mean_relevance": 0.2018,
+        "input_tokens": 104,
+        "output_tokens": 39
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can u drive in canada with us ",
+      "status": "success",
+      "latency_ms": 1.6825,
+      "prediction": {
+        "retrieved_ids": [
+          "_can u drive in canada with us _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "BYPASSED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 1.0,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can u drive in canada with us _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2073,
+        "mean_relevance": 0.2073,
+        "input_tokens": 22,
+        "output_tokens": 22
+      },
+      "error": null
+    }
+  ]
+}

@@ -1,0 +1,162 @@
+{
+  "hardware": {
+    "cpu_count": 12,
+    "platform": "Linux-7.2.14-arch1-1-x86_64-with-glibc2.44",
+    "gpu_active": false,
+    "process_max_rss_mib": 231.23
+  },
+  "corpus_path": "data/processed/boolq/validation.jsonl",
+  "corpus_docs": 100,
+  "cold_index_time_ms": 90.8916,
+  "cold_index_peak_traced_mib": 2.807,
+  "stage_breakdown_ms": {
+    "g1_ms": {
+      "count": 100,
+      "mean": 0.0768,
+      "std": 0.0185,
+      "min": 0.0541,
+      "p50": 0.0749,
+      "p95": 0.0876,
+      "p99": 0.1238,
+      "max": 0.2389
+    },
+    "raw_retrieval_ms": {
+      "count": 100,
+      "mean": 3.0196,
+      "std": 0.1394,
+      "min": 2.8197,
+      "p50": 2.9987,
+      "p95": 3.2043,
+      "p99": 3.5976,
+      "max": 3.7084
+    },
+    "g2_ms": {
+      "count": 100,
+      "mean": 7.4662,
+      "std": 6.2453,
+      "min": 0.2775,
+      "p50": 5.0189,
+      "p95": 19.8154,
+      "p99": 22.7768,
+      "max": 22.9279
+    },
+    "generation_ms": {
+      "count": 100,
+      "mean": 3.1071,
+      "std": 0.7374,
+      "min": 1.1356,
+      "p50": 3.3527,
+      "p95": 3.77,
+      "p99": 4.1119,
+      "max": 4.3925
+    },
+    "stage7_unicode_ms": {
+      "count": 100,
+      "mean": 0.2877,
+      "std": 0.0742,
+      "min": 0.0838,
+      "p50": 0.2956,
+      "p95": 0.3945,
+      "p99": 0.4261,
+      "max": 0.432
+    },
+    "g3_ms": {
+      "count": 100,
+      "mean": 9.6238,
+      "std": 3.8041,
+      "min": 2.4584,
+      "p50": 8.9271,
+      "p95": 16.0861,
+      "p99": 17.6438,
+      "max": 18.2275
+    },
+    "srm_ms": {
+      "count": 100,
+      "mean": 0.0276,
+      "std": 0.0043,
+      "min": 0.0176,
+      "p50": 0.0274,
+      "p95": 0.0345,
+      "p99": 0.0412,
+      "max": 0.0471
+    }
+  },
+  "token_consumption": {
+    "input_tokens": {
+      "count": 100,
+      "mean": 261.45,
+      "std": 112.5312,
+      "min": 43.0,
+      "p50": 259.0,
+      "p95": 437.15,
+      "p99": 645.0,
+      "max": 744.0
+    },
+    "output_tokens": {
+      "count": 100,
+      "mean": 153.42,
+      "std": 41.6286,
+      "min": 41.0,
+      "p50": 161.0,
+      "p95": 207.4,
+      "p99": 227.06,
+      "max": 233.0
+    }
+  },
+  "end_to_end_comparison": {
+    "original_rag": {
+      "num_queries": 100,
+      "wall_time_seconds": 1.5691,
+      "cpu_time_seconds": 1.56,
+      "cpu_utilization_ratio": 0.9942,
+      "throughput_qps": 63.73,
+      "peak_traced_heap_mib": 2.115,
+      "latency_ms": {
+        "count": 100,
+        "mean": 15.6882,
+        "std": 1.8249,
+        "min": 10.5388,
+        "p50": 16.3336,
+        "p95": 17.4185,
+        "p99": 17.6019,
+        "max": 18.3069
+      }
+    },
+    "trustrag_no_srm": {
+      "num_queries": 100,
+      "wall_time_seconds": 7.1145,
+      "cpu_time_seconds": 7.09,
+      "cpu_utilization_ratio": 0.9966,
+      "throughput_qps": 14.06,
+      "peak_traced_heap_mib": 4.76,
+      "latency_ms": {
+        "count": 100,
+        "mean": 71.1358,
+        "std": 29.906,
+        "min": 19.2885,
+        "p50": 66.0461,
+        "p95": 122.2087,
+        "p99": 142.0784,
+        "max": 143.0629
+      }
+    },
+    "trustrag_with_srm_fallback": {
+      "num_queries": 100,
+      "wall_time_seconds": 8.0033,
+      "cpu_time_seconds": 7.98,
+      "cpu_utilization_ratio": 0.9971,
+      "throughput_qps": 12.49,
+      "peak_traced_heap_mib": 4.76,
+      "latency_ms": {
+        "count": 100,
+        "mean": 80.0226,
+        "std": 33.5572,
+        "min": 22.1573,
+        "p50": 75.4615,
+        "p95": 142.6222,
+        "p99": 162.7042,
+        "max": 165.2614
+      }
+    }
+  }
+}

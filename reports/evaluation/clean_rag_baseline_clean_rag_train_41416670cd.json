@@ -1,0 +1,304 @@
+{
+  "experiment_id": "clean_rag_baseline_clean_rag_train_41416670cd",
+  "experiment_name": "clean_rag_baseline",
+  "timestamp": "2026-11-11T16:23:27.123632Z",
+  "dataset": "clean_rag",
+  "split": "train",
+  "dataset_path": "data/benchmarks/clean_rag/train.jsonl",
+  "dataset_manifest_checksum": "830def566479a271ba6e58a3c9da4a44529c6279f5e236cf69ec6ccac6f7f156",
+  "partition_file_sha256": "75887ae3ae1a37b64fd6adfd8e6233a6f62141f9cf6e00359bcb1fef3ce5c06f",
+  "is_synthetic": false,
+  "model": "original-rag-tfidf-extractive",
+  "backend": "tfidf_extractive",
+  "configuration": {
+    "experiment_name": "clean_rag_baseline",
+    "dataset_name": "clean_rag",
+    "split": "train",
+    "dataset_dir": "data/benchmarks/clean_rag",
+    "model_name": "original-rag-tfidf-extractive",
+    "backend": "tfidf_extractive",
+    "random_seed": 42,
+    "top_k": 5,
+    "limit": null,
+    "is_synthetic": false,
+    "parameters": {
+      "use_defenses": false,
+      "corpus_size": 7,
+      "g1_enabled": false,
+      "g2_enabled": false,
+      "g3_enabled": false,
+      "srm_enabled": false
+    }
+  },
+  "random_seed": 42,
+  "total_examples": 7,
+  "successful_examples": 7,
+  "failed_examples": 0,
+  "skipped_examples": 0,
+  "invalid_examples": 0,
+  "metrics": {
+    "corpus_size": 7,
+    "top_k": 5,
+    "precision_at_1": 1.0,
+    "precision_at_5": 0.9286,
+    "recall_at_1": 1.0,
+    "recall_at_5": 1.0,
+    "mrr": 1.0,
+    "mean_top1_relevance": 0.2649,
+    "mean_evidence_relevance": 0.2301,
+    "boolean_exact_match": 0.0,
+    "extractive_gt_doc_hit_rate": 1.0,
+    "mean_gt_passage_overlap": 0.4719,
+    "answer_faithfulness_rate": 0.8571,
+    "abstention_rate": 0.0,
+    "mean_input_tokens": 124.29,
+    "mean_output_tokens": 60.71,
+    "latency_ms": {
+      "count": 7,
+      "mean": 2.1172,
+      "std": 0.4546,
+      "min": 1.7779,
+      "p50": 1.9774,
+      "p95": 2.8535,
+      "p99": 3.1428,
+      "max": 3.2151
+    },
+    "throughput_qps": 472.33,
+    "execution_accounting": {
+      "total_examples": 7,
+      "successful_examples": 7,
+      "failed_examples": 0,
+      "skipped_examples": 0,
+      "invalid_examples": 0
+    }
+  },
+  "execution_time_seconds": 0.038156,
+  "errors": [],
+  "sample_outcomes": [
+    {
+      "sample_id": "_does ethanol take more energy ",
+      "status": "success",
+      "latency_ms": 2.0048,
+      "prediction": {
+        "retrieved_ids": [
+          "_does ethanol take more energy _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "BYPASSED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2653,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_does ethanol take more energy _doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.4201,
+        "mean_relevance": 0.4201,
+        "input_tokens": 225,
+        "output_tokens": 69
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is house tax and property tax ",
+      "status": "success",
+      "latency_ms": 2.0097,
+      "prediction": {
+        "retrieved_ids": [
+          "_is house tax and property tax _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "BYPASSED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2059,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is house tax and property tax _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.4088,
+        "mean_relevance": 0.4088,
+        "input_tokens": 199,
+        "output_tokens": 53
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is pain experienced in a missi",
+      "status": "success",
+      "latency_ms": 1.9547,
+      "prediction": {
+        "retrieved_ids": [
+          "_is pain experienced in a missi_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "BYPASSED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.7,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is pain experienced in a missi_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.145,
+        "mean_relevance": 0.145,
+        "input_tokens": 65,
+        "output_tokens": 52
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there a difference between ",
+      "status": "success",
+      "latency_ms": 1.7779,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there a difference between _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "BYPASSED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.5,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there a difference between _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1004,
+        "mean_relevance": 0.1004,
+        "input_tokens": 57,
+        "output_tokens": 33
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is barq's root beer a pepsi pr",
+      "status": "success",
+      "latency_ms": 3.2151,
+      "prediction": {
+        "retrieved_ids": [
+          "_is barq's root beer a pepsi pr_doc",
+          "_is there a difference between _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "BYPASSED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.3023,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is barq's root beer a pepsi pr_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.5144,
+        "mean_relevance": 0.27049999999999996,
+        "input_tokens": 109,
+        "output_tokens": 69
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there a word with q without",
+      "status": "success",
+      "latency_ms": 1.8807,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there a word with q without_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "BYPASSED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.8298,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there a word with q without_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1001,
+        "mean_relevance": 0.1001,
+        "input_tokens": 118,
+        "output_tokens": 96
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there a play off for third ",
+      "status": "success",
+      "latency_ms": 1.9774,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there a play off for third _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "BYPASSED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.5,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there a play off for third _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1655,
+        "mean_relevance": 0.1655,
+        "input_tokens": 97,
+        "output_tokens": 53
+      },
+      "error": null
+    }
+  ]
+}

@@ -113,7 +113,7 @@ class DatasetQualityAuditor:
         "REFUTED", "HALLUCINATED", "FACTUAL", "TRUE", "FALSE", "NOT_ENOUGH_INFO",
     }
     VALID_SECURITY_LABELS: Set[str] = {
-        "clean", "poison", "poisoned", "attack", "benign", "uncertain", "clean", "poisoned",
+        "clean", "poison", "poisoned", "attack", "benign", "uncertain",
     }
 
     @classmethod

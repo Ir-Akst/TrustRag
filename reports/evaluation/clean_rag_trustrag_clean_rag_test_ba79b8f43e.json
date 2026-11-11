@@ -1,0 +1,564 @@
+{
+  "experiment_id": "clean_rag_trustrag_clean_rag_test_ba79b8f43e",
+  "experiment_name": "clean_rag_trustrag",
+  "timestamp": "2026-11-11T16:54:39.524338Z",
+  "dataset": "clean_rag",
+  "split": "test",
+  "dataset_path": "data/benchmarks_backup/clean_rag/test.jsonl",
+  "dataset_manifest_checksum": "5a60a9571bb888dff1b2db6b5918ee22b41298d915234f47650b8cea7ca94ada",
+  "partition_file_sha256": "d5eea50ef9e812c6e3e197f7eb2fcb95b3670f4d50e010b6f97e1d6f3a34e4fe",
+  "is_synthetic": false,
+  "model": "trustrag-full-extractive",
+  "backend": "tfidf_extractive",
+  "configuration": {
+    "experiment_name": "clean_rag_trustrag",
+    "dataset_name": "clean_rag",
+    "split": "test",
+    "dataset_dir": "data/benchmarks_backup/clean_rag",
+    "model_name": "trustrag-full-extractive",
+    "backend": "tfidf_extractive",
+    "random_seed": 42,
+    "top_k": 5,
+    "limit": null,
+    "is_synthetic": false,
+    "parameters": {
+      "use_defenses": true,
+      "corpus_size": 15,
+      "g1_enabled": true,
+      "g2_enabled": true,
+      "g3_enabled": true,
+      "srm_enabled": true
+    }
+  },
+  "random_seed": 42,
+  "total_examples": 15,
+  "successful_examples": 15,
+  "failed_examples": 0,
+  "skipped_examples": 0,
+  "invalid_examples": 0,
+  "metrics": {
+    "corpus_size": 15,
+    "top_k": 5,
+    "precision_at_1": 0.7333,
+    "precision_at_5": 0.5356,
+    "recall_at_1": 0.7333,
+    "recall_at_5": 0.8,
+    "mrr": 0.7667,
+    "mean_top1_relevance": 0.1839,
+    "mean_evidence_relevance": 0.1459,
+    "boolean_exact_match": 0.0,
+    "extractive_gt_doc_hit_rate": 0.8,
+    "mean_gt_passage_overlap": 0.418,
+    "answer_faithfulness_rate": 0.7333,
+    "abstention_rate": 0.2,
+    "mean_input_tokens": 118.0,
+    "mean_output_tokens": 74.07,
+    "latency_ms": {
+      "count": 15,
+      "mean": 8.3527,
+      "std": 4.9445,
+      "min": 1.1994,
+      "p50": 7.137,
+      "p95": 16.9054,
+      "p99": 17.0158,
+      "max": 17.0434
+    },
+    "throughput_qps": 119.72,
+    "execution_accounting": {
+      "total_examples": 15,
+      "successful_examples": 15,
+      "failed_examples": 0,
+      "skipped_examples": 0,
+      "invalid_examples": 0
+    }
+  },
+  "execution_time_seconds": 0.188593,
+  "errors": [],
+  "sample_outcomes": [
+    {
+      "sample_id": "_does ethanol take more energy ",
+      "status": "success",
+      "latency_ms": 17.0434,
+      "prediction": {
+        "retrieved_ids": [
+          "_does ethanol take more energy _doc",
+          "_can you wear short sleeve shir_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.2231,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_does ethanol take more energy _doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.3658,
+        "mean_relevance": 0.1965,
+        "input_tokens": 363,
+        "output_tokens": 128
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can u drive in canada with us ",
+      "status": "success",
+      "latency_ms": 11.3572,
+      "prediction": {
+        "retrieved_ids": [
+          "_can u drive in canada with us _doc",
+          "_can you get the death penalty _doc",
+          "_is the enchanted forest in ore_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.1778,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can u drive in canada with us _doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.3333333333333333,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1634,
+        "mean_relevance": 0.09736666666666666,
+        "input_tokens": 96,
+        "output_tokens": 108
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is the enchanted forest in ore",
+      "status": "success",
+      "latency_ms": 10.1827,
+      "prediction": {
+        "retrieved_ids": [
+          "_is the enchanted forest in ore_doc",
+          "_was chasing cars written for g_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "UNVERIFIED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.4706,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is the enchanted forest in ore_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1878,
+        "mean_relevance": 0.1128,
+        "input_tokens": 138,
+        "output_tokens": 89
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_do they still make benson & he",
+      "status": "success",
+      "latency_ms": 6.6062,
+      "prediction": {
+        "retrieved_ids": [
+          "_do they still make benson & he_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 1.0,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_do they still make benson & he_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2301,
+        "mean_relevance": 0.2301,
+        "input_tokens": 53,
+        "output_tokens": 59
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is the toyota highlander on a ",
+      "status": "success",
+      "latency_ms": 7.137,
+      "prediction": {
+        "retrieved_ids": [
+          "_is the toyota highlander on a _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.6,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is the toyota highlander on a _doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2201,
+        "mean_relevance": 0.2201,
+        "input_tokens": 90,
+        "output_tokens": 60
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there a sequel to the movie",
+      "status": "success",
+      "latency_ms": 1.2794,
+      "prediction": {
+        "retrieved_ids": [],
+        "abstained": true,
+        "overall_decision": "ABSTAINED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there a sequel to the movie_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.0,
+        "mean_relevance": 0.0,
+        "input_tokens": 10,
+        "output_tokens": 10
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can an african team win the wo",
+      "status": "success",
+      "latency_ms": 10.8483,
+      "prediction": {
+        "retrieved_ids": [
+          "_did indian football team quali_doc",
+          "_can an african team win the wo_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.4667,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can an african team win the wo_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.5,
+        "r_at_1": 0.0,
+        "r_at_k": 1.0,
+        "mrr": 0.5,
+        "top1_relevance": 0.2707,
+        "mean_relevance": 0.26444999999999996,
+        "input_tokens": 143,
+        "output_tokens": 100
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can a hammer be used as a weap",
+      "status": "success",
+      "latency_ms": 1.3068,
+      "prediction": {
+        "retrieved_ids": [],
+        "abstained": true,
+        "overall_decision": "ABSTAINED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can a hammer be used as a weap_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.0,
+        "mean_relevance": 0.0,
+        "input_tokens": 8,
+        "output_tokens": 10
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can you wear short sleeve shir",
+      "status": "success",
+      "latency_ms": 7.049,
+      "prediction": {
+        "retrieved_ids": [
+          "_can you wear short sleeve shir_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.4219,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can you wear short sleeve shir_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2511,
+        "mean_relevance": 0.2511,
+        "input_tokens": 147,
+        "output_tokens": 55
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is baylor and mary hardin bayl",
+      "status": "success",
+      "latency_ms": 6.135,
+      "prediction": {
+        "retrieved_ids": [
+          "_is baylor and mary hardin bayl_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.5641,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is baylor and mary hardin bayl_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1895,
+        "mean_relevance": 0.1895,
+        "input_tokens": 84,
+        "output_tokens": 55
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_can you get the death penalty ",
+      "status": "success",
+      "latency_ms": 1.1994,
+      "prediction": {
+        "retrieved_ids": [],
+        "abstained": true,
+        "overall_decision": "ABSTAINED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 0.0,
+        "passage_overlap": 0.0,
+        "faithful": 0.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_can you get the death penalty _doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 0.0,
+        "p_at_k": 0.0,
+        "r_at_1": 0.0,
+        "r_at_k": 0.0,
+        "mrr": 0.0,
+        "top1_relevance": 0.0,
+        "mean_relevance": 0.0,
+        "input_tokens": 9,
+        "output_tokens": 10
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_did indian football team quali",
+      "status": "success",
+      "latency_ms": 10.534,
+      "prediction": {
+        "retrieved_ids": [
+          "_did indian football team quali_doc",
+          "_can an african team win the wo_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "FLAGGED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.4242,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_did indian football team quali_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2278,
+        "mean_relevance": 0.1899,
+        "input_tokens": 143,
+        "output_tokens": 100
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_does a frog jump out of boilin",
+      "status": "success",
+      "latency_ms": 12.9534,
+      "prediction": {
+        "retrieved_ids": [
+          "_does a frog jump out of boilin_doc",
+          "_can you wear short sleeve shir_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.5556,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_does a frog jump out of boilin_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.5,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.1402,
+        "mean_relevance": 0.0837,
+        "input_tokens": 196,
+        "output_tokens": 123
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_is there a movie with 0 on rot",
+      "status": "success",
+      "latency_ms": 4.8124,
+      "prediction": {
+        "retrieved_ids": [
+          "_is there a movie with 0 on rot_doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 1.0,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_is there a movie with 0 on rot_doc",
+        "answer": "yes"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 1.0,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2978,
+        "mean_relevance": 0.2978,
+        "input_tokens": 41,
+        "output_tokens": 48
+      },
+      "error": null
+    },
+    {
+      "sample_id": "_was chasing cars written for g",
+      "status": "success",
+      "latency_ms": 16.8462,
+      "prediction": {
+        "retrieved_ids": [
+          "_was chasing cars written for g_doc",
+          "_can you get the death penalty _doc",
+          "_can you wear short sleeve shir_doc",
+          "_can an african team win the wo_doc",
+          "_can u drive in canada with us _doc"
+        ],
+        "abstained": false,
+        "overall_decision": "TRUSTED",
+        "boolean_em": 0.0,
+        "gt_doc_cited": 1.0,
+        "passage_overlap": 0.3659,
+        "faithful": 1.0
+      },
+      "ground_truth": {
+        "gt_doc_id": "_was chasing cars written for g_doc",
+        "answer": "no"
+      },
+      "metadata": {
+        "p_at_1": 1.0,
+        "p_at_k": 0.2,
+        "r_at_1": 1.0,
+        "r_at_k": 1.0,
+        "mrr": 1.0,
+        "top1_relevance": 0.2145,
+        "mean_relevance": 0.055220000000000005,
+        "input_tokens": 249,
+        "output_tokens": 156
+      },
+      "error": null
+    }
+  ]
+}

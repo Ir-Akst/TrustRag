@@ -396,15 +396,15 @@ def cmd_split_stats(args: argparse.Namespace) -> int:
         # Official split preservation and audit
         print(f"Preserving official partition for '{name}'. Auditing partition data (limit={limit})...")
         local_target = Path(args.local_path) if args.local_path else Path(f"data/processed/{name}/{args.split}.jsonl")
-        records: List[Any] = []
+        official_records: List[Any] = []
         if local_target.is_file():
             try:
-                records = list(DatasetStorage.load_jsonl(local_target, record_type=rec_type, limit=limit))
+                official_records = list(DatasetStorage.load_jsonl(local_target, record_type=rec_type, limit=limit))
             except Exception:
-                records = []
+                official_records = []
 
-        if not records:
-            records = list(
+        if not official_records:
+            official_records = list(
                 load_dataset(
                     name,
                     split=args.split,
@@ -414,7 +414,7 @@ def cmd_split_stats(args: argparse.Namespace) -> int:
                 )
             )
 
-        partitions = {args.split: records}
+        partitions = {args.split: official_records}
         stats = LeakageResistantSplitter.audit_partitions(
             partitions=partitions,
             dataset_name=name,
@@ -450,6 +450,8 @@ def cmd_manifest(args: argparse.Namespace) -> int:
     for p in dir_path.glob("*.jsonl"):
         split_name = p.stem.replace("custom_", "")
         s_type = "custom" if "custom" in p.stem or is_custom else "official"
+        with p.open("r", encoding="utf-8") as fh:
+            rec_cnt = sum(1 for line in fh if line.strip())
         entry = {
             "split": p.stem,
             "original_split": split_name,
@@ -457,7 +459,7 @@ def cmd_manifest(args: argparse.Namespace) -> int:
             "split_type": s_type,
             "file_path": p.name,
             "format": "jsonl",
-            "record_count": sum(1 for line in p.open("r", encoding="utf-8") if line.strip()),
+            "record_count": rec_cnt,
             "file_size_bytes": p.stat().st_size,
             "sha256": compute_file_sha256(p),
         }

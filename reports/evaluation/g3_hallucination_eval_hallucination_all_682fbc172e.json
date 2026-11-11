@@ -1,0 +1,467 @@
+{
+  "experiment_id": "g3_hallucination_eval_hallucination_all_682fbc172e",
+  "experiment_name": "g3_hallucination_eval",
+  "timestamp": "2026-11-11T16:30:06.272341Z",
+  "dataset": "hallucination",
+  "split": "all",
+  "dataset_path": "data/benchmarks/hallucination",
+  "dataset_manifest_checksum": "b5e2a0b65d3782598451f8fc643e20d7f019be8dc5c00a0712248b6064941e8c",
+  "partition_file_sha256": null,
+  "is_synthetic": false,
+  "model": "g3-output-evidence-verifier",
+  "backend": "tfidf_rule_linguistic",
+  "configuration": {
+    "experiment_name": "g3_hallucination_eval",
+    "dataset_name": "hallucination",
+    "split": "all",
+    "dataset_dir": "data/benchmarks/hallucination",
+    "model_name": "g3-output-evidence-verifier",
+    "backend": "tfidf_rule_linguistic",
+    "random_seed": 42,
+    "top_k": 5,
+    "limit": null,
+    "is_synthetic": false,
+    "parameters": {
+      "enabled": true,
+      "min_support_coverage": 0.65,
+      "min_relevance_for_check": 0.1,
+      "strict_numeric_matching": true,
+      "strict_negation_check": true
+    }
+  },
+  "random_seed": 42,
+  "total_examples": 11,
+  "successful_examples": 11,
+  "failed_examples": 0,
+  "skipped_examples": 0,
+  "invalid_examples": 0,
+  "metrics": {
+    "answer_level_multiclass": {
+      "count": 11,
+      "accuracy": 0.2727,
+      "macro_f1": 0.2889,
+      "per_class": {
+        "SUPPORTED": {
+          "support": 5,
+          "tp": 1,
+          "fp": 0,
+          "fn": 4,
+          "precision": 1.0,
+          "recall": 0.2,
+          "f1": 0.3333
+        },
+        "CONTRADICTED": {
+          "support": 4,
+          "tp": 1,
+          "fp": 1,
+          "fn": 3,
+          "precision": 0.5,
+          "recall": 0.25,
+          "f1": 0.3333
+        },
+        "NOT_ENOUGH_EVIDENCE": {
+          "support": 2,
+          "tp": 1,
+          "fp": 7,
+          "fn": 1,
+          "precision": 0.125,
+          "recall": 0.5,
+          "f1": 0.2
+        }
+      }
+    },
+    "claim_level_multiclass": {
+      "count": 11,
+      "accuracy": 0.2727,
+      "macro_f1": 0.2889,
+      "per_class": {
+        "SUPPORTED": {
+          "support": 5,
+          "tp": 1,
+          "fp": 0,
+          "fn": 4,
+          "precision": 1.0,
+          "recall": 0.2,
+          "f1": 0.3333
+        },
+        "CONTRADICTED": {
+          "support": 4,
+          "tp": 1,
+          "fp": 1,
+          "fn": 3,
+          "precision": 0.5,
+          "recall": 0.25,
+          "f1": 0.3333
+        },
+        "NOT_ENOUGH_EVIDENCE": {
+          "support": 2,
+          "tp": 1,
+          "fp": 7,
+          "fn": 1,
+          "precision": 0.125,
+          "recall": 0.5,
+          "f1": 0.2
+        }
+      }
+    },
+    "unsupported_detection_binary": {
+      "count": 11,
+      "tp": 6,
+      "fp": 4,
+      "tn": 1,
+      "fn": 0,
+      "accuracy": 0.6364,
+      "precision": 0.6,
+      "recall": 1.0,
+      "f1": 0.75,
+      "fpr": 0.8,
+      "fnr": 0.0,
+      "roc_auc": null,
+      "pr_auc": null
+    },
+    "contradiction_detection_rate": 0.25,
+    "false_support_rate": 0.0,
+    "false_support_count": 0,
+    "evidence_traceability_rate": 1.0,
+    "misclassified_cases": [
+      {
+        "sample_id": "ragtruth_qa_002",
+        "source_dataset": "ragtruth",
+        "gt": "CONTRADICTED",
+        "pred": "NOT_ENOUGH_EVIDENCE",
+        "raw_verdict": "INSUFFICIENT_EVIDENCE",
+        "claim": "Photosynthesis converts water and nitrogen into methane and argon in plant cells."
+      },
+      {
+        "sample_id": "ragtruth_sum_003",
+        "source_dataset": "ragtruth",
+        "gt": "SUPPORTED",
+        "pred": "NOT_ENOUGH_EVIDENCE",
+        "raw_verdict": "INSUFFICIENT_EVIDENCE",
+        "claim": "The ECB kept interest rates unchanged at 4.00% despite persistent domestic inflation pressures."
+      },
+      {
+        "sample_id": "ragtruth_sum_004",
+        "source_dataset": "ragtruth",
+        "gt": "CONTRADICTED",
+        "pred": "NOT_ENOUGH_EVIDENCE",
+        "raw_verdict": "INSUFFICIENT_EVIDENCE",
+        "claim": "Penicillin was synthesized by Alexander Fleming in 1985 in a pharmaceutical laboratory in Munich."
+      },
+      {
+        "sample_id": "ragtruth_d2t_005",
+        "source_dataset": "ragtruth",
+        "gt": "SUPPORTED",
+        "pred": "NOT_ENOUGH_EVIDENCE",
+        "raw_verdict": "INSUFFICIENT_EVIDENCE",
+        "claim": "Kepler-22b is an exoplanet 600 light-years away orbiting a G-type star, discovered in 2011."
+      },
+      {
+        "sample_id": "wice_001",
+        "source_dataset": "wice",
+        "gt": "SUPPORTED",
+        "pred": "NOT_ENOUGH_EVIDENCE",
+        "raw_verdict": "INSUFFICIENT_EVIDENCE",
+        "claim": "Alan Turing played a pivotal role in cracking intercepted coded messages during World War II."
+      },
+      {
+        "sample_id": "wice_002",
+        "source_dataset": "wice",
+        "gt": "CONTRADICTED",
+        "pred": "NOT_ENOUGH_EVIDENCE",
+        "raw_verdict": "INSUFFICIENT_EVIDENCE",
+        "claim": "Water boils at 50 degrees Celsius at standard atmospheric pressure at sea level."
+      },
+      {
+        "sample_id": "expertqa_003",
+        "source_dataset": "expertqa",
+        "gt": "NOT_ENOUGH_EVIDENCE",
+        "pred": "CONTRADICTED",
+        "raw_verdict": "CONTRADICTED",
+        "claim": "Dark matter comprises exactly 84.7% of all baryonic matter in the observable universe."
+      },
+      {
+        "sample_id": "expertqa_001",
+        "source_dataset": "expertqa",
+        "gt": "SUPPORTED",
+        "pred": "NOT_ENOUGH_EVIDENCE",
+        "raw_verdict": "INSUFFICIENT_EVIDENCE",
+        "claim": "CRISPR-Cas9 acts as RNA-guided molecular scissors to induce double-strand DNA breaks."
+      }
+    ],
+    "latency_ms": {
+      "count": 11,
+      "mean": 1.5195,
+      "std": 0.2232,
+      "min": 1.2945,
+      "p50": 1.4282,
+      "p95": 1.9582,
+      "p99": 2.0496,
+      "max": 2.0725
+    },
+    "execution_accounting": {
+      "total_examples": 11,
+      "successful_examples": 11,
+      "failed_examples": 0,
+      "skipped_examples": 0,
+      "invalid_examples": 0
+    }
+  },
+  "execution_time_seconds": 0.016953,
+  "errors": [],
+  "sample_outcomes": [
+    {
+      "sample_id": "ragtruth_qa_002",
+      "status": "success",
+      "latency_ms": 1.8439,
+      "prediction": {
+        "answer_verdict_raw": "INSUFFICIENT_EVIDENCE",
+        "mapped_label": "NOT_ENOUGH_EVIDENCE",
+        "claim_count": 1,
+        "claim_preds": [
+          "NOT_ENOUGH_EVIDENCE"
+        ],
+        "gt_unsupported": 1,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "CONTRADICTED",
+        "source_dataset": "ragtruth",
+        "claim": "Photosynthesis converts water and nitrogen into methane and argon in plant cells."
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "ragtruth_sum_003",
+      "status": "success",
+      "latency_ms": 1.455,
+      "prediction": {
+        "answer_verdict_raw": "INSUFFICIENT_EVIDENCE",
+        "mapped_label": "NOT_ENOUGH_EVIDENCE",
+        "claim_count": 1,
+        "claim_preds": [
+          "NOT_ENOUGH_EVIDENCE"
+        ],
+        "gt_unsupported": 0,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "SUPPORTED",
+        "source_dataset": "ragtruth",
+        "claim": "The ECB kept interest rates unchanged at 4.00% despite persistent domestic inflation pressures."
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "ragtruth_sum_004",
+      "status": "success",
+      "latency_ms": 1.4755,
+      "prediction": {
+        "answer_verdict_raw": "INSUFFICIENT_EVIDENCE",
+        "mapped_label": "NOT_ENOUGH_EVIDENCE",
+        "claim_count": 1,
+        "claim_preds": [
+          "NOT_ENOUGH_EVIDENCE"
+        ],
+        "gt_unsupported": 1,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "CONTRADICTED",
+        "source_dataset": "ragtruth",
+        "claim": "Penicillin was synthesized by Alexander Fleming in 1985 in a pharmaceutical laboratory in Munich."
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "ragtruth_d2t_005",
+      "status": "success",
+      "latency_ms": 2.0725,
+      "prediction": {
+        "answer_verdict_raw": "INSUFFICIENT_EVIDENCE",
+        "mapped_label": "NOT_ENOUGH_EVIDENCE",
+        "claim_count": 1,
+        "claim_preds": [
+          "NOT_ENOUGH_EVIDENCE"
+        ],
+        "gt_unsupported": 0,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "SUPPORTED",
+        "source_dataset": "ragtruth",
+        "claim": "Kepler-22b is an exoplanet 600 light-years away orbiting a G-type star, discovered in 2011."
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "wice_001",
+      "status": "success",
+      "latency_ms": 1.3538,
+      "prediction": {
+        "answer_verdict_raw": "INSUFFICIENT_EVIDENCE",
+        "mapped_label": "NOT_ENOUGH_EVIDENCE",
+        "claim_count": 1,
+        "claim_preds": [
+          "NOT_ENOUGH_EVIDENCE"
+        ],
+        "gt_unsupported": 0,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "SUPPORTED",
+        "source_dataset": "wice",
+        "claim": "Alan Turing played a pivotal role in cracking intercepted coded messages during World War II."
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "wice_002",
+      "status": "success",
+      "latency_ms": 1.2945,
+      "prediction": {
+        "answer_verdict_raw": "INSUFFICIENT_EVIDENCE",
+        "mapped_label": "NOT_ENOUGH_EVIDENCE",
+        "claim_count": 1,
+        "claim_preds": [
+          "NOT_ENOUGH_EVIDENCE"
+        ],
+        "gt_unsupported": 1,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "CONTRADICTED",
+        "source_dataset": "wice",
+        "claim": "Water boils at 50 degrees Celsius at standard atmospheric pressure at sea level."
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "expertqa_003",
+      "status": "success",
+      "latency_ms": 1.5808,
+      "prediction": {
+        "answer_verdict_raw": "CONTRADICTED",
+        "mapped_label": "CONTRADICTED",
+        "claim_count": 1,
+        "claim_preds": [
+          "CONTRADICTED"
+        ],
+        "gt_unsupported": 1,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "NOT_ENOUGH_EVIDENCE",
+        "source_dataset": "expertqa",
+        "claim": "Dark matter comprises exactly 84.7% of all baryonic matter in the observable universe."
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "ragtruth_qa_001",
+      "status": "success",
+      "latency_ms": 1.3997,
+      "prediction": {
+        "answer_verdict_raw": "SUPPORTED",
+        "mapped_label": "SUPPORTED",
+        "claim_count": 1,
+        "claim_preds": [
+          "SUPPORTED"
+        ],
+        "gt_unsupported": 0,
+        "pred_unsupported": 0,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "SUPPORTED",
+        "source_dataset": "ragtruth",
+        "claim": "Apollo 11 landed on the Moon on July 20, 1969 with Neil Armstrong and Buzz Aldrin aboard."
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "wice_003",
+      "status": "success",
+      "latency_ms": 1.4282,
+      "prediction": {
+        "answer_verdict_raw": "INSUFFICIENT_EVIDENCE",
+        "mapped_label": "NOT_ENOUGH_EVIDENCE",
+        "claim_count": 1,
+        "claim_preds": [
+          "NOT_ENOUGH_EVIDENCE"
+        ],
+        "gt_unsupported": 1,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "NOT_ENOUGH_EVIDENCE",
+        "source_dataset": "wice",
+        "claim": "The artist completed seven oil paintings during his residency in Florence."
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "expertqa_001",
+      "status": "success",
+      "latency_ms": 1.404,
+      "prediction": {
+        "answer_verdict_raw": "INSUFFICIENT_EVIDENCE",
+        "mapped_label": "NOT_ENOUGH_EVIDENCE",
+        "claim_count": 1,
+        "claim_preds": [
+          "NOT_ENOUGH_EVIDENCE"
+        ],
+        "gt_unsupported": 0,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "SUPPORTED",
+        "source_dataset": "expertqa",
+        "claim": "CRISPR-Cas9 acts as RNA-guided molecular scissors to induce double-strand DNA breaks."
+      },
+      "metadata": {},
+      "error": null
+    },
+    {
+      "sample_id": "expertqa_002",
+      "status": "success",
+      "latency_ms": 1.4063,
+      "prediction": {
+        "answer_verdict_raw": "CONTRADICTED",
+        "mapped_label": "CONTRADICTED",
+        "claim_count": 1,
+        "claim_preds": [
+          "CONTRADICTED"
+        ],
+        "gt_unsupported": 1,
+        "pred_unsupported": 1,
+        "traceable_refs": true
+      },
+      "ground_truth": {
+        "label": "CONTRADICTED",
+        "source_dataset": "expertqa",
+        "claim": "Penicillin is effective against acute viral influenza infections."
+      },
+      "metadata": {},
+      "error": null
+    }
+  ]
+}

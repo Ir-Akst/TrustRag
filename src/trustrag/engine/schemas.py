@@ -180,10 +180,11 @@ class EvidenceDocument(BaseModel):
             if not text:
                 return None
             doc_id = str(rec.get("doc_id") or rec.get("document_id") or rec.get("record_id") or rec.get("query_id") or f"doc_{idx}")
-            raw_meta = rec.get("metadata") if isinstance(rec.get("metadata"), dict) else {}
+            raw_meta_val = rec.get("metadata")
+            raw_meta_dict = raw_meta_val if isinstance(raw_meta_val, dict) else {}
             safe_meta = {
                 k: v
-                for k, v in raw_meta.items()
+                for k, v in raw_meta_dict.items()
                 if k not in {"clean_poison_label", "expected_security_outcome", "poisoning_method", "passage"}
             }
             return cls(

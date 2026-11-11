@@ -20,11 +20,12 @@ from trustrag.data.exceptions import StorageError
 
 def format_bytes(num_bytes: int) -> str:
     """Format bytes into human-readable string (KB, MB, GB)."""
+    size = float(num_bytes)
     for unit in ["B", "KB", "MB", "GB", "TB"]:
-        if abs(num_bytes) < 1024.0:
-            return f"{num_bytes:3.2f} {unit}"
-        num_bytes /= 1024.0
-    return f"{num_bytes:.2f} PB"
+        if abs(size) < 1024.0:
+            return f"{size:3.2f} {unit}"
+        size /= 1024.0
+    return f"{size:.2f} PB"
 
 
 @dataclass

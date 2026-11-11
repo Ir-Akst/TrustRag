@@ -156,6 +156,38 @@ class MultiSignalDetector:
             return []
 
         n = len(candidates)
+        if not self.config.enabled:
+            rel_list = self._compute_standalone_similarities(query, candidates, relevance_scores)
+            orig_ranks = list(original_ranks) if original_ranks is not None else list(range(1, n + 1))
+            disabled_assessments: List[G2DocumentAssessment] = []
+            for doc, orig_score, orig_rank in zip(candidates, rel_list, orig_ranks, strict=False):
+                base_rel = round(float(orig_score), 4) if orig_score is not None else None
+                disabled_assessments.append(
+                    G2DocumentAssessment(
+                        document_id=doc.doc_id,
+                        source_id=doc.source_id,
+                        provenance=doc.provenance,
+                        metadata=dict(doc.metadata),
+                        trust_score=1.0,
+                        decision=DocumentSecurityLabel.CLEAN,
+                        signals={},
+                        supplementary_heuristics={},
+                        available_signals_count=0,
+                        available_weight_ratio=0.0,
+                        missing_signal_policy=self.config.missing_signal_policy,
+                        config_snapshot={"enabled": False},
+                        reason_codes=["G2_DISABLED"],
+                        original_retrieval_score=base_rel,
+                        adjusted_retrieval_score=base_rel,
+                        original_rank=orig_rank,
+                        conflict_detected=False,
+                        conflicting_doc_ids=[],
+                        instruction_risk_score=0.0,
+                        content_hash=doc.content_hash,
+                    )
+                )
+            return disabled_assessments
+
         rel_list = self._compute_standalone_similarities(query, candidates, relevance_scores)
         vecs = self._resolve_doc_embeddings(candidates, doc_embeddings)
         ppl_list = list(raw_perplexities) if raw_perplexities is not None else [None] * n

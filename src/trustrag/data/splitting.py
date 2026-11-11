@@ -14,7 +14,7 @@ from __future__ import annotations
 import hashlib
 import random
 from dataclasses import dataclass, field
-from typing import Any, Dict, List, Optional, Sequence, Set, Tuple
+from typing import Any, Dict, List, Mapping, Optional, Sequence, Set, Tuple
 
 from pydantic import BaseModel, Field, model_validator
 
@@ -153,7 +153,7 @@ class LeakageResistantSplitter:
     @classmethod
     def audit_partitions(
         cls,
-        partitions: Dict[str, Sequence[NormalizedRecord]],
+        partitions: Mapping[str, Sequence[NormalizedRecord]],
         dataset_name: str = "dataset",
         group_key: Optional[str] = None,
         split_type: str = "official",
@@ -272,8 +272,8 @@ class LeakageResistantSplitter:
         # Handle small dataset edge cases gracefully
         if total_groups == 1:
             train_groups = set(group_keys)
-            val_groups = set()
-            test_groups = set()
+            val_groups: Set[str] = set()
+            test_groups: Set[str] = set()
         elif total_groups == 2:
             train_groups = {group_keys[0]}
             val_groups = set()
