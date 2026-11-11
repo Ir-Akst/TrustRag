@@ -91,3 +91,4 @@ To avoid misleading cross-domain conflation, datasets are reported strictly sepa
 - **Experiment H (`MSD + alpha * Freq-Density` on `n=64`, `alpha in {0.0, 0.25, 0.50, 1.0}`):**
   - Across every tested `alpha` (`0.0 -> 1.0`), **`ROC-AUC = 0.8315`**, `PR-AUC = 0.8320`, `F1 = 0.6512`, `Precision = 1.0000`, `Recall = 0.4828`, `FPR = 0.0000` (**exact `0.0000` delta**).
 - **Finding:** Without a real generative SLM producing $a_j = \text{SLM}(q_i, d_j)$ (and ML-FilterRAG perplexity fusion), FilterRAG's lexical concentration ratio does **not** complement TrustRAG MSD and is destructive if paired with extractive answers.
+

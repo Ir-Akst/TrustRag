@@ -53,3 +53,4 @@
 - **Functional Implementation:** **Partial.** Only heuristic/TF-IDF versions of G1 (no `q'`), G2 (F3, F4, partial F5, sparse F6; F1/F2 inactive by default), G3 (no query consistency, no `trust_score` weighting, no `re-answer`), Phase 05 Adaptive (Platt + bounded thresholds + drift + policy rollback), and Fallback SRM operate offline.
 - **Experimental Reproduction:** **Not Reproduced.** Zero Paper A benchmarks (`RAGTruth` full / `LLM-AggreFact`), zero Paper B full benchmarks (`RSB` 13-attack matrix / `HaluEval-QA` 10k), and zero Paper C benchmarks (`PoisonedRAG` over `NQ`/`HotpotQA`/`MS-MARCO`) are available offline.
 - **Research-Level Parity:** **0 / 28 contributions achieve Research-Level Parity.** Any parity claim in historical summaries applies solely to deterministic software-contract alignment on small offline datasets, never experimental parity with Papers A, B, or C.
+

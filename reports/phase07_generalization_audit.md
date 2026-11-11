@@ -47,3 +47,4 @@ Direct execution of `OutputEvidenceVerifier` (`VerificationConfig(enabled=True)`
 ## 3. Cross-Domain Generalization Verdict
 
 TrustRAG's deterministic heuristic G3 verifier enforces strong conservative precision on clean-vs-unmentioned boundary checks (**0 false `SUPPORTED` on `hallucination`, `expertqa`, `ragtruth`, `wice` small sets**), **but** exhibits low positive recall (`0.00–0.33`), fails 10 of 13 strict generalization probes, and harbors **3 high-severity logical bugs** (role-swap passive/active `SUPPORTED`, `supports`/`unsupported` intra-doc conflict miss, and `"should not exceed"` upper-limit false contradiction) that cannot be closed with regex rules alone without an NLI / Small Reasoning Model.
+

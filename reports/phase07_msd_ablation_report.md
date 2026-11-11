@@ -80,3 +80,4 @@
 To unblock F1 and neural F2 in Phase 08:
 1. **F1 Spec:** Load causal LM `Qwen2.5-1.5B` or `GPT-2` locally (`device=cpu/cuda`); compute token-level perplexity `exp(-1/T sum log P(w_t | w_<t))` on `data/benchmarks_backup/clean_rag/train` (`N=70`) to freeze `perplexity_reference_mean` and `perplexity_reference_std`; pass `perplexity_callable` to `MultiSignalDetector`; sweep `weight_perplexity in {0.4, 0.8, 1.2}` on `backup/val` before locked test on `backup/test` (`n=64`).
 2. **Dense F2 Spec:** Encode passages with `BAAI/bge-base-en-v1.5` or `all-MiniLM-L6-v2` (unnormalized embeddings); compute clean-corpus norm baseline `(mean, std)` on `train`; re-run LOO vs active-4 to measure whether real neural L2 norms avoid the `-0.0276` ROC-AUC regression observed with TF-IDF L2 norms.
+
