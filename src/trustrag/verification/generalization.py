@@ -68,12 +68,26 @@ _UNIT_VAL_RE = re.compile(
 )
 
 
-def _expand_numeric_shorthand(text: str) -> str:
+_TEMP_VAL_RE = re.compile(
+    r"\b(-?\d+(?:\.\d+)?)\s*(?:degrees?\s+)?(celsius|fahrenheit|kelvin)\b",
+    re.IGNORECASE,
+)
+
+
+def _expand_numeric_shorthand(text: str, *, as_integer: bool = False) -> str:
+    if as_integer:
+        scale = {"k": 1_000, "m": 1_000_000, "b": 1_000_000_000}
+
+        def _num_sub(m: re.Match[str]) -> str:
+            val = float(m.group(1)) * scale[m.group(2).lower()]
+            return str(int(val)) if val.is_integer() else f"{val:g}"
+
+        return _SHORTHAND_RE.sub(_num_sub, text)
     mult = {"k": "thousand", "m": "million", "b": "billion"}
     return _SHORTHAND_RE.sub(lambda m: f"{m.group(1)} {mult[m.group(2).lower()]}", text)
 
 
-def _linearize_markdown_tables(text: str) -> str | None:
+def _linearize_markdown_tables(text: str, *, as_integer: bool = False) -> str | None:
     lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
     table_lines = [ln for ln in lines if ln.startswith("|") and ln.endswith("|")]
     if len(table_lines) < 2:
@@ -86,7 +100,7 @@ def _linearize_markdown_tables(text: str) -> str | None:
             continue
         subj = cells[0]
         for idx in range(1, min(len(headers), len(cells))):
-            val = _expand_numeric_shorthand(cells[idx])
+            val = _expand_numeric_shorthand(cells[idx], as_integer=as_integer)
             hdr = headers[idx]
             if hdr.lower().startswith("pop"):
                 clauses.append(f"{subj} has a population of {val}.")
@@ -250,20 +264,52 @@ def _check_temporal_currency(
     item: ClaimVerificationItem,
     documents: Sequence[EvidenceDocument],
 ) -> ClaimVerificationItem | None:
-    """Detect superseded historical role claimed as current ('today'/'currently'/'now')."""
+    """Detect superseded historical role or retired status claimed as current ('today'/'currently'/'now')."""
     if item.verdict != G3ClaimVerdict.INSUFFICIENT:
         return None
     cl_low = item.claim_text.lower()
     if not any(cue in cl_low for cue in ("today", "currently", "now", "presently")):
         return None
-    if _YEAR_RE.search(item.claim_text):
-        return None
 
     cl_entities = {e.lower() for e in _extract_cap_entities(item.claim_text)}
     if not cl_entities:
         return None
+    claim_years = [int(y) for y in _YEAR_RE.findall(item.claim_text)]
+    claim_ref_year = max(claim_years) if claim_years else 9999
 
     for doc in documents:
+        ev_low = doc.text.lower()
+        ev_years = [int(y) for y in _YEAR_RE.findall(doc.text)]
+        if ev_years and any(w in ev_low for w in ("retiring", "retired", "resigned", "stepped down", "died", "former")):
+            ev_ents = {e.lower() for e in _extract_cap_entities(doc.text)}
+            if (cl_entities & ev_ents) and min(ev_years) <= claim_ref_year:
+                ref = EvidenceReference(
+                    doc_id=doc.doc_id,
+                    source_id=doc.source_id,
+                    source_dataset=doc.source_dataset,
+                    provenance=doc.provenance,
+                    matched_span=doc.text[:220],
+                    similarity_score=0.70,
+                    polarity_match=False,
+                    numeric_match=False,
+                    coverage_score=0.70,
+                    alignment_note=f"Evidence indicates termination/retirement by {max(ev_years)}, contradicting current active claim.",
+                    span_outcome="CONTRADICTED",
+                )
+                return item.model_copy(
+                    update={
+                        "outcome": EvidenceOutcome.CONTRADICTS,
+                        "verdict": G3ClaimVerdict.CONTRADICTED,
+                        "unsupported_flag": True,
+                        "confidence": 0.80,
+                        "contradicting_evidence_refs": [ref],
+                        "evidence_refs": [ref],
+                        "explanation": f"Temporal contradiction: subject ceased active role by {max(ev_years)} in '{doc.doc_id}'.",
+                    }
+                )
+
+        if claim_years:
+            continue
         parts = re.split(r"[;.]", doc.text)
         dated: list[tuple[int, str]] = []
         for p in parts:
@@ -327,6 +373,51 @@ def _check_unit_conversion(
         return None
     cl_matches = list(_UNIT_VAL_RE.finditer(item.claim_text))
     if not cl_matches:
+        # Try affine temperature conversion (Celsius <-> Fahrenheit <-> Kelvin)
+        cl_temps = list(_TEMP_VAL_RE.finditer(item.claim_text))
+        if not cl_temps:
+            return None
+        def _to_celsius(val: float, unit_str: str) -> float:
+            u = unit_str.lower()
+            if u == "fahrenheit":
+                return (val - 32.0) * 5.0 / 9.0
+            if u == "kelvin":
+                return val - 273.15
+            return val
+
+        cl_toks_t = set(re.findall(r"[a-z]+", _TEMP_VAL_RE.sub("", item.claim_text).lower())) - _STOPWORDS
+        for cm in cl_temps:
+            c_c = _to_celsius(float(cm.group(1)), cm.group(2))
+            for doc in documents:
+                for dm in _TEMP_VAL_RE.finditer(doc.text):
+                    d_c = _to_celsius(float(dm.group(1)), dm.group(2))
+                    if abs(c_c - d_c) <= 0.5:
+                        ev_toks_t = set(re.findall(r"[a-z]+", _TEMP_VAL_RE.sub("", doc.text).lower())) - _STOPWORDS
+                        if cl_toks_t and len(cl_toks_t & ev_toks_t) / len(cl_toks_t) >= 0.50:
+                            ref = EvidenceReference(
+                                doc_id=doc.doc_id,
+                                source_id=doc.source_id,
+                                source_dataset=doc.source_dataset,
+                                provenance=doc.provenance,
+                                matched_span=doc.text[:220],
+                                similarity_score=0.85,
+                                polarity_match=True,
+                                numeric_match=True,
+                                coverage_score=0.85,
+                                alignment_note=f"Temperature conversion match ({dm.group(0)} ~= {cm.group(0)}).",
+                                span_outcome="SUPPORTED",
+                            )
+                            return item.model_copy(
+                                update={
+                                    "outcome": EvidenceOutcome.SUPPORTS,
+                                    "verdict": G3ClaimVerdict.SUPPORTED,
+                                    "unsupported_flag": False,
+                                    "confidence": 0.85,
+                                    "supporting_evidence_refs": [ref],
+                                    "evidence_refs": [ref],
+                                    "explanation": f"Verified via temperature conversion: {dm.group(0)} matches {cm.group(0)}.",
+                                }
+                            )
         return None
     cl_toks = _unit_context_tokens(item.claim_text)
 
@@ -402,33 +493,35 @@ def _check_synonym_or_bridge_via_verifier(
         return None
     ent_a, ent_b = cl_ents[0], cl_ents[1]
 
-    for doc, orig_doc in zip(norm_docs, trusted_documents, strict=False):
+    # Strict 2-hop transitive location/entity bridge (single-doc OR cross-doc aggregation)
+    sent_pool: list[tuple[str, EvidenceDocument, set[str]]] = []
+    for doc in norm_docs:
         if _COND_OR_DISJ_RE.search(doc.text) or re.search(r"\d", doc.text):
             continue
-        sents = [s.strip() for s in re.split(r"(?<=[.!?])\s+", doc.text) if s.strip()]
-        if len(sents) < 2:
+        for sent in re.split(r"(?<=[.!?])\s+", doc.text):
+            s_clean = sent.strip()
+            if s_clean:
+                sent_pool.append((s_clean, doc, set(_extract_cap_entities(s_clean))))
+
+    for i, (sa, doc_a, ea) in enumerate(sent_pool):
+        if ent_a not in ea or ent_b in ea:
             continue
-        for i, sa in enumerate(sents):
-            ea = _extract_cap_entities(sa)
-            if ent_a not in ea or ent_b in ea:
-                continue
-            bridges = [e for e in ea if e not in {ent_a, ent_b}]
-            for bridge in bridges:
-                for j, sb in enumerate(sents):
-                    if i == j:
-                        continue
-                    eb = _extract_cap_entities(sb)
-                    if bridge in eb and ent_b in eb:
-                        bridged_text = re.sub(rf"\b{re.escape(bridge)}\b", ent_b, sa)
-                        bridged_doc = orig_doc.model_copy(update={"text": bridged_text})
-                        res = verify_claim_fn(item.claim_id, norm_claim, [bridged_doc])
-                        if res.verdict == G3ClaimVerdict.SUPPORTED:
-                            return res.model_copy(
-                                update={
-                                    "claim_text": item.claim_text,
-                                    "explanation": f"Verified via 2-hop transitive entity bridge through '{bridge}'.",
-                                }
-                            )
+        bridges = [e for e in ea if e not in {ent_a, ent_b}]
+        for bridge in bridges:
+            for j, (_sb, _doc_b, eb) in enumerate(sent_pool):
+                if i == j:
+                    continue
+                if bridge in eb and ent_b in eb:
+                    bridged_text = re.sub(rf"\b{re.escape(bridge)}\b", ent_b, sa)
+                    bridged_doc = doc_a.model_copy(update={"text": bridged_text})
+                    res = verify_claim_fn(item.claim_id, norm_claim, [bridged_doc])
+                    if res.verdict == G3ClaimVerdict.SUPPORTED:
+                        return res.model_copy(
+                            update={
+                                "claim_text": item.claim_text,
+                                "explanation": f"Verified via 2-hop transitive entity bridge through '{bridge}'.",
+                            }
+                        )
     return None
 
 
@@ -452,17 +545,18 @@ def refine_claim_with_generalization(
     if item.verdict != G3ClaimVerdict.INSUFFICIENT:
         return item
 
-    table_docs: list[EvidenceDocument] = []
-    for d in trusted_documents:
-        lin = _linearize_markdown_tables(d.text)
-        if lin:
-            table_docs.append(d.model_copy(update={"text": lin}))
-    if table_docs:
-        tbl_res = verify_claim_fn(item.claim_id, item.claim_text, table_docs)
-        if tbl_res.verdict == G3ClaimVerdict.SUPPORTED:
-            return tbl_res.model_copy(
-                update={"explanation": f"{tbl_res.explanation} (linearized tabular evidence)"}
-            )
+    for as_int in (False, True):
+        table_docs: list[EvidenceDocument] = []
+        for d in trusted_documents:
+            lin = _linearize_markdown_tables(d.text, as_integer=as_int)
+            if lin:
+                table_docs.append(d.model_copy(update={"text": lin}))
+        if table_docs:
+            tbl_res = verify_claim_fn(item.claim_id, item.claim_text, table_docs)
+            if tbl_res.verdict == G3ClaimVerdict.SUPPORTED:
+                return tbl_res.model_copy(
+                    update={"explanation": f"{tbl_res.explanation} (linearized tabular evidence)"}
+                )
 
     temp_res = _check_temporal_currency(item, trusted_documents)
     if temp_res is not None:

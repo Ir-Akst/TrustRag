@@ -8,7 +8,9 @@ User Query -> G1 Input Guardrail -> Retrieval -> G2 Multi-Signal Trust Assessmen
 
 from __future__ import annotations
 
+import inspect
 from pathlib import Path
+import time
 from typing import Any, List, Optional, Sequence, Set, Union
 
 from trustrag.config.settings import Settings, load_config
@@ -120,6 +122,28 @@ class TrustRAGPipeline:
         )
         return cls(settings=cfg, retriever=retriever)
 
+    def _invoke_verifier(
+        self,
+        answer_text: str,
+        docs: Sequence[Any],
+        *,
+        query: str,
+        abstained: bool,
+        doc_trust_scores: Optional[dict[str, float]] = None,
+        min_passage_trust: float = 0.60,
+    ) -> Any:
+        """Call configured verifier cleanly while remaining backward-compatible with custom spy doubles."""
+        params = inspect.signature(self.verifier.verify).parameters
+        accepts_kwargs = any(p.kind == inspect.Parameter.VAR_KEYWORD for p in params.values())
+        extra: dict[str, Any] = {}
+        if "query" in params or accepts_kwargs:
+            extra["query"] = query
+        if doc_trust_scores is not None and ("doc_trust_scores" in params or accepts_kwargs):
+            extra["doc_trust_scores"] = doc_trust_scores
+        if "min_passage_trust" in params or accepts_kwargs:
+            extra["min_passage_trust"] = min_passage_trust
+        return self.verifier.verify(answer_text, docs, abstained=abstained, **extra)
+
     def run(
         self,
         query: str,
@@ -228,14 +252,112 @@ class TrustRAGPipeline:
             trace.append("ANSWER_UNICODE:CLEAN")
 
         # 5. G3 Claim-Level Output Evidence Verification strictly against admissible evidence
-        g3_report = self.verifier.verify(
+        admissible_trust_scores = {
+            a.document_id: a.trust_score for a in trusted_assessments if a.document_id in admissible_doc_ids
+        }
+        g3_report = self._invoke_verifier(
             verify_answer_text,
             admissible_docs,
+            query=g1.normalized_input,
             abstained=gen.abstained,
+            doc_trust_scores=admissible_trust_scores if self.settings.verification.enable_reanswer else None,
+            min_passage_trust=self.settings.verification.min_reanswer_trust_score,
         )
         trace.append(
             f"G3:{g3_report.overall_status.value}(verdict={g3_report.verdict.value if g3_report.verdict else g3_report.overall_status.value},claims={g3_report.total_claims},sup={g3_report.supported_count},con={g3_report.contradicted_count},ins={g3_report.insufficient_count},unc={g3_report.uncertain_count})"
         )
+
+        # 5b. Controlled High-Trust Subset (E_hat) Re-Answer & Strict Re-Verification Loop (Phase 08 Step 06)
+        initial_answer_record = gen.answer_text
+        initial_g3_status = g3_report.overall_status.value
+        initial_query_consistent = g3_report.query_consistent
+        reanswer_attempts = 0
+        reanswer_applied = False
+        high_trust_docs = [
+            d
+            for d in admissible_docs
+            if d.doc_id in assessed_by_doc_id
+            and assessed_by_doc_id[d.doc_id].trust_score >= self.settings.verification.min_reanswer_trust_score
+            and not assessed_by_doc_id[d.doc_id].conflict_detected
+        ]
+        needs_reanswer = (
+            self.settings.verification.enable_reanswer
+            and self.settings.verification.max_reanswer_attempts > 0
+            and not gen.abstained
+            and (
+                g3_report.overall_status != VerificationStatus.VERIFIED
+                or g3_report.query_consistent is False
+                or bool(quarantined_docs and high_trust_docs)
+            )
+        )
+        if needs_reanswer:
+            if not high_trust_docs:
+                trace.append("REANSWER:NO_HIGH_TRUST_EVIDENCE_ABSTAIN")
+                gen = gen.model_copy(
+                    update={
+                        "answer_text": "Insufficient high-trust evidence is available after verification.",
+                        "abstained": True,
+                        "abstention_reason": "REANSWER_NO_HIGH_TRUST_SUBSET",
+                        "cited_doc_ids": [],
+                    }
+                )
+                g3_report = self._invoke_verifier(gen.answer_text, [], query=g1.normalized_input, abstained=True)
+                reanswer_applied = True
+            else:
+                retry_t0 = time.perf_counter()
+                for attempt_idx in range(1, self.settings.verification.max_reanswer_attempts + 1):
+                    if (time.perf_counter() - retry_t0) > self.settings.verification.reanswer_timeout_seconds:
+                        trace.append("REANSWER:TIMEOUT_ABSTAIN")
+                        gen = gen.model_copy(
+                            update={
+                                "answer_text": "Re-answering exceeded timeout budget; abstaining safely.",
+                                "abstained": True,
+                                "abstention_reason": "REANSWER_TIMEOUT",
+                                "cited_doc_ids": [],
+                            }
+                        )
+                        g3_report = self._invoke_verifier(gen.answer_text, [], query=g1.normalized_input, abstained=True)
+                        reanswer_applied = True
+                        break
+                    reanswer_attempts = attempt_idx
+                    cand_gen = self.generator.generate(g1.normalized_input, high_trust_docs, answer_override=None)
+                    c_has_obf, clean_cand, c_obf = detect_obfuscation(cand_gen.answer_text or "")
+                    folded_cand, c_mix = fold_mixed_script_confusables(clean_cand or cand_gen.answer_text or "")
+                    c_fw = count_fullwidth_ascii_confusables(cand_gen.answer_text or "")
+                    ans_unicode_flagged = bool(c_has_obf or c_obf or c_mix or c_fw)
+                    cand_txt = folded_cand if ans_unicode_flagged else cand_gen.answer_text
+                    cand_g3 = self._invoke_verifier(
+                        cand_txt,
+                        high_trust_docs,
+                        query=g1.normalized_input,
+                        abstained=cand_gen.abstained,
+                        doc_trust_scores={d.doc_id: assessed_by_doc_id[d.doc_id].trust_score for d in high_trust_docs},
+                        min_passage_trust=self.settings.verification.min_reanswer_trust_score,
+                    )
+                    trace.append(
+                        f"REANSWER:attempt={attempt_idx},g3={cand_g3.overall_status.value},q_consistent={cand_g3.query_consistent}"
+                    )
+                    gen = cand_gen
+                    verify_answer_text = cand_txt
+                    g3_report = cand_g3
+                    admissible_docs = list(high_trust_docs)
+                    admissible_doc_ids = {d.doc_id for d in admissible_docs}
+                    reanswer_applied = True
+                    if cand_g3.overall_status == VerificationStatus.VERIFIED and cand_g3.query_consistent is not False:
+                        break
+                if not gen.abstained and (
+                    g3_report.overall_status != VerificationStatus.VERIFIED or g3_report.query_consistent is False
+                ):
+                    trace.append("REANSWER:INCONCLUSIVE_ABSTAIN")
+                    gen = gen.model_copy(
+                        update={
+                            "answer_text": "Unable to produce a fully verified answer from high-trust evidence.",
+                            "abstained": True,
+                            "abstention_reason": "REANSWER_UNVERIFIED_ABSTAIN",
+                            "cited_doc_ids": [],
+                        }
+                    )
+                    g3_report = self._invoke_verifier(gen.answer_text, [], query=g1.normalized_input, abstained=True)
 
         # 6. SRM-Assisted Reasoning strictly on admissible evidence passages
         srm_request = SRMRequest(
@@ -372,6 +494,15 @@ class TrustRAGPipeline:
             "srm_model": srm_resp.model_name,
             "safe_to_display": safe_to_display,
             "unsafe_output_quarantined": unsafe_output_quarantined,
+            "reanswer_audit": {
+                "enabled": self.settings.verification.enable_reanswer,
+                "attempts": reanswer_attempts,
+                "applied": reanswer_applied,
+                "initial_answer": initial_answer_record,
+                "initial_g3_status": initial_g3_status,
+                "initial_query_consistent": initial_query_consistent,
+                "high_trust_doc_ids": [d.doc_id for d in high_trust_docs],
+            },
         }
         if unsafe_output_quarantined:
             out_meta["quarantined_doc_ids"] = sorted(quarantined_doc_ids)

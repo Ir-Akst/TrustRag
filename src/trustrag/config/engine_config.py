@@ -40,6 +40,20 @@ class GuardrailsConfig(_ValidatedConfigModel):
         default=True,
         description="Analyze obfuscated zero-width characters while keeping original input intact",
     )
+    enable_paraphrasing: bool = Field(
+        default=False,
+        description="Enable controlled G1 query paraphrasing with strict semantic constraint verification",
+    )
+    paraphrase_backend: Literal["disabled", "deterministic", "callable"] = Field(
+        default="disabled",
+        description="Paraphrasing provider mode for G1 query expansion",
+    )
+    min_paraphrase_similarity: float = Field(
+        default=0.30,
+        ge=0.0,
+        le=1.0,
+        description="Minimum lexical/TF-IDF similarity required to accept a G1 paraphrase",
+    )
 
     @model_validator(mode="after")
     def validate_thresholds(self) -> "GuardrailsConfig":
@@ -179,7 +193,7 @@ class MSDConfig(_ValidatedConfigModel):
     perplexity_reference_std: float = Field(default=15.0, gt=0.0)
     perplexity_z_threshold: float = Field(default=2.0, gt=0.0)
 
-    embedding_backend: Literal["tfidf_raw", "callable", "disabled"] = Field(
+    embedding_backend: Literal["tfidf_raw", "tfidf_sublinear", "callable", "disabled"] = Field(
         default="tfidf_raw",
         description="Embedding backend used for F2 norm and F3/F5 cosine representations",
     )
@@ -194,6 +208,26 @@ class MSDConfig(_ValidatedConfigModel):
     embedding_norm_reference_mean: Optional[float] = Field(default=None, gt=0.0)
     embedding_norm_reference_std: Optional[float] = Field(default=None, gt=0.0)
     embedding_norm_z_threshold: float = Field(default=2.0, gt=0.0)
+
+    # Consensus deviation minority-outlier attenuation (Phase 08 Step 07)
+    enable_minority_outlier_attenuation: bool = Field(
+        default=True,
+        description=(
+            "Amplify F5 effective weight strictly for minority-outlier documents when an agreeing "
+            "majority consensus quorum exists across peer candidates."
+        ),
+    )
+    minority_outlier_majority_peers_min: int = Field(
+        default=2,
+        ge=2,
+        description="Minimum agreeing high-consensus peers (F5 >= 0.70) required to treat an outlier as minority",
+    )
+    minority_outlier_consensus_multiplier: float = Field(
+        default=4.0,
+        ge=1.0,
+        le=10.0,
+        description="F5 log-odds weight multiplier applied strictly to confirmed minority outliers",
+    )
 
     # Configurable source reliability priors (basis must come from explicit user/corpus policy)
     provenance_priors: Dict[str, float] = Field(
@@ -301,23 +335,90 @@ class VerificationConfig(_ValidatedConfigModel):
         default=True,
         description="Mark opposite polarity assertions on matched topics as CONTRADICTS",
     )
+    enable_query_consistency: bool = Field(
+        default=True,
+        description="Verify answer addresses user query intent and detect DoS refusals/topic hijacks",
+    )
+    min_query_consistency_score: float = Field(
+        default=0.12,
+        ge=0.0,
+        le=1.0,
+        description="Minimum query-answer alignment score required before drift flagging",
+    )
+    enable_reanswer: bool = Field(
+        default=False,
+        description="Allow bounded re-answer regeneration strictly from verified high-trust subset Ê",
+    )
+    max_reanswer_attempts: int = Field(
+        default=1,
+        ge=0,
+        le=3,
+        description="Maximum number of controlled re-answer regeneration attempts",
+    )
+    min_reanswer_trust_score: float = Field(
+        default=0.60,
+        ge=0.0,
+        le=1.0,
+        description="Minimum G2 trust score required for a document to enter high-trust subset Ê",
+    )
+    reanswer_timeout_seconds: float = Field(
+        default=5.0,
+        gt=0.0,
+        description="Maximum total retry budget (seconds) for controlled re-answering",
+    )
 
 
 class SRMConfig(_ValidatedConfigModel):
     """Configuration for HalluGuard-inspired Small Reasoning Model (SRM) integration."""
 
     enabled: bool = Field(default=True, description="Whether SRM verification stage is invoked")
-    backend: Literal["disabled", "local_ollama", "openai_compatible"] = Field(
+    backend: Literal["disabled", "local_ollama", "openai_compatible", "hf_local", "custom"] = Field(
         default="disabled",
         description="SRM backend type; 'disabled' activates deterministic fallback directly",
     )
     model_name: str = Field(
         default="halluguard-srm-fallback",
-        description="Configured model identifier (e.g., qwen2.5:1.5b for Ollama or API model ID)",
+        description="Configured model identifier (e.g., qwen2.5:1.5b, local HF path, or API model ID)",
+    )
+    model_adapter_path: Optional[str] = Field(
+        default=None,
+        description="Optional local LoRA/PEFT adapter directory for hf_local backend",
     )
     endpoint_url: Optional[str] = Field(
         default=None,
         description="Optional HTTP endpoint URL overriding provider defaults",
+    )
+    inference_mode: Literal["think", "non_think"] = Field(
+        default="non_think",
+        description="Reasoning output mode ('think' enables <think> trace extraction prior to JSON)",
+    )
+    device: Literal["auto", "cpu", "cuda"] = Field(
+        default="auto",
+        description="Execution device preference for optional local model backends",
+    )
+    max_new_tokens: int = Field(
+        default=512,
+        ge=32,
+        le=4096,
+        description="Maximum tokens generated per SRM reasoning request",
+    )
+    batch_size: int = Field(
+        default=4,
+        ge=1,
+        le=64,
+        description="Maximum controlled batch size for batch SRM inference",
+    )
+    local_files_only: bool = Field(
+        default=True,
+        description="Disallow automatic remote weight downloads; require locally staged checkpoints",
+    )
+    trust_remote_code: bool = Field(
+        default=False,
+        description="Explicit opt-in required before executing custom tokenizer/model code",
+    )
+    enforce_citation_grounding: bool = Field(
+        default=True,
+        description="Validate SRM cited evidence spans against candidate passage text",
     )
     timeout_seconds: float = Field(default=5.0, gt=0.0, description="Request timeout in seconds")
     temperature: float = Field(default=0.0, ge=0.0, le=2.0, description="Sampling temperature")

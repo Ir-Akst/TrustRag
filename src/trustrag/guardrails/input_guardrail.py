@@ -10,7 +10,7 @@ Validates, audits, and classifies incoming user queries before retrieval:
 from __future__ import annotations
 
 import re
-from typing import Dict, List, Optional, Tuple
+from typing import Callable, Dict, List, Optional, Tuple
 
 from trustrag.config.engine_config import GuardrailsConfig
 from trustrag.data.preprocessing.cleaning import clean_text, is_empty_text
@@ -28,6 +28,7 @@ from trustrag.engine.text_utils import (
     fold_mixed_script_confusables,
     match_threat_patterns,
 )
+from trustrag.guardrails.paraphraser import ControlledQueryParaphraser
 from trustrag.utils.logging import get_logger
 
 LOGGER = get_logger(__name__)
@@ -71,8 +72,23 @@ _CATEGORY_TO_REASON: Dict[str, G1ReasonCode] = {
 class InputGuardrail:
     """G1 Input Guardrail validating queries prior to retrieval and generation."""
 
-    def __init__(self, config: Optional[GuardrailsConfig] = None) -> None:
+    def __init__(
+        self,
+        config: Optional[GuardrailsConfig] = None,
+        *,
+        paraphrase_callable: Optional[Callable[[str], str]] = None,
+    ) -> None:
         self.config = config or GuardrailsConfig()
+        backend = (
+            self.config.paraphrase_backend
+            if self.config.paraphrase_backend != "disabled"
+            else ("callable" if paraphrase_callable is not None else "deterministic")
+        )
+        self.paraphraser = ControlledQueryParaphraser(
+            backend=backend,
+            paraphrase_callable=paraphrase_callable,
+            min_similarity=self.config.min_paraphrase_similarity,
+        )
 
     def evaluate(self, user_input: str) -> G1Assessment:
         """Assess a raw user query and return a structured G1Assessment.
@@ -223,6 +239,18 @@ class InputGuardrail:
                 decision = G1Decision.ALLOW
                 explanation = f"Low-risk signals noted ({', '.join(c.value for c in reason_codes)}); input allowed."
 
+        paraphrased_query: Optional[str] = None
+        paraphrase_accepted = False
+        paraphrase_reasons: List[str] = []
+        if self.config.enable_paraphrasing:
+            if decision == G1Decision.BLOCK:
+                paraphrase_reasons = ["PARAPHRASE_SKIPPED_BLOCKED_INPUT"]
+            else:
+                p_res = self.paraphraser.generate(normalized_input)
+                paraphrase_accepted = p_res.accepted
+                paraphrased_query = p_res.validated_paraphrase
+                paraphrase_reasons = list(p_res.rejection_reasons)
+
         LOGGER.info(
             "G1 input assessment completed",
             extra={
@@ -230,6 +258,7 @@ class InputGuardrail:
                 "risk_score": risk_score,
                 "reason_codes": [c.value for c in reason_codes],
                 "audit_hash": audit_hash,
+                "paraphrase_accepted": paraphrase_accepted,
             },
         )
 
@@ -242,6 +271,9 @@ class InputGuardrail:
             matches=matches,
             explanation=explanation,
             audit_hash=audit_hash,
+            paraphrased_query=paraphrased_query,
+            paraphrase_accepted=paraphrase_accepted,
+            paraphrase_rejection_reasons=paraphrase_reasons,
         )
 
 
