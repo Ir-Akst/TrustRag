@@ -193,7 +193,7 @@ class MSDConfig(_ValidatedConfigModel):
     perplexity_reference_std: float = Field(default=15.0, gt=0.0)
     perplexity_z_threshold: float = Field(default=2.0, gt=0.0)
 
-    embedding_backend: Literal["tfidf_raw", "callable", "disabled"] = Field(
+    embedding_backend: Literal["tfidf_raw", "tfidf_sublinear", "callable", "disabled"] = Field(
         default="tfidf_raw",
         description="Embedding backend used for F2 norm and F3/F5 cosine representations",
     )
@@ -208,6 +208,26 @@ class MSDConfig(_ValidatedConfigModel):
     embedding_norm_reference_mean: Optional[float] = Field(default=None, gt=0.0)
     embedding_norm_reference_std: Optional[float] = Field(default=None, gt=0.0)
     embedding_norm_z_threshold: float = Field(default=2.0, gt=0.0)
+
+    # Consensus deviation minority-outlier attenuation (Phase 08 Step 07)
+    enable_minority_outlier_attenuation: bool = Field(
+        default=True,
+        description=(
+            "Amplify F5 effective weight strictly for minority-outlier documents when an agreeing "
+            "majority consensus quorum exists across peer candidates."
+        ),
+    )
+    minority_outlier_majority_peers_min: int = Field(
+        default=2,
+        ge=2,
+        description="Minimum agreeing high-consensus peers (F5 >= 0.70) required to treat an outlier as minority",
+    )
+    minority_outlier_consensus_multiplier: float = Field(
+        default=4.0,
+        ge=1.0,
+        le=10.0,
+        description="F5 log-odds weight multiplier applied strictly to confirmed minority outliers",
+    )
 
     # Configurable source reliability priors (basis must come from explicit user/corpus policy)
     provenance_priors: Dict[str, float] = Field(

@@ -96,23 +96,29 @@ class MultiSignalDetector:
                 LOGGER.warning("Embedding callable failed; marking embeddings unavailable", extra={"error": str(exc)})
                 return [None] * n
 
-        if self.config.embedding_backend == "tfidf_raw":
+        if self.config.embedding_backend in {"tfidf_raw", "tfidf_sublinear"}:
             non_empty = [i for i, d in enumerate(candidates) if not is_empty_text(d.text)]
             if len(non_empty) < 2:
                 return [None] * n
             try:
+                use_sublinear = self.config.embedding_backend == "tfidf_sublinear"
                 # Compute actual unnormalized TF-IDF document vectors so norms represent real term-IDF energy
                 vec = TfidfVectorizer(
                     lowercase=True,
                     stop_words="english",
                     ngram_range=(1, 2),
                     norm=None,
+                    sublinear_tf=use_sublinear,
                     token_pattern=r"(?u)\b[a-zA-Z0-9][a-zA-Z0-9\-]*\b",
                 )
                 mat = vec.fit_transform([candidates[i].text for i in non_empty])
                 resolved: List[Optional[np.ndarray]] = [None] * n
                 for row_idx, orig_i in enumerate(non_empty):
-                    resolved[orig_i] = mat[row_idx].toarray().ravel()
+                    arr = mat[row_idx].toarray().ravel()
+                    if use_sublinear:
+                        tok_count = max(1, len(candidates[orig_i].text.split()))
+                        arr = arr / math.sqrt(float(tok_count))
+                    resolved[orig_i] = arr
                 return resolved
             except ValueError:
                 return [None] * n
@@ -204,6 +210,11 @@ class MultiSignalDetector:
 
         # F5 requires joint comparison across candidate pool
         consensus_map = evaluate_consensus_deviation_signals(candidates, vecs, self.config)
+        majority_consensus_peers = sum(
+            1
+            for sig, _ in consensus_map.values()
+            if sig.available and sig.value is not None and float(sig.value) >= 0.70
+        )
 
         total_configured_weight = (
             self.config.weight_perplexity
@@ -315,9 +326,19 @@ class MultiSignalDetector:
                     # so sparse signals pull confidence honestly toward the prior instead of amplifying it.
                     confidence_scale = min(1.0, weight_ratio)
                 logit = float(self.config.bias)
+                minority_outlier_attenuated = False
                 for s in signals_dict.values():
                     if s.available and s.value is not None:
                         eff_w = s.configured_weight * confidence_scale
+                        if (
+                            self.config.enable_minority_outlier_attenuation
+                            and s.signal_id == "F5"
+                            and "MINORITY_OUTLIER" in s.flags
+                            and float(s.value) <= 0.25
+                            and majority_consensus_peers >= self.config.minority_outlier_majority_peers_min
+                        ):
+                            eff_w *= self.config.minority_outlier_consensus_multiplier
+                            minority_outlier_attenuated = True
                         s.effective_weight = round(eff_w, 4)
                         centered_f = 2.0 * float(s.value) - 1.0  # Maps [0, 1] -> [-1, +1]
                         logit += eff_w * centered_f
@@ -325,6 +346,7 @@ class MultiSignalDetector:
                         s.effective_weight = 0.0
                 trust_score = round(_sigmoid(logit), 4)
             else:
+                minority_outlier_attenuated = False
                 for s in signals_dict.values():
                     s.effective_weight = 0.0
                 trust_score = round(_sigmoid(self.config.bias), 4)
@@ -343,6 +365,8 @@ class MultiSignalDetector:
             reason_codes: List[str] = []
             for s in signals_dict.values():
                 reason_codes.extend(s.flags)
+            if minority_outlier_attenuated:
+                reason_codes.append("G2_MINORITY_OUTLIER_ATTENUATED")
 
             conflict_detected = bool(conflicting_ids)
 

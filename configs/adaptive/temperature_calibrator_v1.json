@@ -1,0 +1,26 @@
+{
+  "version": "temp-train-v1",
+  "method": "temperature",
+  "fitted_datasets": [
+    "adversarial_robustness",
+    "knowledge_poisoning",
+    "clean_rag"
+  ],
+  "fitted_splits": [
+    "train"
+  ],
+  "fit_seed": 42,
+  "sample_count": 478,
+  "clean_count": 358,
+  "attack_count": 120,
+  "class_weight": null,
+  "platt_coef": null,
+  "platt_intercept": null,
+  "use_logit_transform": true,
+  "isotonic_x_thresholds": [],
+  "isotonic_y_thresholds": [],
+  "temperature": 0.64315401,
+  "clip_eps": 0.0001,
+  "created_at": "2026-11-12T03:05:55.308743+00:00",
+  "artifact_sha256": "765492884a18dff4034e2661a887ac16c0bfce635a7c2201b2ffb3a4d9467c22"
+}

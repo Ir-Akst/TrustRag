@@ -737,12 +737,14 @@ def evaluate_provenance_signal(
     prov = (doc.provenance or "").strip()
     src_ds = (doc.source_dataset or "").strip()
     src_id = (doc.source_id or "").strip()
-    src_type = str(doc.metadata.get("source_type") or "").strip()
+    src_type = str(doc.metadata.get("source_type") or "").strip().lower()
     explicit_trust = str(doc.metadata.get("source_trust") or "").strip().lower()
+    trust_tier = str(doc.metadata.get("trust_tier") or doc.metadata.get("provenance_tier") or "").strip().lower()
+    domain = str(doc.metadata.get("source_domain") or doc.metadata.get("domain") or "").strip().lower()
     verified_flag = doc.metadata.get("verified")
 
-    # 1. Explicit configured priors lookup (no invented hardcoded priors)
-    for key in (src_ds, prov, src_type):
+    # 1. Explicit configured priors lookup (exact match or domain suffix)
+    for key in (src_ds, prov, src_type, domain):
         if key and key in config.provenance_priors:
             prior = float(config.provenance_priors[key])
             return SignalDetail(
@@ -759,9 +761,32 @@ def evaluate_provenance_signal(
                 explanation=f"Matched configured provenance prior for '{key}' (prior={prior:.2f}).",
                 flags=["LOW_CONFIGURED_PRIOR"] if prior < 0.40 else [],
             )
+    if domain:
+        for prior_key, prior_val in config.provenance_priors.items():
+            norm_pk = prior_key.strip().lower()
+            if norm_pk and (domain == norm_pk or domain.endswith(f".{norm_pk}")):
+                prior = float(prior_val)
+                return SignalDetail(
+                    signal_id="F6",
+                    signal_name="provenance",
+                    available=True,
+                    value=round(prior, 4),
+                    raw_value=round(prior, 4),
+                    configured_weight=w,
+                    effective_weight=w,
+                    is_heuristic=False,
+                    status="AVAILABLE",
+                    basis=basis,
+                    explanation=f"Matched domain provenance prior '{prior_key}' for domain '{domain}' (prior={prior:.2f}).",
+                    flags=["LOW_CONFIGURED_PRIOR"] if prior < 0.40 else [],
+                )
 
-    # 2. Explicit verification attributes in document metadata
-    if verified_flag is True or explicit_trust == "trusted":
+    # 2. Explicit verification and trust-tier attributes in document metadata
+    if (
+        verified_flag is True
+        or explicit_trust in {"trusted", "high", "verified", "official"}
+        or trust_tier in {"high", "tier_1", "authoritative", "verified"}
+    ):
         return SignalDetail(
             signal_id="F6",
             signal_name="provenance",
@@ -773,9 +798,27 @@ def evaluate_provenance_signal(
             is_heuristic=False,
             status="AVAILABLE",
             basis=basis,
-            explanation="Metadata contains explicit verified/trusted indicator.",
+            explanation="Metadata contains explicit verified/high-trust tier indicator.",
         )
-    if verified_flag is False or explicit_trust == "untrusted":
+    if explicit_trust in {"medium", "moderate", "curated"} or trust_tier in {"medium", "tier_2", "curated"}:
+        return SignalDetail(
+            signal_id="F6",
+            signal_name="provenance",
+            available=True,
+            value=0.65,
+            raw_value=0.65,
+            configured_weight=w,
+            effective_weight=w,
+            is_heuristic=False,
+            status="AVAILABLE",
+            basis=basis,
+            explanation="Metadata contains medium/curated trust tier indicator.",
+        )
+    if (
+        verified_flag is False
+        or explicit_trust in {"untrusted", "low", "unverified"}
+        or trust_tier in {"low", "tier_3", "untrusted"}
+    ):
         return SignalDetail(
             signal_id="F6",
             signal_name="provenance",
@@ -791,7 +834,54 @@ def evaluate_provenance_signal(
             flags=["EXPLICIT_UNTRUSTED_METADATA"],
         )
 
-    # 3. Concrete non-generic provenance traceability
+    # 3. Source-type and authoritative domain differentiation (strictly when metadata exists)
+    if src_type in {"official_docs", "peer_reviewed", "government", "academic", "encyclopedia", "verified_kb"} or (
+        domain and (domain.endswith((".gov", ".edu")) or domain.startswith("docs.") or domain in {"arxiv.org", "nih.gov", "wikipedia.org"})
+    ):
+        return SignalDetail(
+            signal_id="F6",
+            signal_name="provenance",
+            available=True,
+            value=0.85,
+            raw_value=0.85,
+            configured_weight=w,
+            effective_weight=w,
+            is_heuristic=False,
+            status="AVAILABLE",
+            basis=basis,
+            explanation="Explicit authoritative source_type/domain metadata present.",
+        )
+    if src_type in {"news", "editorial", "curated_kb"}:
+        return SignalDetail(
+            signal_id="F6",
+            signal_name="provenance",
+            available=True,
+            value=0.70,
+            raw_value=0.70,
+            configured_weight=w,
+            effective_weight=w,
+            is_heuristic=False,
+            status="AVAILABLE",
+            basis=basis,
+            explanation=f"Explicit curated source_type='{src_type}' present.",
+        )
+    if src_type in {"blog", "forum", "user_generated", "social", "anonymous", "unverified_upload", "community_post"}:
+        return SignalDetail(
+            signal_id="F6",
+            signal_name="provenance",
+            available=True,
+            value=0.30,
+            raw_value=0.30,
+            configured_weight=w,
+            effective_weight=w,
+            is_heuristic=False,
+            status="AVAILABLE",
+            basis=basis,
+            explanation=f"Explicit low-trust/unvetted source_type='{src_type}' present.",
+            flags=["LOW_TRUST_SOURCE_TYPE"],
+        )
+
+    # 4. Concrete non-generic provenance traceability
     prov_lower = prov.lower()
     ds_lower = src_ds.lower()
     is_unknown_prov = (not prov) or prov_lower in {"unknown", "unavailable", "none", "anonymous"}
@@ -812,7 +902,7 @@ def evaluate_provenance_signal(
             explanation=f"Complete provenance traceability present (source_dataset='{src_ds}', source_id='{src_id}').",
         )
 
-    # 4. Missing or unknown provenance -> honestly mark UNKNOWN / UNAVAILABLE (not malicious!)
+    # 5. Missing or unknown provenance -> honestly mark UNKNOWN / UNAVAILABLE (not malicious!)
     return SignalDetail(
         signal_id="F6",
         signal_name="provenance",
