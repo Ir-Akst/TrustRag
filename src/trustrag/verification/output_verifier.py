@@ -2064,6 +2064,7 @@ class OutputEvidenceVerifier:
         answer_text: str,
         trusted_documents: Sequence[EvidenceDocument],
         *,
+        query: Optional[str] = None,
         abstained: bool = False,
         doc_trust_scores: Optional[Dict[str, float]] = None,
         min_passage_trust: float = 0.60,
@@ -2267,6 +2268,29 @@ class OutputEvidenceVerifier:
             verdict = G3AnswerVerdict.INSUFFICIENT_EVIDENCE
             overall_status = VerificationStatus.UNVERIFIED
 
+        query_consistent: Optional[bool] = None
+        query_consistency_score: Optional[float] = None
+        query_consistency_reasons: List[str] = []
+        if query is not None and self.config.enable_query_consistency:
+            from trustrag.verification.query_consistency import evaluate_query_consistency
+
+            qc = evaluate_query_consistency(
+                query,
+                answer_text,
+                trusted_documents,
+                abstained=abstained,
+                min_consistency_score=self.config.min_query_consistency_score,
+            )
+            query_consistent = qc.consistent
+            query_consistency_score = qc.consistency_score
+            query_consistency_reasons = list(qc.reasons)
+            if not qc.consistent and overall_status in {
+                VerificationStatus.VERIFIED,
+                VerificationStatus.PARTIALLY_SUPPORTED,
+            }:
+                verdict = G3AnswerVerdict.INSUFFICIENT_EVIDENCE
+                overall_status = VerificationStatus.UNVERIFIED
+
         summary = (
             f"Verified {len(items)} claim(s): "
             f"SUPPORTED={len(supported)}, CONTRADICTED={len(contradicted)}, "
@@ -2285,6 +2309,7 @@ class OutputEvidenceVerifier:
                 "contradicted_count": len(contradicted),
                 "insufficient_count": len(insufficient),
                 "uncertain_count": len(uncertain),
+                "query_consistent": query_consistent,
             },
         )
 
@@ -2301,6 +2326,9 @@ class OutputEvidenceVerifier:
             uncertain_claims=[c.claim_text for c in uncertain],
             claims=items,
             summary=summary,
+            query_consistent=query_consistent,
+            query_consistency_score=query_consistency_score,
+            query_consistency_reasons=query_consistency_reasons,
         )
 
 

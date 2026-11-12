@@ -315,6 +315,37 @@ class VerificationConfig(_ValidatedConfigModel):
         default=True,
         description="Mark opposite polarity assertions on matched topics as CONTRADICTS",
     )
+    enable_query_consistency: bool = Field(
+        default=True,
+        description="Verify answer addresses user query intent and detect DoS refusals/topic hijacks",
+    )
+    min_query_consistency_score: float = Field(
+        default=0.12,
+        ge=0.0,
+        le=1.0,
+        description="Minimum query-answer alignment score required before drift flagging",
+    )
+    enable_reanswer: bool = Field(
+        default=False,
+        description="Allow bounded re-answer regeneration strictly from verified high-trust subset Ê",
+    )
+    max_reanswer_attempts: int = Field(
+        default=1,
+        ge=0,
+        le=3,
+        description="Maximum number of controlled re-answer regeneration attempts",
+    )
+    min_reanswer_trust_score: float = Field(
+        default=0.60,
+        ge=0.0,
+        le=1.0,
+        description="Minimum G2 trust score required for a document to enter high-trust subset Ê",
+    )
+    reanswer_timeout_seconds: float = Field(
+        default=5.0,
+        gt=0.0,
+        description="Maximum total retry budget (seconds) for controlled re-answering",
+    )
 
 
 class SRMConfig(_ValidatedConfigModel):

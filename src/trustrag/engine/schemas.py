@@ -439,6 +439,9 @@ class G3VerificationReport(BaseModel):
     uncertain_claims: List[str] = Field(default_factory=list)
     claims: List[ClaimVerificationItem] = Field(default_factory=list)
     summary: str
+    query_consistent: Optional[bool] = None
+    query_consistency_score: Optional[float] = None
+    query_consistency_reasons: List[str] = Field(default_factory=list)
 
     @model_validator(mode="after")
     def _populate_canonical_report_fields(self) -> "G3VerificationReport":
