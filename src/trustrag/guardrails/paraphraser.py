@@ -72,6 +72,54 @@ def deterministic_safe_paraphrase(query: str) -> str:
     return f"Clarify information regarding: {q}"
 
 
+_PARAPHRASE_STOPWORDS: frozenset[str] = frozenset(
+    {
+        "a",
+        "an",
+        "the",
+        "is",
+        "are",
+        "was",
+        "were",
+        "be",
+        "been",
+        "being",
+        "do",
+        "does",
+        "did",
+        "what",
+        "which",
+        "who",
+        "whom",
+        "whose",
+        "where",
+        "when",
+        "how",
+        "of",
+        "in",
+        "on",
+        "at",
+        "to",
+        "for",
+        "as",
+        "by",
+        "with",
+        "from",
+        "that",
+        "this",
+        "these",
+        "those",
+    }
+)
+
+
+def _content_tokens(text: str) -> set[str]:
+    """Normalize possessives and extract content-bearing tokens for paraphrase similarity."""
+    cleaned = re.sub(r"['’]s\b", "", text.lower())
+    tokens = re.findall(r"[a-z0-9]+", cleaned)
+    return {t for t in tokens if t not in _PARAPHRASE_STOPWORDS}
+
+
 def _extract_entities(text: str) -> set[str]:
     found: set[str] = set()
     for tok in _ENTITY_RE.findall(text):
@@ -141,7 +189,14 @@ def validate_paraphrase(
 
     lex_sim = compute_lexical_overlap(orig_clean, cleaned_cand)
     tfidf_sim = compute_tfidf_similarities(orig_clean, [cleaned_cand])[0]
-    sem_sim = round(0.5 * lex_sim + 0.5 * tfidf_sim, 4)
+    base_sim = 0.5 * lex_sim + 0.5 * tfidf_sim
+    orig_ct = _content_tokens(orig_clean)
+    cand_ct = _content_tokens(cleaned_cand)
+    if orig_ct and cand_ct:
+        ct_jaccard = len(orig_ct & cand_ct) / len(orig_ct | cand_ct)
+        sem_sim = round(max(base_sim, 0.5 * ct_jaccard + 0.5 * max(lex_sim, tfidf_sim)), 4)
+    else:
+        sem_sim = round(base_sim, 4)
     if sem_sim < min_similarity:
         reasons.append(f"PARAPHRASE_SEMANTIC_DRIFT(sim={sem_sim:.4f}<{min_similarity:.2f})")
 

@@ -46,10 +46,18 @@ _SUSPICIOUS_META_RULES: Tuple[Tuple[str, re.Pattern[str], float], ...] = (
     (
         "debug_or_admin_mode_probe",
         re.compile(
-            r"\b(?:(?:enter|enable|activate|switch\s+to)\s+(?:the\s+)?(?:debug|admin|maintenance|root|developer|unrestricted)(?:\s+override)?\s+mode|enable\s+developer\s+override|sudo\s+mode)\b",
+            r"\b(?:(?:enter|enable|activate|execute|run|switch\s+to)\s+(?:the\s+)?(?:debug|admin|maintenance|root|developer|unrestricted)(?:\s+override)?\s+mode|enable\s+developer\s+override|sudo\s+mode)\b",
             re.IGNORECASE,
         ),
         0.50,
+    ),
+    (
+        "instruction_hierarchy_override",
+        re.compile(
+            r"(?:^\s*(?:developer|system|admin|root|supervisor)\s+override\s*:|\b(?:bypass|disable|circumvent|override)\s+(?:all\s+)?(?:guardrails?|safety\s+(?:filters?|checks?|controls?)|system\s+constraints?)\b)",
+            re.IGNORECASE,
+        ),
+        0.75,
     ),
     (
         "hidden_context_directive",

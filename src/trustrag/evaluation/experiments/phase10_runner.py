@@ -181,7 +181,7 @@ def run_g2_phase10_experiment(root: Path) -> dict[str, Any]:
     assessments = det.assess_candidates("What is the capital of France?", sample_docs)
     assess_ms = round((time.perf_counter() - t0) * 1000.0, 4)
 
-    sig_keys = ("perplexity", "embedding_norm", "query_match", "instruction_content", "consensus_deviation", "provenance_prior")
+    sig_keys = ("perplexity", "embedding_norm", "query_match", "instruction_content", "consensus_deviation", "provenance")
     sig_availability: dict[str, Any] = {}
     for sk in sig_keys:
         avail_cnt = sum(1 for a in assessments if a.signals.get(sk) and a.signals[sk].available)

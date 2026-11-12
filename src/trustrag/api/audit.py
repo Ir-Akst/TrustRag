@@ -4,13 +4,39 @@ from __future__ import annotations
 
 import hashlib
 import json
+import logging
+import os
 import re
 import threading
 from collections import deque
+from collections.abc import Iterator
+from contextlib import contextmanager
 from datetime import UTC, datetime
 from pathlib import Path
+from typing import IO
 
 from trustrag.api.schemas import AuditQueryResponse, AuditRecordView
+
+try:
+    import fcntl as _fcntl
+except ImportError:  # pragma: no cover - non-POSIX fallback
+    _fcntl = None  # type: ignore[assignment]
+
+LOGGER = logging.getLogger(__name__)
+
+
+@contextmanager
+def _advisory_file_lock(fh: IO[str]) -> Iterator[None]:
+    """Acquire an exclusive OS file lock when supported, warning explicitly otherwise."""
+    if _fcntl is not None:
+        _fcntl.flock(fh.fileno(), _fcntl.LOCK_EX)
+        try:
+            yield
+        finally:
+            _fcntl.flock(fh.fileno(), _fcntl.LOCK_UN)
+    else:  # pragma: no cover
+        LOGGER.warning("fcntl unavailable on this platform; multi-process audit locking is disabled")
+        yield
 
 _SECRET_PATTERN = re.compile(
     r"(?i)(bearer\s+[a-z0-9\-._~+/]+=*|sk-[a-z0-9]{12,}|api[_-]?key\s*[:=]\s*['\"]?[^\s'\"]+)"
@@ -79,12 +105,32 @@ class AuditLogStore:
 
     def _load_existing(self) -> None:
         assert self._log_path is not None
-        with self._log_path.open("r", encoding="utf-8") as fh:
+        with self._log_path.open("r", encoding="utf-8") as fh, _advisory_file_lock(fh):
             for line in fh:
                 raw = line.strip()
                 if not raw:
                     continue
+                try:
+                    rec = AuditRecordView.model_validate_json(raw)
+                except Exception:
+                    LOGGER.warning("Skipping malformed/interrupted audit log line during load")
+                    continue
+                self._records.append(rec)
+                self._seq = rec.seq
+                self._last_hash = rec.entry_hash
+
+    def _sync_tail_locked(self, fh: IO[str]) -> None:
+        """Sync in-memory seq/last_hash with any records appended by another process."""
+        fh.seek(0)
+        for line in fh:
+            raw = line.strip()
+            if not raw:
+                continue
+            try:
                 rec = AuditRecordView.model_validate_json(raw)
+            except Exception:
+                continue
+            if rec.seq > self._seq:
                 self._records.append(rec)
                 self._seq = rec.seq
                 self._last_hash = rec.entry_hash
@@ -100,12 +146,50 @@ class AuditLogStore:
         explanation: str = "",
         evidence_refs: list[str] | None = None,
     ) -> AuditRecordView:
-        """Append a redacted, hash-chained audit record."""
+        """Append a redacted, hash-chained audit record (thread- and multi-process-safe)."""
         with self._lock:
-            self._seq += 1
             ts = datetime.now(UTC).isoformat()
             refs = [str(r)[:128] for r in (evidence_refs or [])[:20]]
             clean_exp = _redact_text(explanation)
+
+            if self._log_path is not None:
+                with self._log_path.open("a+", encoding="utf-8") as fh, _advisory_file_lock(fh):
+                    self._sync_tail_locked(fh)
+                    self._seq += 1
+                    entry_hash = self._compute_entry_hash(
+                        seq=self._seq,
+                        timestamp=ts,
+                        request_id=request_id,
+                        event_category=event_category,
+                        component=component,
+                        decision=decision,
+                        outcome=outcome,
+                        explanation=clean_exp,
+                        evidence_refs=refs,
+                        prev_hash=self._last_hash,
+                    )
+                    entry = AuditRecordView(
+                        seq=self._seq,
+                        timestamp=ts,
+                        request_id=request_id,
+                        event_category=event_category,
+                        component=component,
+                        decision=decision,
+                        outcome=outcome,
+                        explanation=clean_exp,
+                        evidence_refs=refs,
+                        entry_hash=entry_hash,
+                        prev_hash=self._last_hash,
+                    )
+                    fh.seek(0, os.SEEK_END)
+                    fh.write(entry.model_dump_json() + "\n")
+                    fh.flush()
+                    os.fsync(fh.fileno())
+                    self._last_hash = entry_hash
+                    self._records.append(entry)
+                    return entry
+
+            self._seq += 1
             entry_hash = self._compute_entry_hash(
                 seq=self._seq,
                 timestamp=ts,
@@ -133,9 +217,6 @@ class AuditLogStore:
             )
             self._last_hash = entry_hash
             self._records.append(entry)
-            if self._log_path is not None:
-                with self._log_path.open("a", encoding="utf-8") as fh:
-                    fh.write(entry.model_dump_json() + "\n")
             return entry
 
     def verify_chain(self) -> bool:

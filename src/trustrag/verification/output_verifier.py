@@ -1407,9 +1407,108 @@ def _evaluate_numbers_with_grounded_tokens(claim: str, span: str) -> Tuple[bool,
             noun_conflict = _find_counted_noun_conflict(remaining_claim, span)
             if noun_conflict is not None:
                 return False, True, noun_conflict, set()
+            temp_num_conflict = _find_temporal_or_unitless_numeric_contradiction(
+                remaining_claim, span, c_nums, s_nums
+            )
+            if temp_num_conflict is not None:
+                return False, True, temp_num_conflict, set()
             return False, False, f"Numeric value '{c_val}' in claim not found in evidence span.", set()
 
     return True, False, "All claim numbers verified in evidence.", grounded_tokens
+
+
+_TEMP_HEDGE_RE = re.compile(
+    r"\b(?:approximately|approx\.?|about|around|circa|roughly|nearly|almost)\b|~",
+    re.IGNORECASE,
+)
+_DEG_C_RE = re.compile(r"(-?\d+(?:\.\d+)?)\s*(?:°\s*c\b|deg(?:rees?)?\s*c(?:elsius)?\b)", re.IGNORECASE)
+_DEG_F_RE = re.compile(r"(-?\d+(?:\.\d+)?)\s*(?:°\s*f\b|deg(?:rees?)?\s*f(?:ahrenheit)?\b)", re.IGNORECASE)
+_YEAR_RANGE_RE = re.compile(
+    r"\b(1\d{3}|20\d{2})\s*(?:[-–—]|to|and)\s*(1\d{3}|20\d{2})\b",
+    re.IGNORECASE,
+)
+_YEAR_SINGLE_RE = re.compile(r"\b(1\d{3}|20\d{2})\b")
+_STOP_CONTENT = frozenset(
+    {
+        "the", "a", "an", "is", "are", "was", "were", "be", "been", "in", "on", "at",
+        "to", "for", "of", "by", "with", "from", "and", "or", "that", "this", "it",
+    }
+)
+
+
+def _extract_temp_values(text: str) -> list[tuple[str, str]]:
+    out: list[tuple[str, str]] = []
+    for m in _DEG_C_RE.finditer(text):
+        out.append((m.group(1), "deg_c"))
+    for m in _DEG_F_RE.finditer(text):
+        out.append((m.group(1), "deg_f"))
+    return out
+
+
+def _find_temporal_or_unitless_numeric_contradiction(
+    claim: str,
+    span: str,
+    c_nums: Sequence[tuple[str, str]],
+    s_nums: Sequence[tuple[str, str]],
+) -> str | None:
+    """Detect temperature-unit, year/range, or shared-entity unitless numeric contradictions."""
+    # 1. Normalized temperature units (°C / degrees Celsius / °F / degrees Fahrenheit)
+    c_temps = _extract_temp_values(claim)
+    s_temps = _extract_temp_values(span)
+    if c_temps and s_temps:
+        for cv, cu in c_temps:
+            same_unit_vals = {sv for sv, su in s_temps if su == cu}
+            if same_unit_vals and cv not in same_unit_vals:
+                return (
+                    f"Temperature unit conflict ({cu}): claim states {cv}, "
+                    f"evidence states {sorted(same_unit_vals)}."
+                )
+
+    if _TEMP_HEDGE_RE.search(claim) or _TEMP_HEDGE_RE.search(span):
+        return None
+
+    c_words = {
+        w for w in re.findall(r"[a-z]+", claim.lower()) if w not in _STOP_CONTENT and len(w) > 2
+    }
+    s_words = {
+        w for w in re.findall(r"[a-z]+", span.lower()) if w not in _STOP_CONTENT and len(w) > 2
+    }
+    if not c_words or not s_words:
+        return None
+    overlap = len(c_words & s_words) / len(c_words)
+
+    # Check capitalized entity alignment if claim has named entities beyond sentence start
+    c_ents = {e.lower() for e in re.findall(r"\b[A-Z][a-z]{2,}\b", claim[1:])}
+    s_ents = {e.lower() for e in re.findall(r"\b[A-Z][a-z]{2,}\b", span)}
+    if c_ents and s_ents and not (c_ents & s_ents):
+        return None
+
+    # 2. Temporal year & year-range contradiction
+    c_years = [int(y) for y in _YEAR_SINGLE_RE.findall(claim)]
+    s_ranges = [(int(a), int(b)) for a, b in _YEAR_RANGE_RE.findall(span)]
+    s_years = [int(y) for y in _YEAR_SINGLE_RE.findall(span)]
+    if c_years:
+        if any(min(a, b) <= cy <= max(a, b) for cy in c_years for a, b in s_ranges):
+            return None
+        if (s_years or s_ranges) and overlap >= 0.35:
+            for cy in c_years:
+                in_range = any(min(a, b) <= cy <= max(a, b) for a, b in s_ranges)
+                if not in_range and cy not in s_years:
+                    return f"Temporal year conflict: claim states {cy}, evidence states {s_years or s_ranges}."
+        # Claim introduces a year when evidence has no years -> unmentioned (INSUFFICIENT_EVIDENCE)
+        if not s_years and not s_ranges:
+            return None
+
+    # 3. Unitless numeric contradiction on same entity/predicate (only against unitless evidence numbers)
+    s_unitless = {sv for sv, su in s_nums if not su}
+    if overlap >= 0.50 and c_nums and s_unitless:
+        for cv, cu in c_nums:
+            if not cu and not _YEAR_SINGLE_RE.fullmatch(cv) and cv not in s_unitless:
+                return (
+                    f"Numeric conflict on shared predicate: claim states {cv}, "
+                    f"evidence states {sorted(s_unitless)}."
+                )
+    return None
 
 
 def _evaluate_numbers(claim: str, span: str) -> Tuple[bool, bool, str]:
