@@ -143,9 +143,20 @@ class MultiSignalDetector:
 
         from trustrag.engine.text_utils import compute_tfidf_similarities
 
-        texts = [d.text for d in candidates]
-        sims = compute_tfidf_similarities(query, texts)
-        return [None if is_empty_text(candidates[i].text) else float(sims[i]) for i in range(n)]
+        unique_texts: list[str] = []
+        sig_to_uidx: dict[str, int] = {}
+        doc_to_uidx: list[int] = []
+        for d in candidates:
+            sig = " ".join(d.text.strip().lower().split())
+            if sig not in sig_to_uidx:
+                sig_to_uidx[sig] = len(unique_texts)
+                unique_texts.append(d.text)
+            doc_to_uidx.append(sig_to_uidx[sig])
+        unique_sims = compute_tfidf_similarities(query, unique_texts)
+        return [
+            None if is_empty_text(candidates[i].text) else float(unique_sims[doc_to_uidx[i]])
+            for i in range(n)
+        ]
 
     def assess_candidates(
         self,

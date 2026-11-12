@@ -1,0 +1,44 @@
+{
+  "worktree": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "base_head": "5481d6a88b8a9e2d5d7c7099a9692fd79e8ece46",
+  "remediated_defects": [
+    "DEF-10 (Medium): G1 paraphraser lowercase-subject attribute drift",
+    "DEF-11 (Medium): G3 cross-entity numeric and temperature false contradiction",
+    "DEF-12 (Low): G3 short single-topic numeric contradiction and negative cross-unit grounding"
+  ],
+  "gates": {
+    "G1_git_isolation": "PASS",
+    "G2_g1_hierarchy_resistance": "PASS",
+    "G3_g1_paraphrase_acceptance_and_drift": "PASS",
+    "G4_g1_unicode_obfuscation": "PASS",
+    "G5_g2_duplicate_consensus_resistance": "PASS",
+    "G6_g2_independent_corroboration": "PASS",
+    "G7_g2_f1_f6_correctness": "PASS",
+    "G8_f6_ablation_consistency": "PASS",
+    "G9_g3_numerical_contradiction": "PASS",
+    "G10_g3_temporal_contradiction": "PASS",
+    "G11_g3_false_support_and_contradiction_control": "PASS",
+    "G12_e2e_rag_security": "PASS",
+    "G13_api_auth_authorization": "PASS",
+    "G14_frontend_security": "PASS",
+    "G15_bounded_rate_limiter": "PASS",
+    "G16_multiprocess_audit_integrity": "PASS",
+    "G17_performance_concurrency": "PASS",
+    "G18_full_historical_regression": "PASS",
+    "G19_reproducibility_research_honesty": "BLOCKED",
+    "G20_final_release_readiness": "PASS"
+  },
+  "summary": {
+    "pass": 19,
+    "fail": 0,
+    "blocked": 1,
+    "not_applicable": 0
+  },
+  "integration_tests_deselected": {
+    "test_boolq_sample_acquisition": "BLOCKED (offline HuggingFace Hub unreachable)",
+    "test_squad_sample_acquisition": "BLOCKED (offline HuggingFace Hub unreachable)"
+  },
+  "recommendation": "GO (all deterministic/offline gates PASS; neural SRM, FilterRAG SLM, and external corpora remain BLOCKED offline; ready for final acceptance / commit authorization)"
+}
+

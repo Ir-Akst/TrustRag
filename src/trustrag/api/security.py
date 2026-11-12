@@ -5,7 +5,7 @@ from __future__ import annotations
 import hmac
 import threading
 import time
-from collections import defaultdict, deque
+from collections import OrderedDict, deque
 from typing import Any
 
 from aiohttp import web
@@ -25,19 +25,46 @@ DEFAULT_CSP = (
 
 
 class SlidingWindowRateLimiter:
-    """Thread-safe per-client sliding-window request rate limiter."""
+    """Bounded, thread-safe per-client sliding-window request rate limiter.
 
-    def __init__(self, max_requests: int = 120, window_seconds: float = 60.0) -> None:
+    Note: In-memory state is per-process and not shared across distributed workers.
+    """
+
+    def __init__(
+        self,
+        max_requests: int = 120,
+        window_seconds: float = 60.0,
+        max_clients: int = 10_000,
+    ) -> None:
         self._max_requests = max(1, max_requests)
         self._window = max(1.0, window_seconds)
+        self._max_clients = max(1, max_clients)
         self._lock = threading.Lock()
-        self._hits: dict[str, deque[float]] = defaultdict(deque)
+        self._hits: OrderedDict[str, deque[float]] = OrderedDict()
+
+    @property
+    def client_count(self) -> int:
+        with self._lock:
+            return len(self._hits)
 
     def allow(self, client_key: str) -> bool:
+        key = str(client_key or "unknown").strip()[:128] or "unknown"
         now = time.monotonic()
         cutoff = now - self._window
         with self._lock:
-            dq = self._hits[client_key]
+            dq = self._hits.get(key)
+            if dq is None:
+                if len(self._hits) >= self._max_clients:
+                    expired = [k for k, q in self._hits.items() if not q or q[-1] < cutoff]
+                    for k in expired:
+                        del self._hits[k]
+                    while len(self._hits) >= self._max_clients:
+                        self._hits.popitem(last=False)
+                dq = deque()
+                self._hits[key] = dq
+            else:
+                self._hits.move_to_end(key)
+
             while dq and dq[0] < cutoff:
                 dq.popleft()
             if len(dq) >= self._max_requests:

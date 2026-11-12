@@ -50,7 +50,7 @@ ZERO_WIDTH_OR_CONTROL_RE = re.compile(
 )
 TOKEN_RE = re.compile(r"[a-z0-9]+(?:[-'][a-z0-9]+)?")
 NUMBER_UNIT_RE = re.compile(
-    r"(?<!\w)(\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?)(?:[\s-]*(%|(?:percent|mcg|ug|mg|g|kg|ml|l|iu|tablets?|capsules?|pills?|doses?|drops?|puffs?|injections?|teaspoons?|tablespoons?|bits?|bytes|kb|mb|gb|tb|hours?|hrs?|minutes?|mins?|seconds?|secs?|days?|weeks?|months?|years?|c|f|bp|bps)))?(?=$|[^\w])",
+    r"(?<!\w)((?:(?:(?<=^)|(?<=[\s(\[:=><,]))-)?(?:\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?))(?:[\s-]*(%|°\s*(?:celsius|fahrenheit|c|f)|(?:percent|mcg|ug|mg|g|kg|ml|l|mmhg|millimeters?|millimetres?|centimeters?|centimetres?|kilometers?|kilometres?|meters?|metres?|mm|cm|km|inches?|feet|ft|yards?|yds?|miles?|mph|kph|kmh|kpa|hpa|mpa|pa|bar|psi|ghz|mhz|khz|hz|kelvin|celsius|fahrenheit|iu|tablets?|capsules?|pills?|doses?|drops?|puffs?|injections?|teaspoons?|tablespoons?|bits?|bytes|kb|mb|gb|tb|hours?|hrs?|minutes?|mins?|seconds?|secs?|days?|weeks?|months?|years?|c|f|bps|bp)))?(?=$|[^\w])",
     re.IGNORECASE,
 )
 _WORD_DOSAGE_UNIT_RE = re.compile(
@@ -458,12 +458,16 @@ def extract_numbers_and_units(text: str) -> List[Tuple[str, str]]:
         num_str, unit = m.group(1), m.group(2)
         clean_num = num_str.replace(",", "")
         try:
-            # Canonical numeric string (e.g., 20.0 -> 20, 4.5 -> 4.5)
+            # Canonical numeric string (e.g., 20.0 -> 20, -0 -> 0, 4.5 -> 4.5)
             val = float(clean_num)
-            norm_num = str(int(val)) if val.is_integer() else f"{val:g}"
+            if val == 0.0:
+                norm_num = "0"
+            else:
+                norm_num = str(int(val)) if val.is_integer() else f"{val:g}"
         except ValueError:
             norm_num = clean_num
-        matches_with_pos.append((m.start(), norm_num, (unit or "").lower()))
+        norm_unit = (unit or "").lower().lstrip("°").strip()
+        matches_with_pos.append((m.start(), norm_num, norm_unit))
 
     for m in _WORD_DOSAGE_UNIT_RE.finditer(text):
         word_num = m.group(1).lower()

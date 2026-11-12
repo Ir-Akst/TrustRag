@@ -1,0 +1,51 @@
+{
+  "phase": "11",
+  "step": "9",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "base_head": "5481d6a88b8a9e2d5d7c7099a9692fd79e8ece46",
+  "parent_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+  "phase10_untouched": true,
+  "historical_checksums_ok": {
+    "step6": "6/6",
+    "step7": "6/6",
+    "step8": "9/9"
+  },
+  "remediated_defects": {
+    "DEF-13": "FIXED",
+    "DEF-14": "FIXED",
+    "DEF-15a": "FIXED",
+    "DEF-15b": "FIXED",
+    "DEF-16": "FIXED"
+  },
+  "probe_metrics": {
+    "g1_total": 18,
+    "g1_passed": 18,
+    "g1_false_acceptances": 0,
+    "g1_false_rejections": 0,
+    "g3_total": 23,
+    "g3_passed": 23,
+    "g3_false_contradictions": 0,
+    "g3_false_supports": 0,
+    "g3_missed_contradictions": 0,
+    "g3_other_insufficient_mismatches": 0
+  },
+  "verification_gates": {
+    "pytest_non_integration_passed": 423,
+    "pytest_non_integration_failed": 0,
+    "pytest_integration_deselected_blocked_offline": [
+      "tests/integration/test_data_acquisition.py::test_boolq_sample_acquisition",
+      "tests/integration/test_data_acquisition.py::test_squad_sample_acquisition"
+    ],
+    "frontend_npm_test_passed": 5,
+    "frontend_npm_test_failed": 0,
+    "compileall_passed": true,
+    "mypy_4_changed_files_errors": 0,
+    "ruff_new_files_clean": true,
+    "spec_validation_suite_status": "PASS",
+    "spec_validation_gates_passed": 13,
+    "spec_validation_gates_total": 13
+  },
+  "recommendation": "GO_FOR_STEP10_ACCEPTANCE_AUDIT"
+}
+

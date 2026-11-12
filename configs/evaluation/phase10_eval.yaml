@@ -1,0 +1,37 @@
+# configs/evaluation/phase10_eval.yaml
+# TrustRAG Phase 10: Reproducible Evaluation & Ablation Configuration
+
+phase10:
+  seed: 42
+  offline: true
+  min_research_records: 100
+  bootstrap_resamples: 2000
+  confidence_level: 0.95
+  exploratory_threshold: 30
+  output_dir: "reports/phase10_experiments"
+  dataset_roots:
+    raw: "data/raw"
+    processed: "data/processed"
+    benchmarks_backup: "data/benchmarks_backup"
+    benchmarks: "data/benchmarks"
+  external_targets:
+    - "ragtruth"
+    - "halueval"
+    - "llm_aggrefact"
+    - "rsb"
+    - "natural_questions"
+    - "hotpotqa"
+    - "ms_marco"
+  local_corpora:
+    - "knowledge_poisoning"
+    - "adversarial_robustness"
+    - "clean_rag"
+    - "hallucination"
+    - "boolq"
+    - "ragtruth_smoke"
+    - "wice_smoke"
+    - "expertqa_smoke"
+  srm:
+    timeout_seconds: 10.0
+    fallback_backend: "deterministic_fallback"
+    neural_backend: "hf_local"

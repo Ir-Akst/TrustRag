@@ -144,7 +144,53 @@ _UNIT_DIMENSIONS: Dict[str, Tuple[str, float]] = {
     "tablespoon": ("dosage_tablespoon", 1.0),
     "tablespoons": ("dosage_tablespoon", 1.0),
     "c": ("temp_c", 1.0),
+    "celsius": ("temp_c", 1.0),
     "f": ("temp_f", 1.0),
+    "fahrenheit": ("temp_f", 1.0),
+    "kelvin": ("temp_k", 1.0),
+    "mm": ("length", 1.0),
+    "millimeter": ("length", 1.0),
+    "millimeters": ("length", 1.0),
+    "millimetre": ("length", 1.0),
+    "millimetres": ("length", 1.0),
+    "cm": ("length", 10.0),
+    "centimeter": ("length", 10.0),
+    "centimeters": ("length", 10.0),
+    "centimetre": ("length", 10.0),
+    "centimetres": ("length", 10.0),
+    "meter": ("length", 1000.0),
+    "meters": ("length", 1000.0),
+    "metre": ("length", 1000.0),
+    "metres": ("length", 1000.0),
+    "km": ("length", 1000000.0),
+    "kilometer": ("length", 1000000.0),
+    "kilometers": ("length", 1000000.0),
+    "kilometre": ("length", 1000000.0),
+    "kilometres": ("length", 1000000.0),
+    "inch": ("length", 25.4),
+    "inches": ("length", 25.4),
+    "ft": ("length", 304.8),
+    "feet": ("length", 304.8),
+    "yd": ("length", 914.4),
+    "yds": ("length", 914.4),
+    "yard": ("length", 914.4),
+    "yards": ("length", 914.4),
+    "mile": ("length", 1609344.0),
+    "miles": ("length", 1609344.0),
+    "kmh": ("speed", 1.0),
+    "kph": ("speed", 1.0),
+    "mph": ("speed", 1.609344),
+    "pa": ("pressure_si", 1.0),
+    "hpa": ("pressure_si", 100.0),
+    "kpa": ("pressure_si", 1000.0),
+    "mpa": ("pressure_si", 1000000.0),
+    "bar": ("pressure_si", 100000.0),
+    "psi": ("pressure_si", 6894.757),
+    "mmhg": ("pressure_si", 133.322),
+    "hz": ("frequency", 1.0),
+    "khz": ("frequency", 1000.0),
+    "mhz": ("frequency", 1000000.0),
+    "ghz": ("frequency", 1000000000.0),
     "bp": ("pressure", 1.0),
     "bps": ("rate", 1.0),
 }
@@ -406,8 +452,9 @@ _COMMON_INITIAL_NON_PROPER_WORDS: Set[str] = {
     "vaccine", "vaccines", "antibiotic", "antibiotics", "bacteria", "virus", "viruses",
     "standard", "regular", "daily", "weekly", "monthly", "hourly", "modern", "recent", "early", "late",
     "high", "low", "severe", "mild", "moderate", "chronic", "acute", "healthy", "pregnant", "quantum",
-    "photosynthesis", "boiling", "taking", "using", "combining", "mixing", "baking",
+    "photosynthesis", "boiling", "taking", "using", "combining", "mixing", "baking", "temperature",
 }
+_NON_ENTITY_TEMP_SCALE_WORDS: set[str] = {"celsius", "fahrenheit", "kelvin", "centigrade"}
 _PERIOD_TO_DAYS: Dict[str, float] = {"hour": 1.0 / 24.0, "day": 1.0, "week": 7.0, "month": 30.0}
 _DIGIT_TO_WORD: Dict[str, str] = {
     "1": "one", "2": "two", "3": "three", "4": "four", "5": "five",
@@ -445,6 +492,57 @@ def _extract_proper_entities(claim: str, *, context_texts: Optional[Sequence[str
             if wl in non_initial_caps or (wl not in _COMMON_INITIAL_NON_PROPER_WORDS and wl not in lower_only_seen):
                 entities.add(wl)
     return entities
+
+
+_DESIGNATOR_EXCLUDED_HEADS: frozenset[str] = frozenset(
+    {
+        "the", "and", "but", "for", "with", "from", "into", "onto", "than", "that", "this",
+        "was", "were", "are", "has", "had", "have", "can", "may", "not", "only", "also",
+        "very", "just", "even", "both", "each", "more", "most", "some", "many", "such",
+        "then", "when", "where", "who", "what", "which", "she", "they", "you", "her", "his",
+        "our", "its", "their", "got", "saw", "made", "took", "gave", "used", "need", "needs",
+        "want", "wants", "uses", "takes", "shows", "gives", "means", "equals", "called",
+        "named", "known", "labeled", "marked", "deg", "degree", "degrees", "celsius",
+        "fahrenheit", "kelvin", "received", "measured", "recorded", "reported", "achieved",
+        "reached", "found", "identified", "became", "remained",
+    }
+)
+_EXPLICIT_DESIGNATOR_HEADS: frozenset[str] = frozenset(
+    {
+        "sensor", "device", "unit", "room", "ward", "reactor", "station", "tank", "node",
+        "server", "channel", "line", "zone", "gate", "block", "sample", "group", "cohort",
+        "arm", "phase", "patient", "subject", "probe", "meter", "pump", "valve", "batch",
+        "lot", "plan", "tier", "option", "version", "stage", "level", "track", "model",
+        "port", "lane", "bay", "wing", "floor", "sector", "district", "region", "site",
+        "building", "lab", "clinic", "trial", "case", "record", "table", "figure",
+        "section", "appendix", "part", "vitamin", "factor", "type", "class", "grade",
+        "team", "band", "cell", "gene", "strain", "variant",
+    }
+)
+_LETTER_DESIGNATOR_RE = re.compile(
+    r"\b([A-Za-z]{3,})[\s-]+([A-Z])\b(?!(?:\.\s+[A-Z]|\s*[a-z]*\s*(?:°|deg(?:rees?)?\b)))"
+)
+_CODE_DESIGNATOR_RE = re.compile(
+    r"\b([A-Za-z]{3,})[\s-]+(\d{1,3}|[A-Za-z]\d{1,2})\b(?!\s*(?:%|°|mg|mcg|ug|g|kg|ml|l|mm|cm|km|m|c|f|days?|hours?|hrs?|minutes?|mins?|seconds?|secs?|weeks?|months?|years?|percent)\b)",
+    re.IGNORECASE,
+)
+
+
+def _extract_designated_identifiers(text: str) -> Set[str]:
+    """Extract normalized multi-token slot identifiers such as 'Sensor A', 'Sensor B', 'Device 1'."""
+    ids: Set[str] = set()
+    for m in _LETTER_DESIGNATOR_RE.finditer(text):
+        head = m.group(1).lower()
+        code = m.group(2).lower()
+        if head in _DESIGNATOR_EXCLUDED_HEADS:
+            continue
+        ids.add(f"{head} {code}")
+    for m in _CODE_DESIGNATOR_RE.finditer(text):
+        head = m.group(1).lower()
+        code = m.group(2).lower()
+        if head in _EXPLICIT_DESIGNATOR_HEADS:
+            ids.add(f"{head} {code}")
+    return ids
 
 
 def _extract_slot_actor_entities(segment: str) -> Set[str]:
@@ -535,7 +633,12 @@ def _evaluate_entity_slot_conflict(claim: str, span: str) -> Tuple[bool, str]:
                         f"Entity slot conflict on '{c_left.strip()}': claim asserts {sorted(c_r_ents)}, evidence states {sorted(s_r_ents)}.",
                     )
             # Direction 2: matching right role/predicate, conflicting left entity ("Toronto serves as..." vs "Ottawa serves as...", "IV fluids were..." vs "PO fluids were...")
-            if _tok_jaccard(c_right, s_right) >= 0.80:
+            # Exclude numeric/measurement RHS (e.g. "temperature was -10°C" vs "10°C") since measurements are not exclusive roles.
+            if (
+                _tok_jaccard(c_right, s_right) >= 0.80
+                and not extract_numbers_and_units(c_right)
+                and not extract_numbers_and_units(s_right)
+            ):
                 c_l_ents = _extract_slot_actor_entities(c_left)
                 s_l_ents = _extract_slot_actor_entities(s_left)
                 if c_l_ents and s_l_ents and (c_l_ents & s_l_ents == set()):
@@ -1349,6 +1452,52 @@ def _evaluate_numbers_with_grounded_tokens(claim: str, span: str) -> Tuple[bool,
     if not s_nums:
         return False, False, f"Claim introduces unverified numeric values {[n[0] for n in c_nums]}.", set()
 
+    c_ents_num = _extract_proper_entities(claim, context_texts=[span]) - _NON_ENTITY_TEMP_SCALE_WORDS
+    s_ents_num = _extract_proper_entities(span, context_texts=[claim]) - _NON_ENTITY_TEMP_SCALE_WORDS
+    c_ids_num = _extract_designated_identifiers(claim)
+    s_ids_num = _extract_designated_identifiers(span)
+    ids_disjoint = bool(c_ids_num and s_ids_num and not (c_ids_num & s_ids_num))
+    entities_disjoint = bool(c_ents_num and s_ents_num and not (c_ents_num & s_ents_num)) or ids_disjoint
+    temporal_disjoint = _temporal_contexts_disjoint(claim, span)
+
+    # Check cross-unit temperature equivalence / contradiction (°C <-> °F)
+    c_temps = _extract_temp_values(remaining_claim)
+    s_temps = _extract_temp_values(span)
+    if c_temps and s_temps:
+        if entities_disjoint:
+            disjoint_desc = sorted(c_ids_num or c_ents_num)
+            disjoint_span_desc = sorted(s_ids_num or s_ents_num)
+            return (
+                False,
+                False,
+                f"Temperature values refer to distinct entities ({disjoint_desc} vs {disjoint_span_desc}).",
+                set(),
+            )
+        if temporal_disjoint:
+            return (
+                False,
+                False,
+                "Temperature values refer to disjoint temporal contexts.",
+                set(),
+            )
+        s_celsius = [cv for sv, su in s_temps if (cv := _temp_to_celsius(sv, su)) is not None]
+        for cv_str, cu in c_temps:
+            c_c = _temp_to_celsius(cv_str, cu)
+            if c_c is None or not s_celsius:
+                continue
+            if not any(abs(c_c - sc) <= 0.05 for sc in s_celsius):
+                return (
+                    False,
+                    True,
+                    f"Temperature conflict: claim states {cv_str} ({c_c:.2f}°C), evidence states {[round(x, 2) for x in s_celsius]}°C.",
+                    set(),
+                )
+        # All claim temperatures matched evidence temperatures in Celsius
+        if len(c_temps) == len(c_nums):
+            for cv_str, _ in c_temps:
+                grounded_tokens.update(re.findall(r"[a-z0-9]+", cv_str.lower()))
+            return True, False, "All temperature values verified in evidence.", grounded_tokens
+
     s_vals_by_unit: Dict[str, Set[str]] = {}
     s_dims: Dict[str, List[float]] = {}
     all_s_vals: Set[str] = set()
@@ -1366,6 +1515,20 @@ def _evaluate_numbers_with_grounded_tokens(claim: str, span: str) -> Tuple[bool,
         if c_unit:
             if c_unit in s_vals_by_unit:
                 if c_val not in s_vals_by_unit[c_unit]:
+                    if entities_disjoint:
+                        return (
+                            False,
+                            False,
+                            f"Numeric unit '{c_unit}' values refer to distinct entities ({sorted(c_ids_num or c_ents_num)} vs {sorted(s_ids_num or s_ents_num)}).",
+                            set(),
+                        )
+                    if temporal_disjoint:
+                        return (
+                            False,
+                            False,
+                            f"Numeric unit '{c_unit}' values refer to disjoint temporal contexts.",
+                            set(),
+                        )
                     return (
                         False,
                         True,
@@ -1383,6 +1546,20 @@ def _evaluate_numbers_with_grounded_tokens(claim: str, span: str) -> Tuple[bool,
                     dim_name, c_scaled = c_dim
                     matched_scaled = any(abs(c_scaled - sv) <= max(1e-6, 1e-4 * abs(sv)) for sv in s_dims[dim_name])
                     if not matched_scaled:
+                        if entities_disjoint:
+                            return (
+                                False,
+                                False,
+                                f"Scaled unit {dim_name} values refer to distinct entities ({sorted(c_ids_num or c_ents_num)} vs {sorted(s_ids_num or s_ents_num)}).",
+                                set(),
+                            )
+                        if temporal_disjoint:
+                            return (
+                                False,
+                                False,
+                                f"Scaled unit {dim_name} values refer to disjoint temporal contexts.",
+                                set(),
+                            )
                         return (
                             False,
                             True,
@@ -1404,12 +1581,189 @@ def _evaluate_numbers_with_grounded_tokens(claim: str, span: str) -> Tuple[bool,
                 elif c_val not in all_s_vals:
                     return False, False, f"Numeric value '{c_val}{c_unit}' in claim not found in evidence span.", set()
         elif c_val not in all_s_vals:
-            noun_conflict = _find_counted_noun_conflict(remaining_claim, span)
-            if noun_conflict is not None:
-                return False, True, noun_conflict, set()
+            if not entities_disjoint and not temporal_disjoint:
+                noun_conflict = _find_counted_noun_conflict(remaining_claim, span)
+                if noun_conflict is not None:
+                    return False, True, noun_conflict, set()
+            temp_num_conflict = _find_temporal_or_unitless_numeric_contradiction(
+                remaining_claim, span, c_nums, s_nums
+            )
+            if temp_num_conflict is not None:
+                return False, True, temp_num_conflict, set()
             return False, False, f"Numeric value '{c_val}' in claim not found in evidence span.", set()
 
     return True, False, "All claim numbers verified in evidence.", grounded_tokens
+
+
+_TEMP_HEDGE_RE = re.compile(
+    r"\b(?:approximately|approx\.?|about|around|circa|roughly|nearly|almost)\b|~",
+    re.IGNORECASE,
+)
+_DEG_C_RE = re.compile(r"(-?\d+(?:\.\d+)?)\s*(?:°\s*c\b|deg(?:rees?)?\s*c(?:elsius)?\b)", re.IGNORECASE)
+_DEG_F_RE = re.compile(r"(-?\d+(?:\.\d+)?)\s*(?:°\s*f\b|deg(?:rees?)?\s*f(?:ahrenheit)?\b)", re.IGNORECASE)
+_YEAR_RANGE_RE = re.compile(
+    r"\b(1\d{3}|20\d{2})\s*(?:[-\u2013\u2014]|to|and)\s*(1\d{3}|20\d{2})\b",
+    re.IGNORECASE,
+)
+_YEAR_SINGLE_RE = re.compile(r"\b(1\d{3}|20\d{2})\b")
+_ISO_DATE_RE = re.compile(r"\b((?:1\d{3}|20\d{2})-(?:0[1-9]|1[0-2])-(?:0[1-9]|[12]\d|3[01]))\b")
+_MONTH_CONTEXT_RE = re.compile(
+    r"\b(?:(?:in|on|during|since|from|until|before|after)\s+(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?|(jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|jun(?:e)?|jul(?:y)?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)\.?(?:\s+\d{1,2}(?:st|nd|rd|th)?,?(?:\s+(?:1\d{3}|20\d{2}))?|\s+(?:1\d{3}|20\d{2})))\b",
+    re.IGNORECASE,
+)
+
+
+def _extract_temporal_context(
+    text: str,
+) -> tuple[set[int], list[tuple[int, int]], set[str], set[str]]:
+    """Extract years, normalized year ranges, ISO dates, and month markers from text."""
+    years = {int(y) for y in _YEAR_SINGLE_RE.findall(text)}
+    ranges = [(min(int(a), int(b)), max(int(a), int(b))) for a, b in _YEAR_RANGE_RE.findall(text)]
+    isos = {m.group(1) for m in _ISO_DATE_RE.finditer(text)}
+    months: set[str] = set()
+    for m in _MONTH_CONTEXT_RE.finditer(text):
+        raw_mon = m.group(1) or m.group(2)
+        if raw_mon:
+            months.add(raw_mon.lower()[:3])
+    return years, ranges, isos, months
+
+
+def _temporal_contexts_disjoint(claim: str, span: str) -> bool:
+    """Return True when both claim and evidence anchor explicit non-overlapping dates or years."""
+    c_years, c_ranges, c_isos, c_months = _extract_temporal_context(claim)
+    s_years, s_ranges, s_isos, s_months = _extract_temporal_context(span)
+
+    if c_isos and s_isos:
+        return not bool(c_isos & s_isos)
+
+    if (c_years or c_ranges) and (s_years or s_ranges):
+        shared_years = c_years & s_years
+        if shared_years:
+            if c_months and s_months and not (c_months & s_months):
+                return True
+            return False
+        if any(sa <= cy <= sb for cy in c_years for sa, sb in s_ranges):
+            return False
+        if any(ca <= sy <= cb for sy in s_years for ca, cb in c_ranges):
+            return False
+        if any(max(ca, sa) <= min(cb, sb) for ca, cb in c_ranges for sa, sb in s_ranges):
+            return False
+        return True
+
+    if c_months and s_months:
+        return not bool(c_months & s_months)
+
+    return False
+
+
+_STOP_CONTENT = frozenset(
+    {
+        "the", "a", "an", "is", "are", "was", "were", "be", "been", "in", "on", "at",
+        "to", "for", "of", "by", "with", "from", "and", "or", "that", "this", "it",
+    }
+)
+
+
+def _extract_temp_values(text: str) -> list[tuple[str, str]]:
+    out: list[tuple[str, str]] = []
+    for m in _DEG_C_RE.finditer(text):
+        out.append((m.group(1), "deg_c"))
+    for m in _DEG_F_RE.finditer(text):
+        out.append((m.group(1), "deg_f"))
+    return out
+
+
+def _temp_to_celsius(val_str: str, unit: str) -> float | None:
+    try:
+        v = float(val_str)
+    except ValueError:
+        return None
+    if unit == "deg_c":
+        return v
+    if unit == "deg_f":
+        return (v - 32.0) * 5.0 / 9.0
+    return None
+
+
+def _find_temporal_or_unitless_numeric_contradiction(
+    claim: str,
+    span: str,
+    c_nums: Sequence[tuple[str, str]],
+    s_nums: Sequence[tuple[str, str]],
+) -> str | None:
+    """Detect temperature-unit, year/range, or shared-entity unitless numeric contradictions."""
+    if _TEMP_HEDGE_RE.search(claim) or _TEMP_HEDGE_RE.search(span):
+        return None
+
+    # Check proper entity & designated identifier alignment before numeric/temp checks
+    c_ents = _extract_proper_entities(claim, context_texts=[span]) - _NON_ENTITY_TEMP_SCALE_WORDS
+    s_ents = _extract_proper_entities(span, context_texts=[claim]) - _NON_ENTITY_TEMP_SCALE_WORDS
+    if c_ents and s_ents and not (c_ents & s_ents):
+        return None
+    c_ids = _extract_designated_identifiers(claim)
+    s_ids = _extract_designated_identifiers(span)
+    if c_ids and s_ids and not (c_ids & s_ids):
+        return None
+
+    temporal_disjoint = _temporal_contexts_disjoint(claim, span)
+
+    # 1. Normalized temperature units (°C / degrees Celsius / °F / degrees Fahrenheit)
+    c_temps = _extract_temp_values(claim)
+    s_temps = _extract_temp_values(span)
+    if c_temps and s_temps and not temporal_disjoint:
+        for cv, cu in c_temps:
+            same_unit_vals = {sv for sv, su in s_temps if su == cu}
+            if same_unit_vals and cv not in same_unit_vals:
+                return (
+                    f"Temperature unit conflict ({cu}): claim states {cv}, "
+                    f"evidence states {sorted(same_unit_vals)}."
+                )
+
+    c_words = {
+        w for w in re.findall(r"[a-z]+", claim.lower()) if w not in _STOP_CONTENT and len(w) > 2
+    }
+    s_words = {
+        w for w in re.findall(r"[a-z]+", span.lower()) if w not in _STOP_CONTENT and len(w) > 2
+    }
+    if not c_words or not s_words:
+        return None
+    overlap = len(c_words & s_words) / len(c_words)
+
+    # 2. Temporal year & year-range contradiction (skip when comparing time-indexed measurements)
+    c_non_year = {(v, u) for v, u in c_nums if u or not _YEAR_SINGLE_RE.fullmatch(v)}
+    s_non_year = {(v, u) for v, u in s_nums if u or not _YEAR_SINGLE_RE.fullmatch(v)}
+    c_has_meas_unit = any(u and _UNIT_DIMENSIONS.get(u, ("", 0))[0] not in ("", "time") for _, u in c_nums)
+    s_has_meas_unit = any(u and _UNIT_DIMENSIONS.get(u, ("", 0))[0] not in ("", "time") for _, u in s_nums)
+    time_indexed_measurement = (
+        (bool(c_non_year) and bool(s_non_year) and c_non_year != s_non_year)
+        or (c_has_meas_unit and s_has_meas_unit)
+    )
+
+    c_years = [int(y) for y in _YEAR_SINGLE_RE.findall(claim)]
+    s_ranges = [(int(a), int(b)) for a, b in _YEAR_RANGE_RE.findall(span)]
+    s_years = [int(y) for y in _YEAR_SINGLE_RE.findall(span)]
+    if c_years and not time_indexed_measurement:
+        if any(min(a, b) <= cy <= max(a, b) for cy in c_years for a, b in s_ranges):
+            return None
+        if (s_years or s_ranges) and overlap >= 0.35:
+            for cy in c_years:
+                in_range = any(min(a, b) <= cy <= max(a, b) for a, b in s_ranges)
+                if not in_range and cy not in s_years:
+                    return f"Temporal year conflict: claim states {cy}, evidence states {s_years or s_ranges}."
+        # Claim introduces a year when evidence has no years -> unmentioned (INSUFFICIENT_EVIDENCE)
+        if not s_years and not s_ranges:
+            return None
+
+    # 3. Unitless numeric contradiction on same entity/predicate (only against unitless evidence numbers)
+    s_unitless = {sv for sv, su in s_nums if not su and not _YEAR_SINGLE_RE.fullmatch(sv)}
+    if not temporal_disjoint and overlap >= 0.50 and c_nums and s_unitless:
+        for cv, cu in c_nums:
+            if not cu and not _YEAR_SINGLE_RE.fullmatch(cv) and cv not in s_unitless:
+                return (
+                    f"Numeric conflict on shared predicate: claim states {cv}, "
+                    f"evidence states {sorted(s_unitless)}."
+                )
+    return None
 
 
 def _evaluate_numbers(claim: str, span: str) -> Tuple[bool, bool, str]:
@@ -1886,10 +2240,32 @@ class OutputEvidenceVerifier:
 
             span_word_set = index.span_word_sets[idx]
             missing_entities = [ent for ent in proper_entities if ent not in span_word_set]
-            entities_ok = len(missing_entities) == 0
+            claim_designators = _extract_designated_identifiers(claim_text)
+            if claim_designators:
+                span_norm_space = re.sub(r"[\s-]+", " ", span.lower())
+                missing_designators = [
+                    des for des in claim_designators
+                    if not re.search(rf"\b{re.escape(des)}\b", span_norm_space)
+                ]
+            else:
+                missing_designators = []
+            entities_ok = (len(missing_entities) == 0) and (len(missing_designators) == 0)
             role_swapped = _has_subject_object_role_swap(claim_text, span)
 
-            topic_shared = (len(matched_tokens) >= 2) and (coverage >= 0.30 or sim >= 0.25)
+            non_num_claim_tokens = {
+                tok for tok in claim_tokens
+                if _YEAR_SINGLE_RE.fullmatch(tok) or not any(ch.isdigit() for ch in tok)
+            }
+            single_topic_num_shared = (
+                num_conflict
+                and entities_ok
+                and bool(non_num_claim_tokens)
+                and non_num_claim_tokens.issubset(grounded_union)
+            )
+            topic_shared = (
+                ((len(matched_tokens) >= 2) and (coverage >= 0.30 or sim >= 0.25))
+                or single_topic_num_shared
+            )
 
             if (polarity_contradicts and topic_shared) or (num_conflict and topic_shared) or slot_conflict:
                 span_outcome = EvidenceOutcome.CONTRADICTS

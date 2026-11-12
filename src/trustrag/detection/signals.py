@@ -541,6 +541,24 @@ def _are_topical_peers(text_a: str, text_b: str, lex_overlap: float, sem_cos: fl
     return False
 
 
+def _effective_source_key(doc: EvidenceDocument) -> str:
+    """Return a normalized source identity key for consensus independence weighting."""
+    generic = {"", "unknown", "local", "none", "null", "n/a"}
+    src_id = (doc.source_id or "").strip().lower()
+    if src_id not in generic:
+        return f"src:{src_id}"
+    prov = (doc.provenance or "").strip().lower()
+    if prov not in generic:
+        return f"prov:{prov}"
+    norm = re.sub(r"\s+", " ", doc.text.strip().lower())
+    return f"hash:{doc.content_hash or norm[:128]}"
+
+
+def _norm_content_sig(text: str) -> str:
+    """Return canonical whitespace/case-normalized content signature."""
+    return re.sub(r"\s+", " ", text.strip().lower())
+
+
 def evaluate_consensus_deviation_signals(
     docs: Sequence[EvidenceDocument],
     doc_embeddings: Optional[Sequence[Optional[np.ndarray]]],
@@ -624,6 +642,7 @@ def evaluate_consensus_deviation_signals(
                 conflicts_by_doc[di.doc_id].append(dj.doc_id)
                 conflicts_by_doc[dj.doc_id].append(di.doc_id)
 
+    docs_by_id: Dict[str, EvidenceDocument] = {d.doc_id: d for d in docs}
     results: Dict[str, Tuple[SignalDetail, List[str]]] = {}
     for idx, d in enumerate(docs):
         if is_empty_text(d.text):
@@ -647,6 +666,24 @@ def evaluate_consensus_deviation_signals(
 
         c_ids = conflicts_by_doc[d.doc_id]
         p_ids = peers_by_doc[d.doc_id]
+        d_src = _effective_source_key(d)
+        d_sig = _norm_content_sig(d.text)
+        c_set = set(c_ids)
+
+        indep_agree_keys: set[tuple[str, str]] = set()
+        for pid in p_ids:
+            if pid in c_set:
+                continue
+            pd = docs_by_id[pid]
+            p_src = _effective_source_key(pd)
+            p_sig = _norm_content_sig(pd.text)
+            if p_src != d_src and p_sig != d_sig:
+                indep_agree_keys.add((p_src, p_sig))
+
+        indep_conflict_sources = {_effective_source_key(docs_by_id[cid]) for cid in c_ids}
+        indep_agree_count = len(indep_agree_keys)
+        indep_conflict_count = len(indep_conflict_sources)
+
         reported_conflicts: List[str] = list(c_ids)
         peer_sims = [
             float(sem_matrix[idx, k]) if has_sem_matrix else compute_lexical_overlap(d.text, docs[k].text)
@@ -656,9 +693,18 @@ def evaluate_consensus_deviation_signals(
         mean_peer_sim = float(np.mean(peer_sims)) if peer_sims else 0.0
 
         if not c_ids:
-            if p_ids:
+            if indep_agree_count >= 1:
                 score = 0.95
-                explanation = f"Consistent with {len(p_ids)} topical peer document(s) (mean_peer_sim={mean_peer_sim:.3f})."
+                explanation = (
+                    f"Consistent with {indep_agree_count} independent peer document(s) "
+                    f"(mean_peer_sim={mean_peer_sim:.3f})."
+                )
+            elif p_ids:
+                score = 0.85
+                explanation = (
+                    f"Peer overlap limited to duplicate/same-source passage(s) "
+                    f"(mean_peer_sim={mean_peer_sim:.3f})."
+                )
             elif mean_peer_sim < 0.06 and len(non_empty_indices) >= 3:
                 score = 0.65
                 explanation = f"No direct contradictions, though semantically isolated from peers (mean_peer_sim={mean_peer_sim:.3f})."
@@ -667,15 +713,19 @@ def evaluate_consensus_deviation_signals(
                 explanation = f"No conflicting assertions detected across candidate pool (mean_peer_sim={mean_peer_sim:.3f})."
             flags: List[str] = []
         else:
-            non_conflicting = len(p_ids) - len(c_ids)
-            if non_conflicting >= 1 and non_conflicting >= len(c_ids):
+            if indep_agree_count >= 1 and indep_agree_count >= indep_conflict_count:
                 score = 0.85
                 reported_conflicts = []
-                explanation = f"Supported by agreeing peer cluster; isolated minority contradiction(s): {c_ids}."
+                explanation = (
+                    f"Supported by {indep_agree_count} independent agreeing source(s); "
+                    f"isolated minority contradiction(s): {c_ids}."
+                )
                 flags = []
-            elif len(c_ids) > non_conflicting and len(c_ids) >= 2:
+            elif indep_conflict_count > indep_agree_count and indep_conflict_count >= 2:
                 score = 0.15
-                explanation = f"Minority outlier contradicting {len(c_ids)} peer document(s): {c_ids}."
+                explanation = (
+                    f"Minority outlier contradicting {indep_conflict_count} independent source(s): {c_ids}."
+                )
                 flags = ["CONSENSUS_DEVIATION_CONFLICT", "MINORITY_OUTLIER"]
             else:
                 score = 0.35

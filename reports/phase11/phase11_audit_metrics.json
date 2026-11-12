@@ -1,0 +1,53 @@
+{
+  "clean_utility_n30": {
+    "n": 30,
+    "clean_retention": 1.0,
+    "fpr": 0.0,
+    "p50_ms": 4.4354,
+    "p95_ms": 5.6521
+  },
+  "concurrency_load": {
+    "1": {
+      "requests": 1,
+      "errors": 0,
+      "error_rate": 0.0,
+      "throughput_rps": 482.2,
+      "p50_ms": null,
+      "p95_ms": null,
+      "p99_ms": null,
+      "mean_ms": 2.03
+    },
+    "10": {
+      "requests": 10,
+      "errors": 0,
+      "error_rate": 0.0,
+      "throughput_rps": 1333.47,
+      "p50_ms": 6.48,
+      "p95_ms": 7.05,
+      "p99_ms": 7.16,
+      "mean_ms": 6.31
+    },
+    "25": {
+      "requests": 25,
+      "errors": 0,
+      "error_rate": 0.0,
+      "throughput_rps": 1170.56,
+      "p50_ms": 19.83,
+      "p95_ms": 20.41,
+      "p99_ms": 20.56,
+      "mean_ms": 17.4
+    },
+    "50": {
+      "requests": 50,
+      "errors": 0,
+      "error_rate": 0.0,
+      "throughput_rps": 1005.92,
+      "p50_ms": 33.96,
+      "p95_ms": 47.96,
+      "p99_ms": 48.1,
+      "mean_ms": 35.16
+    }
+  },
+  "peak_rss_mb": 232.16,
+  "active_threads": 1
+}
