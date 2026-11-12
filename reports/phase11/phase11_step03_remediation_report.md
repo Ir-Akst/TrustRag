@@ -19,3 +19,4 @@ All 7 confirmed defects (`DEF-01` through `DEF-07`) have been investigated, fixe
 - `SlidingWindowRateLimiter` is per-process in-memory (not distributed across independent nodes).
 - `AuditLogStore` hash chain is tamper-evident, not tamper-proof against root/host-level file deletion.
 - `35` legacy `mypy` errors in 4 untouched files and `1348` legacy `ruff` style lints remain outside Phase 11 scope.
+

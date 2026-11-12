@@ -14,3 +14,4 @@
 | **G3 Unseen Numeric/Temporal Accuracy (`n=4`)** | `0.5000` (`2/4`) | **`1.0000` (`4/4`)** | `+0.5000` |
 | **G3 Unseen False-Supported Rate** | `0.0000` | **`0.0000`** | `0.0000` |
 | **Clean RAG Retention (`n=15`)** | `1.0000` (`0.0000` FPR) | **`1.0000` (`0.0000` FPR)** | `0.0000` |
+

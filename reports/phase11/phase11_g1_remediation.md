@@ -11,3 +11,4 @@
 - **Root Cause:** Possessive `'s` (`France's` != `france`) and high-frequency interrogative/function stopwords diluted raw lexical + TF-IDF overlap on short queries.
 - **Fix:** Added `_content_tokens()` (stripping `'s`/`’s` and function stopwords while preserving negations and numbers) and blended content-token Jaccard with lexical/TF-IDF similarity in `src/trustrag/guardrails/paraphraser.py`. Kept `min_similarity = 0.30` and all drift guards intact.
 - **Before / After:** Paraphrase & drift suite accuracy: `0.8333` (`5/6`) -> **`1.0000`** (`6/6`); entity, numeric, negation, temporal, and conditional drift attacks remain rejected.
+

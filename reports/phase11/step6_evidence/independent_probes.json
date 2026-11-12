@@ -1,0 +1,55 @@
+{
+  "def08_neg_total": 20,
+  "def08_false_accept": [
+    {
+      "orig": "Who is the inventor of penicillin?",
+      "cand": "Who is the discoverer of penicillin?",
+      "accepted": true,
+      "reasons": [],
+      "sim": 0.3333
+    },
+    {
+      "orig": "Who is the discoverer of penicillin?",
+      "cand": "Who is the inventor of penicillin?",
+      "accepted": true,
+      "reasons": [],
+      "sim": 0.3333
+    }
+  ],
+  "def08_pos_total": 7,
+  "def08_false_reject": [
+    {
+      "orig": "What are the symptoms of diabetes?",
+      "cand": "What symptom does diabetes cause?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_SEMANTIC_DRIFT(sim=0.2500<0.30)"
+      ],
+      "sim": 0.25
+    },
+    {
+      "orig": "Who is the author and publisher of Dune?",
+      "cand": "Who wrote and published Dune?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_SEMANTIC_DRIFT(sim=0.2667<0.30)"
+      ],
+      "sim": 0.2667
+    }
+  ],
+  "def09_total": 17,
+  "def09_failures": [
+    {
+      "name": "pos_vs_zero",
+      "expected": "CONTRADICTED",
+      "got": "INSUFFICIENT_EVIDENCE",
+      "pass": false
+    },
+    {
+      "name": "diff_entity_neg",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "got": "CONTRADICTED",
+      "pass": false
+    }
+  ]
+}

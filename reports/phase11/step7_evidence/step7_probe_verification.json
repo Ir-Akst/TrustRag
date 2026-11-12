@@ -1,0 +1,261 @@
+{
+  "def10_neg_total": 11,
+  "def10_false_accept_count": 0,
+  "def10_pos_total": 6,
+  "def10_false_reject_count": 0,
+  "g3_total": 15,
+  "g3_pass_count": 15,
+  "g3_failures": [],
+  "def10_neg_cases": [
+    {
+      "orig": "Who is the inventor of penicillin?",
+      "cand": "Who is the discoverer of penicillin?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ],
+      "sim": 0.3333
+    },
+    {
+      "orig": "Who is the discoverer of penicillin?",
+      "cand": "Who is the inventor of penicillin?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ],
+      "sim": 0.3333
+    },
+    {
+      "orig": "Who is the founder of linux?",
+      "cand": "Who is the owner of linux?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ],
+      "sim": 0.3333
+    },
+    {
+      "orig": "Who is the owner of linux?",
+      "cand": "Who is the founder of linux?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ],
+      "sim": 0.3333
+    },
+    {
+      "orig": "What is the diameter of earth?",
+      "cand": "What is the mass of earth?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ],
+      "sim": 0.3333
+    },
+    {
+      "orig": "What is the melting point of iron?",
+      "cand": "What is the boiling point of iron?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ],
+      "sim": 0.5
+    },
+    {
+      "orig": "What is the price of gold?",
+      "cand": "What is the weight of gold?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ],
+      "sim": 0.3333
+    },
+    {
+      "orig": "What is the capital of france?",
+      "cand": "What is the population of france?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ],
+      "sim": 0.3333
+    },
+    {
+      "orig": "Who is the creator of python?",
+      "cand": "Who is the maintainer of python?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ],
+      "sim": 0.3333
+    },
+    {
+      "orig": "Who invented penicillin?",
+      "cand": "Who discovered penicillin?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ],
+      "sim": 0.3333
+    },
+    {
+      "orig": "What is penicillin's inventor?",
+      "cand": "What is penicillin's discoverer?",
+      "accepted": false,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ],
+      "sim": 0.3825
+    }
+  ],
+  "def10_pos_cases": [
+    {
+      "orig": "What is the capital of France?",
+      "cand": "Which city serves as France's capital?",
+      "accepted": true,
+      "reasons": [],
+      "sim": 0.3761
+    },
+    {
+      "orig": "What is the boiling point of water?",
+      "cand": "What is water's boiling point?",
+      "accepted": true,
+      "reasons": [],
+      "sim": 0.7597
+    },
+    {
+      "orig": "What is the price of gold?",
+      "cand": "What is the cost of gold?",
+      "accepted": true,
+      "reasons": [],
+      "sim": 0.3333
+    },
+    {
+      "orig": "When was the Eiffel Tower built?",
+      "cand": "In what year was the Eiffel Tower constructed?",
+      "accepted": true,
+      "reasons": [],
+      "sim": 0.4
+    },
+    {
+      "orig": "What is the maximum safe daily dose of Paracetamol in 2026?",
+      "cand": "what daily dose limit applies for Paracetamol in 2026?",
+      "accepted": true,
+      "reasons": [],
+      "sim": 0.5
+    },
+    {
+      "orig": "How does photosynthesis convert sunlight?",
+      "cand": "How is sunlight converted by photosynthesis?",
+      "accepted": true,
+      "reasons": [],
+      "sim": 0.5
+    }
+  ],
+  "g3_cases": [
+    {
+      "claim": "London recorded -10\u00b0C.",
+      "span": "Paris recorded 10\u00b0C.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "got": "INSUFFICIENT_EVIDENCE",
+      "pass": true
+    },
+    {
+      "claim": "In London, temperature was -10\u00b0C.",
+      "span": "In Paris, temperature was 10\u00b0C.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "got": "INSUFFICIENT_EVIDENCE",
+      "pass": true
+    },
+    {
+      "claim": "London recorded 50 mm rainfall.",
+      "span": "Paris recorded 100 mm rainfall.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "got": "INSUFFICIENT_EVIDENCE",
+      "pass": true
+    },
+    {
+      "claim": "London recorded -10\u00b0C.",
+      "span": "London recorded 10\u00b0C.",
+      "expected": "CONTRADICTED",
+      "got": "CONTRADICTED",
+      "pass": true
+    },
+    {
+      "claim": "London recorded -10\u00b0C.",
+      "span": "London recorded 14\u00b0F.",
+      "expected": "SUPPORTED",
+      "got": "SUPPORTED",
+      "pass": true
+    },
+    {
+      "claim": "Temperature is 5\u00b0C.",
+      "span": "Temperature is 0\u00b0C.",
+      "expected": "CONTRADICTED",
+      "got": "CONTRADICTED",
+      "pass": true
+    },
+    {
+      "claim": "Temperature is 5\u00b0C.",
+      "span": "Temperature is 5\u00b0C.",
+      "expected": "SUPPORTED",
+      "got": "SUPPORTED",
+      "pass": true
+    },
+    {
+      "claim": "Temperature is 5\u00b0C.",
+      "span": "Temperature is 41\u00b0F.",
+      "expected": "SUPPORTED",
+      "got": "SUPPORTED",
+      "pass": true
+    },
+    {
+      "claim": "Temperature is -10\u00b0C.",
+      "span": "Temperature is 14\u00b0F.",
+      "expected": "SUPPORTED",
+      "got": "SUPPORTED",
+      "pass": true
+    },
+    {
+      "claim": "Dose is 500mg.",
+      "span": "Dose is 100mg.",
+      "expected": "CONTRADICTED",
+      "got": "CONTRADICTED",
+      "pass": true
+    },
+    {
+      "claim": "Weight is 70kg.",
+      "span": "Weight is 50kg.",
+      "expected": "CONTRADICTED",
+      "got": "CONTRADICTED",
+      "pass": true
+    },
+    {
+      "claim": "Water boils at 212 degrees Fahrenheit.",
+      "span": "At standard pressure, water boils at 100 degrees Celsius.",
+      "expected": "SUPPORTED",
+      "got": "SUPPORTED",
+      "pass": true
+    },
+    {
+      "claim": "Temperature is 5\u00b0C.",
+      "span": "Humidity is 0\u00b0C.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "got": "INSUFFICIENT_EVIDENCE",
+      "pass": true
+    },
+    {
+      "claim": "The bridge was built in 2018.",
+      "span": "The house was built in 1998.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "got": "INSUFFICIENT_EVIDENCE",
+      "pass": true
+    },
+    {
+      "claim": "Toronto serves as the capital of Canada.",
+      "span": "Ottawa serves as the capital of Canada.",
+      "expected": "CONTRADICTED",
+      "got": "CONTRADICTED",
+      "pass": true
+    }
+  ]
+}

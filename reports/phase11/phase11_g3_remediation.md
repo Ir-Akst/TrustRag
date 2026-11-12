@@ -10,3 +10,4 @@
   - Unseen probes accuracy: `0.5000` (`2/4`) -> **`1.0000`** (`4/4`)
   - Unseen False-Supported Rate (`FSR`): `0.0000` -> **`0.0000`** (preserved)
   - Phase 08 linguistic suite: `25/25` (`1.0000`) preserved; all `159` G3/verifier tests pass.
+

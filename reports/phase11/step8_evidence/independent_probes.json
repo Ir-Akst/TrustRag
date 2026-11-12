@@ -1,0 +1,804 @@
+{
+  "def10_drift": [
+    {
+      "id": "inventor_discoverer_lc",
+      "orig": "Who is the inventor of penicillin?",
+      "cand": "Who is the discoverer of penicillin?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "inventor_discoverer_rev",
+      "orig": "Who is the discoverer of penicillin?",
+      "cand": "Who is the inventor of penicillin?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "inventor_discoverer_uc",
+      "orig": "Who is the inventor of PENICILLIN?",
+      "cand": "Who is the discoverer of PENICILLIN?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "inventor_discoverer_tc",
+      "orig": "Who is the inventor of Penicillin?",
+      "cand": "Who is the discoverer of Penicillin?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "inventor_discoverer_mixed",
+      "orig": "Who is the inventor of mRNA?",
+      "cand": "Who is the discoverer of mRNA?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "inventor_discoverer_verb",
+      "orig": "Who invented penicillin?",
+      "cand": "Who discovered penicillin?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "inventor_discoverer_poss",
+      "orig": "What is penicillin's inventor?",
+      "cand": "What is penicillin's discoverer?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3825,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "founder_owner_lc",
+      "orig": "Who is the founder of linux?",
+      "cand": "Who is the owner of linux?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "founder_ceo_lc",
+      "orig": "Who is the founder of linux?",
+      "cand": "Who is the CEO of linux?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "melting_boiling_lc",
+      "orig": "What is the melting point of iron?",
+      "cand": "What is the boiling point of iron?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.5,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "melting_freezing_lc",
+      "orig": "What is the melting point of water?",
+      "cand": "What is the freezing point of water?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.5,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "capital_pop_lc",
+      "orig": "What is the capital of france?",
+      "cand": "What is the population of france?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "largest_oldest_lc",
+      "orig": "What is the largest city in japan?",
+      "cand": "What is the oldest city in japan?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.5,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "cause_conseq_lc",
+      "orig": "What is the cause of inflation?",
+      "cand": "What is the consequence of inflation?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "birth_death_lc",
+      "orig": "What is the birth date of darwin?",
+      "cand": "What is the death date of darwin?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.5,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "anchor_for",
+      "orig": "What is the treatment for diabetes?",
+      "cand": "What is the cause for diabetes?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "anchor_about",
+      "orig": "What is the law about copyright?",
+      "cand": "What is the history about copyright?",
+      "expected_accept": false,
+      "actual_accept": true,
+      "sim": 0.5,
+      "reasons": []
+    },
+    {
+      "id": "anchor_in",
+      "orig": "What is the temperature in mars?",
+      "cand": "What is the pressure in mars?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "multiword_lc",
+      "orig": "What are the causes of climate change?",
+      "cand": "What are the effects of climate change?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.5,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "multiword_lc_unseen",
+      "orig": "What is the density of stainless steel?",
+      "cand": "What is the price of stainless steel?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.5,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "subj_start_lc",
+      "orig": "When was linux founded?",
+      "cand": "Where is linux headquartered?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "unseen_diameter_mass",
+      "orig": "What is the diameter of earth?",
+      "cand": "What is the mass of earth?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "unseen_creator_maint",
+      "orig": "Who is the creator of python?",
+      "cand": "Who is the maintainer of python?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "unseen_ceo_cto",
+      "orig": "Who is the ceo of stripe?",
+      "cand": "Who is the cto of stripe?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "unseen_dosage_tox",
+      "orig": "What is the dosage of aspirin?",
+      "cand": "What is the toxicity of aspirin?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.3333,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "unseen_no_prep_adj",
+      "orig": "How tall is mount everest?",
+      "cand": "How old is mount everest?",
+      "expected_accept": false,
+      "actual_accept": false,
+      "sim": 0.5,
+      "reasons": [
+        "PARAPHRASE_ATTRIBUTE_DRIFT"
+      ]
+    },
+    {
+      "id": "unseen_no_prep_verb",
+      "orig": "What treats malaria?",
+      "cand": "What prevents malaria?",
+      "expected_accept": false,
+      "actual_accept": true,
+      "sim": 0.3333,
+      "reasons": []
+    },
+    {
+      "id": "multi_entity_between",
+      "orig": "What is the distance between london and paris?",
+      "cand": "What is the flight time between london and paris?",
+      "expected_accept": false,
+      "actual_accept": true,
+      "sim": 0.5357,
+      "reasons": []
+    },
+    {
+      "id": "multi_entity_cap",
+      "orig": "What is the distance between London and Paris?",
+      "cand": "What is the flight time between London and Paris?",
+      "expected_accept": false,
+      "actual_accept": true,
+      "sim": 0.5357,
+      "reasons": []
+    }
+  ],
+  "def10_pres": [
+    {
+      "id": "syntactic_reordering",
+      "orig": "How does photosynthesis convert sunlight?",
+      "cand": "How is sunlight converted by photosynthesis?",
+      "expected_accept": true,
+      "actual_accept": true,
+      "sim": 0.5,
+      "reasons": []
+    },
+    {
+      "id": "eq_syn_built_constr",
+      "orig": "When was the Eiffel Tower built?",
+      "cand": "In what year was the Eiffel Tower constructed?",
+      "expected_accept": true,
+      "actual_accept": true,
+      "sim": 0.4,
+      "reasons": []
+    },
+    {
+      "id": "eq_syn_price_cost",
+      "orig": "What is the price of gold?",
+      "cand": "What is the cost of gold?",
+      "expected_accept": true,
+      "actual_accept": true,
+      "sim": 0.3333,
+      "reasons": []
+    },
+    {
+      "id": "eq_syn_vuln_susc",
+      "orig": "Is python vulnerable to injection?",
+      "cand": "Is python susceptible to injection?",
+      "expected_accept": true,
+      "actual_accept": true,
+      "sim": 0.5,
+      "reasons": []
+    },
+    {
+      "id": "possessive_norm_cap",
+      "orig": "What is the capital of France?",
+      "cand": "Which city serves as France's capital?",
+      "expected_accept": true,
+      "actual_accept": true,
+      "sim": 0.3761,
+      "reasons": []
+    },
+    {
+      "id": "possessive_norm_pop",
+      "orig": "What is the population of Tokyo?",
+      "cand": "How large is Tokyo's population?",
+      "expected_accept": true,
+      "actual_accept": true,
+      "sim": 0.4789,
+      "reasons": []
+    },
+    {
+      "id": "possessive_norm_lc",
+      "orig": "What is the boiling point of water?",
+      "cand": "What is water's boiling point?",
+      "expected_accept": true,
+      "actual_accept": true,
+      "sim": 0.7597,
+      "reasons": []
+    },
+    {
+      "id": "singular_plural_have",
+      "orig": "What are the symptoms of diabetes?",
+      "cand": "What symptoms does diabetes have?",
+      "expected_accept": true,
+      "actual_accept": true,
+      "sim": 0.8333,
+      "reasons": []
+    },
+    {
+      "id": "inflectional_build",
+      "orig": "When was the bridge built?",
+      "cand": "When did someone build the bridge?",
+      "expected_accept": true,
+      "actual_accept": false,
+      "sim": 0.25,
+      "reasons": [
+        "PARAPHRASE_SEMANTIC_DRIFT(sim=0.2500<0.30)"
+      ]
+    },
+    {
+      "id": "harmless_context",
+      "orig": "What is the capital of France?",
+      "cand": "what is the capital city of France, please?",
+      "expected_accept": true,
+      "actual_accept": true,
+      "sim": 0.5,
+      "reasons": []
+    },
+    {
+      "id": "safe_dose_2026",
+      "orig": "What is the maximum safe daily dose of Paracetamol in 2026?",
+      "cand": "what daily dose limit applies for Paracetamol in 2026?",
+      "expected_accept": true,
+      "actual_accept": true,
+      "sim": 0.5,
+      "reasons": []
+    },
+    {
+      "id": "low_overlap_symptoms",
+      "orig": "What are the symptoms of diabetes?",
+      "cand": "What symptom does diabetes cause?",
+      "expected_accept": true,
+      "actual_accept": false,
+      "sim": 0.25,
+      "reasons": [
+        "PARAPHRASE_SEMANTIC_DRIFT(sim=0.2500<0.30)"
+      ]
+    },
+    {
+      "id": "low_overlap_author_pub",
+      "orig": "Who is the author and publisher of Dune?",
+      "cand": "Who wrote and published Dune?",
+      "expected_accept": true,
+      "actual_accept": false,
+      "sim": 0.2667,
+      "reasons": [
+        "PARAPHRASE_SEMANTIC_DRIFT(sim=0.2667<0.30)"
+      ]
+    }
+  ],
+  "def11": [
+    {
+      "id": "london_vs_paris_neg",
+      "claim": "London recorded -10\u00b0C.",
+      "evidence": "Paris recorded 10\u00b0C.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "match": true,
+      "rationale": "Disjoint entities London vs Paris; evidence about Paris cannot contradict claim about London.",
+      "explanation": "Similarity alone insufficient: unverified entities ['london']; Temperature values refer to distinct entities (['london'] vs ['paris'])."
+    },
+    {
+      "id": "same_city_conflict",
+      "claim": "London recorded -10\u00b0C.",
+      "evidence": "London recorded 10\u00b0C.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "Same entity London with conflicting temperatures (-10\u00b0C vs 10\u00b0C).",
+      "explanation": "Temperature conflict: claim states -10 (-10.00\u00b0C), evidence states [10.0]\u00b0C."
+    },
+    {
+      "id": "same_city_cf_equiv",
+      "claim": "London recorded -10\u00b0C.",
+      "evidence": "London recorded 14\u00b0F.",
+      "expected": "SUPPORTED",
+      "actual": "SUPPORTED",
+      "match": true,
+      "rationale": "Same entity London with equivalent temperatures (-10\u00b0C == 14\u00b0F).",
+      "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+    },
+    {
+      "id": "multi_city_same_passage_diff",
+      "claim": "London recorded -10\u00b0C.",
+      "evidence": "Paris recorded 10\u00b0C. London recorded 5\u00b0C.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "Passage covers London at 5\u00b0C which conflicts with -10\u00b0C for London.",
+      "explanation": "Temperature conflict: claim states -10 (-10.00\u00b0C), evidence states [5.0]\u00b0C."
+    },
+    {
+      "id": "multi_city_same_passage_match",
+      "claim": "London recorded -10\u00b0C.",
+      "evidence": "Paris recorded 10\u00b0C. London recorded -10\u00b0C.",
+      "expected": "SUPPORTED",
+      "actual": "SUPPORTED",
+      "match": true,
+      "rationale": "Passage contains exact match for London at -10\u00b0C.",
+      "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+    },
+    {
+      "id": "multi_city_single_sentence_match",
+      "claim": "London recorded -10\u00b0C.",
+      "evidence": "Paris recorded 10\u00b0C and London recorded -10\u00b0C.",
+      "expected": "SUPPORTED",
+      "actual": "SUPPORTED",
+      "match": true,
+      "rationale": "Single span mentions both Paris 10\u00b0C and London -10\u00b0C; entity London matches -10\u00b0C.",
+      "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+    },
+    {
+      "id": "reordered_entity_value",
+      "claim": "Temperature in London was -10\u00b0C.",
+      "evidence": "London recorded -10\u00b0C.",
+      "expected": "SUPPORTED",
+      "actual": "SUPPORTED",
+      "match": true,
+      "rationale": "Reordered entity and value for London -10\u00b0C.",
+      "explanation": "Factual alignment satisfied (coverage=0.67, polarity, numbers & scope verified)."
+    },
+    {
+      "id": "reordered_diff_city",
+      "claim": "In London, temperature was -10\u00b0C.",
+      "evidence": "In Paris, temperature was 10\u00b0C.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "match": true,
+      "rationale": "Disjoint entities London vs Paris in locative construction with numeric RHS.",
+      "explanation": "Similarity alone insufficient: unverified entities ['london']; Temperature values refer to distinct entities (['london'] vs ['paris'])."
+    },
+    {
+      "id": "city_alias_nyc",
+      "claim": "NYC recorded -10\u00b0C.",
+      "evidence": "New York City recorded 10\u00b0C.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "match": true,
+      "rationale": "Without external alias map, NYC vs New York City are distinct unknown surface entities; must not false-contradict or false-support.",
+      "explanation": "Similarity alone insufficient: unverified entities ['nyc']; Temperature values refer to distinct entities (['nyc'] vs ['city', 'new', 'york'])."
+    },
+    {
+      "id": "lowercase_entity_cities",
+      "claim": "london recorded -10\u00b0C.",
+      "evidence": "paris recorded 10\u00b0C.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "actual": "CONTRADICTED",
+      "match": false,
+      "rationale": "Lowercase proper entities london vs paris must not false-contradict.",
+      "explanation": "Temperature conflict: claim states -10 (-10.00\u00b0C), evidence states [10.0]\u00b0C."
+    },
+    {
+      "id": "missing_entity_in_claim",
+      "claim": "Temperature recorded -10\u00b0C.",
+      "evidence": "Paris recorded 10\u00b0C.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "actual": "CONTRADICTED",
+      "match": false,
+      "rationale": "Claim lacks entity qualifier; evidence is scoped to Paris.",
+      "explanation": "Temperature conflict: claim states -10 (-10.00\u00b0C), evidence states [10.0]\u00b0C."
+    },
+    {
+      "id": "diff_prop_same_entity",
+      "claim": "London recorded 50 mm rainfall.",
+      "evidence": "London recorded 10\u00b0C.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "actual": "CONTRADICTED",
+      "match": false,
+      "rationale": "Same entity London, different properties (mm rainfall vs \u00b0C temperature).",
+      "explanation": "Numeric conflict on shared predicate: claim states 50, evidence states ['10']."
+    },
+    {
+      "id": "same_prop_diff_entity_mm",
+      "claim": "London recorded 50 mm rainfall.",
+      "evidence": "Paris recorded 100 mm rainfall.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "match": true,
+      "rationale": "Same property (mm rainfall) across disjoint entities London vs Paris.",
+      "explanation": "Similarity alone insufficient: unverified entities ['london']; Numeric value '50' in claim not found in evidence span.; coverage 0.60 < 0.65"
+    },
+    {
+      "id": "non_numeric_entity_slot_1",
+      "claim": "Toronto serves as the capital of Canada.",
+      "evidence": "Ottawa serves as the capital of Canada.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "Legitimate non-numeric entity-slot contradiction (Direction 2) must remain CONTRADICTED.",
+      "explanation": "Entity slot conflict on 'capital of Canada': claim asserts ['toronto'], evidence states ['ottawa']."
+    },
+    {
+      "id": "non_numeric_entity_slot_2",
+      "claim": "Geneva acts as the headquarters of WHO.",
+      "evidence": "Vienna acts as the headquarters of WHO.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "Legitimate non-numeric entity-slot contradiction must remain CONTRADICTED.",
+      "explanation": "Entity slot conflict on 'headquarters of WHO': claim asserts ['geneva'], evidence states ['vienna']."
+    },
+    {
+      "id": "non_numeric_entity_slot_rhs",
+      "claim": "The capital of France is Lyon.",
+      "evidence": "The capital of France is Paris.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "Legitimate non-numeric RHS entity-slot contradiction (Direction 1) must remain CONTRADICTED.",
+      "explanation": "Entity slot conflict on 'The capital of France': claim asserts ['lyon'], evidence states ['paris']."
+    }
+  ],
+  "def12": [
+    {
+      "id": "pos_vs_zero",
+      "claim": "Temperature is 5\u00b0C.",
+      "evidence": "Temperature is 0\u00b0C.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "Same single-topic property temperature with conflicting values 5\u00b0C vs 0\u00b0C.",
+      "explanation": "Temperature conflict: claim states 5 (5.00\u00b0C), evidence states [0.0]\u00b0C."
+    },
+    {
+      "id": "identical_pos",
+      "claim": "Temperature is 5\u00b0C.",
+      "evidence": "Temperature is 5\u00b0C.",
+      "expected": "SUPPORTED",
+      "actual": "SUPPORTED",
+      "match": true,
+      "rationale": "Identical value 5\u00b0C.",
+      "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+    },
+    {
+      "id": "neg_vs_pos_short",
+      "claim": "Temperature is -5\u00b0C.",
+      "evidence": "Temperature is 5\u00b0C.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "Same single-topic property temperature with sign conflict -5\u00b0C vs 5\u00b0C.",
+      "explanation": "Temperature conflict: claim states -5 (-5.00\u00b0C), evidence states [5.0]\u00b0C."
+    },
+    {
+      "id": "neg_vs_neg_short",
+      "claim": "Temperature is -5\u00b0C.",
+      "evidence": "Temperature is -5\u00b0C.",
+      "expected": "SUPPORTED",
+      "actual": "SUPPORTED",
+      "match": true,
+      "rationale": "Identical negative temperature -5\u00b0C.",
+      "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+    },
+    {
+      "id": "cf_equiv_pos",
+      "claim": "Temperature is 5\u00b0C.",
+      "evidence": "Temperature is 41\u00b0F.",
+      "expected": "SUPPORTED",
+      "actual": "SUPPORTED",
+      "match": true,
+      "rationale": "Exact C/F equivalence (5\u00b0C == 41\u00b0F).",
+      "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+    },
+    {
+      "id": "cf_equiv_neg_short",
+      "claim": "Temperature is -10\u00b0C.",
+      "evidence": "Temperature is 14\u00b0F.",
+      "expected": "SUPPORTED",
+      "actual": "SUPPORTED",
+      "match": true,
+      "rationale": "Exact negative C/F equivalence (-10\u00b0C == 14\u00b0F).",
+      "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+    },
+    {
+      "id": "tol_within_004",
+      "claim": "Temperature is 20.04\u00b0C.",
+      "evidence": "Temperature is 20.00\u00b0C.",
+      "expected": "SUPPORTED",
+      "actual": "SUPPORTED",
+      "match": true,
+      "rationale": "Within \u00b10.05\u00b0C tolerance (|0.04| <= 0.05) -> Wait: same-unit or cross-unit? Let us observe!",
+      "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+    },
+    {
+      "id": "tol_outside_010",
+      "claim": "Temperature is 20.10\u00b0C.",
+      "evidence": "Temperature is 20.00\u00b0C.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "Outside \u00b10.05\u00b0C tolerance (|0.10| > 0.05).",
+      "explanation": "Temperature conflict: claim states 20.10 (20.10\u00b0C), evidence states [20.0]\u00b0C."
+    },
+    {
+      "id": "tol_cf_within",
+      "claim": "Temperature is 68.05\u00b0F.",
+      "evidence": "Temperature is 20\u00b0C.",
+      "expected": "SUPPORTED",
+      "actual": "SUPPORTED",
+      "match": true,
+      "rationale": "68.05\u00b0F is 20.0278\u00b0C, within \u00b10.05\u00b0C of 20\u00b0C.",
+      "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+    },
+    {
+      "id": "tol_cf_outside",
+      "claim": "Temperature is 68.2\u00b0F.",
+      "evidence": "Temperature is 20\u00b0C.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "68.2\u00b0F is 20.111\u00b0C, outside \u00b10.05\u00b0C of 20\u00b0C.",
+      "explanation": "Temperature conflict: claim states 68.2 (20.11\u00b0C), evidence states [20.0]\u00b0C."
+    },
+    {
+      "id": "multi_meas_claim_partial_conflict",
+      "claim": "Temperature is 5\u00b0C and pressure is 100 kPa.",
+      "evidence": "Temperature is 0\u00b0C and pressure is 100 kPa.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "One conflicting measurement (5\u00b0C vs 0\u00b0C) contradicts claim.",
+      "explanation": "Temperature conflict: claim states 5 (5.00\u00b0C), evidence states [0.0]\u00b0C."
+    },
+    {
+      "id": "diff_ent_diff_meas",
+      "claim": "Sensor A is 5\u00b0C.",
+      "evidence": "Sensor B is 0\u00b0C.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "actual": "CONTRADICTED",
+      "match": false,
+      "rationale": "Disjoint entities Sensor A vs Sensor B (wait: A/B are 1-char!).",
+      "explanation": "Temperature conflict: claim states 5 (5.00\u00b0C), evidence states [0.0]\u00b0C."
+    },
+    {
+      "id": "diff_prop_similar_num",
+      "claim": "Temperature is 5\u00b0C.",
+      "evidence": "Humidity is 5%.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "match": true,
+      "rationale": "Different properties and units (temperature \u00b0C vs humidity %).",
+      "explanation": "Similarity alone insufficient: coverage 0.50 < 0.65"
+    },
+    {
+      "id": "temporal_change_meas",
+      "claim": "Temperature was 5\u00b0C in 2020.",
+      "evidence": "Temperature is 0\u00b0C in 2024.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "actual": "CONTRADICTED",
+      "match": false,
+      "rationale": "Different time points (2020 vs 2024); not necessarily contradictory.",
+      "explanation": "Temperature conflict: claim states 5 (5.00\u00b0C), evidence states [0.0]\u00b0C."
+    },
+    {
+      "id": "missing_unit_claim",
+      "claim": "Temperature is 5.",
+      "evidence": "Temperature is 5\u00b0C.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "actual": "SUPPORTED",
+      "match": false,
+      "rationale": "Missing unit in claim vs \u00b0C in evidence should not falsely contradict; support or insufficient.",
+      "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+    },
+    {
+      "id": "ambiguous_short_claim",
+      "claim": "It is 5\u00b0C.",
+      "evidence": "Temperature is 0\u00b0C.",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "actual": "INSUFFICIENT_EVIDENCE",
+      "match": true,
+      "rationale": "Unresolved pronoun / no shared topic token -> must not false-contradict.",
+      "explanation": ""
+    },
+    {
+      "id": "neg_zero_vs_zero",
+      "claim": "Temperature is -0\u00b0C.",
+      "evidence": "Temperature is 0\u00b0C.",
+      "expected": "SUPPORTED",
+      "actual": "SUPPORTED",
+      "match": true,
+      "rationale": "-0\u00b0C normalized to 0\u00b0C.",
+      "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+    },
+    {
+      "id": "decimal_values_conflict",
+      "claim": "Temperature is 37.5\u00b0C.",
+      "evidence": "Temperature is 36.6\u00b0C.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "Different decimal temperatures on same property.",
+      "explanation": "Temperature conflict: claim states 37.5 (37.50\u00b0C), evidence states [36.6]\u00b0C."
+    },
+    {
+      "id": "short_dose_conflict",
+      "claim": "Dose is 500mg.",
+      "evidence": "Dose is 100mg.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "Short single-topic numeric dosage conflict.",
+      "explanation": "Numeric conflict on unit 'mg': claim states 500, evidence states ['100']."
+    },
+    {
+      "id": "short_weight_conflict",
+      "claim": "Weight is 70kg.",
+      "evidence": "Weight is 50kg.",
+      "expected": "CONTRADICTED",
+      "actual": "CONTRADICTED",
+      "match": true,
+      "rationale": "Short single-topic numeric weight conflict.",
+      "explanation": "Numeric conflict on unit 'kg': claim states 70, evidence states ['50']."
+    }
+  ]
+}

@@ -1,0 +1,161 @@
+{
+  "worktree": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "base_head": "5481d6a88b8a9e2d5d7c7099a9692fd79e8ece46",
+  "gates": {
+    "G1_git_isolation": {
+      "name": "Git isolation & evidence preservation",
+      "requirement": "Phase 11 isolated on phase-11 worktree; Phase 10 untouched; Steps 4-7 evidence intact.",
+      "evidence": "git branch/HEAD/diff + sha256sum -c reports/phase11/step7_evidence/step6_checksums.txt (6/6 OK) + reports/phase11/step8_evidence/step7_checksums.txt",
+      "result": "PASS",
+      "qualification": "None"
+    },
+    "G2_g1_hierarchy_resistance": {
+      "name": "G1 hierarchy attack resistance",
+      "requirement": "Block instruction-hierarchy overrides while allowing benign developer/admin queries.",
+      "evidence": "test_def01_g1_hierarchy_override_blocks_attack_preserves_benign; test_independent_def01_redteam_hierarchy_and_benign",
+      "result": "PASS",
+      "qualification": "None"
+    },
+    "G3_g1_paraphrase_acceptance_and_drift": {
+      "name": "G1 paraphrase constraint preservation & attribute drift control",
+      "requirement": "Reject semantic/attribute drift (including lowercase subjects) while preserving min_similarity=0.30 and equivalent paraphrases.",
+      "evidence": "test_def10_*, test_def08_*, test_phase_08_step04_g1_paraphrasing.py, reports/phase11/step8_evidence/independent_probes.json (25/29 drift rejected, 10/13 pos accepted)",
+      "result": "CONDITIONAL_GO",
+      "qualification": "DEF-10 primary failures fixed; residual Low edge findings DEF-13 (about/between/and in _PARAPHRASE_STOPWORDS) and DEF-14 (anchorless verb substitution) preserved unmodified; 3 low-overlap positive rejections strictly due to preserved min_similarity=0.30."
+    },
+    "G4_g1_unicode_obfuscation": {
+      "name": "G1 Unicode & obfuscation robustness",
+      "requirement": "Detect and normalize zero-width, control, fullwidth, and mixed-script confusables.",
+      "evidence": "test_phase_03_defense.py, Validator D (9/9) & Validator J (9/9)",
+      "result": "PASS",
+      "qualification": "None"
+    },
+    "G5_g2_duplicate_consensus_resistance": {
+      "name": "G2 duplicate-source consensus resistance",
+      "requirement": "Single-source/content repetition cannot inflate F5 consensus or distort TF-IDF IDF.",
+      "evidence": "test_def02_def07_g2_consensus_repetition_and_canonical_key; test_independent_def02_def07_consensus_corroboration_and_f6",
+      "result": "PASS",
+      "qualification": "None"
+    },
+    "G6_g2_independent_corroboration": {
+      "name": "G2 independent-source corroboration",
+      "requirement": "Independent multi-source corroboration outranks single-source outliers.",
+      "evidence": "test_independent_def02_def07_consensus_corroboration_and_f6",
+      "result": "PASS",
+      "qualification": "None"
+    },
+    "G7_g2_f1_f6_correctness": {
+      "name": "G2 F1-F6 signal correctness & honest availability",
+      "requirement": "F4/F5/F6 accurate; unavailable neural/retriever signals F1/F2 never fabricated offline.",
+      "evidence": "test_phase_03_defense.py; test_phase_11_remediation.py",
+      "result": "PASS",
+      "qualification": "Neural/dense signals F1/F2 operate in honest-unavailable mode offline."
+    },
+    "G8_f6_ablation_consistency": {
+      "name": "F6 provenance key & ablation consistency",
+      "requirement": "Canonical provenance key across pipeline and ablation; weight_provenance=0 zeroes effective weight.",
+      "evidence": "test_def02_def07_g2_consensus_repetition_and_canonical_key",
+      "result": "PASS",
+      "qualification": "None"
+    },
+    "G9_g3_numerical_contradiction": {
+      "name": "G3 numerical & signed temperature contradiction detection",
+      "requirement": "Detect signed, scaled, temperature, and unitless numeric contradictions accurately.",
+      "evidence": "test_def03_*, test_def09_*, test_def12_*, test_phase_08_step05_g3_verification.py",
+      "result": "PASS",
+      "qualification": "None"
+    },
+    "G10_g3_temporal_contradiction": {
+      "name": "G3 temporal & year-range contradiction detection",
+      "requirement": "Detect year/recency contradictions while respecting inclusive year ranges.",
+      "evidence": "test_def03_*, test_independent_def03_*, Validator F (7/7)",
+      "result": "PASS",
+      "qualification": "See DEF-15a under G11 for short temperature claims with differing years."
+    },
+    "G11_g3_false_support_and_contradiction_control": {
+      "name": "G3 false-support, cross-entity alignment, and numeric classification control",
+      "requirement": "Zero false-support; prevent cross-entity false contradictions (DEF-11); classify short single-topic numeric conflicts (DEF-12).",
+      "evidence": "test_def11_*, test_def12_*, reports/phase11/step8_evidence/independent_probes.json (0/36 false-support; DEF-11 & DEF-12 targets fixed; 30/36 probes match), Validator B/H/I/J (0 FSR)",
+      "result": "CONDITIONAL_GO",
+      "qualification": "Zero false-support achieved; DEF-11 & DEF-12 fixed; residual bounded false-contradiction edge cases DEF-15a (2020 vs 2024 in short temp claim), DEF-15b (1-char Sensor A/B), and DEF-16 (50 mm vs 10C) preserved unmodified."
+    },
+    "G12_e2e_rag_security": {
+      "name": "End-to-end RAG pipeline security isolation",
+      "requirement": "G1/G2/G3 isolate poisoned corpus entries and unavailable SRM cleanly.",
+      "evidence": "test_independent_cross_subsystem_failure_isolation; Validator E (3/3)",
+      "result": "PASS",
+      "qualification": "Tested with deterministic/offline fallback SRM."
+    },
+    "G13_api_auth_authorization": {
+      "name": "API authentication, authorization & input validation",
+      "requirement": "Enforce Bearer auth, reject malformed/oversized inputs, block path traversal.",
+      "evidence": "test_phase_09_api.py; test_independent_live_api_security_and_audit",
+      "result": "PASS",
+      "qualification": "None"
+    },
+    "G14_frontend_security": {
+      "name": "Frontend XSS, CSP & API-client security",
+      "requirement": "Safe text-node rendering, security headers, Bearer propagation.",
+      "evidence": "cd frontend && npm test (5/5 pass); test_independent_live_api_security_and_audit",
+      "result": "PASS",
+      "qualification": "None"
+    },
+    "G15_bounded_rate_limiter": {
+      "name": "Bounded rate-limiter capacity & concurrency",
+      "requirement": "OrderedDict LRU bound prevents memory growth under IP churn and threads.",
+      "evidence": "test_def05_bounded_rate_limiter_under_ip_churn_and_concurrency",
+      "result": "PASS",
+      "qualification": "Process-local limiter; multi-worker deployments require upstream gateway rate limiting."
+    },
+    "G16_multiprocess_audit_integrity": {
+      "name": "Multi-process audit-log hash-chain integrity",
+      "requirement": "Concurrent writers preserve hash-chain verification and secret redaction.",
+      "evidence": "test_def06_multiprocess_audit_log_chain_integrity; test_independent_live_api_security_and_audit",
+      "result": "PASS",
+      "qualification": "None"
+    },
+    "G17_performance_concurrency": {
+      "name": "Performance, latency & memory bounds",
+      "requirement": "Meet latency and heap targets under deterministic verification workload.",
+      "evidence": "Validator J performance (warm_mean=6.75ms/7.3ms scope, peak_traced_heap=106.7MiB < 500MiB) & Step 4 50-concurrent benchmark (p99=48.10ms, 0% errors)",
+      "result": "PASS",
+      "qualification": "Measured on deterministic/TF-IDF path; neural inference latency untested offline."
+    },
+    "G18_full_historical_regression": {
+      "name": "Full offline unit, spec-validation & frontend regression",
+      "requirement": "All historical offline suites, compileall, spec validators, and frontend tests pass.",
+      "evidence": "pytest -W error -q (399 passed, 2 deselected); compileall exit 0; run_all_validations.py (10/10 PASS, 13/13 gates); npm test (5/5)",
+      "result": "PASS",
+      "qualification": "2 HF Hub integration tests deselected and classified BLOCKED under G19."
+    },
+    "G19_reproducibility_research_honesty": {
+      "name": "Research parity, external corpora & live model acquisition honesty",
+      "requirement": "Neural SRM, FilterRAG SLM, external datasets, and HF Hub tests must be verified or honestly reported BLOCKED.",
+      "evidence": "Offline sandbox without torch/transformers/peft/trl/network; test_boolq_sample_acquisition & test_squad_sample_acquisition collected (2/401) and BLOCKED",
+      "result": "BLOCKED",
+      "qualification": "Neural SRM (hf_local), FilterRAG SLM, HF acquisition tests, and external corpora (HaluEval, LLM-AggreFact, RSB, NQ, HotpotQA, MS MARCO, full RAGTruth) remain BLOCKED offline."
+    },
+    "G20_final_release_readiness": {
+      "name": "Final release readiness & deployment decision",
+      "requirement": "Synthesize audit findings, residual non-critical risks, and operational bounds.",
+      "evidence": "reports/phase11/phase11_step8_final_independent_audit.md; reports/phase11/phase11_step8_release_decision.md",
+      "result": "CONDITIONAL_GO",
+      "qualification": "Safe for single-node offline/deterministic internal deployment with TRUSTRAG_ENV=production; bounded Medium/Low findings DEF-13 to DEF-16 documented and preserved unmodified pending remediation/commit decision."
+    }
+  },
+  "summary": {
+    "pass": 16,
+    "fail": 0,
+    "blocked": 1,
+    "conditional_go": 3
+  },
+  "step8_findings": [
+    "DEF-13 (Low - G1 Paraphraser): about/between/and missing from _PARAPHRASE_STOPWORDS",
+    "DEF-14 (Low - G1 Paraphraser): anchorless lowercase verb substitution (treats vs prevents malaria)",
+    "DEF-15 (Medium - G3 Verifier): DEF-15a (2020 vs 2024 year mismatch stripped by single_topic_num_shared) & DEF-15b (1-char Sensor A vs Sensor B)",
+    "DEF-16 (Low - text_utils/G3 Verifier): mm not in NUMBER_UNIT_RE vs unitless 10C on same entity"
+  ],
+  "recommendation": "CONDITIONAL GO"
+}
+

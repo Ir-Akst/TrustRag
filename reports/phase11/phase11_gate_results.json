@@ -1,0 +1,50 @@
+{
+  "worktree": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "audited_head": "5481d6a88b8a9e2d5d7c7099a9692fd79e8ece46",
+  "parent_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+  "gates": {
+    "G1_git_isolation": "PASS",
+    "G2_g1_hierarchy_resistance": "PASS",
+    "G3_g1_paraphrase_acceptance": "FAIL",
+    "G4_g1_unicode_obfuscation": "PASS",
+    "G5_g2_duplicate_consensus_resistance": "PASS",
+    "G6_g2_independent_corroboration": "PASS",
+    "G7_g2_f1_f6_correctness": "PASS",
+    "G8_f6_ablation_consistency": "PASS",
+    "G9_g3_numerical_contradiction": "PASS",
+    "G10_g3_temporal_contradiction": "PASS",
+    "G11_g3_false_support_control": "FAIL",
+    "G12_e2e_rag_security": "PASS",
+    "G13_api_auth_authorization": "PASS",
+    "G14_frontend_security": "PASS",
+    "G15_bounded_rate_limiter": "PASS",
+    "G16_multiprocess_audit_integrity": "PASS",
+    "G17_performance_concurrency": "PASS",
+    "G18_full_historical_regression": "PASS",
+    "G19_reproducibility_research_honesty": "BLOCKED",
+    "G20_final_release_readiness": "PASS"
+  },
+  "summary": {
+    "pass": 17,
+    "fail": 2,
+    "blocked": 1,
+    "not_applicable": 0
+  },
+  "new_defects_discovered": [
+    {
+      "id": "DEF-08",
+      "severity": "Medium",
+      "subsystem": "G1 Paraphraser",
+      "test": "tests/unit/test_phase_11_independent_audit.py::test_independent_def04_paraphrase_robustness_and_drift"
+    },
+    {
+      "id": "DEF-09",
+      "severity": "High",
+      "subsystem": "G3 OutputEvidenceVerifier / text_utils",
+      "test": "tests/unit/test_phase_11_independent_audit.py::test_independent_def03_g3_comprehensive_contradictions_and_zero_fsr"
+    }
+  ],
+  "overall_decision": "CONDITIONAL GO"
+}
+

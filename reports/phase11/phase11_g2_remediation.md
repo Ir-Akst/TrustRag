@@ -9,3 +9,4 @@
 ## 2. DEF-07: F6 Canonical Signal Key Alignment
 - **Original Behavior:** `phase10_runner.py` queried `"provenance_prior"` while `msd.py` emits `"provenance"`.
 - **Fix:** Updated `phase10_runner.py` to use canonical `"provenance"` and added schema assertion in `test_phase_11_remediation.py`.
+

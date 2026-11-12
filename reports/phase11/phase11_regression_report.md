@@ -11,3 +11,4 @@
 | **Python Compilation (`compileall`)** | Exit `0` | **Exit `0`** | **PASS** |
 | **Mypy (`src/trustrag`, 110 files)** | `35` legacy errors (4 files) | `35` legacy errors (4 untouched files); **0 errors in Phase 11 edits** | **LEGACY ONLY** |
 | **Ruff (`src tests tools`)** | `1345` legacy lints | `1348` legacy lints; **0 errors in `audit.py`, `security.py`, `phase10_runner.py`, `test_phase_11_remediation.py`** | **LEGACY ONLY** |
+
