@@ -22,7 +22,7 @@ from __future__ import annotations
 
 import re
 from dataclasses import dataclass
-from typing import Callable, Dict, List, Optional, Sequence, Set, Tuple
+from typing import Any, Callable, Dict, List, Optional, Sequence, Set, Tuple
 
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -1174,6 +1174,43 @@ def _action_verbs_compatible_for_voice(
     )
 
 
+_COUNTED_NOUN_RE = re.compile(r"\b(\d+(?:,\d+)*(?:\.\d+)?)\s+([a-zA-Z]{3,})\b")
+_COUNTED_NOUN_STOP = frozenset(
+    {
+        "the", "and", "for", "with", "from", "across", "over", "under", "year", "years",
+        "degree", "fahrenheit", "celsius", "kelvin", "meter", "metre", "kilometer", "kilometre",
+        "mile", "foot", "feet", "kilogram", "pound", "percent", "million", "billion", "thousand",
+    }
+)
+
+
+def _find_counted_noun_conflict(claim: str, span: str) -> Optional[str]:
+    """Detect mismatched non-year quantities qualifying the same noun (e.g. '500 patients' vs '50 patients')."""
+    s_map: Dict[str, Set[str]] = {}
+    for val, noun in _COUNTED_NOUN_RE.findall(span):
+        stem = noun.lower().rstrip("s")
+        if stem in _COUNTED_NOUN_STOP or stem in _UNIT_DIMENSIONS:
+            continue
+        clean_v = val.replace(",", "")
+        s_map.setdefault(stem, set()).add(clean_v)
+    for c_val, noun in _COUNTED_NOUN_RE.findall(claim):
+        stem = noun.lower().rstrip("s")
+        if stem in _COUNTED_NOUN_STOP or stem in _UNIT_DIMENSIONS:
+            continue
+        clean_c = c_val.replace(",", "")
+        if clean_c in s_map.get(stem, set()):
+            continue
+        if stem in s_map and s_map[stem]:
+            try:
+                num_v = float(clean_c)
+                if 1500.0 <= num_v <= 2099.0 and num_v.is_integer():
+                    continue
+            except ValueError:
+                pass
+            return f"Count conflict on '{noun.lower()}': claim states {clean_c}, evidence states {sorted(s_map[stem])}."
+    return None
+
+
 def _evaluate_numbers_with_grounded_tokens(claim: str, span: str) -> Tuple[bool, bool, str, Set[str]]:
     """Verify numeric, physical-unit, and action-bound schedule alignment between claim and evidence span.
 
@@ -1367,6 +1404,9 @@ def _evaluate_numbers_with_grounded_tokens(claim: str, span: str) -> Tuple[bool,
                 elif c_val not in all_s_vals:
                     return False, False, f"Numeric value '{c_val}{c_unit}' in claim not found in evidence span.", set()
         elif c_val not in all_s_vals:
+            noun_conflict = _find_counted_noun_conflict(remaining_claim, span)
+            if noun_conflict is not None:
+                return False, True, noun_conflict, set()
             return False, False, f"Numeric value '{c_val}' in claim not found in evidence span.", set()
 
     return True, False, "All claim numbers verified in evidence.", grounded_tokens
@@ -1448,9 +1488,11 @@ class OutputEvidenceVerifier:
         config: Optional[VerificationConfig] = None,
         *,
         embedding_callable: Optional[Callable[[Sequence[str]], Sequence[np.ndarray]]] = None,
+        srm_client: Optional[Any] = None,
     ) -> None:
         self.config = config or VerificationConfig()
         self.embedding_callable = embedding_callable
+        self.srm_client = srm_client
 
     def extract_claims(self, answer_text: str) -> List[str]:
         """Decompose generated answer text into verifiable atomic claims, skipping opinions/greetings."""
@@ -2023,6 +2065,8 @@ class OutputEvidenceVerifier:
         trusted_documents: Sequence[EvidenceDocument],
         *,
         abstained: bool = False,
+        doc_trust_scores: Optional[Dict[str, float]] = None,
+        min_passage_trust: float = 0.60,
     ) -> G3VerificationReport:
         """Verify all extracted claims in a generated answer using shared span representations."""
         if abstained:
@@ -2111,6 +2155,89 @@ class OutputEvidenceVerifier:
             refine_claim_with_generalization(item, trusted_documents, self.verify_claim)
             for item in items
         ]
+
+        # Conservative real/model-backed judgment refinement (only upgrades INSUFFICIENT when
+        # citations are substring-verified AND deterministic safety checks found zero conflict).
+        if self.srm_client is not None:
+            try:
+                health = self.srm_client.health_check()
+                if getattr(health, "is_real_model", False) and getattr(health, "available", False):
+                    passages_payload = [{"doc_id": d.doc_id, "text": d.text} for d in trusted_documents]
+                    doc_lookup = {d.doc_id: d for d in trusted_documents}
+                    refined_items: List[ClaimVerificationItem] = []
+                    for item in items:
+                        if item.verdict == G3ClaimVerdict.INSUFFICIENT and passages_payload:
+                            pol_ok = all(
+                                _evaluate_polarity(item.claim_text, d.text)[0]
+                                for d in trusted_documents
+                            )
+                            srm_res = self.srm_client.classify_evidence(
+                                query="",
+                                evidence_passages=passages_payload,
+                                candidate_answer=item.claim_text,
+                            )
+                            top_j = srm_res.claim_judgments[0] if srm_res.claim_judgments else None
+                            if (
+                                top_j is not None
+                                and not srm_res.is_fallback
+                                and top_j.outcome == EvidenceOutcome.SUPPORTS
+                                and top_j.verified_citations
+                                and top_j.evidence_ids
+                                and pol_ok
+                            ):
+                                cited_docs = [doc_lookup[eid] for eid in top_j.evidence_ids if eid in doc_lookup]
+                                if cited_docs:
+                                    ev_ref = EvidenceReference(
+                                        doc_id=cited_docs[0].doc_id,
+                                        source_id=cited_docs[0].source_id,
+                                        source_dataset=cited_docs[0].source_dataset,
+                                        provenance=cited_docs[0].provenance,
+                                        matched_span=top_j.cited_spans[0] if top_j.cited_spans else cited_docs[0].text[:220],
+                                        similarity_score=0.80,
+                                        polarity_match=True,
+                                        numeric_match=True,
+                                        coverage_score=0.80,
+                                        alignment_note=f"Model-backed G3 support verified via cited span ({srm_res.model_name}).",
+                                        span_outcome="SUPPORTED",
+                                    )
+                                    item = item.model_copy(
+                                        update={
+                                            "outcome": EvidenceOutcome.SUPPORTS,
+                                            "verdict": G3ClaimVerdict.SUPPORTED,
+                                            "unsupported_flag": False,
+                                            "confidence": round(min(0.95, float(top_j.confidence)), 4),
+                                            "supporting_evidence_refs": [ev_ref],
+                                            "evidence_refs": [ev_ref],
+                                            "explanation": ev_ref.alignment_note,
+                                        }
+                                    )
+                        refined_items.append(item)
+                    items = refined_items
+            except Exception as exc:
+                LOGGER.warning("Model-backed G3 judge skipped cleanly: %s", exc)
+
+        # Paper B Sec 6.3: Claims backed exclusively by low-trust passages are weakly grounded
+        if doc_trust_scores:
+            trust_checked: List[ClaimVerificationItem] = []
+            for item in items:
+                if item.verdict == G3ClaimVerdict.SUPPORTED and item.supporting_evidence_refs:
+                    supp_scores = [doc_trust_scores.get(r.doc_id) for r in item.supporting_evidence_refs]
+                    known_scores = [s for s in supp_scores if s is not None]
+                    if known_scores and max(known_scores) < min_passage_trust:
+                        item = item.model_copy(
+                            update={
+                                "outcome": EvidenceOutcome.UNCERTAIN,
+                                "verdict": G3ClaimVerdict.UNCERTAIN,
+                                "unsupported_flag": True,
+                                "confidence": round(min(item.confidence, 0.50), 4),
+                                "explanation": (
+                                    f"Weakly grounded: claim supported only by low-trust passage(s) "
+                                    f"(max_trust={max(known_scores):.2f} < {min_passage_trust:.2f})."
+                                ),
+                            }
+                        )
+                trust_checked.append(item)
+            items = trust_checked
 
         supported = [c for c in items if c.verdict == G3ClaimVerdict.SUPPORTED]
         contradicted = [c for c in items if c.verdict == G3ClaimVerdict.CONTRADICTED]
