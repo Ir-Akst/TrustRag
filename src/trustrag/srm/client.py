@@ -1,32 +1,37 @@
-"""Client wrapper orchestrating SRM backend selection, timeout handling, fallback, and audit logging."""
+"""Client wrapper orchestrating SRM backend selection, lifecycle, timeout handling, fallback, and audit logging."""
 
 from __future__ import annotations
 
-from typing import Optional
+from collections.abc import Sequence
 
 from trustrag.config.engine_config import SRMConfig
 from trustrag.config.settings import LLMProviderConfig
-from trustrag.engine.schemas import SRMExecutionStatus, SRMRequest, SRMResponse
+from trustrag.engine.schemas import (
+    SRMBackendHealth,
+    SRMClaimJudgment,
+    SRMExecutionStatus,
+    SRMRequest,
+    SRMResponse,
+)
 from trustrag.exceptions import ModelError, ProviderError
 from trustrag.srm.backends import (
     BaseSRMBackend,
     DeterministicFallbackBackend,
-    LocalOllamaBackend,
-    OpenAICompatibleAPIBackend,
 )
+from trustrag.srm.registry import SRMBackendRegistry
 from trustrag.utils.logging import get_logger
 
 LOGGER = get_logger(__name__)
 
 
 class SRMClient:
-    """HalluGuard-inspired Small Reasoning Model client with deterministic fallback."""
+    """HalluGuard-inspired Small Reasoning Model client with explicit fallback & lifecycle controls."""
 
     def __init__(
         self,
-        config: Optional[SRMConfig] = None,
-        llm_config: Optional[LLMProviderConfig] = None,
-        backend: Optional[BaseSRMBackend] = None,
+        config: SRMConfig | None = None,
+        llm_config: LLMProviderConfig | None = None,
+        backend: BaseSRMBackend | None = None,
     ) -> None:
         self.config = config or SRMConfig()
         self.llm_config = llm_config or LLMProviderConfig()
@@ -34,13 +39,29 @@ class SRMClient:
         self._backend: BaseSRMBackend = backend or self._select_backend()
 
     def _select_backend(self) -> BaseSRMBackend:
-        if not self.config.enabled or self.config.backend == "disabled":
-            return self._fallback
-        if self.config.backend == "local_ollama":
-            return LocalOllamaBackend(self.config, self.llm_config)
-        if self.config.backend == "openai_compatible":
-            return OpenAICompatibleAPIBackend(self.config, self.llm_config)
-        raise ProviderError(f"Unsupported SRM backend: '{self.config.backend}'")
+        return SRMBackendRegistry.create(self.config, self.llm_config)
+
+    @property
+    def backend(self) -> BaseSRMBackend:
+        """Expose active backend instance for inspection or resource management."""
+        return self._backend
+
+    def initialize(self) -> SRMBackendHealth:
+        """Explicitly initialize the selected SRM backend and report health status."""
+        self._backend.initialize()
+        return self.health_check()
+
+    def shutdown(self) -> None:
+        """Gracefully unload or release active SRM backend resources."""
+        self._backend.shutdown()
+
+    def health_check(self) -> SRMBackendHealth:
+        """Return explicit backend health report (never hides fallback status)."""
+        if not self.config.enabled or (
+            self.config.backend == "disabled" and isinstance(self._backend, DeterministicFallbackBackend)
+        ):
+            return self._fallback.health_check()
+        return self._backend.health_check()
 
     def _log_execution(self, response: SRMResponse) -> None:
         LOGGER.info(
@@ -50,6 +71,7 @@ class SRMClient:
                 "backend": response.backend_used,
                 "execution_status": response.execution_status.value,
                 "is_fallback": response.is_fallback,
+                "inference_mode": response.inference_mode,
                 "srm_config": {
                     "enabled": self.config.enabled,
                     "configured_backend": self.config.backend,
@@ -61,8 +83,10 @@ class SRMClient:
         )
 
     def reason(self, request: SRMRequest) -> SRMResponse:
-        """Execute SRM reasoning with automatic timeout/unavailable handling and logging."""
-        if not self.config.enabled or (self.config.backend == "disabled" and isinstance(self._backend, DeterministicFallbackBackend)):
+        """Execute SRM reasoning with explicit fallback control and structured audit logging."""
+        if not self.config.enabled or (
+            self.config.backend == "disabled" and isinstance(self._backend, DeterministicFallbackBackend)
+        ):
             resp = self._fallback.invoke(
                 request,
                 status=SRMExecutionStatus.DISABLED,
@@ -101,6 +125,34 @@ class SRMClient:
             self._log_execution(resp)
             return resp
 
+    def reason_batch(self, requests: Sequence[SRMRequest]) -> list[SRMResponse]:
+        """Execute bounded-batch reasoning across requests using configured batch_size."""
+        max_bs = max(1, self.config.batch_size)
+        out: list[SRMResponse] = []
+        for idx in range(0, len(requests), max_bs):
+            for req in requests[idx : idx + max_bs]:
+                out.append(self.reason(req))
+        return out
+
+    def verify_claims(self, request: SRMRequest) -> list[SRMClaimJudgment]:
+        """Verify claim judgments for a structured request."""
+        return self.reason(request).claim_judgments
+
+    def classify_evidence(
+        self,
+        query: str,
+        evidence_passages: Sequence[dict[str, str]],
+        candidate_answer: str,
+    ) -> SRMResponse:
+        """Execute evidence-grounded classification blind to upstream G3 rule hints."""
+        return self.reason(
+            SRMRequest(
+                query=query,
+                candidate_answer=candidate_answer,
+                evidence_passages=list(evidence_passages),
+                blind_to_g3_heuristics=True,
+            )
+        )
+
 
 __all__ = ["SRMClient"]
-

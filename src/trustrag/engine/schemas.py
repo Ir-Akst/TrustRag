@@ -460,11 +460,27 @@ class SRMExecutionStatus(str, Enum):
     DISABLED = "DISABLED"
 
 
+class HallucinationCategory(str, Enum):
+    """Five-way evidence-grounded hallucination taxonomy aligned with HalluGuard & TrustRAG."""
+
+    GROUNDED = "GROUNDED"
+    INTRINSIC_HALLUCINATION = "INTRINSIC_HALLUCINATION"
+    EXTRINSIC_HALLUCINATION = "EXTRINSIC_HALLUCINATION"
+    INSUFFICIENT_EVIDENCE = "INSUFFICIENT_EVIDENCE"
+    CONTRADICTED = "CONTRADICTED"
+
+
 class SRMClaimJudgment(BaseModel):
     """Per-claim reasoning judgment produced by SRM or deterministic fallback."""
 
+    claim_id: Optional[str] = None
     claim_text: str
     outcome: EvidenceOutcome
+    hallucination_category: Optional[HallucinationCategory] = None
+    evidence_ids: List[str] = Field(default_factory=list)
+    cited_spans: List[str] = Field(default_factory=list)
+    verified_citations: bool = False
+    confidence: float = Field(default=0.5, ge=0.0, le=1.0)
     rationale: str
 
 
@@ -477,6 +493,21 @@ class SRMRequest(BaseModel):
     g2_trust_scores: Dict[str, float] = Field(default_factory=dict)
     g3_claim_outcomes: List[Dict[str, Any]] = Field(default_factory=list)
     task_type: str = "trust_and_hallucination_review"
+    blind_to_g3_heuristics: bool = False
+
+
+class SRMBackendHealth(BaseModel):
+    """Structured liveness, initialization, and capability report for an SRM backend."""
+
+    backend_name: str
+    model_name: str
+    initialized: bool
+    available: bool
+    is_real_model: bool
+    device: str = "cpu"
+    inference_mode: str = "non_think"
+    detail: str = ""
+    last_error: Optional[str] = None
 
 
 class SRMResponse(BaseModel):
@@ -491,6 +522,9 @@ class SRMResponse(BaseModel):
     execution_status: SRMExecutionStatus
     latency_ms: float = Field(ge=0.0)
     is_fallback: bool
+    inference_mode: str = "non_think"
+    raw_think_trace: Optional[str] = None
+    model_config_snapshot: Dict[str, Any] = Field(default_factory=dict)
     error_detail: Optional[str] = None
 
 
@@ -599,8 +633,10 @@ __all__ = [
     "ClaimVerificationItem",
     "G3VerificationReport",
     "SRMExecutionStatus",
+    "HallucinationCategory",
     "SRMClaimJudgment",
     "SRMRequest",
+    "SRMBackendHealth",
     "SRMResponse",
     "TrustReport",
     "PipelineResponse",

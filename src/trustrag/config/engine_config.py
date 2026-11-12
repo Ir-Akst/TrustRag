@@ -307,17 +307,53 @@ class SRMConfig(_ValidatedConfigModel):
     """Configuration for HalluGuard-inspired Small Reasoning Model (SRM) integration."""
 
     enabled: bool = Field(default=True, description="Whether SRM verification stage is invoked")
-    backend: Literal["disabled", "local_ollama", "openai_compatible"] = Field(
+    backend: Literal["disabled", "local_ollama", "openai_compatible", "hf_local", "custom"] = Field(
         default="disabled",
         description="SRM backend type; 'disabled' activates deterministic fallback directly",
     )
     model_name: str = Field(
         default="halluguard-srm-fallback",
-        description="Configured model identifier (e.g., qwen2.5:1.5b for Ollama or API model ID)",
+        description="Configured model identifier (e.g., qwen2.5:1.5b, local HF path, or API model ID)",
+    )
+    model_adapter_path: Optional[str] = Field(
+        default=None,
+        description="Optional local LoRA/PEFT adapter directory for hf_local backend",
     )
     endpoint_url: Optional[str] = Field(
         default=None,
         description="Optional HTTP endpoint URL overriding provider defaults",
+    )
+    inference_mode: Literal["think", "non_think"] = Field(
+        default="non_think",
+        description="Reasoning output mode ('think' enables <think> trace extraction prior to JSON)",
+    )
+    device: Literal["auto", "cpu", "cuda"] = Field(
+        default="auto",
+        description="Execution device preference for optional local model backends",
+    )
+    max_new_tokens: int = Field(
+        default=512,
+        ge=32,
+        le=4096,
+        description="Maximum tokens generated per SRM reasoning request",
+    )
+    batch_size: int = Field(
+        default=4,
+        ge=1,
+        le=64,
+        description="Maximum controlled batch size for batch SRM inference",
+    )
+    local_files_only: bool = Field(
+        default=True,
+        description="Disallow automatic remote weight downloads; require locally staged checkpoints",
+    )
+    trust_remote_code: bool = Field(
+        default=False,
+        description="Explicit opt-in required before executing custom tokenizer/model code",
+    )
+    enforce_citation_grounding: bool = Field(
+        default=True,
+        description="Validate SRM cited evidence spans against candidate passage text",
     )
     timeout_seconds: float = Field(default=5.0, gt=0.0, description="Request timeout in seconds")
     temperature: float = Field(default=0.0, ge=0.0, le=2.0, description="Sampling temperature")
