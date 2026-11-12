@@ -19,7 +19,7 @@ from trustrag.adaptive.schemas import (
     ThresholdRecommendation,
 )
 from trustrag.adaptive.thresholding import ContextAwareThresholdSelector, extract_context_features
-from trustrag.config import Settings, load_config
+from trustrag.config import RetrievalConfig, Settings, load_config
 from trustrag.detection import MultiSignalDetector
 from trustrag.engine.schemas import EvidenceDocument, G1Assessment, G2DocumentAssessment
 from trustrag.guardrails import InputGuardrail
@@ -217,6 +217,20 @@ class AdaptiveDefenseController:
                 latest_drift = None
 
         base_rec = self.selector.static_recommendation("INITIAL_BASELINE")
+        if self.policy_engine is not None:
+            cur_ver = self.policy_engine.current_version
+            if not cur_ver.is_static_baseline:
+                base_rec = base_rec.model_copy(
+                    update={
+                        "g1_flag_threshold": cur_ver.g1_flag_threshold,
+                        "g1_block_threshold": cur_ver.g1_block_threshold,
+                        "g2_trust_threshold": cur_ver.g2_trust_threshold,
+                        "g2_poison_threshold": cur_ver.g2_poison_threshold,
+                        "removal_cap_ratio": cur_ver.removal_cap_ratio,
+                        "used_static_fallback": False,
+                        "reason_codes": [f"POLICY_{cur_ver.version_id}"],
+                    }
+                )
         pre_rec = self._validate_recommendation_or_fallback(
             self._apply_drift_tightening(base_rec, latest_drift),
             fail_safe_events,
@@ -228,12 +242,24 @@ class AdaptiveDefenseController:
         g1_pre = InputGuardrail(config=g1_cfg).evaluate(query)
 
         base_retriever = self._get_or_build_base_retriever(documents)
+        pre_indexed_candidates: list[tuple[int, EvidenceDocument, float]] | None = None
+        candidate_n = top_k * self.settings.retrieval.candidate_multiplier
 
         if (
             self.adaptive_config.mode != AdaptiveMode.DISABLED
             and self.adaptive_config.enable_context_thresholding
             and g1_pre.decision.value != "BLOCK"
         ):
+            orig_base_retrieve = base_retriever._retrieve_indexed_candidates
+
+            def _capturing_retrieve(query: str, top_n: int | None = None) -> list[tuple[int, EvidenceDocument, float]]:
+                nonlocal pre_indexed_candidates
+                res = orig_base_retrieve(query, top_n=top_n)
+                if query == g1_pre.normalized_input and top_n == candidate_n:
+                    pre_indexed_candidates = res
+                return res
+
+            base_retriever._retrieve_indexed_candidates = _capturing_retrieve  # type: ignore[method-assign]
             try:
                 pre_ret = base_retriever.retrieve_trusted(g1_pre.normalized_input, top_k=top_k)
                 cand_docs_for_ctx = list(pre_ret.trusted_documents) + list(pre_ret.removed_documents)
@@ -247,8 +273,10 @@ class AdaptiveDefenseController:
             except Exception as exc:
                 self._record_failure("FAIL_SAFE_THRESHOLD_SELECTOR_ERROR", str(exc), fail_safe_events)
                 rec = base_rec
+            finally:
+                base_retriever._retrieve_indexed_candidates = orig_base_retrieve  # type: ignore[method-assign]
         else:
-            rec = base_rec
+            rec = pre_rec
 
         rec = self._validate_recommendation_or_fallback(
             self._apply_drift_tightening(rec, latest_drift),
@@ -269,14 +297,16 @@ class AdaptiveDefenseController:
             rec = self.selector.static_recommendation("FAIL_SAFE_TIMEOUT_STATIC")
             active_cal = None
 
-        # Build adapted Settings snapshot (never mutates self.settings)
+        # Build adapted Settings snapshot (never mutates self.settings; enforce validated <= 0.5 removal cap)
         adapted = self.settings.model_copy(deep=True)
         adapted.guardrails.flag_threshold = rec.g1_flag_threshold
         adapted.guardrails.block_threshold = rec.g1_block_threshold
         adapted.msd.trust_threshold = rec.g2_trust_threshold
         adapted.msd.poison_threshold = rec.g2_poison_threshold
-        adapted.retrieval.removal_cap_ratio = rec.removal_cap_ratio
-        adapted.retrieval.trust_weight = rec.trust_weight
+        ret_data = adapted.retrieval.model_dump()
+        ret_data["removal_cap_ratio"] = min(0.5, float(rec.removal_cap_ratio))
+        ret_data["trust_weight"] = rec.trust_weight
+        adapted.retrieval = RetrievalConfig(**ret_data)
 
         detector = MultiSignalDetector(config=adapted.msd, calibrator=active_cal)
         retriever = self._clone_indexed_retriever(
@@ -285,11 +315,29 @@ class AdaptiveDefenseController:
             msd_config=adapted.msd,
             detector=detector,
         )
+        if pre_indexed_candidates is not None and g1_pre.normalized_input:
+            orig_retrieve = retriever._retrieve_indexed_candidates
+
+            def _cached_lookup(query: str, top_n: int | None = None) -> list[tuple[int, EvidenceDocument, float]]:
+                if query == g1_pre.normalized_input and top_n == candidate_n:
+                    return pre_indexed_candidates
+                return orig_retrieve(query, top_n=top_n)
+
+            retriever._retrieve_indexed_candidates = _cached_lookup  # type: ignore[method-assign]
+
         pipe = TrustRAGPipeline(settings=adapted, retriever=retriever)
         resp = pipe.run(query, top_k=top_k)
 
         diag = resp.get_diagnostics(authorized=True) if hasattr(resp, "get_diagnostics") else {}
         assessments = list(diag.get("raw_g2_assessments") or (resp.trust_report.g2_assessments if resp.trust_report else []))
+        doc_by_id = {d.doc_id: d for d in documents}
+        filtered_ids = list(resp.trust_report.retrieval_summary.get("filtered_doc_ids", [])) if resp.trust_report else []
+        merged_removed: list[EvidenceDocument] = []
+        seen_removed: set[str] = set()
+        for rdoc in [*diag.get("quarantined_evidence", []), *(doc_by_id[fid] for fid in filtered_ids if fid in doc_by_id)]:
+            if rdoc.doc_id not in seen_removed:
+                seen_removed.add(rdoc.doc_id)
+                merged_removed.append(rdoc)
         g3_verdict = (
             resp.trust_report.g3_verification.verdict.value
             if resp.trust_report and resp.trust_report.g3_verification and resp.trust_report.g3_verification.verdict
@@ -317,7 +365,7 @@ class AdaptiveDefenseController:
             drift_report=latest_drift,
             assessments=assessments,
             retained_documents=list(resp.evidence),
-            removed_documents=list(diag.get("quarantined_evidence", [])),
+            removed_documents=merged_removed,
             abstained=resp.abstained,
             blocked_by_guardrail=resp.blocked_by_guardrail,
             answer=resp.answer,

@@ -16,6 +16,7 @@ from trustrag.engine.schemas import (
     EvidenceReference,
     G3ClaimVerdict,
 )
+from trustrag.engine.text_utils import has_strict_negation
 
 _SHORTHAND_RE = re.compile(r"\b(\d+(?:\.\d+)?)\s*([kmbKMB])\b")
 _YEAR_RE = re.compile(r"\b(1[5-9]\d{2}|20\d{2})\b")
@@ -115,16 +116,37 @@ def _extract_cap_entities(text: str) -> list[str]:
     return seen
 
 
+_INTRA_DOC_ANTONYM_PAIRS: tuple[tuple[frozenset[str], frozenset[str]], ...] = (
+    (frozenset({"support", "supports", "supported"}), frozenset({"unsupported", "unsupportive", "refute", "refutes", "refuted", "denied"})),
+    (frozenset({"allow", "allows", "allowed", "permit", "permits", "permitted"}), frozenset({"prohibit", "prohibits", "prohibited", "forbid", "forbidden", "ban", "banned"})),
+    (frozenset({"valid", "enabled"}), frozenset({"invalid", "disabled"})),
+    (frozenset({"safe"}), frozenset({"unsafe"})),
+)
+
+
+def _intra_doc_polarity_conflict(claim_text: str, sent_text: str) -> bool:
+    # Ignore multi-entity contrast clauses like 'A is X, while B is not X' or illustrative examples
+    if re.search(r"\b(?:while|whereas|unlike|for\s+example)\b", sent_text, re.IGNORECASE):
+        return False
+    c_words = {w.lower() for w in re.findall(r"[a-zA-Z]+", claim_text)}
+    s_words = {w.lower() for w in re.findall(r"[a-zA-Z]+", sent_text)}
+    for pos_s, neg_s in _INTRA_DOC_ANTONYM_PAIRS:
+        if ((c_words & pos_s) and (s_words & neg_s)) or ((c_words & neg_s) and (s_words & pos_s)):
+            return True
+    has_rebuttal_cue = bool(
+        re.search(r"\b(?:however|instead|contrary|disputed|retracted|actually|in\s+fact)\b", sent_text, re.IGNORECASE)
+    )
+    return bool(has_rebuttal_cue and has_strict_negation(claim_text) != has_strict_negation(sent_text))
+
+
 def _check_intra_doc_conflict(
     item: ClaimVerificationItem,
     documents: Sequence[EvidenceDocument],
 ) -> ClaimVerificationItem | None:
-    """Downgrade SUPPORTED -> UNCERTAIN when a single document contains competing years for the claim."""
+    """Downgrade SUPPORTED -> UNCERTAIN on intra-document competing years or polarity/antonym contradictions."""
     if item.verdict != G3ClaimVerdict.SUPPORTED or not item.supporting_evidence_refs:
         return None
     claim_years = set(_YEAR_RE.findall(item.claim_text))
-    if not claim_years:
-        return None
     claim_toks = _norm_tokens(item.claim_text) - claim_years
     if not claim_toks:
         return None
@@ -135,14 +157,12 @@ def _check_intra_doc_conflict(
             continue
         for sent in sents:
             sent_years = set(_YEAR_RE.findall(sent))
-            if not sent_years or not (sent_years - claim_years):
-                continue
+            overlap = len((_norm_tokens(sent) - sent_years) & claim_toks)
             low = sent.lower()
             has_conflict_cue = any(
                 cue in low for cue in ("also claim", "disputed", "however", "instead", "other sources", "conflicting")
             )
-            overlap = len((_norm_tokens(sent) - sent_years) & claim_toks)
-            if has_conflict_cue or overlap >= 2:
+            if claim_years and sent_years and (sent_years - claim_years) and (has_conflict_cue or overlap >= 2):
                 return item.model_copy(
                     update={
                         "outcome": EvidenceOutcome.UNCERTAIN,
@@ -152,6 +172,18 @@ def _check_intra_doc_conflict(
                         "explanation": (
                             f"Downgraded from SUPPORTED: intra-document conflicting years {sorted(sent_years)} "
                             f"found alongside claim values {sorted(claim_years)} in document '{doc.doc_id}'."
+                        ),
+                    }
+                )
+            if overlap >= 2 and _intra_doc_polarity_conflict(item.claim_text, sent):
+                return item.model_copy(
+                    update={
+                        "outcome": EvidenceOutcome.UNCERTAIN,
+                        "verdict": G3ClaimVerdict.UNCERTAIN,
+                        "unsupported_flag": True,
+                        "confidence": round(min(item.confidence, 0.55), 4),
+                        "explanation": (
+                            f"Downgraded from SUPPORTED: intra-document polarity/antonym contradiction detected in document '{doc.doc_id}'."
                         ),
                     }
                 )
