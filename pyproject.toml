@@ -12,6 +12,7 @@ Homepage = "https://example.com/trustrag"
 [project.scripts]
 trustrag-data = "trustrag.data.cli:main"
 trustrag-pipeline = "trustrag.pipeline.cli:main"
+trustrag-api = "trustrag.api.server:main"
 
 [build-system]
 requires = ["setuptools>=64", "wheel"]
