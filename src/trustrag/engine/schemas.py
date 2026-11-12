@@ -64,6 +64,9 @@ class G1Assessment(BaseModel):
     matches: List[G1MatchDetail] = Field(default_factory=list)
     explanation: str
     audit_hash: str
+    paraphrased_query: Optional[str] = None
+    paraphrase_accepted: bool = False
+    paraphrase_rejection_reasons: List[str] = Field(default_factory=list)
 
 
 # ---------------------------------------------------------------------------

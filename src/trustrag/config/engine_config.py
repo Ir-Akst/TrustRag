@@ -40,6 +40,20 @@ class GuardrailsConfig(_ValidatedConfigModel):
         default=True,
         description="Analyze obfuscated zero-width characters while keeping original input intact",
     )
+    enable_paraphrasing: bool = Field(
+        default=False,
+        description="Enable controlled G1 query paraphrasing with strict semantic constraint verification",
+    )
+    paraphrase_backend: Literal["disabled", "deterministic", "callable"] = Field(
+        default="disabled",
+        description="Paraphrasing provider mode for G1 query expansion",
+    )
+    min_paraphrase_similarity: float = Field(
+        default=0.30,
+        ge=0.0,
+        le=1.0,
+        description="Minimum lexical/TF-IDF similarity required to accept a G1 paraphrase",
+    )
 
     @model_validator(mode="after")
     def validate_thresholds(self) -> "GuardrailsConfig":
