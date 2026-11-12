@@ -56,3 +56,4 @@ Phase 07 succeeded completely as an **independent research alignment, reproducib
 Phase 07 closes cleanly on `phase-7` (`origin` untouched). **Phase 08** execution should begin by:
 1. Fixing the 3 heuristic G3 verification bugs (`passive/active swap`, `supports/unsupported` intra-doc conflict, `"should not exceed"` upper-bound negation) and removing the duplicate retrieval latency penalty in `AdaptiveDefenseController`.
 2. Rebuilding clean, query-grouped disjoint security & calibration splits (`GAP-01`) and acquiring local dense embedding + small LM perplexity/SRM checkpoints offline (`GAP-02`, `GAP-03`, `GAP-04`).
+

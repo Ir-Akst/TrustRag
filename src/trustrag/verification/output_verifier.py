@@ -1030,9 +1030,64 @@ def _has_unresolved_leading_pronoun(claim_text: str) -> bool:
     return bool(_PRONOUN_AMBIGUITY_START_RE.match(claim_text.strip()))
 
 
+_UPPER_BOUND_CLAIM_RE = re.compile(
+    r"\b(?:max(?:imum)?|upper\s+bound|upper\s+limit|limit|ceiling|cap|up\s+to|at\s+most)\b",
+    re.IGNORECASE,
+)
+_UPPER_BOUND_NEG_SPAN_RE = re.compile(
+    r"\b(?:(?:should|must|do|does|did|can|may)\s+)?(?:not|never)\s+(?:exceed|surpass|go\s+(?:over|above))\b|\bno\s+more\s+than\b",
+    re.IGNORECASE,
+)
+_PASSIVE_BY_RE = re.compile(r"\b(?:was|were|is|are|been|being)\s+\w+(?:ed|en)\s+by\b", re.IGNORECASE)
+
+
+def _is_upper_bound_polarity_consistent(claim: str, span: str) -> bool:
+    """Treat 'maximum/up to X' and 'should not exceed X' as polarity-consistent upper bounds."""
+    if has_strict_negation(claim) or not has_strict_negation(span):
+        return False
+    if not _UPPER_BOUND_CLAIM_RE.search(claim) or not _UPPER_BOUND_NEG_SPAN_RE.search(span):
+        return False
+    stripped = _UPPER_BOUND_NEG_SPAN_RE.sub(" ", span)
+    return not has_strict_negation(stripped)
+
+
+_NON_DIRECTIONAL_VERBS: frozenset[str] = frozenset(
+    {
+        "be", "am", "is", "are", "was", "were", "been", "being",
+        "can", "could", "may", "might", "must", "shall", "should", "will", "would",
+        "do", "does", "did", "have", "has", "had",
+        "become", "becomes", "became", "equal", "equals", "contain", "contains",
+        "include", "includes", "match", "matches", "share", "shares",
+    }
+)
+
+
+def _has_subject_object_role_swap(claim: str, span: str) -> bool:
+    """Detect active transitive subject-object role reversals (e.g. 'A blocked B' vs 'B blocked A')."""
+    if _PASSIVE_BY_RE.search(claim) or _PASSIVE_BY_RE.search(span):
+        return False
+    fv_c = _find_first_finite_verb_span(claim)
+    fv_s = _find_first_finite_verb_span(span)
+    if not fv_c or not fv_s:
+        return False
+    if fv_c[2] in _NON_DIRECTIONAL_VERBS or fv_s[2] in _NON_DIRECTIONAL_VERBS:
+        return False
+    if _simple_verb_stem(fv_c[2]) != _simple_verb_stem(fv_s[2]):
+        return False
+    left_c = set(tokenize_content_words(claim[: fv_c[0]], include_negations=False))
+    right_c = set(tokenize_content_words(claim[fv_c[1] :], include_negations=False))
+    left_s = set(tokenize_content_words(span[: fv_s[0]], include_negations=False))
+    right_s = set(tokenize_content_words(span[fv_s[1] :], include_negations=False))
+    if not left_c or not right_c or not left_s or not right_s:
+        return False
+    if (left_c & right_c) or (left_s & right_s):
+        return False
+    return bool((left_c & right_s) and (right_c & left_s) and not (left_c & left_s) and not (right_c & right_s))
+
+
 def _evaluate_polarity(claim: str, span: str) -> Tuple[bool, str]:
     """Verify polarity consistency between claim and candidate evidence span."""
-    if has_strict_negation(claim) != has_strict_negation(span):
+    if has_strict_negation(claim) != has_strict_negation(span) and not _is_upper_bound_polarity_consistent(claim, span):
         return False, "Explicit negation polarity mismatch between claim and evidence."
 
     c_words = set(tokenize_content_words(claim))
@@ -1790,6 +1845,7 @@ class OutputEvidenceVerifier:
             span_word_set = index.span_word_sets[idx]
             missing_entities = [ent for ent in proper_entities if ent not in span_word_set]
             entities_ok = len(missing_entities) == 0
+            role_swapped = _has_subject_object_role_swap(claim_text, span)
 
             topic_shared = (len(matched_tokens) >= 2) and (coverage >= 0.30 or sim >= 0.25)
 
@@ -1803,6 +1859,7 @@ class OutputEvidenceVerifier:
                 and entities_ok
                 and conjuncts_ok
                 and pred_body_ok
+                and not role_swapped
                 and coverage >= self.config.min_support_coverage
             ):
                 span_outcome = EvidenceOutcome.SUPPORTS
@@ -1810,6 +1867,8 @@ class OutputEvidenceVerifier:
             else:
                 span_outcome = EvidenceOutcome.NOT_ENOUGH_EVIDENCE
                 reasons = []
+                if role_swapped:
+                    reasons.append("subject-object role inversion between claim and evidence")
                 if not polarity_ok:
                     reasons.append(pol_note)
                 if not scope_ok:

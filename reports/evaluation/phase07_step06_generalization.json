@@ -5,8 +5,8 @@
     "machine": "x86_64",
     "processor": "",
     "hardware_note": "CPU-only Linux offline environment; Ollama daemon inactive",
-    "peak_traced_memory_mib": 6.676,
-    "total_runtime_s": 17.189,
+    "peak_traced_memory_mib": 9.12,
+    "total_runtime_s": 23.902,
     "reproducibility_seed42_exact": true
   },
   "cached_domain_eval": {
@@ -35,13 +35,13 @@
       },
       "latency_ms": {
         "count": 11,
-        "mean": 5.9267,
-        "std": 1.4935,
-        "min": 4.6862,
-        "p50": 5.1975,
-        "p95": 8.6493,
-        "p99": 9.3003,
-        "max": 9.463
+        "mean": 9.0506,
+        "std": 2.3826,
+        "min": 7.3202,
+        "p50": 7.8247,
+        "p95": 13.4803,
+        "p99": 14.1415,
+        "max": 14.3068
       }
     },
     "expertqa_test_n3": {
@@ -68,13 +68,13 @@
       },
       "latency_ms": {
         "count": 3,
-        "mean": 6.5929,
-        "std": 2.0461,
-        "min": 4.6132,
-        "p50": 5.7552,
-        "p95": 9.0448,
-        "p99": 9.3372,
-        "max": 9.4103
+        "mean": 10.4931,
+        "std": 3.7488,
+        "min": 6.758,
+        "p50": 9.1023,
+        "p95": 14.9673,
+        "p99": 15.4886,
+        "max": 15.619
       }
     },
     "wice_test_n3": {
@@ -100,13 +100,13 @@
       },
       "latency_ms": {
         "count": 3,
-        "mean": 4.8196,
-        "std": 0.0567,
-        "min": 4.7569,
-        "p50": 4.8076,
-        "p95": 4.8855,
-        "p99": 4.8924,
-        "max": 4.8942
+        "mean": 7.227,
+        "std": 0.1617,
+        "min": 7.0003,
+        "p50": 7.314,
+        "p95": 7.3614,
+        "p99": 7.3656,
+        "max": 7.3666
       }
     },
     "ragtruth_test_n5": {
@@ -133,13 +133,13 @@
       },
       "latency_ms": {
         "count": 5,
-        "mean": 5.4463,
-        "std": 0.8659,
-        "min": 4.8766,
-        "p50": 5.1069,
-        "p95": 6.7626,
-        "p99": 7.0854,
-        "max": 7.1661
+        "mean": 7.9956,
+        "std": 1.2711,
+        "min": 7.19,
+        "p50": 7.4866,
+        "p95": 9.9302,
+        "p99": 10.4024,
+        "max": 10.5204
       }
     },
     "g3_security_grounding_n8_queries": {
@@ -151,12 +151,12 @@
   },
   "ten_axis_probes": {
     "total_probes": 13,
-    "strict_exact_matches": 4,
+    "strict_exact_matches": 6,
     "probes": [
       {
         "axis": "domain_transfer_medical",
         "expected": "SUPPORTED",
-        "actual": "CONTRADICTED",
+        "actual": "INSUFFICIENT_EVIDENCE",
         "strict_exact_match": false,
         "note": "Medical paraphrased guideline"
       },
@@ -170,8 +170,8 @@
       {
         "axis": "paraphrase_adversarial_passive",
         "expected": "INSUFFICIENT_EVIDENCE",
-        "actual": "SUPPORTED",
-        "strict_exact_match": false,
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "strict_exact_match": true,
         "note": "Active/passive role swap must NOT yield SUPPORTED"
       },
       {
@@ -226,8 +226,8 @@
       {
         "axis": "intra_document_conflict",
         "expected": "UNCERTAIN",
-        "actual": "SUPPORTED",
-        "strict_exact_match": false,
+        "actual": "UNCERTAIN",
+        "strict_exact_match": true,
         "note": "Intra-document self-contradiction"
       },
       {
