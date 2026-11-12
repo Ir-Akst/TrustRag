@@ -14,6 +14,7 @@ from trustrag.srm.backends import (
     LocalOllamaBackend,
     OpenAICompatibleAPIBackend,
 )
+from trustrag.srm.hf_local import HuggingFaceLocalSRMBackend
 
 BackendBuilder = Callable[[SRMConfig, LLMProviderConfig], BaseSRMBackend]
 
@@ -25,6 +26,7 @@ class SRMBackendRegistry:
         "disabled": lambda srm_cfg, _llm_cfg: DeterministicFallbackBackend(model_name=srm_cfg.model_name),
         "local_ollama": lambda srm_cfg, llm_cfg: LocalOllamaBackend(srm_cfg, llm_cfg),
         "openai_compatible": lambda srm_cfg, llm_cfg: OpenAICompatibleAPIBackend(srm_cfg, llm_cfg),
+        "hf_local": lambda srm_cfg, llm_cfg: HuggingFaceLocalSRMBackend(srm_cfg, llm_cfg),
     }
 
     @classmethod

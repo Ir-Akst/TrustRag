@@ -7,12 +7,14 @@ from .backends import (
     OpenAICompatibleAPIBackend,
 )
 from .client import SRMClient
+from .hf_local import HuggingFaceLocalSRMBackend
 from .registry import BackendBuilder, SRMBackendRegistry
 
 __all__ = [
     "BackendBuilder",
     "BaseSRMBackend",
     "DeterministicFallbackBackend",
+    "HuggingFaceLocalSRMBackend",
     "LocalOllamaBackend",
     "OpenAICompatibleAPIBackend",
     "SRMBackendRegistry",
