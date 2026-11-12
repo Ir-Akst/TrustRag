@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>TrustRAG Operational Security Dashboard</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <header class="topbar" role="banner">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true">TR</span>
+      <div>
+        <h1>TrustRAG Operations Console</h1>
+        <p class="subtitle">Phase 09 Security, MSD, Evidence Verification &amp; SRM Control Plane</p>
+      </div>
+    </div>
+    <div class="status-cluster">
+      <div class="conn-pill" id="conn-pill" role="status" aria-live="polite">
+        <span class="dot" id="conn-dot"></span>
+        <span id="conn-label">Connecting...</span>
+      </div>
+      <div class="meta-text" id="last-updated">Last updated: —</div>
+      <div class="auth-box">
+        <label for="api-token-input" class="sr-only">API Bearer Token</label>
+        <input id="api-token-input" type="password" placeholder="Optional API Token" autocomplete="off">
+        <button id="btn-refresh-all" class="btn btn-secondary" type="button">Refresh</button>
+      </div>
+    </div>
+  </header>
+
+  <div class="layout">
+    <nav class="sidebar" aria-label="Dashboard sections">
+      <button class="nav-btn active" data-view="overview" aria-current="page">1. Overview &amp; Pipeline</button>
+      <button class="nav-btn" data-view="g1">2. G1 Input Security</button>
+      <button class="nav-btn" data-view="g2">3. G2 Multi-Signal (F1–F6)</button>
+      <button class="nav-btn" data-view="g3">4. G3 Evidence &amp; Claims</button>
+      <button class="nav-btn" data-view="srm">5. SRM Backend Health</button>
+      <button class="nav-btn" data-view="monitoring">6. Monitoring &amp; Benchmarks</button>
+      <button class="nav-btn" data-view="config">7. Configuration</button>
+      <button class="nav-btn" data-view="audit">8. Audit Logs</button>
+    </nav>
+
+    <main class="main-content" id="main-content" tabindex="-1">
+      <div id="global-banner" class="banner hidden" role="alert"></div>
+      <section id="view-root" aria-live="polite"></section>
+    </main>
+  </div>
+
+  <dialog id="confirm-dialog" class="modal" aria-labelledby="confirm-title">
+    <h2 id="confirm-title">Confirm Configuration Change</h2>
+    <p id="confirm-message"></p>
+    <pre id="confirm-diff" class="code-block"></pre>
+    <div class="modal-actions">
+      <button id="confirm-cancel" class="btn btn-secondary" type="button">Cancel</button>
+      <button id="confirm-proceed" class="btn btn-danger" type="button">Confirm &amp; Apply</button>
+    </div>
+  </dialog>
+
+  <script type="module" src="/src/app.js"></script>
+</body>
+</html>
