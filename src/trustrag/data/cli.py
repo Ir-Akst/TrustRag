@@ -234,13 +234,13 @@ def cmd_validate(args: argparse.Namespace) -> int:
         return 1
 
     validator = RecordValidator(dataset_name=name)
-    schema_map = {
+    schema_map: dict[str, Any] = {
         "DocumentRecord": DocumentRecord,
         "QueryRecord": QueryRecord,
         "ClaimVerificationRecord": ClaimVerificationRecord,
         "SecurityRecord": SecurityRecord,
     }
-    record_type = None
+    record_type: Any = None
     if name in list_datasets():
         meta = get_dataset_metadata(name)
         record_type = schema_map.get(meta.record_type)
@@ -253,7 +253,7 @@ def cmd_validate(args: argparse.Namespace) -> int:
 
     normalized_records = []
     for item in raw_records:
-        rec = item
+        rec: Any = item
         if isinstance(item, dict):
             if record_type:
                 try:
@@ -261,7 +261,7 @@ def cmd_validate(args: argparse.Namespace) -> int:
                 except Exception as e:
                     validator.report.total_checked += 1
                     validator.report.invalid_count += 1
-                    validator.report._log_error(f"Schema validation error: {e}")
+                    validator.report.errors.append(f"Schema validation error: {e}")
                     continue
             else:
                 for model_cls in (SecurityRecord, ClaimVerificationRecord, QueryRecord, DocumentRecord):
@@ -313,13 +313,13 @@ def cmd_split_stats(args: argparse.Namespace) -> int:
     limit = args.limit or (100 if args.smoke_test else 500)
 
     meta = get_dataset_metadata(name)
-    schema_map = {
+    schema_map: dict[str, Any] = {
         "DocumentRecord": DocumentRecord,
         "QueryRecord": QueryRecord,
         "ClaimVerificationRecord": ClaimVerificationRecord,
         "SecurityRecord": SecurityRecord,
     }
-    rec_type = schema_map.get(meta.record_type)
+    rec_type: Any = schema_map.get(meta.record_type)
 
     if args.custom_split:
         print(f"Explicit custom splitting requested for '{name}' (limit={limit})...")
@@ -628,7 +628,7 @@ def cmd_benchmark(args: argparse.Namespace) -> int:
             partitions[s_name] = list(DatasetStorage.load_jsonl(p))
 
         stats = LeakageResistantSplitter.audit_partitions(
-            partitions=partitions,
+            partitions=partitions,  # type: ignore[arg-type]
             dataset_name=cat,
             split_type="custom",
             raise_on_leakage=False,

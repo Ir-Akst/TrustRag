@@ -1,0 +1,39 @@
+{
+  "mypy": {
+    "command": "/home/aditya/rags/.venv/bin/mypy src",
+    "exit_code": 0,
+    "stdout": "Success: no issues found in 111 source files",
+    "stderr": "",
+    "status": "PASS"
+  },
+  "ruff": {
+    "command": "/home/aditya/rags/.venv/bin/ruff check --select E9,F63,F7,F82 src/ tests/",
+    "exit_code": 0,
+    "stdout": "All checks passed!",
+    "stderr": "",
+    "status": "PASS"
+  },
+  "compileall": {
+    "command": "/home/aditya/rags/.venv/bin/python -m compileall -q src/",
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": "",
+    "status": "PASS"
+  },
+  "frontend_tests": {
+    "command": "node --test frontend/tests/dashboard.test.mjs",
+    "exit_code": 0,
+    "stdout": "\u2714 formatSignalDisplay never fabricates unavailable signals (0.687383ms)\n\u2714 formatPercentileMetric enforces minimum observation count (3.703706ms)\n\u2714 decisionTone maps security and verification verdicts accurately (0.137359ms)\n\u2714 TrustRAGApiClient sends Bearer token and propagates structured ApiError (0.548057ms)\n\u2714 XSS-safe el() stores untrusted payload strictly as text node (0.19191ms)\n\u2139 tests 5\n\u2139 suites 0\n\u2139 pass 5\n\u2139 fail 0\n\u2139 cancelled 0\n\u2139 skipped 0\n\u2139 todo 0\n\u2139 duration_ms 63.650181",
+    "stderr": "",
+    "status": "PASS"
+  },
+  "pytest": {
+    "command": "pytest -W error -q",
+    "exit_code": 0,
+    "total_run": 675,
+    "passed": 675,
+    "deselected": 2,
+    "failed": 0,
+    "status": "PASS"
+  }
+}

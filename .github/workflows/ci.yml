@@ -1,0 +1,42 @@
+name: TrustRAG CI
+
+on:
+  push:
+    branches: [ main, phase-11 ]
+  pull_request:
+    branches: [ main, phase-11 ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: "pip"
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+          pip install pytest pytest-cov ruff mypy
+
+      - name: Run Ruff Lint Check
+        run: |
+          ruff check --select E9,F63,F7,F82 src/ tests/
+
+      - name: Run Pytest Suite
+        run: |
+          PYTHONPATH=src:. pytest -W error -q
+
+      - name: Run Spec Validations
+        run: |
+          PYTHONPATH=src:. python tools/spec_validation/run_all_validations.py
+

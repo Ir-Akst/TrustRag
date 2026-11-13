@@ -1,0 +1,1375 @@
+{
+  "timestamp": "2026-11-13T09:01:00.775014+00:00",
+  "total_benign_inputs": 105,
+  "false_positives": 0,
+  "false_positive_rate_pct": 0.0,
+  "verdict": "PASS",
+  "false_positive_details": [],
+  "cases": [
+    {
+      "id": "FP-SHA256-01",
+      "description": "SHA-256 hex hash #1",
+      "query": "File hash: 8efd6168a055d1e45863c237eb3feab2be94f10b7ccdc5bf8bb54305c8b19f7f",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.335
+    },
+    {
+      "id": "FP-SHA256-02",
+      "description": "SHA-256 hex hash #2",
+      "query": "File hash: 0eb026731d9ea3f870511f8c18daeb814eaa2c9e276082b204f2a962212fb5bd",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.157
+    },
+    {
+      "id": "FP-SHA256-03",
+      "description": "SHA-256 hex hash #3",
+      "query": "File hash: 532b20b0105c9883348558ed2711c7d23ea6b4ee718364a87e16fad4b3c3a029",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.129
+    },
+    {
+      "id": "FP-SHA256-04",
+      "description": "SHA-256 hex hash #4",
+      "query": "File hash: 06a8db106a32a00f305948a18f7c301fe27f780eb07fa61b5e664d51c1011718",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.12
+    },
+    {
+      "id": "FP-SHA256-05",
+      "description": "SHA-256 hex hash #5",
+      "query": "File hash: 20e98ed255fc5b1683eecfde5e917384d22f99efe335ce172d2032394cfc35ba",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.111
+    },
+    {
+      "id": "FP-SHA256-06",
+      "description": "SHA-256 hex hash #6",
+      "query": "File hash: 55b263f8978e1a4af98db8495710c2cac343440cb6e75071ddf45b99cfbebd25",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.11
+    },
+    {
+      "id": "FP-SHA256-07",
+      "description": "SHA-256 hex hash #7",
+      "query": "File hash: 4b60c1df8b47a0c6a8ff1d7b342c9d79fb736253cb65d527616dbdc63041ce23",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.112
+    },
+    {
+      "id": "FP-SHA256-08",
+      "description": "SHA-256 hex hash #8",
+      "query": "File hash: 5c70e30634e3828249c12b6765b9a7f787b43d21db6a1f3da93ab9c704625dc0",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.104
+    },
+    {
+      "id": "FP-SHA256-09",
+      "description": "SHA-256 hex hash #9",
+      "query": "File hash: d7620a781db6bfbd52efd993d2a8e08d3697dadfe0b7f34a7f03c2ea8e6b0fa1",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.111
+    },
+    {
+      "id": "FP-SHA256-10",
+      "description": "SHA-256 hex hash #10",
+      "query": "File hash: cc630d62db791bb769f950e3b3d5d855d17d5fe1038c14a9ecd4317ae7aa2d03",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.109
+    },
+    {
+      "id": "FP-SHA256B64-01",
+      "description": "SHA-256 as Base64 #1",
+      "query": "Checksum: HrYg/5LIemP288V5YHhLyJ5H0E/OOsHmWfZz/CBMSjo=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.131
+    },
+    {
+      "id": "FP-SHA256B64-02",
+      "description": "SHA-256 as Base64 #2",
+      "query": "Checksum: 9QukCr3iJLBaOFKXADRSVbTwBT81fjcSUzocE4f8W7I=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.095
+    },
+    {
+      "id": "FP-SHA256B64-03",
+      "description": "SHA-256 as Base64 #3",
+      "query": "Checksum: yGNdyZRaa3bZ7TeVNQLdJLcPxaFj9gklW2vAxh6bwAg=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.088
+    },
+    {
+      "id": "FP-SHA256B64-04",
+      "description": "SHA-256 as Base64 #4",
+      "query": "Checksum: tAROT2gYSXv4ovJxsQTllgvtK6MCo+SJsDzY+Eh5tfQ=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.09
+    },
+    {
+      "id": "FP-SHA256B64-05",
+      "description": "SHA-256 as Base64 #5",
+      "query": "Checksum: DUM6bZABquZB7q33BRzVIo+ZcHFs0nWhEiDsekLiA6s=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.089
+    },
+    {
+      "id": "FP-UUID-01",
+      "description": "UUID #1",
+      "query": "Session ID: 550e8400-e29b-41d4-a716-446655440000",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.094
+    },
+    {
+      "id": "FP-UUID-02",
+      "description": "UUID #2",
+      "query": "Session ID: 6ba7b810-9dad-11d1-80b4-00c04fd430c8",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.099
+    },
+    {
+      "id": "FP-UUID-03",
+      "description": "UUID #3",
+      "query": "Session ID: f47ac10b-58cc-4372-a567-0e02b2c3d479",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.103
+    },
+    {
+      "id": "FP-UUID-04",
+      "description": "UUID #4",
+      "query": "Session ID: 7c9e6679-7425-40de-944b-e07fc1f90ae7",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.091
+    },
+    {
+      "id": "FP-UUID-05",
+      "description": "UUID #5",
+      "query": "Session ID: a8098c1a-f86e-11da-bd1a-00112444be1e",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.094
+    },
+    {
+      "id": "FP-IDENT-01",
+      "description": "MD5 hex token",
+      "query": "token_0cc175b9c0f1b6a831c399e269772661",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 2,
+      "latency_ms": 0.083
+    },
+    {
+      "id": "FP-IDENT-02",
+      "description": "40-char 'a' session ID",
+      "query": "session_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 2,
+      "latency_ms": 0.077
+    },
+    {
+      "id": "FP-IDENT-03",
+      "description": "32-char 'x' API key",
+      "query": "api_key_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 2,
+      "latency_ms": 0.078
+    },
+    {
+      "id": "FP-IDENT-04",
+      "description": "32-char hex ref",
+      "query": "ref_1234567890abcdef1234567890abcdef",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 2,
+      "latency_ms": 0.072
+    },
+    {
+      "id": "FP-IDENT-05",
+      "description": "64-char zero build ID",
+      "query": "build_0000000000000000000000000000000000000000000000000000000000000000",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 2,
+      "latency_ms": 0.099
+    },
+    {
+      "id": "FP-URL-01",
+      "description": "URL #1",
+      "query": "Visit: https://example.com/api/v2/users?page=1&limit=50",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.098
+    },
+    {
+      "id": "FP-URL-02",
+      "description": "URL #2",
+      "query": "Visit: https://cdn.example.org/assets/images/logo.png",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.097
+    },
+    {
+      "id": "FP-URL-03",
+      "description": "URL #3",
+      "query": "Visit: http://localhost:8080/health",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.072
+    },
+    {
+      "id": "FP-URL-04",
+      "description": "URL #4",
+      "query": "Visit: https://api.github.com/repos/owner/repo/pulls",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.097
+    },
+    {
+      "id": "FP-URL-05",
+      "description": "URL #5",
+      "query": "Visit: ftp://files.example.net/pub/docs/readme.txt",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.089
+    },
+    {
+      "id": "FP-URL-06",
+      "description": "URL #6",
+      "query": "Visit: https://storage.googleapis.com/bucket/object.json",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.084
+    },
+    {
+      "id": "FP-URL-07",
+      "description": "URL #7",
+      "query": "Visit: https://example.com/path?q=search+terms&lang=en",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.083
+    },
+    {
+      "id": "FP-URL-08",
+      "description": "URL #8",
+      "query": "Visit: https://subdomain.example.co.uk/page#section",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.081
+    },
+    {
+      "id": "FP-URL-09",
+      "description": "URL #9",
+      "query": "Visit: https://www.example.com/path/to/resource.html?key=value",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.092
+    },
+    {
+      "id": "FP-URL-10",
+      "description": "URL #10",
+      "query": "Visit: https://api.example.com/v3/data.csv?format=json&callback=fn",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.099
+    },
+    {
+      "id": "FP-EMAIL-01",
+      "description": "Email #1",
+      "query": "Contact: user@example.com",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.061
+    },
+    {
+      "id": "FP-EMAIL-02",
+      "description": "Email #2",
+      "query": "Contact: admin+tag@company.org",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.061
+    },
+    {
+      "id": "FP-EMAIL-03",
+      "description": "Email #3",
+      "query": "Contact: first.last@subdomain.example.co.uk",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.069
+    },
+    {
+      "id": "FP-EMAIL-04",
+      "description": "Email #4",
+      "query": "Contact: no-reply@service.io",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.061
+    },
+    {
+      "id": "FP-EMAIL-05",
+      "description": "Email #5",
+      "query": "Contact: test123@gmail.com",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.055
+    },
+    {
+      "id": "FP-AUTH-01",
+      "description": "HTTP Basic Auth example",
+      "query": "Authorization: Basic dXNlcm5hbWU6cGFzc3dvcmQxMjM=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.08
+    },
+    {
+      "id": "FP-AUTH-02",
+      "description": "Basic Auth admin:admin",
+      "query": "Header: Basic YWRtaW46YWRtaW4=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.065
+    },
+    {
+      "id": "FP-AUTH-03",
+      "description": "Curl with Basic Auth",
+      "query": "curl -H 'Authorization: Basic dGVzdDp0ZXN0' https://api.example.com",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.088
+    },
+    {
+      "id": "FP-AUTH-04",
+      "description": "Documentation about Base64",
+      "query": "Base64 encode your credentials: echo 'user:pass' | base64",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.081
+    },
+    {
+      "id": "FP-AUTH-05",
+      "description": "Base64 documentation example",
+      "query": "The token dGVzdA== decodes to 'test'",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.066
+    },
+    {
+      "id": "FP-DOC-01",
+      "description": "Base64 decode doc",
+      "query": "Example: echo 'SGVsbG8gV29ybGQ=' | base64 -d  # outputs 'Hello World'",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.096
+    },
+    {
+      "id": "FP-DOC-02",
+      "description": "Data URI doc",
+      "query": "The MIME type uses Base64 encoding: data:image/png;base64,iVBORw0KGgo=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.094
+    },
+    {
+      "id": "FP-DOC-03",
+      "description": "JWT documentation",
+      "query": "JWT tokens have three Base64-encoded parts separated by dots",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.082
+    },
+    {
+      "id": "FP-DOC-04",
+      "description": "Python Base64 doc",
+      "query": "Convert to Base64: python -c \"import base64; print(base64.b64encode(b'hello'))\"",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.105
+    },
+    {
+      "id": "FP-DOC-05",
+      "description": "SSH key documentation",
+      "query": "SSH public keys are Base64 encoded: ssh-rsa AAAAB3NzaC1yc2EAAAA...",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.102
+    },
+    {
+      "id": "FP-RANDOM-01",
+      "description": "Random binary Base64 #1",
+      "query": "Data: SfXSmkTxDpqkVXXFJk0n4pstkRbTMY4WKL0h0Zn637o=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.087
+    },
+    {
+      "id": "FP-RANDOM-02",
+      "description": "Random binary Base64 #2",
+      "query": "Data: 4xL+hCVs4nJ/6xCOH/Mr8XLkUixEgo1K1LkReLNE7ts=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.093
+    },
+    {
+      "id": "FP-RANDOM-03",
+      "description": "Random binary Base64 #3",
+      "query": "Data: OhJ72ffazk9zmayhPbQAjZ3bisSD0oW+9W4Yuxal57k=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.084
+    },
+    {
+      "id": "FP-RANDOM-04",
+      "description": "Random binary Base64 #4",
+      "query": "Data: eRQRHZ4SlaqFkcBHlO2hvXVsoGBfOiQq93M3fhkzivc=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.081
+    },
+    {
+      "id": "FP-RANDOM-05",
+      "description": "Random binary Base64 #5",
+      "query": "Data: rXdJs9AU98zlY9HzDNPluZDaGeIDg3jBG/7O/3tX5JI=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.084
+    },
+    {
+      "id": "FP-BENIGN-B64-01",
+      "description": "Benign Base64 message #1",
+      "query": "Message: SGVsbG8sIGhvdyBhcmUgeW91IHRvZGF5Pw==",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.083
+    },
+    {
+      "id": "FP-BENIGN-B64-02",
+      "description": "Benign Base64 message #2",
+      "query": "Message: VGhlIG1lZXRpbmcgaXMgYXQgM3BtIHRvbW9ycm93",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.08
+    },
+    {
+      "id": "FP-BENIGN-B64-03",
+      "description": "Benign Base64 message #3",
+      "query": "Message: UGxlYXNlIHJldmlldyB0aGUgYXR0YWNoZWQgZG9jdW1lbnQ=",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.084
+    },
+    {
+      "id": "FP-BENIGN-B64-04",
+      "description": "Benign Base64 message #4",
+      "query": "Message: VGhhbmsgeW91IGZvciB5b3VyIHB1cmNoYXNlIG9yZGVyICMxMjM0NQ==",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.092
+    },
+    {
+      "id": "FP-BENIGN-B64-05",
+      "description": "Benign Base64 message #5",
+      "query": "Message: WW91ciBhcHBvaW50bWVudCBpcyBjb25maXJtZWQgZm9yIE1vbmRheQ==",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.089
+    },
+    {
+      "id": "FP-MULTI-01",
+      "description": "Multilingual Hindi",
+      "query": "\u092e\u0936\u0940\u0928 \u0932\u0930\u094d\u0928\u093f\u0902\u0917 \u0915\u094d\u092f\u093e \u0939\u0948? \u0915\u0943\u092a\u092f\u093e \u0938\u092e\u091d\u093e\u090f\u0902\u0964",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.09
+    },
+    {
+      "id": "FP-MULTI-02",
+      "description": "Multilingual Japanese",
+      "query": "\u6771\u4eac\u30bf\u30ef\u30fc\u306f\u3069\u3053\u3067\u3059\u304b\uff1f\u884c\u304d\u65b9\u3092\u6559\u3048\u3066\u304f\u3060\u3055\u3044\u3002",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.063
+    },
+    {
+      "id": "FP-MULTI-03",
+      "description": "Multilingual Chinese",
+      "query": "\u4ec0\u4e48\u662f\u4eba\u5de5\u667a\u80fd\uff1f\u8bf7\u89e3\u91ca\u4e00\u4e0b\u3002",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.048
+    },
+    {
+      "id": "FP-MULTI-04",
+      "description": "Multilingual Arabic",
+      "query": "\u0645\u0627 \u0647\u0648 \u0627\u0644\u062a\u0639\u0644\u0645 \u0627\u0644\u0622\u0644\u064a\u061f \u064a\u0631\u062c\u0649 \u0627\u0644\u0634\u0631\u062d.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.064
+    },
+    {
+      "id": "FP-MULTI-05",
+      "description": "Multilingual Korean",
+      "query": "\uae30\uacc4 \ud559\uc2b5\uc774\ub780 \ubb34\uc5c7\uc778\uac00\uc694? \uc124\uba85\ud574\uc8fc\uc138\uc694.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.054
+    },
+    {
+      "id": "FP-MULTI-06",
+      "description": "Multilingual Russian",
+      "query": "\u0427\u0442\u043e \u0442\u0430\u043a\u043e\u0435 \u043c\u0430\u0448\u0438\u043d\u043d\u043e\u0435 \u043e\u0431\u0443\u0447\u0435\u043d\u0438\u0435? \u041f\u043e\u0436\u0430\u043b\u0443\u0439\u0441\u0442\u0430, \u043e\u0431\u044a\u044f\u0441\u043d\u0438\u0442\u0435.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.088
+    },
+    {
+      "id": "FP-MULTI-07",
+      "description": "Multilingual Spanish",
+      "query": "\u00bfQu\u00e9 es el aprendizaje autom\u00e1tico? Por favor explique.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.089
+    },
+    {
+      "id": "FP-MULTI-08",
+      "description": "Multilingual German",
+      "query": "Was ist maschinelles Lernen? Bitte erkl\u00e4ren Sie.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.08
+    },
+    {
+      "id": "FP-MULTI-09",
+      "description": "Multilingual French",
+      "query": "Qu'est-ce que l'apprentissage automatique? Veuillez expliquer.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.086
+    },
+    {
+      "id": "FP-MULTI-10",
+      "description": "Multilingual Portuguese",
+      "query": "O que \u00e9 aprendizado de m\u00e1quina? Por favor, explique.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.082
+    },
+    {
+      "id": "FP-MULTI-11",
+      "description": "Multilingual Thai",
+      "query": "\u0e01\u0e32\u0e23\u0e40\u0e23\u0e35\u0e22\u0e19\u0e23\u0e39\u0e49\u0e02\u0e2d\u0e07\u0e40\u0e04\u0e23\u0e37\u0e48\u0e2d\u0e07\u0e04\u0e37\u0e2d\u0e2d\u0e30\u0e44\u0e23? \u0e01\u0e23\u0e38\u0e13\u0e32\u0e2d\u0e18\u0e34\u0e1a\u0e32\u0e22",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.071
+    },
+    {
+      "id": "FP-MULTI-12",
+      "description": "Multilingual Vietnamese",
+      "query": "H\u1ecdc m\u00e1y l\u00e0 g\u00ec? Xin h\u00e3y gi\u1ea3i th\u00edch.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.077
+    },
+    {
+      "id": "FP-MULTI-13",
+      "description": "Multilingual Turkish",
+      "query": "Makine \u00f6\u011frenimi nedir? L\u00fctfen a\u00e7\u0131klay\u0131n.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.075
+    },
+    {
+      "id": "FP-MULTI-14",
+      "description": "Multilingual Italian",
+      "query": "Cos'\u00e8 l'apprendimento automatico? Per favore spiega.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.08
+    },
+    {
+      "id": "FP-MULTI-15",
+      "description": "Multilingual Polish",
+      "query": "Co to jest uczenie maszynowe? Prosz\u0119 wyja\u015bni\u0107.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.078
+    },
+    {
+      "id": "FP-NLQ-01",
+      "description": "Natural language question #1",
+      "query": "What is the capital of France?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.065
+    },
+    {
+      "id": "FP-NLQ-02",
+      "description": "Natural language question #2",
+      "query": "How does photosynthesis work?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.058
+    },
+    {
+      "id": "FP-NLQ-03",
+      "description": "Natural language question #3",
+      "query": "Explain the theory of relativity in simple terms.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.074
+    },
+    {
+      "id": "FP-NLQ-04",
+      "description": "Natural language question #4",
+      "query": "What are the main differences between Python and JavaScript?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.082
+    },
+    {
+      "id": "FP-NLQ-05",
+      "description": "Natural language question #5",
+      "query": "How do neural networks learn from data?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.068
+    },
+    {
+      "id": "FP-NLQ-06",
+      "description": "Natural language question #6",
+      "query": "What is the meaning of life?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.06
+    },
+    {
+      "id": "FP-NLQ-07",
+      "description": "Natural language question #7",
+      "query": "Can you help me debug my code?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.064
+    },
+    {
+      "id": "FP-NLQ-08",
+      "description": "Natural language question #8",
+      "query": "What are the best practices for REST API design?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.078
+    },
+    {
+      "id": "FP-NLQ-09",
+      "description": "Natural language question #9",
+      "query": "How does a blockchain work?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.059
+    },
+    {
+      "id": "FP-NLQ-10",
+      "description": "Natural language question #10",
+      "query": "What is quantum computing?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.057
+    },
+    {
+      "id": "FP-NLQ-11",
+      "description": "Natural language question #11",
+      "query": "Tell me about the history of the Internet.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.071
+    },
+    {
+      "id": "FP-NLQ-12",
+      "description": "Natural language question #12",
+      "query": "What is the difference between AI and machine learning?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.081
+    },
+    {
+      "id": "FP-NLQ-13",
+      "description": "Natural language question #13",
+      "query": "How do vaccines work?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.054
+    },
+    {
+      "id": "FP-NLQ-14",
+      "description": "Natural language question #14",
+      "query": "What causes climate change?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.055
+    },
+    {
+      "id": "FP-NLQ-15",
+      "description": "Natural language question #15",
+      "query": "Explain how encryption protects data.",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.063
+    },
+    {
+      "id": "FP-NLQ-16",
+      "description": "Natural language question #16",
+      "query": "What is the Pythagorean theorem?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.061
+    },
+    {
+      "id": "FP-NLQ-17",
+      "description": "Natural language question #17",
+      "query": "How do search engines rank web pages?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.07
+    },
+    {
+      "id": "FP-NLQ-18",
+      "description": "Natural language question #18",
+      "query": "What are the benefits of exercise?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.063
+    },
+    {
+      "id": "FP-NLQ-19",
+      "description": "Natural language question #19",
+      "query": "How does GPS work?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.051
+    },
+    {
+      "id": "FP-NLQ-20",
+      "description": "Natural language question #20",
+      "query": "What is the largest planet in our solar system?",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.074
+    },
+    {
+      "id": "FP-MIX-01",
+      "description": "Mixed hash + UUID",
+      "query": "The SHA256 hash is abc123def456 and the UUID is 550e8400-e29b-41d4-a716-446655440000",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.126
+    },
+    {
+      "id": "FP-MIX-02",
+      "description": "Mixed URL + email",
+      "query": "Visit https://example.com and contact support@example.com for help",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.091
+    },
+    {
+      "id": "FP-MIX-03",
+      "description": "JWT-like token",
+      "query": "Session token: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyIn0.signature",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 2,
+      "latency_ms": 0.099
+    },
+    {
+      "id": "FP-MIX-04",
+      "description": "Error message",
+      "query": "Error code: ERR_CONNECTION_REFUSED on port 8443",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.085
+    },
+    {
+      "id": "FP-MIX-05",
+      "description": "Build notification",
+      "query": "Build #12345 completed successfully at 2026-11-13T08:00:00Z",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.088
+    },
+    {
+      "id": "FP-EDGE-01",
+      "description": "Short phrase",
+      "query": "hello world",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.048
+    },
+    {
+      "id": "FP-EDGE-02",
+      "description": "Single character",
+      "query": "a",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.04
+    },
+    {
+      "id": "FP-EDGE-03",
+      "description": "Trimmed whitespace",
+      "query": "   valid query with padding whitespace   ",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.068
+    },
+    {
+      "id": "FP-EDGE-04",
+      "description": "50 party emojis",
+      "query": "\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89\ud83c\udf89",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 0,
+      "latency_ms": 0.073
+    },
+    {
+      "id": "FP-EDGE-05",
+      "description": "200 letter A's",
+      "query": "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "is_false_positive": false,
+      "extracted_tokens": 1,
+      "latency_ms": 0.155
+    }
+  ]
+}

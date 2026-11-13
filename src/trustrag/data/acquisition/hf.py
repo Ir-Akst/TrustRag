@@ -65,17 +65,50 @@ class HFAcquisitionHelper:
         cache_path = str(cache_dir) if cache_dir else None
 
         if offline:
-            # When offline, check if cached files exist in cache_dir
+            # When offline, check if cached files exist in cache_dir or HF cache
             logger.info("Offline mode enabled: checking local cache for %s", dataset_id)
+            c_p = Path(cache_path) if cache_path else None
+            has_local_files = False
+            if c_p and c_p.exists() and c_p.is_dir():
+                try:
+                    has_local_files = any(c_p.iterdir())
+                except OSError:
+                    has_local_files = False
+            elif c_p and c_p.exists() and c_p.is_file():
+                has_local_files = True
+
+            # Also check default HF cache directory if not found in cache_dir
+            if not has_local_files:
+                hf_cache = Path.home() / ".cache" / "huggingface" / "datasets"
+                norm_ds = dataset_id.replace("/", "___")
+                if hf_cache.exists():
+                    has_local_files = any(norm_ds in p.name for p in hf_cache.glob("*"))
+
+            if not has_local_files:
+                raise AcquisitionError(
+                    f"Dataset '{dataset_id}' unavailable in offline mode. "
+                    f"No cached version found in '{cache_path}'."
+                )
+
             try:
-                # Attempt to load with local_files_only
+                from datasets import DownloadConfig  # type: ignore
+                dl_config = DownloadConfig(local_files_only=True, max_retries=1)
+            except Exception:
+                dl_config = None
+
+            try:
+                kwargs: Dict[str, Any] = {
+                    "download_mode": "reuse_cache_if_exists",
+                    "streaming": False,
+                }
+                if dl_config is not None:
+                    kwargs["download_config"] = dl_config
                 ds = load_dataset(
                     dataset_id,
                     name=config_name,
                     split=split,
                     cache_dir=cache_path,
-                    streaming=False,
-                    download_mode="reuse_cache_if_exists",
+                    **kwargs,
                 )
             except Exception as e:
                 raise AcquisitionError(

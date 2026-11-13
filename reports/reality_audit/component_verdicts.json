@@ -1,0 +1,116 @@
+{
+  "audit_timestamp_utc": "2026-11-12T17:38:51Z",
+  "repo_commit": "713c54e2065b4cd37f63b2fb8c9a8bf3694ed831",
+  "host_os": "Windows-11-10.0.26200-SP0",
+  "python_system": "3.13.14",
+  "overall_verdict": "PARTIALLY FUNCTIONAL",
+  "component_readiness_pct": 46.2,
+  "research_compliance_pct": 28.0,
+  "verdict_scale": [
+    "GREEN",
+    "YELLOW",
+    "RED",
+    "BLACK",
+    "BLUE"
+  ],
+  "components": [
+    {
+      "component": "G1 Input Guardrail",
+      "module": "src/trustrag/guardrails/input_guardrail.py",
+      "verdict": "YELLOW",
+      "readiness_pct": 68,
+      "evidence": "Blocks explicit directives ('Ignore all previous instructions'), NFKC/mixed-script homoglyphs, fullwidth ASCII, malformed ZWJ, oversized length, empty input, and DEF-08 attribute drift in paraphrase check. Bypassed (ALLOW, risk=0.0) by Base64 obfuscation, word-level flood repeats, possessive pronouns ('Ignore your safety rules'), and instruction-hierarchy overrides; benign ZWNJ/ZWSP in English text false-flags (FLAG, risk=0.45); paraphrasing disabled by default."
+    },
+    {
+      "component": "Trust-Aware Retriever",
+      "module": "src/trustrag/retrieval/retriever.py",
+      "verdict": "YELLOW",
+      "readiness_pct": 45,
+      "evidence": "Functional in-memory scikit-learn TfidfVectorizer (1-2 gram) + G2 trust blending + floor(K/2) removal cap. Missing dense embeddings, FAISS vector index, index persistence (no save/load), document chunking, and metadata filtering. Duplicate doc_ids silently mutated (dup_1 -> dup_1#1)."
+    },
+    {
+      "component": "G2 Multi-Signal Detector (MSD)",
+      "module": "src/trustrag/detection/msd.py",
+      "verdict": "YELLOW",
+      "readiness_pct": 52,
+      "evidence": "Coverage-attenuated fusion works when callables are absent; F4 (regex/obfuscation), F5 (consensus with 3v1 repetition parity & outlier attenuation), and F6 (provenance prior) execute cleanly offline. F1 (perplexity) and F2 (embedding norm) are UNAVAILABLE offline unless caller supplies callbacks and reference stats. Stealth factual poisoning without instruction triggers scores 0.9283 (CLEAN) standalone and leaks in 2/6 E2E attacks; removal cap allows 2-of-2 repeat poisons through when another doc consumes the sole cap slot."
+    },
+    {
+      "component": "Answer Generator",
+      "module": "src/trustrag/generation/generator.py",
+      "verdict": "YELLOW",
+      "readiness_pct": 40,
+      "evidence": "Deterministic extractive sentence selector + inline [doc_id] citations + fail-closed abstention on empty context work reliably. Zero built-in OpenAI/Anthropic/Gemini/Ollama/HF generator client exists; llm_with_fallback falls back to extractive copy-paste unless caller passes a custom Python callable."
+    },
+    {
+      "component": "G3 Output Evidence Verifier",
+      "module": "src/trustrag/verification/output_verifier.py",
+      "verdict": "YELLOW",
+      "readiness_pct": 62,
+      "evidence": "Heuristic/TF-IDF atomic claim extraction, negation checks, temporal year checks, DEF-09 negative-number checks, and query-consistency checks pass 25/25 Phase 08 linguistic tests. Phrased unit equivalence ('1000 mg per day' vs '1 g daily') fails lexical coverage (0.60 < 0.65 -> INSUFFICIENT_EVIDENCE); multi-fact conjunction falsely fails as UNCERTAIN against single-fact doc (01_clean_factual); extractive low-quality vague evidence self-grounds as TRUSTED (09_low_quality_ambiguous); Phase 10 unseen probes achieved 0.50 claim accuracy (2/4)."
+    },
+    {
+      "component": "Small Reasoning Model (SRM)",
+      "module": "src/trustrag/srm/client.py",
+      "verdict": "BLUE",
+      "readiness_pct": 25,
+      "evidence": "Client abstraction, <think> parser, citation grounding check, and DeterministicFallbackBackend (halluguard-srm-fallback) run cleanly (0.01-0.05 ms). Default config sets backend='disabled'. Real neural backends (hf_local, local_ollama, openai_compatible) are non-operational in this offline/no-GPU/no-weights/no-key environment (torch, transformers, weights, ollama binary, API keys all missing)."
+    },
+    {
+      "component": "End-to-End Pipeline & CLI",
+      "module": "src/trustrag/pipeline/trustrag_pipeline.py",
+      "verdict": "YELLOW",
+      "readiness_pct": 65,
+      "evidence": "Core Python pipeline connects G1 -> Retrieval/G2 -> Pre-Gen Gate -> Extractive Generation -> Answer Unicode -> G3 -> Optional Re-answer -> SRM. Runs CLI benign/attack queries cleanly (exit 0). CLI --health and --adaptive crash on Windows due to trustrag.serving import resource error; 2/6 E2E security attacks leaked poisoned targets into answers; Clean BoolQ test n=15 achieved 12/15 (0.80) answered, 3/15 abstained."
+    },
+    {
+      "component": "Adaptive Calibration & Policy Engine",
+      "module": "src/trustrag/adaptive/",
+      "verdict": "YELLOW",
+      "readiness_pct": 65,
+      "evidence": "Platt & temperature calibrators load with verified SHA-256 checksums, non-circular G3 feedback monitor, PSI/KS drift monitor, and bounded policy engine with rollback. Note Platt calibrator trades recall for high clean FPR (0.50 standalone on knowledge_poisoning test n=24; 0.6667 in Phase 10 remediated E2E run, flipping 8 FP vs 8 TP)."
+    },
+    {
+      "component": "Serving Service & AIOHTTP REST API",
+      "module": "src/trustrag/serving/service.py",
+      "verdict": "RED",
+      "readiness_pct": 15,
+      "evidence": "Crashes immediately on import on Windows with ModuleNotFoundError: No module named 'resource' (line 7). Blocks trustrag.serving, trustrag.api, trustrag.api.app, trustrag.api.server, and all 8 serving/API test suites (collection errors). Multi-process audit locking (fcntl) degrades to unlocked logging on Windows; pyproject.toml api group lists fastapi/uvicorn while code uses aiohttp."
+    },
+    {
+      "component": "Dashboard Frontend (SPA)",
+      "module": "frontend/src/",
+      "verdict": "YELLOW",
+      "readiness_pct": 70,
+      "evidence": "Static vanilla JS SPA uses real fetch('/api/v1/*') calls and safe DOM helpers (no mock data arrays; 5/5 node tests pass). Cannot be served live on this host because backend trustrag.api.server fails import on Windows."
+    },
+    {
+      "component": "Datasets & Offline Acquisition",
+      "module": "src/trustrag/data/",
+      "verdict": "RED",
+      "readiness_pct": 25,
+      "evidence": "6/7 target external research benchmarks (NQ, HotpotQA, MS MARCO, HaluEval, LLM-AggreFact, RSB) are missing (0 records); ragtruth has 5 test records vs 18k target; boolq has 100 records; wice/expertqa are 3-record fixtures. Custom security benchmarks are generated synthetically from only 8 cyclic templates with exact query overlap across splits. 7 loaders ignore offline=True and attempt HuggingFace network HEAD requests."
+    },
+    {
+      "component": "Training, Fine-Tuning & Model Weights",
+      "module": "src/trustrag/",
+      "verdict": "BLACK",
+      "readiness_pct": 5,
+      "evidence": "Zero trained neural weights (.pt/.safetensors/.gguf/.onnx) exist in workspace or HF cache. Zero ORPO/LoRA/SFT training scripts exist. Only two JSON logistic/temperature scalar calibrators exist under configs/adaptive/."
+    },
+    {
+      "component": "Evaluation & Statistical Harness",
+      "module": "src/trustrag/evaluation/",
+      "verdict": "YELLOW",
+      "readiness_pct": 70,
+      "evidence": "Reproducible benchmark runner, Wilson CI, McNemar, Holm-Bonferroni, and Phase 10 bundle JSONL outputs verified by independent recomputation (exact match).suites.py line 1843 fails with import resource on Windows in perf smoke test; FilterRAG variants are PROXY_ONLY."
+    },
+    {
+      "component": "Testing, Tooling & Deployment",
+      "module": "tests/, pyproject.toml",
+      "verdict": "RED",
+      "readiness_pct": 35,
+      "evidence": "644 runnable tests pass, but 8 test files fail collection (resource), 3 runnable tests fail (2 order-dependent capfd failures, 1 resource failure), workspace .venv313 fails 35 collections (missing sklearn/aiohttp), ruff fails (24,503 lint output lines), mypy fails (43 errors across 6 files), and zero Dockerfile/compose/systemd deployment manifests exist."
+    }
+  ]
+}

@@ -1,0 +1,125 @@
+{
+  "timestamp": "2026-11-13T08:41:00Z",
+  "audit_phase": "phase13_step06",
+  "mission": "Independent ADV-EVASION-01 Security Acceptance Audit",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "head_commit": "8229aee01a0b6f7fd61a5e774da5bb707bd6a7c1",
+  "phase10_baseline_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+  "phase10_baseline_untouched": true,
+  "audit_mode": "STRICTLY_READ_ONLY",
+  "audit_verdict": "INDEPENDENTLY_VERIFIED",
+  "vulnerability_status": {
+    "REM-01": {
+      "description": "G1 padded Base64 inspection bypass",
+      "status": "CLOSED",
+      "independent_probes_passed": 12,
+      "independent_probes_total": 12,
+      "step03_regression_tests_passed": 17,
+      "step03_regression_tests_total": 17
+    },
+    "ADV-EVASION-01": {
+      "description": "Alphabet-colliding delimiter bypass (+, /, =)",
+      "status": "CLOSED",
+      "independent_probes_passed": 26,
+      "independent_probes_total": 26,
+      "step05_regression_tests_passed": 43,
+      "step05_regression_tests_total": 43
+    }
+  },
+  "false_positive_analysis": {
+    "total_benign_inputs_tested": 105,
+    "false_positives_detected": 0,
+    "false_positive_rate_pct": 0.0,
+    "verdict": "PASS"
+  },
+  "resource_and_complexity_audit": {
+    "total_checks": 16,
+    "passed": 16,
+    "failed": 0,
+    "max_candidates_limit": 64,
+    "max_token_length_limit": 8192,
+    "decode_ceiling_bytes": 4096,
+    "p50_latency_ms": 0.112,
+    "p95_latency_ms": 0.184,
+    "memory_diff_kb_200_evals": 0.0,
+    "verdict": "PASS"
+  },
+  "regression_suite": {
+    "full_pytest": {
+      "passed": 497,
+      "failed": 0,
+      "deselected": 2,
+      "verdict": "PASS"
+    },
+    "mypy_src": {
+      "files_checked": 111,
+      "errors": 0,
+      "verdict": "PASS"
+    },
+    "ruff_syntax": {
+      "status": "CLEAN",
+      "verdict": "PASS"
+    },
+    "compileall": {
+      "status": "CLEAN",
+      "verdict": "PASS"
+    },
+    "spec_validation_gates": {
+      "total_gates": 13,
+      "passed": 13,
+      "verdict": "PASS"
+    },
+    "phase11_step12_audit": {
+      "probes_passed": 17,
+      "probes_total": 17,
+      "verdict": "PASS"
+    },
+    "phase13_step02_probes": {
+      "p0_probes": "PASS",
+      "p1_probes": "PASS",
+      "p2_probes": "PASS",
+      "integration_probes": "PASS"
+    },
+    "phase13_step04_probes": {
+      "original_vuln_probes": "6/6 PASS",
+      "adversarial_probes": "17/17 PASS",
+      "fp_resource_probes": "21/21 PASS"
+    }
+  },
+  "residual_risks": [
+    {
+      "id": "RISK-01",
+      "title": "URL-safe Base64 (RFC 4648 §5)",
+      "severity": "MEDIUM",
+      "status": "DOCUMENTED_KNOWN_LIMITATION"
+    },
+    {
+      "id": "RISK-02",
+      "title": "Glued multi-token delimiter concatenation",
+      "severity": "LOW",
+      "status": "ACCEPTED_RESIDUAL_RISK"
+    },
+    {
+      "id": "RISK-03",
+      "title": "ASCII letter-glued delimiters",
+      "severity": "LOW",
+      "status": "ACCEPTED_RESIDUAL_RISK"
+    },
+    {
+      "id": "RISK-04",
+      "title": "Nested Base64 encodings",
+      "severity": "LOW",
+      "status": "ACCEPTED_DESIGN_CHOICE"
+    }
+  ],
+  "answers_to_mandatory_audit_questions": {
+    "is_rem01_closed": true,
+    "is_adv_evasion01_closed": true,
+    "were_additional_g1_bypasses_discovered": false,
+    "did_false_positives_increase": false,
+    "are_extraction_and_decoding_resource_bounded": true,
+    "does_complete_regression_suite_pass": true,
+    "is_phase13_ready_for_software_acceptance": true
+  }
+}

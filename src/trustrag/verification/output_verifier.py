@@ -193,7 +193,66 @@ _UNIT_DIMENSIONS: Dict[str, Tuple[str, float]] = {
     "ghz": ("frequency", 1000000000.0),
     "bp": ("pressure", 1.0),
     "bps": ("rate", 1.0),
+    "usd": ("currency_usd", 1.0),
+    "eur": ("currency_eur", 1.0),
+    "gbp": ("currency_gbp", 1.0),
+    "jpy": ("currency_jpy", 1.0),
+    "$": ("currency_usd", 1.0),
+    "€": ("currency_eur", 1.0),
+    "£": ("currency_gbp", 1.0),
+    "¥": ("currency_jpy", 1.0),
+    "volt": ("voltage", 1.0),
+    "volts": ("voltage", 1.0),
+    "v": ("voltage", 1.0),
+    "kv": ("voltage", 1000.0),
+    "mv": ("voltage", 0.001),
 }
+
+_FREQ_PERIOD_SYNONYMS: Dict[str, Set[str]] = {
+    "day": {"daily", "day", "per", "a"},
+    "daily": {"daily", "day", "per", "a"},
+    "week": {"weekly", "week", "per", "a"},
+    "weekly": {"weekly", "week", "per", "a"},
+    "month": {"monthly", "month", "per", "a"},
+    "monthly": {"monthly", "month", "per", "a"},
+    "year": {"annually", "annual", "yearly", "year", "per", "a"},
+    "annually": {"annually", "annual", "yearly", "year", "per", "a"},
+    "annual": {"annually", "annual", "yearly", "year", "per", "a"},
+    "yearly": {"annually", "annual", "yearly", "year", "per", "a"},
+    "hour": {"hourly", "hour", "per", "an"},
+    "hourly": {"hourly", "hour", "per", "an"},
+}
+
+_THERMAL_PROPERTY_PATTERNS: Dict[str, re.Pattern[str]] = {
+    "boil": re.compile(r"\b(?:boil|boils|boiling|evaporat\w*|vaporiz\w*|steam)\b", re.IGNORECASE),
+    "freeze": re.compile(r"\b(?:freez\w*|frost|solidif\w*|ice)\b", re.IGNORECASE),
+    "melt": re.compile(r"\b(?:melt\w*|liquef\w*|thaw\w*)\b", re.IGNORECASE),
+    "condense": re.compile(r"\b(?:condens\w*)\b", re.IGNORECASE),
+    "sublime": re.compile(r"\b(?:sublim\w*)\b", re.IGNORECASE),
+    "max": re.compile(r"\b(?:max|maximum|highest|peak|record\s+high)\b", re.IGNORECASE),
+    "min": re.compile(r"\b(?:min|minimum|lowest|trough|record\s+low)\b", re.IGNORECASE),
+    "body": re.compile(r"\b(?:fever|body\s+temp\w*|oral|rectal|axillary|tympanic|basal)\b", re.IGNORECASE),
+    "room": re.compile(r"\b(?:ambient|room\s+temp\w*|storage\s+temp\w*)\b", re.IGNORECASE),
+}
+
+
+def _extract_thermal_properties(text: str) -> Set[str]:
+    return {prop for prop, pat in _THERMAL_PROPERTY_PATTERNS.items() if pat.search(text)}
+
+
+def _thermal_properties_disjoint(claim: str, span: str) -> bool:
+    c_props = _extract_thermal_properties(claim)
+    s_props = _extract_thermal_properties(span)
+    if c_props and s_props and not (c_props & s_props):
+        return True
+    return False
+
+
+_VAGUE_HEDGE_RE = re.compile(
+    r"\b(?:maybe|perhaps|possibly|plausibly|allegedly|rumored|speculatively|"
+    r"some\s+variable|vague\s+factors?|unclear|uncertain|unconfirmed)\b",
+    re.IGNORECASE,
+)
 
 _AUX_MODAL_VERBS_SET: Set[str] = {
     "is", "are", "was", "were", "be", "been", "being", "has", "have", "had",
@@ -624,7 +683,12 @@ def _evaluate_entity_slot_conflict(claim: str, span: str) -> Tuple[bool, str]:
         s_left, s_right = m_s.group(1), m_s.group(2)
         if not (_ENTITY_SLOT_LIST_CUE_RE.search(c_right) or _ENTITY_SLOT_LIST_CUE_RE.search(s_right)):
             # Direction 1: matching left frame, conflicting right entity ("The capital of France is Paris" vs "Lyon"; "approved by FDA" vs "EMA")
-            if _tok_jaccard(c_left, s_left) >= 0.80:
+            # Exclude numeric/measurement RHS (e.g. "Profit was 500 USD" vs "500 EUR") so numerical verification handles quantities.
+            if (
+                _tok_jaccard(c_left, s_left) >= 0.80
+                and not extract_numbers_and_units(c_right)
+                and not extract_numbers_and_units(s_right)
+            ):
                 c_r_ents = _extract_slot_actor_entities(c_right)
                 s_r_ents = _extract_slot_actor_entities(s_right)
                 if c_r_ents and s_r_ents and (c_r_ents & s_r_ents == set()):
@@ -1480,6 +1544,15 @@ def _evaluate_numbers_with_grounded_tokens(claim: str, span: str) -> Tuple[bool,
                 "Temperature values refer to disjoint temporal contexts.",
                 set(),
             )
+        if _thermal_properties_disjoint(remaining_claim, span):
+            c_p = sorted(_extract_thermal_properties(remaining_claim))
+            s_p = sorted(_extract_thermal_properties(span))
+            return (
+                False,
+                False,
+                f"Temperature values refer to distinct thermal properties ({c_p} vs {s_p}).",
+                set(),
+            )
         s_celsius = [cv for sv, su in s_temps if (cv := _temp_to_celsius(sv, su)) is not None]
         for cv_str, cu in c_temps:
             c_c = _temp_to_celsius(cv_str, cu)
@@ -1578,6 +1651,13 @@ def _evaluate_numbers_with_grounded_tokens(claim: str, span: str) -> Tuple[bool,
                         f"Numeric dosage/unit '{c_val}{c_unit}' not verified in evidence span units {sorted(s_vals_by_unit.keys())}.",
                         set(),
                     )
+                elif c_dim is not None and c_dim[0].startswith("currency_"):
+                    return (
+                        False,
+                        False,
+                        f"Monetary currency '{c_unit}' in claim not verified in evidence.",
+                        set(),
+                    )
                 elif c_val not in all_s_vals:
                     return False, False, f"Numeric value '{c_val}{c_unit}' in claim not found in evidence span.", set()
         elif c_val not in all_s_vals:
@@ -1617,8 +1697,13 @@ def _extract_temporal_context(
     text: str,
 ) -> tuple[set[int], list[tuple[int, int]], set[str], set[str]]:
     """Extract years, normalized year ranges, ISO dates, and month markers from text."""
-    years = {int(y) for y in _YEAR_SINGLE_RE.findall(text)}
-    ranges = [(min(int(a), int(b)), max(int(a), int(b))) for a, b in _YEAR_RANGE_RE.findall(text)]
+    nums_with_units = {v for v, u in extract_numbers_and_units(text) if u}
+    years = {int(y) for y in _YEAR_SINGLE_RE.findall(text) if y not in nums_with_units}
+    ranges = [
+        (min(int(a), int(b)), max(int(a), int(b)))
+        for a, b in _YEAR_RANGE_RE.findall(text)
+        if a not in nums_with_units and b not in nums_with_units
+    ]
     isos = {m.group(1) for m in _ISO_DATE_RE.finditer(text)}
     months: set[str] = set()
     for m in _MONTH_CONTEXT_RE.finditer(text):
@@ -1710,7 +1795,7 @@ def _find_temporal_or_unitless_numeric_contradiction(
     # 1. Normalized temperature units (°C / degrees Celsius / °F / degrees Fahrenheit)
     c_temps = _extract_temp_values(claim)
     s_temps = _extract_temp_values(span)
-    if c_temps and s_temps and not temporal_disjoint:
+    if c_temps and s_temps and not temporal_disjoint and not _thermal_properties_disjoint(claim, span):
         for cv, cu in c_temps:
             same_unit_vals = {sv for sv, su in s_temps if su == cu}
             if same_unit_vals and cv not in same_unit_vals:
@@ -2216,6 +2301,9 @@ class OutputEvidenceVerifier:
                 else (True, False, "Numeric check disabled.", set())
             )
             grounded_union = span_tokens | grounded_num_tokens
+            for freq_key, syns in _FREQ_PERIOD_SYNONYMS.items():
+                if freq_key in span_tokens or freq_key in span.lower():
+                    grounded_union.update(syns)
             matched_tokens = claim_tokens & grounded_union
             coverage = len(matched_tokens) / len(claim_tokens) if claim_tokens else 0.0
             conjuncts_ok = True
@@ -2252,9 +2340,11 @@ class OutputEvidenceVerifier:
             entities_ok = (len(missing_entities) == 0) and (len(missing_designators) == 0)
             role_swapped = _has_subject_object_role_swap(claim_text, span)
 
+            c_years_ctx, _, _, _ = _extract_temporal_context(claim_text)
+            c_year_strs = {str(y) for y in c_years_ctx}
             non_num_claim_tokens = {
                 tok for tok in claim_tokens
-                if _YEAR_SINGLE_RE.fullmatch(tok) or not any(ch.isdigit() for ch in tok)
+                if tok in c_year_strs or not any(ch.isdigit() for ch in tok)
             }
             single_topic_num_shared = (
                 num_conflict
@@ -2266,6 +2356,13 @@ class OutputEvidenceVerifier:
                 ((len(matched_tokens) >= 2) and (coverage >= 0.30 or sim >= 0.25))
                 or single_topic_num_shared
             )
+            if required_predicate_text:
+                pred_non_num = {
+                    t for t in pred_body_tokens
+                    if not any(ch.isdigit() for ch in t) and t not in _STOP_CONTENT and t not in _UNIT_DIMENSIONS
+                }
+                if pred_non_num and not (pred_non_num & grounded_union):
+                    topic_shared = False
 
             if (polarity_contradicts and topic_shared) or (num_conflict and topic_shared) or slot_conflict:
                 span_outcome = EvidenceOutcome.CONTRADICTS
@@ -2403,6 +2500,19 @@ class OutputEvidenceVerifier:
                 final_outcome = EvidenceOutcome.UNCERTAIN
                 confidence = 0.55
                 explanation = "Claim opens with an unresolved leading pronoun ('It'/...) lacking an explicit entity referent; cannot mark SUPPORTED."
+                unsupported_flag = True
+                top_refs = [e[2] for e in sorted_entries[:3]]
+            elif _VAGUE_HEDGE_RE.search(claim_text) and all(
+                not e[2].provenance or str(e[2].provenance).upper() in {"", "UNKNOWN", "NONE", "UNVERIFIED"}
+                for e in effective_supports
+            ):
+                final_verdict = G3ClaimVerdict.INSUFFICIENT
+                final_outcome = EvidenceOutcome.NOT_ENOUGH_EVIDENCE
+                confidence = 0.50
+                explanation = (
+                    "Claim asserts speculative or hedged statements supported exclusively by "
+                    "unverified evidence with unknown provenance; cannot certify as SUPPORTED."
+                )
                 unsupported_flag = True
                 top_refs = [e[2] for e in sorted_entries[:3]]
             else:

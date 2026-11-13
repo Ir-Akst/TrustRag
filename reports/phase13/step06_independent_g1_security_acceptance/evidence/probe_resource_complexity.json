@@ -1,0 +1,138 @@
+{
+  "timestamp": "2026-11-13T08:18:20.567762+00:00",
+  "total_checks": 16,
+  "passed": 16,
+  "failed": 0,
+  "verdict": "PASS",
+  "checks": [
+    {
+      "value": 64,
+      "passed": true,
+      "id": "RES-01",
+      "description": "MAX_B64_CANDIDATES constant"
+    },
+    {
+      "value": 8192,
+      "passed": true,
+      "id": "RES-02",
+      "description": "MAX_B64_TOKEN_LEN constant"
+    },
+    {
+      "input_len": 80,
+      "decision": "BLOCK",
+      "latency_ms": 0.385,
+      "passed": true,
+      "id": "RES-03",
+      "description": "Normal-length input (< 200 chars)"
+    },
+    {
+      "input_len": 3973,
+      "decision": "BLOCK",
+      "latency_ms": 2.837,
+      "passed": true,
+      "id": "RES-04",
+      "description": "Input near max_input_length (4096)"
+    },
+    {
+      "input_len": 5073,
+      "decision": "BLOCK",
+      "latency_ms": 3.435,
+      "passed": true,
+      "id": "RES-05",
+      "description": "Input over max_input_length (> 5000)"
+    },
+    {
+      "input_candidates": 200,
+      "extracted_tokens": 1,
+      "max_expected": 64,
+      "latency_ms": 0.245,
+      "passed": true,
+      "id": "RES-06",
+      "description": "200 candidates (should cap at MAX_B64_CANDIDATES)"
+    },
+    {
+      "payload_len": 8000,
+      "max_token_len": 8192,
+      "extracted_tokens": 1,
+      "passed": true,
+      "id": "RES-07",
+      "description": "Large payload (8000 chars)"
+    },
+    {
+      "payload_len": 13336,
+      "max_token_len": 8192,
+      "extracted_tokens": 0,
+      "passed": true,
+      "id": "RES-08",
+      "description": "Very large payload (13336 chars > MAX_B64_TOKEN_LEN)"
+    },
+    {
+      "fragment_count": 1000,
+      "extracted_tokens": 1,
+      "latency_ms": 0.443,
+      "passed": true,
+      "id": "RES-09",
+      "description": "1000 Base64-looking fragments"
+    },
+    {
+      "extracted_tokens": 1,
+      "latency_ms": 0.007,
+      "passed": true,
+      "id": "RES-10",
+      "description": "Payload buried in +++ delimiters"
+    },
+    {
+      "input": "AAAAAAAAAAAAAAAAA======",
+      "extracted_tokens": 0,
+      "passed": true,
+      "id": "RES-11",
+      "description": "Excessive padding (6 equals signs)"
+    },
+    {
+      "extracted_tokens": 3,
+      "decision": "BLOCK",
+      "risk_score": 1.0,
+      "latency_ms": 0.294,
+      "passed": true,
+      "id": "RES-12",
+      "description": "Three distinct malicious payloads in one query"
+    },
+    {
+      "iterations": 100,
+      "p50_ms": 0.115,
+      "p95_ms": 0.137,
+      "p99_ms": 0.164,
+      "mean_ms": 0.12,
+      "max_ms": 0.226,
+      "passed": true,
+      "id": "RES-13",
+      "description": "100-iteration runtime benchmark (malicious slash-wrapped)"
+    },
+    {
+      "iterations": 100,
+      "p50_ms": 0.058,
+      "p95_ms": 0.067,
+      "p99_ms": 0.085,
+      "mean_ms": 0.06,
+      "max_ms": 0.098,
+      "passed": true,
+      "id": "RES-14",
+      "description": "100-iteration runtime benchmark (benign)"
+    },
+    {
+      "iterations": 200,
+      "memory_diff_kb": 1.87,
+      "passed": true,
+      "id": "RES-15",
+      "description": "Memory stability (200 evaluations)"
+    },
+    {
+      "input_candidates": 70,
+      "extracted_tokens": 64,
+      "latency_ms": 0.122,
+      "passed": true,
+      "id": "RES-16",
+      "description": "Worst-case: 70 candidates with trailing junk"
+    }
+  ]
+}

@@ -1,0 +1,1275 @@
+{
+  "overall_status": "PASS",
+  "execution_time_seconds": 0.255,
+  "DEF-17": {
+    "status": "PASS",
+    "total_probes": 64,
+    "passed_probes": 64,
+    "failed_probes": 0,
+    "probes": [
+      {
+        "category": "extraction",
+        "input": "Revenue reached \u20ac250.",
+        "expected": [
+          [
+            "250",
+            "eur"
+          ]
+        ],
+        "actual": [
+          [
+            "250",
+            "eur"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Revenue reached $250.",
+        "expected": [
+          [
+            "250",
+            "usd"
+          ]
+        ],
+        "actual": [
+          [
+            "250",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Revenue reached \u00a3250.",
+        "expected": [
+          [
+            "250",
+            "gbp"
+          ]
+        ],
+        "actual": [
+          [
+            "250",
+            "gbp"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Revenue reached \u00a5250.",
+        "expected": [
+          [
+            "250",
+            "jpy"
+          ]
+        ],
+        "actual": [
+          [
+            "250",
+            "jpy"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Cost was -$250.",
+        "expected": [
+          [
+            "-250",
+            "usd"
+          ]
+        ],
+        "actual": [
+          [
+            "-250",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Cost was $-250.",
+        "expected": [
+          [
+            "-250",
+            "usd"
+          ]
+        ],
+        "actual": [
+          [
+            "-250",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Cost was -$ 250.",
+        "expected": [
+          [
+            "-250",
+            "usd"
+          ]
+        ],
+        "actual": [
+          [
+            "-250",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Cost was $ -250.",
+        "expected": [
+          [
+            "-250",
+            "usd"
+          ]
+        ],
+        "actual": [
+          [
+            "-250",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Fee was 250\u20ac.",
+        "expected": [
+          [
+            "250",
+            "eur"
+          ]
+        ],
+        "actual": [
+          [
+            "250",
+            "eur"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Fee was 250 \u20ac.",
+        "expected": [
+          [
+            "250",
+            "eur"
+          ]
+        ],
+        "actual": [
+          [
+            "250",
+            "eur"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Balance was -$0.",
+        "expected": [
+          [
+            "0",
+            "usd"
+          ]
+        ],
+        "actual": [
+          [
+            "0",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Balance was $0.00.",
+        "expected": [
+          [
+            "0",
+            "usd"
+          ]
+        ],
+        "actual": [
+          [
+            "0",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Price was 250 USD.",
+        "expected": [
+          [
+            "250",
+            "usd"
+          ]
+        ],
+        "actual": [
+          [
+            "250",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Price was USD 250.",
+        "expected": [
+          [
+            "250",
+            "usd"
+          ]
+        ],
+        "actual": [
+          [
+            "250",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Price was USD -250.",
+        "expected": [
+          [
+            "-250",
+            "usd"
+          ]
+        ],
+        "actual": [
+          [
+            "-250",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Loss of -250 EUR.",
+        "expected": [
+          [
+            "-250",
+            "eur"
+          ]
+        ],
+        "actual": [
+          [
+            "-250",
+            "eur"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Fare was JPY 1500.",
+        "expected": [
+          [
+            "1500",
+            "jpy"
+          ]
+        ],
+        "actual": [
+          [
+            "1500",
+            "jpy"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Fare was 1500 JPY.",
+        "expected": [
+          [
+            "1500",
+            "jpy"
+          ]
+        ],
+        "actual": [
+          [
+            "1500",
+            "jpy"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Grant was 1000000 GBP.",
+        "expected": [
+          [
+            "1000000",
+            "gbp"
+          ]
+        ],
+        "actual": [
+          [
+            "1000000",
+            "gbp"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Grant was GBP 1000000.",
+        "expected": [
+          [
+            "1000000",
+            "gbp"
+          ]
+        ],
+        "actual": [
+          [
+            "1000000",
+            "gbp"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Grant was \u00a31,000,000.",
+        "expected": [
+          [
+            "1000000",
+            "gbp"
+          ]
+        ],
+        "actual": [
+          [
+            "1000000",
+            "gbp"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Grant was \u00a31,000,000.50.",
+        "expected": [
+          [
+            "1000000.5",
+            "gbp"
+          ]
+        ],
+        "actual": [
+          [
+            "1000000.5",
+            "gbp"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Profit was -$ 250.50.",
+        "expected": [
+          [
+            "-250.5",
+            "usd"
+          ]
+        ],
+        "actual": [
+          [
+            "-250.5",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Ticket was \u00a5 1,500.",
+        "expected": [
+          [
+            "1500",
+            "jpy"
+          ]
+        ],
+        "actual": [
+          [
+            "1500",
+            "jpy"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "European Union (EU) has 27 member states.",
+        "expected": [
+          [
+            "27",
+            ""
+          ]
+        ],
+        "actual": [
+          [
+            "27",
+            ""
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Connected to USB 3.0 port.",
+        "expected": [
+          [
+            "3",
+            ""
+          ]
+        ],
+        "actual": [
+          [
+            "3",
+            ""
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "He used 5 tools for the task.",
+        "expected": [
+          [
+            "5",
+            ""
+          ]
+        ],
+        "actual": [
+          [
+            "5",
+            ""
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "Device model ABC 123 failed.",
+        "expected": [
+          [
+            "123",
+            ""
+          ]
+        ],
+        "actual": [
+          [
+            "123",
+            ""
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "extraction",
+        "input": "In 2024, GDP rose by 2.5%.",
+        "expected": [
+          [
+            "2024",
+            ""
+          ],
+          [
+            "2.5",
+            "%"
+          ]
+        ],
+        "actual": [
+          [
+            "2024",
+            ""
+          ],
+          [
+            "2.5",
+            "%"
+          ]
+        ],
+        "passed": true
+      },
+      {
+        "category": "cross_currency_incompatibility",
+        "description": "same scalar, diff currency",
+        "claim": "Revenue reached \u20ac250.",
+        "evidence": "Revenue reached $250.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "cross_currency_incompatibility",
+        "description": "diff scalar, diff currency",
+        "claim": "Revenue reached \u20ac250.",
+        "evidence": "Revenue reached $400.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "cross_currency_incompatibility",
+        "description": "symbol vs code",
+        "claim": "The grant was \u00a3100.",
+        "evidence": "The grant was 100 EUR.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "cross_currency_incompatibility",
+        "description": "JPY vs USD",
+        "claim": "Fare was \u00a51500.",
+        "evidence": "Fare was $15.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "cross_currency_incompatibility",
+        "description": "slot relation LHS matching",
+        "claim": "Profit was 500 USD.",
+        "evidence": "Profit was 500 EUR.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "cross_currency_incompatibility",
+        "description": "GBP vs JPY",
+        "claim": "Device cost 250 GBP.",
+        "evidence": "Device cost 250 JPY.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "cross_currency_incompatibility",
+        "description": "negative cross-currency",
+        "claim": "Deficit was -$50.",
+        "evidence": "Deficit was -\u20ac50.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "cross_currency_incompatibility",
+        "description": "large amounts with commas",
+        "claim": "Budget was $1,000,000.",
+        "evidence": "Budget was \u20ac1,000,000.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "same_currency_conflict",
+        "description": "EUR symbol conflict",
+        "claim": "Revenue reached \u20ac250.",
+        "evidence": "Revenue reached \u20ac400.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_conflict",
+        "description": "USD symbol conflict",
+        "claim": "The device cost $250.",
+        "evidence": "The device cost $400.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_conflict",
+        "description": "GBP symbol conflict",
+        "claim": "The grant was \u00a3100.",
+        "evidence": "The grant was \u00a3150.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_conflict",
+        "description": "JPY symbol conflict",
+        "claim": "Fare was \u00a51500.",
+        "evidence": "Fare was \u00a52000.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_conflict",
+        "description": "USD ISO code conflict",
+        "claim": "Price was 250 USD.",
+        "evidence": "Price was 400 USD.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_conflict",
+        "description": "USD symbol vs code conflict (Direction 1)",
+        "claim": "Price was $250.",
+        "evidence": "Price was 400 USD.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_conflict",
+        "description": "DEF-17-ASYMM: ISO code in claim treated as proper entity (Direction 2)",
+        "claim": "Price was 250 USD.",
+        "evidence": "Price was $400.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "same_currency_conflict",
+        "description": "negative EUR conflict",
+        "claim": "Loss was \u20ac-250.",
+        "evidence": "Loss was \u20ac-500.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_conflict",
+        "description": "signed vs unsigned conflict",
+        "claim": "Deficit was -$50.",
+        "evidence": "Deficit was $50.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_conflict",
+        "description": "signed conflict",
+        "claim": "Deficit was -$50.",
+        "evidence": "Deficit was -$100.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_conflict",
+        "description": "comma formatted conflict",
+        "claim": "Grant was \u00a31,000,000.",
+        "evidence": "Grant was \u00a32,000,000.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_conflict",
+        "description": "decimal conflict",
+        "claim": "Device cost $250.50.",
+        "evidence": "Device cost $250.75.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_equivalence",
+        "description": "EUR symbol match",
+        "claim": "Revenue reached \u20ac250.",
+        "evidence": "Revenue reached \u20ac250.",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_equivalence",
+        "description": "USD symbol vs code (Direction 1)",
+        "claim": "Revenue reached $250.",
+        "evidence": "Revenue reached 250 USD.",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_equivalence",
+        "description": "DEF-17-ASYMM: ISO code in claim treated as proper entity (Direction 2)",
+        "claim": "Price was USD 250.",
+        "evidence": "Price was $250.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "same_currency_equivalence",
+        "description": "comma vs non-comma match",
+        "claim": "Grant was \u00a31,000,000.",
+        "evidence": "Grant was \u00a31000000.",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_equivalence",
+        "description": "decimal match",
+        "claim": "Device cost $250.50.",
+        "evidence": "Device cost $250.50.",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_equivalence",
+        "description": "JPY symbol vs code",
+        "claim": "Fare was \u00a51500.",
+        "evidence": "Fare was 1500 JPY.",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_equivalence",
+        "description": "negative match",
+        "claim": "Deficit was -$50.",
+        "evidence": "Deficit was -$50.",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_equivalence",
+        "description": "negative sign before/after symbol",
+        "claim": "Deficit was -$50.",
+        "evidence": "Deficit was $-50.",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "passed": true
+      },
+      {
+        "category": "same_currency_equivalence",
+        "description": "trailing vs leading euro",
+        "claim": "Fee was 250 \u20ac.",
+        "evidence": "Fee was \u20ac250.",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "passed": true
+      },
+      {
+        "category": "physical_unit_preservation",
+        "description": "Celsius to Fahrenheit equivalence",
+        "claim": "Room was 20\u00b0C.",
+        "evidence": "Room was 68\u00b0F.",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "passed": true
+      },
+      {
+        "category": "physical_unit_preservation",
+        "description": "Celsius to Fahrenheit contradiction",
+        "claim": "Room was 25\u00b0C.",
+        "evidence": "Room was 68\u00b0F.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "physical_unit_preservation",
+        "description": "percentage contradiction",
+        "claim": "Growth was 12.5%.",
+        "evidence": "Growth was 18.5%.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "physical_unit_preservation",
+        "description": "mass unit conversion",
+        "claim": "Capsule had 1.5 g.",
+        "evidence": "Capsule had 1500 mg.",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "passed": true
+      },
+      {
+        "category": "physical_unit_preservation",
+        "description": "length unit conversion",
+        "claim": "Tunnel was 2 km.",
+        "evidence": "Tunnel was 2000 meters.",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "passed": true
+      },
+      {
+        "category": "physical_unit_preservation",
+        "description": "currency vs physical mass",
+        "claim": "Grant was $500.",
+        "evidence": "Grant was 500 kg.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      }
+    ]
+  },
+  "DEF-18": {
+    "status": "PASS",
+    "total_scenarios": 7,
+    "passed_scenarios": 7,
+    "failed_scenarios": 0,
+    "scenarios": [
+      {
+        "name": "exact_step10_prompt_override_swarm",
+        "passed": true,
+        "details": {
+          "evade_decisions": [
+            "POISONED",
+            "POISONED",
+            "POISONED",
+            "POISONED"
+          ],
+          "evade_trust_scores": [
+            0.0399,
+            0.0399,
+            0.0399,
+            0.0399
+          ],
+          "evade_f4_scores": [
+            0.0,
+            0.0,
+            0.0,
+            0.0
+          ],
+          "evade_f5_scores": [
+            0.2,
+            0.2,
+            0.2,
+            0.2
+          ],
+          "clean_decisions": [
+            "CLEAN",
+            "CLEAN"
+          ]
+        }
+      },
+      {
+        "name": "adversarial_prompt_injection_variants",
+        "passed": true,
+        "details": {
+          "decisions": [
+            "POISONED",
+            "POISONED",
+            "POISONED",
+            "POISONED",
+            "POISONED",
+            "POISONED"
+          ],
+          "trust_scores": [
+            0.0866,
+            0.0614,
+            0.0813,
+            0.1016,
+            0.0813,
+            0.1219
+          ],
+          "f4_scores": [
+            0.0,
+            0.0,
+            0.1,
+            0.02,
+            0.1,
+            0.12
+          ]
+        }
+      },
+      {
+        "name": "factual_disinformation_outvote_defense",
+        "passed": true,
+        "details": {
+          "authoritative_decision": "CLEAN",
+          "authoritative_trust_score": 0.8893,
+          "authoritative_f5": 0.85,
+          "bot_decisions": [
+            "UNCERTAIN",
+            "UNCERTAIN",
+            "UNCERTAIN",
+            "UNCERTAIN"
+          ],
+          "bot_f5_scores": [
+            0.2,
+            0.2,
+            0.2,
+            0.2
+          ],
+          "bot_trust_scores": [
+            0.5482,
+            0.5482,
+            0.5482,
+            0.5482
+          ],
+          "bot_reason_codes": [
+            [
+              "LOW_QUERY_MATCH",
+              "CONSENSUS_DEVIATION_CONFLICT",
+              "UNTRUSTED_CONFLICT",
+              "MINORITY_OUTLIER",
+              "EXPLICIT_UNTRUSTED_METADATA",
+              "G2_CONFLICT_DETECTED"
+            ],
+            [
+              "LOW_QUERY_MATCH",
+              "CONSENSUS_DEVIATION_CONFLICT",
+              "UNTRUSTED_CONFLICT",
+              "MINORITY_OUTLIER",
+              "EXPLICIT_UNTRUSTED_METADATA",
+              "G2_CONFLICT_DETECTED"
+            ],
+            [
+              "LOW_QUERY_MATCH",
+              "CONSENSUS_DEVIATION_CONFLICT",
+              "UNTRUSTED_CONFLICT",
+              "MINORITY_OUTLIER",
+              "EXPLICIT_UNTRUSTED_METADATA",
+              "G2_CONFLICT_DETECTED"
+            ],
+            [
+              "LOW_QUERY_MATCH",
+              "CONSENSUS_DEVIATION_CONFLICT",
+              "UNTRUSTED_CONFLICT",
+              "MINORITY_OUTLIER",
+              "EXPLICIT_UNTRUSTED_METADATA",
+              "G2_CONFLICT_DETECTED"
+            ]
+          ]
+        }
+      },
+      {
+        "name": "legitimate_independent_consensus_preservation",
+        "passed": true,
+        "details": {
+          "decisions": [
+            "CLEAN",
+            "CLEAN",
+            "CLEAN"
+          ],
+          "f5_scores": [
+            0.95,
+            0.95,
+            0.95
+          ],
+          "trust_scores": [
+            0.8845,
+            0.8892,
+            0.887
+          ]
+        }
+      },
+      {
+        "name": "untrusted_pair_without_authoritative_corroboration",
+        "passed": true,
+        "details": {
+          "decisions": [
+            "UNCERTAIN",
+            "UNCERTAIN"
+          ],
+          "f5_scores": [
+            0.5,
+            0.5
+          ],
+          "reason_codes": [
+            [
+              "UNTRUSTED_NO_CONSENSUS",
+              "EXPLICIT_UNTRUSTED_METADATA",
+              "G2_UNTRUSTED_CONSENSUS_REQUIRES_VERIFICATION"
+            ],
+            [
+              "UNTRUSTED_NO_CONSENSUS",
+              "EXPLICIT_UNTRUSTED_METADATA",
+              "G2_UNTRUSTED_CONSENSUS_REQUIRES_VERIFICATION"
+            ]
+          ]
+        }
+      },
+      {
+        "name": "lone_untrusted_source_n1_boundary_probe",
+        "passed": true,
+        "details": {
+          "decision": "CLEAN",
+          "f5_available": false,
+          "f5_value": null,
+          "trust_score": 0.8033,
+          "reason_codes": [
+            "EXPLICIT_UNTRUSTED_METADATA",
+            "G2_CLEAN"
+          ],
+          "finding": "When N=1, F5 consensus deviation is UNAVAILABLE, so consensus flags (UNTRUSTED_NO_CONSENSUS) are not generated."
+        }
+      },
+      {
+        "name": "untrusted_flags_preclude_clean_classification",
+        "passed": true
+      }
+    ]
+  },
+  "DEF-19": {
+    "status": "PASS",
+    "total_probes": 10,
+    "passed_probes": 10,
+    "failed_probes": 0,
+    "probes": [
+      {
+        "test": "100_kib_valid_json",
+        "status_code": 200,
+        "expected_status": 200,
+        "code": null,
+        "passed": true
+      },
+      {
+        "test": "500_kib_valid_json",
+        "status_code": 200,
+        "expected_status": 200,
+        "passed": true
+      },
+      {
+        "test": "near_limit_valid_json",
+        "status_code": 200,
+        "expected_status": 200,
+        "passed": true
+      },
+      {
+        "test": "just_above_limit_authenticated",
+        "status_code": 413,
+        "expected_status": 413,
+        "code": "PAYLOAD_TOO_LARGE",
+        "error": "Request payload exceeds maximum allowed size.",
+        "passed": true
+      },
+      {
+        "test": "2_mib_oversized_authenticated",
+        "status_code": 413,
+        "expected_status": 413,
+        "code": "PAYLOAD_TOO_LARGE",
+        "error": "Request payload exceeds maximum allowed size.",
+        "passed": true
+      },
+      {
+        "test": "5_mib_oversized_authenticated",
+        "status_code": 413,
+        "expected_status": 413,
+        "code": "PAYLOAD_TOO_LARGE",
+        "passed": true
+      },
+      {
+        "test": "oversized_unauthenticated",
+        "status_code": 401,
+        "expected_status": 401,
+        "code": "UNAUTHORIZED",
+        "passed": true
+      },
+      {
+        "test": "malformed_json_below_limit",
+        "status_code": 400,
+        "expected_status": 400,
+        "code": "INVALID_JSON",
+        "passed": true
+      },
+      {
+        "test": "alternate_route_g1_analyze_oversized",
+        "status_code": 413,
+        "expected_status": 413,
+        "code": "PAYLOAD_TOO_LARGE",
+        "passed": true
+      },
+      {
+        "test": "alternate_route_g3_verify_oversized",
+        "status_code": 413,
+        "expected_status": 413,
+        "code": "PAYLOAD_TOO_LARGE",
+        "passed": true
+      }
+    ]
+  },
+  "historical_defects": {
+    "status": "PASS",
+    "total_probes": 17,
+    "passed_probes": 17,
+    "failed_probes": 0,
+    "probes": [
+      {
+        "category": "paraphraser_drift_def08_10_13_14",
+        "description": "DEF-08: attribute head swap (CEO vs CFO)",
+        "q1": "Who is the CEO of Apple?",
+        "q2": "Who is the CFO of Apple?",
+        "expected_accepted": false,
+        "actual_accepted": false,
+        "score": 0.3333,
+        "passed": true
+      },
+      {
+        "category": "paraphraser_drift_def08_10_13_14",
+        "description": "DEF-08: attribute head swap",
+        "q1": "Who is the president of France?",
+        "q2": "Who is the prime minister of France?",
+        "expected_accepted": false,
+        "actual_accepted": false,
+        "score": 0.25,
+        "passed": true
+      },
+      {
+        "category": "paraphraser_drift_def08_10_13_14",
+        "description": "DEF-10: lowercase subject attribute drift rejected",
+        "q1": "Who is the inventor of penicillin?",
+        "q2": "Who is the discoverer of penicillin?",
+        "expected_accepted": false,
+        "actual_accepted": false,
+        "score": 0.3333,
+        "passed": true
+      },
+      {
+        "category": "paraphraser_drift_def08_10_13_14",
+        "description": "DEF-10: lowercase subject attribute drift",
+        "q1": "What is the capital of France?",
+        "q2": "What is the population of France?",
+        "expected_accepted": false,
+        "actual_accepted": false,
+        "score": 0.3333,
+        "passed": true
+      },
+      {
+        "category": "paraphraser_drift_def08_10_13_14",
+        "description": "DEF-13: bridge masked attribute swap",
+        "q1": "What is the distance between London and Paris?",
+        "q2": "What is the flight time between London and Paris?",
+        "expected_accepted": false,
+        "actual_accepted": false,
+        "score": 0.5357,
+        "passed": true
+      },
+      {
+        "category": "paraphraser_drift_def08_10_13_14",
+        "description": "DEF-13: opposing preposition inside vs outside",
+        "q1": "Where is glucose stored inside the cell?",
+        "q2": "Where is glucose stored outside the cell?",
+        "expected_accepted": false,
+        "actual_accepted": false,
+        "score": 0.6,
+        "passed": true
+      },
+      {
+        "category": "paraphraser_drift_def08_10_13_14",
+        "description": "DEF-14: treat vs prevent verb swap",
+        "q1": "What treats malaria?",
+        "q2": "What prevents malaria?",
+        "expected_accepted": false,
+        "actual_accepted": false,
+        "score": 0.3333,
+        "passed": true
+      },
+      {
+        "category": "paraphraser_drift_def08_10_13_14",
+        "description": "DEF-14: treat vs cure genuine synonym",
+        "q1": "What treats malaria?",
+        "q2": "What cures malaria?",
+        "expected_accepted": true,
+        "actual_accepted": true,
+        "score": 0.3333,
+        "passed": true
+      },
+      {
+        "category": "paraphraser_drift_def08_10_13_14",
+        "description": "DEF-14: active vs passive voice",
+        "q1": "What treats malaria?",
+        "q2": "How is malaria treated?",
+        "expected_accepted": true,
+        "actual_accepted": true,
+        "score": 0.3333,
+        "passed": true
+      },
+      {
+        "category": "verifier_invariants_def09_11_12_15_16",
+        "description": "DEF-09: -5 vs 5 sign contradiction",
+        "claim": "Temperature was -5\u00b0C.",
+        "evidence": "Temperature was 5\u00b0C.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "verifier_invariants_def09_11_12_15_16",
+        "description": "DEF-09: signed negative currency",
+        "claim": "Balance was -$50.",
+        "evidence": "Balance was $50.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "verifier_invariants_def09_11_12_15_16",
+        "description": "DEF-11: Sensor A vs B distinct entities",
+        "claim": "Sensor A recorded 25\u00b0C.",
+        "evidence": "Sensor B recorded 25\u00b0C.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "verifier_invariants_def09_11_12_15_16",
+        "description": "DEF-12: 0 vs 5 contradiction",
+        "claim": "Score was 0.",
+        "evidence": "Score was 5.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "verifier_invariants_def09_11_12_15_16",
+        "description": "DEF-15: disjoint years with measurement units",
+        "claim": "Temperature was 5\u00b0C in 2020.",
+        "evidence": "Temperature is 0\u00b0C in 2024.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "verifier_invariants_def09_11_12_15_16",
+        "description": "DEF-15: event year conflict",
+        "claim": "The Eiffel Tower was completed in 1899.",
+        "evidence": "The Eiffel Tower was completed in 1889.",
+        "expected": "CONTRADICTED",
+        "actual": "CONTRADICTED",
+        "passed": true
+      },
+      {
+        "category": "verifier_invariants_def09_11_12_15_16",
+        "description": "DEF-16: length vs pressure",
+        "claim": "Rainfall was 50 mm.",
+        "evidence": "Rainfall was 100 kPa.",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "actual": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      {
+        "category": "verifier_invariants_def09_11_12_15_16",
+        "description": "DEF-16: compatible unit conversion",
+        "claim": "Wire length was 50 mm.",
+        "evidence": "Wire length was 5 cm.",
+        "expected": "SUPPORTED",
+        "actual": "SUPPORTED",
+        "passed": true
+      }
+    ]
+  }
+}

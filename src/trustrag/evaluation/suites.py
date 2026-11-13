@@ -925,7 +925,7 @@ def evaluate_g2_msd(
                 "trust_score": a.trust_score,
                 "available_weight_ratio": a.available_weight_ratio,
                 "non_amplifying_ok": all(
-                    s["effective_weight"] <= s["configured_weight"] + 1e-9
+                    float(s["effective_weight"]) <= float(s["configured_weight"]) + 1e-9  # type: ignore[arg-type]
                     for s in sig_dump.values()
                 ) and (a.available_weight_ratio <= 1.0 + 1e-9),
                 "signals": sig_dump,
@@ -1840,7 +1840,10 @@ def run_performance_benchmark(
     """Step 10: Measure stage-by-stage latencies, memory, CPU utilization, tokens, and throughput."""
     import os
     import platform
-    import resource
+    try:
+        import resource
+    except ImportError:
+        resource = None  # type: ignore[assignment]
     import tracemalloc
 
     from trustrag.engine.text_utils import (
@@ -1980,7 +1983,11 @@ def run_performance_benchmark(
             "latency_ms": summarize_distribution(lats),
         }
 
-    rss_mib = round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0, 2)
+    rss_mib = (
+        round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0, 2)
+        if resource is not None
+        else 0.0
+    )
     return {
         "hardware": {
             **get_hardware_info(),

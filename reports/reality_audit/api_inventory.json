@@ -1,0 +1,140 @@
+{
+  "audit_timestamp_utc": "2026-11-12T17:32:31Z",
+  "windows_host_import_status": {
+    "trustrag.serving": {
+      "imported": false,
+      "error_type": "ModuleNotFoundError",
+      "error": "No module named 'resource'",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\Dell\\.gemini\\antigravity\\brain\\9e1a4313-a77f-4ce1-9fae-83fef27597c4\\scratch\\verify_part2_subsystems.py\", line 285, in probe_serving_api_imports\n    __import__(mod)\n    ~~~~~~~~~~^^^^^\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\serving\\__init__.py\", line 3, in <module>\n    from trustrag.serving.service import (\n    ...<4 lines>...\n    )\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\serving\\service.py\", line 7, in <module>\n    import resource\nModuleNotFoundError: No module named 'resource'\n"
+    },
+    "trustrag.api": {
+      "imported": false,
+      "error_type": "ModuleNotFoundError",
+      "error": "No module named 'resource'",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\Dell\\.gemini\\antigravity\\brain\\9e1a4313-a77f-4ce1-9fae-83fef27597c4\\scratch\\verify_part2_subsystems.py\", line 285, in probe_serving_api_imports\n    __import__(mod)\n    ~~~~~~~~~~^^^^^\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\api\\__init__.py\", line 3, in <module>\n    from trustrag.api.app import create_app\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\api\\app.py\", line 46, in <module>\n    from trustrag.serving.service import ProductionQueryRequest, TrustRAGService\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\serving\\__init__.py\", line 3, in <module>\n    from trustrag.serving.service import (\n    ...<4 lines>...\n    )\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\serving\\service.py\", line 7, in <module>\n    import resource\nModuleNotFoundError: No module named 'resource'\n"
+    },
+    "trustrag.api.app": {
+      "imported": false,
+      "error_type": "ModuleNotFoundError",
+      "error": "No module named 'resource'",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\Dell\\.gemini\\antigravity\\brain\\9e1a4313-a77f-4ce1-9fae-83fef27597c4\\scratch\\verify_part2_subsystems.py\", line 285, in probe_serving_api_imports\n    __import__(mod)\n    ~~~~~~~~~~^^^^^\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\api\\__init__.py\", line 3, in <module>\n    from trustrag.api.app import create_app\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\api\\app.py\", line 46, in <module>\n    from trustrag.serving.service import ProductionQueryRequest, TrustRAGService\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\serving\\__init__.py\", line 3, in <module>\n    from trustrag.serving.service import (\n    ...<4 lines>...\n    )\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\serving\\service.py\", line 7, in <module>\n    import resource\nModuleNotFoundError: No module named 'resource'\n"
+    },
+    "trustrag.api.server": {
+      "imported": false,
+      "error_type": "ModuleNotFoundError",
+      "error": "No module named 'resource'",
+      "traceback": "Traceback (most recent call last):\n  File \"C:\\Users\\Dell\\.gemini\\antigravity\\brain\\9e1a4313-a77f-4ce1-9fae-83fef27597c4\\scratch\\verify_part2_subsystems.py\", line 285, in probe_serving_api_imports\n    __import__(mod)\n    ~~~~~~~~~~^^^^^\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\api\\__init__.py\", line 3, in <module>\n    from trustrag.api.app import create_app\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\api\\app.py\", line 46, in <module>\n    from trustrag.serving.service import ProductionQueryRequest, TrustRAGService\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\serving\\__init__.py\", line 3, in <module>\n    from trustrag.serving.service import (\n    ...<4 lines>...\n    )\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\serving\\service.py\", line 7, in <module>\n    import resource\nModuleNotFoundError: No module named 'resource'\n"
+    },
+    "trustrag.api.audit": {
+      "imported": true
+    },
+    "trustrag.api.monitoring": {
+      "imported": true
+    },
+    "trustrag.api.security": {
+      "imported": true
+    }
+  },
+  "windows_import_blocker": "ModuleNotFoundError: No module named 'resource' in src/trustrag/serving/service.py:7",
+  "cli_probe_results": {
+    "cli_benign": {
+      "returncode": 0,
+      "lat_ms": 7621.29,
+      "stdout_preview": "{\"timestamp\": \"2026-11-12T17:38:58.982842Z\", \"level\": \"INFO\", \"module\": \"retriever\", \"message\": \"Indexed documents for trust-aware retrieval\", \"name\": \"trustrag.retrieval.retriever\", \"msg\": \"Indexed documents for trust-aware retrieval\", \"args\": [], \"levelname\": \"INFO\", \"levelno\": 20, \"pathname\": \"C:\\\\Users\\\\Dell\\\\Desktop\\\\trustrag\\\\src\\\\trustrag\\\\retrieval\\\\retriever.py\", \"filename\": \"retriever.py\", \"exc_info\": null, \"exc_text\": null, \"stack_info\": null, \"lineno\": 122, \"funcName\": \"index_documents\", \"created\": 1794505138.982842, \"msecs\": 982.0, \"relativeCreated\": 6470.6663, \"thread\": 20700, \"t",
+      "stderr_preview": ""
+    },
+    "cli_attack": {
+      "returncode": 0,
+      "lat_ms": 8135.6,
+      "stdout_preview": "{\"timestamp\": \"2026-11-12T17:39:06.997645Z\", \"level\": \"INFO\", \"module\": \"retriever\", \"message\": \"Indexed documents for trust-aware retrieval\", \"name\": \"trustrag.retrieval.retriever\", \"msg\": \"Indexed documents for trust-aware retrieval\", \"args\": [], \"levelname\": \"INFO\", \"levelno\": 20, \"pathname\": \"C:\\\\Users\\\\Dell\\\\Desktop\\\\trustrag\\\\src\\\\trustrag\\\\retrieval\\\\retriever.py\", \"filename\": \"retriever.py\", \"exc_info\": null, \"exc_text\": null, \"stack_info\": null, \"lineno\": 122, \"funcName\": \"index_documents\", \"created\": 1794505146.997645, \"msecs\": 997.0, \"relativeCreated\": 6840.3462, \"thread\": 2032, \"th",
+      "stderr_preview": ""
+    },
+    "cli_health": {
+      "returncode": 1,
+      "lat_ms": 8443.55,
+      "stdout_preview": "",
+      "stderr_preview": "Traceback (most recent call last):\n  File \"<frozen runpy>\", line 203, in _run_module_as_main\n  File \"<frozen runpy>\", line 88, in _run_code\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\pipeline\\cli.py\", line 123, in <module>\n    sys.exit(main())\n             ~~~~^^\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\pipeline\\cli.py\", line 55, in main\n    from trustrag.serving import ProductionQueryRequest, TrustRAGService\n  File \"C:\\Users\\Dell\\Desktop\\trustrag\\src\\trustrag\\serving\\__init__.py\", line 3, in <module>\n    from trustrag.serving.service import (\n    ...<4 lines>...\n    )\n  Fi"
+    }
+  },
+  "registered_routes_code_verified": [
+    {
+      "method": "GET",
+      "path": "/api/v1/health",
+      "auth_exempt": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/srm/health",
+      "auth_exempt": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/openapi.json",
+      "auth_exempt": false
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/pipeline/execute",
+      "auth_exempt": false,
+      "mutation": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/query",
+      "auth_exempt": false,
+      "mutation": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/g1/analyze",
+      "auth_exempt": false,
+      "mutation": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/retrieval/evidence",
+      "auth_exempt": false,
+      "mutation": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/g2/analyze",
+      "auth_exempt": false,
+      "mutation": true
+    },
+    {
+      "method": "POST",
+      "path": "/api/v1/g3/verify",
+      "auth_exempt": false,
+      "mutation": true
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/monitoring/summary",
+      "auth_exempt": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/audit/logs",
+      "auth_exempt": false
+    },
+    {
+      "method": "GET",
+      "path": "/api/v1/config",
+      "auth_exempt": false
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v1/config",
+      "auth_exempt": false,
+      "mutation": true
+    }
+  ],
+  "frontend_tests": {
+    "runner": "node --test frontend/tests/dashboard.test.mjs",
+    "exit_code": 0,
+    "passed": 5,
+    "failed": 0,
+    "api_integration": "Real fetch() calls to /api/v1/* endpoints; safe DOM element helper"
+  }
+}

@@ -141,9 +141,9 @@ class BenchmarkBuilder:
             # Check local processed or raw boolq first
             boolq_path = Path("data/processed/boolq/validation.jsonl")
             if boolq_path.exists():
-                records.extend(list(DatasetStorage.load_jsonl(boolq_path, record_type=QueryRecord, limit=limit)))
+                records.extend([r for r in DatasetStorage.load_jsonl(boolq_path, record_type=QueryRecord, limit=limit) if isinstance(r, QueryRecord)])
             else:
-                records.extend(list(load_dataset("boolq", split="validation", limit=limit, offline=True)))
+                records.extend([r for r in load_dataset("boolq", split="validation", limit=limit, offline=True) if isinstance(r, QueryRecord)])
         except Exception:
             # Synthetic / fallback clean QA records if offline without cache
             for i in range(min(limit, 100)):
@@ -243,9 +243,10 @@ class BenchmarkBuilder:
         try:
             ragtruth_records = list(load_dataset("ragtruth", split="test", limit=limit_per_source, offline=True))
             for r in ragtruth_records:
-                norm_label, _ = normalize_claim_label(r.label)
-                r.label = norm_label.value
-                records.append(r)
+                if isinstance(r, ClaimVerificationRecord):
+                    norm_label, _ = normalize_claim_label(r.label)
+                    r.label = norm_label.value
+                    records.append(r)
         except Exception:
             pass
 
@@ -253,9 +254,10 @@ class BenchmarkBuilder:
         try:
             wice_records = list(load_dataset("wice", split="test", limit=limit_per_source, offline=True))
             for r in wice_records:
-                norm_label, _ = normalize_claim_label(r.label)
-                r.label = norm_label.value
-                records.append(r)
+                if isinstance(r, ClaimVerificationRecord):
+                    norm_label, _ = normalize_claim_label(r.label)
+                    r.label = norm_label.value
+                    records.append(r)
         except Exception:
             pass
 
@@ -263,9 +265,10 @@ class BenchmarkBuilder:
         try:
             expertqa_records = list(load_dataset("expertqa", split="test", limit=limit_per_source, offline=True))
             for r in expertqa_records:
-                norm_label, _ = normalize_claim_label(r.label)
-                r.label = norm_label.value
-                records.append(r)
+                if isinstance(r, ClaimVerificationRecord):
+                    norm_label, _ = normalize_claim_label(r.label)
+                    r.label = norm_label.value
+                    records.append(r)
         except Exception:
             pass
 

@@ -1,0 +1,27 @@
+version: "3.8"
+
+services:
+  trustrag-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: trustrag:latest
+    container_name: trustrag-api
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - TRUSTRAG_HOST=0.0.0.0
+      - TRUSTRAG_PORT=3000
+      - TRUSTRAG_LOG_LEVEL=INFO
+      - PYTHONPATH=/app/src
+    volumes:
+      - ./data:/app/data:ro
+      - ./logs:/app/logs
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+

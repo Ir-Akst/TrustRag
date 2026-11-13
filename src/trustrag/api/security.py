@@ -167,12 +167,22 @@ def build_security_middleware(
 async def _safe_invoke(request: web.Request, handler: Any) -> web.StreamResponse:
     try:
         return await handler(request)
-    except web.HTTPException as exc:
+    except web.HTTPRequestEntityTooLarge:
         if request.path.startswith("/api/"):
             return json_error(
+                413,
+                error="Request payload exceeds maximum allowed size.",
+                code="PAYLOAD_TOO_LARGE",
+            )
+        raise
+    except web.HTTPException as exc:
+        if request.path.startswith("/api/"):
+            code = "PAYLOAD_TOO_LARGE" if exc.status == 413 else f"HTTP_{exc.status}"
+            err_msg = "Request payload exceeds maximum allowed size." if exc.status == 413 else (exc.reason or "HTTP request error.")
+            return json_error(
                 exc.status,
-                error=exc.reason or "HTTP request error.",
-                code=f"HTTP_{exc.status}",
+                error=err_msg,
+                code=code,
             )
         raise
     except Exception:

@@ -492,6 +492,21 @@ def evaluate_instruction_content_signal(
 # F5 — Consensus Deviation
 # ---------------------------------------------------------------------------
 
+def _normalize_signal_unit(u: str) -> str:
+    norm = u.strip().lower()
+    if re.search(r"^(?:°\s*c|degrees?\s*c(?:elsius)?|celsius)$", norm):
+        return "c"
+    if re.search(r"^(?:°\s*f|degrees?\s*f(?:ahrenheit)?|fahrenheit)$", norm):
+        return "f"
+    if norm in ("meters", "meter", "metres", "metre", "m"):
+        return "m"
+    if norm in ("meters per second", "metres per second", "m/s", "mps"):
+        return "m/s"
+    if norm in ("kilometers", "kilometres", "km"):
+        return "km"
+    return norm
+
+
 def _pair_has_numeric_conflict(nums_a: List[Tuple[str, str]], nums_b: List[Tuple[str, str]]) -> bool:
     if not nums_a or not nums_b:
         return False
@@ -499,19 +514,40 @@ def _pair_has_numeric_conflict(nums_a: List[Tuple[str, str]], nums_b: List[Tuple
     units_b: Dict[str, List[float]] = {}
     for val_str, unit in nums_a:
         try:
-            units_a.setdefault(unit, []).append(float(val_str))
+            nu = _normalize_signal_unit(unit)
+            units_a.setdefault(nu, []).append(float(val_str.replace(",", "")))
         except ValueError:
             continue
     for val_str, unit in nums_b:
         try:
-            units_b.setdefault(unit, []).append(float(val_str))
+            nu = _normalize_signal_unit(unit)
+            units_b.setdefault(nu, []).append(float(val_str.replace(",", "")))
         except ValueError:
             continue
+
+    # 1. Direct or normalized matching unit conflict
     for unit, vals_a in units_a.items():
         if unit and unit in units_b:
             vals_b = units_b[unit]
             if max(vals_a) < min(vals_b) or max(vals_b) < min(vals_a):
                 return True
+        elif not unit and "" in units_b:
+            vals_b = units_b[""]
+            if max(vals_a) < min(vals_b) or max(vals_b) < min(vals_a):
+                return True
+
+    # 2. Temperature cross-unit check (°C vs °F)
+    if "c" in units_a and "f" in units_b:
+        for c_val in units_a["c"]:
+            f_conv = c_val * 9.0 / 5.0 + 32.0
+            if any(abs(f_conv - f_val) > 2.0 for f_val in units_b["f"]):
+                return True
+    if "f" in units_a and "c" in units_b:
+        for f_val in units_a["f"]:
+            c_conv = (f_val - 32.0) * 5.0 / 9.0
+            if any(abs(c_conv - c_val) > 2.0 for c_val in units_b["c"]):
+                return True
+
     return False
 
 
@@ -544,14 +580,48 @@ def _are_topical_peers(text_a: str, text_b: str, lex_overlap: float, sem_cos: fl
 def _effective_source_key(doc: EvidenceDocument) -> str:
     """Return a normalized source identity key for consensus independence weighting."""
     generic = {"", "unknown", "local", "none", "null", "n/a"}
+    prov = (doc.provenance or "").strip().lower()
+    meta = doc.metadata or {}
+    tier = str(meta.get("trust_tier", "")).strip().lower()
+    exp_trust = str(meta.get("explicit_trust", "")).strip().lower()
+    # Explicitly untrusted channels or tiers collapse within their channel to prevent bot collusion
+    if (
+        prov in {"untrusted_web", "untrusted"}
+        or tier in {"untrusted", "low", "tier_3"}
+        or exp_trust in {"untrusted", "low", "unverified"}
+    ):
+        eff_prov = prov if prov not in generic else "untrusted"
+        return f"untrusted_prov:{eff_prov}"
     src_id = (doc.source_id or "").strip().lower()
     if src_id not in generic:
         return f"src:{src_id}"
-    prov = (doc.provenance or "").strip().lower()
     if prov not in generic:
         return f"prov:{prov}"
     norm = re.sub(r"\s+", " ", doc.text.strip().lower())
     return f"hash:{doc.content_hash or norm[:128]}"
+
+
+def _is_untrusted_doc(doc: EvidenceDocument, config: MSDConfig) -> bool:
+    """Return True if document carries explicit untrusted/low-trust indicators in metadata or provenance."""
+    meta = doc.metadata or {}
+    v = meta.get("verified")
+    if v is False:
+        return True
+    tier = str(meta.get("trust_tier", "")).strip().lower()
+    if tier in {"untrusted", "low", "tier_3"}:
+        return True
+    exp_trust = str(meta.get("explicit_trust", "")).strip().lower()
+    if exp_trust in {"untrusted", "low", "unverified"}:
+        return True
+    prov = (doc.provenance or "").strip().lower()
+    if prov in {"untrusted_web", "untrusted"}:
+        return True
+    if prov in config.provenance_priors and config.provenance_priors[prov] < 0.40:
+        return True
+    src_id = (doc.source_id or "").strip().lower()
+    if src_id in config.provenance_priors and config.provenance_priors[src_id] < 0.40:
+        return True
+    return False
 
 
 def _norm_content_sig(text: str) -> str:
@@ -670,7 +740,9 @@ def evaluate_consensus_deviation_signals(
         d_sig = _norm_content_sig(d.text)
         c_set = set(c_ids)
 
-        indep_agree_keys: set[tuple[str, str]] = set()
+        # Distinguish credible (trusted or neutral/unknown) vs explicitly untrusted peers
+        trusted_or_neutral_agree: set[tuple[str, str]] = set()
+        untrusted_agree: set[tuple[str, str]] = set()
         for pid in p_ids:
             if pid in c_set:
                 continue
@@ -678,11 +750,25 @@ def evaluate_consensus_deviation_signals(
             p_src = _effective_source_key(pd)
             p_sig = _norm_content_sig(pd.text)
             if p_src != d_src and p_sig != d_sig:
-                indep_agree_keys.add((p_src, p_sig))
+                if _is_untrusted_doc(pd, config):
+                    untrusted_agree.add((p_src, p_sig))
+                else:
+                    trusted_or_neutral_agree.add((p_src, p_sig))
 
-        indep_conflict_sources = {_effective_source_key(docs_by_id[cid]) for cid in c_ids}
-        indep_agree_count = len(indep_agree_keys)
-        indep_conflict_count = len(indep_conflict_sources)
+        trusted_or_neutral_conflicts = {
+            _effective_source_key(docs_by_id[cid])
+            for cid in c_ids
+            if not _is_untrusted_doc(docs_by_id[cid], config)
+        }
+        untrusted_conflicts = {
+            _effective_source_key(docs_by_id[cid])
+            for cid in c_ids
+            if _is_untrusted_doc(docs_by_id[cid], config)
+        }
+
+        indep_agree_count = len(trusted_or_neutral_agree)
+        indep_conflict_count = len(trusted_or_neutral_conflicts)
+        total_conflict_count = len(trusted_or_neutral_conflicts | untrusted_conflicts)
 
         reported_conflicts: List[str] = list(c_ids)
         peer_sims = [
@@ -699,19 +785,36 @@ def evaluate_consensus_deviation_signals(
                     f"Consistent with {indep_agree_count} independent peer document(s) "
                     f"(mean_peer_sim={mean_peer_sim:.3f})."
                 )
+                flags = []
+            elif untrusted_agree and _is_untrusted_doc(d, config):
+                score = 0.50
+                explanation = (
+                    f"Peer agreement limited to {len(untrusted_agree)} unverified/untrusted source(s); "
+                    f"does not constitute authoritative consensus (mean_peer_sim={mean_peer_sim:.3f})."
+                )
+                flags = ["UNTRUSTED_CONSENSUS_ONLY"]
+            elif _is_untrusted_doc(d, config):
+                score = 0.50
+                explanation = (
+                    "Untrusted source lacking independent authoritative corroboration "
+                    f"(mean_peer_sim={mean_peer_sim:.3f})."
+                )
+                flags = ["UNTRUSTED_NO_CONSENSUS"]
             elif p_ids:
                 score = 0.85
                 explanation = (
                     f"Peer overlap limited to duplicate/same-source passage(s) "
                     f"(mean_peer_sim={mean_peer_sim:.3f})."
                 )
+                flags = []
             elif mean_peer_sim < 0.06 and len(non_empty_indices) >= 3:
                 score = 0.65
                 explanation = f"No direct contradictions, though semantically isolated from peers (mean_peer_sim={mean_peer_sim:.3f})."
+                flags = []
             else:
                 score = 0.85
                 explanation = f"No conflicting assertions detected across candidate pool (mean_peer_sim={mean_peer_sim:.3f})."
-            flags: List[str] = []
+                flags = []
         else:
             if indep_agree_count >= 1 and indep_agree_count >= indep_conflict_count:
                 score = 0.85
@@ -721,12 +824,27 @@ def evaluate_consensus_deviation_signals(
                     f"isolated minority contradiction(s): {c_ids}."
                 )
                 flags = []
+            elif indep_conflict_count == 0 and untrusted_conflicts and not _is_untrusted_doc(d, config):
+                # Clean/credible document contradicted only by unverified/untrusted sources
+                score = 0.85
+                reported_conflicts = []
+                explanation = (
+                    f"Credible document contradicted only by {len(untrusted_conflicts)} unverified/untrusted source(s); "
+                    f"untrusted sources cannot outvote authoritative evidence."
+                )
+                flags = []
             elif indep_conflict_count > indep_agree_count and indep_conflict_count >= 2:
                 score = 0.15
                 explanation = (
                     f"Minority outlier contradicting {indep_conflict_count} independent source(s): {c_ids}."
                 )
                 flags = ["CONSENSUS_DEVIATION_CONFLICT", "MINORITY_OUTLIER"]
+            elif (indep_conflict_count >= 1 or total_conflict_count >= 1) and _is_untrusted_doc(d, config):
+                score = 0.20
+                explanation = (
+                    f"Untrusted document in conflict with authoritative/credible peer source(s): {c_ids}."
+                )
+                flags = ["CONSENSUS_DEVIATION_CONFLICT", "UNTRUSTED_CONFLICT", "MINORITY_OUTLIER"]
             else:
                 score = 0.35
                 explanation = f"Direct factual/numeric conflict detected with peer document(s): {c_ids}."

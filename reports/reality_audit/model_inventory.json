@@ -1,0 +1,260 @@
+{
+  "audit_timestamp_utc": "2026-11-12T17:28:51Z",
+  "neural_checkpoints_found": [],
+  "hf_cache_contents": [
+    "datasets--alan-turing-institute--turing-synthetic-radar-dataset"
+  ],
+  "training_scripts_found": [],
+  "calibrator_artifacts": {
+    "platt_calibrator_v1.json": {
+      "loaded": true,
+      "is_active": true,
+      "integrity": true,
+      "method": "platt",
+      "version": "platt-mixed-v1",
+      "sample_count": 428,
+      "fitted_datasets": [
+        "adversarial_robustness",
+        "knowledge_poisoning",
+        "clean_rag"
+      ],
+      "fitted_splits": [
+        "train"
+      ],
+      "probe_map": {
+        "0.1": 0.0005,
+        "0.3": 0.0178,
+        "0.5": 0.1527,
+        "0.7": 0.6423,
+        "0.9": 0.9859
+      }
+    },
+    "temperature_calibrator_v1.json": {
+      "loaded": true,
+      "is_active": true,
+      "integrity": true,
+      "method": "temperature",
+      "version": "temp-train-v1",
+      "sample_count": 478,
+      "fitted_datasets": [
+        "adversarial_robustness",
+        "knowledge_poisoning",
+        "clean_rag"
+      ],
+      "fitted_splits": [
+        "train"
+      ],
+      "probe_map": {
+        "0.1": 0.0318,
+        "0.3": 0.2112,
+        "0.5": 0.5,
+        "0.7": 0.7888,
+        "0.9": 0.9682
+      }
+    }
+  },
+  "srm_backends_probed": {
+    "disabled_fallback": {
+      "health": {
+        "backend_name": "deterministic_fallback",
+        "model_name": "halluguard-srm-fallback",
+        "initialized": true,
+        "available": true,
+        "is_real_model": false,
+        "device": "cpu",
+        "inference_mode": "deterministic",
+        "detail": "Rule-based fallback active (NOT a trained neural SRM).",
+        "last_error": null
+      },
+      "resp": {
+        "verdict": "CAUTION",
+        "reasoning_trace": "Deterministic SRM fallback: moderate evidence confidence (supported=0, avg_g2_trust=0.00).",
+        "claim_judgments": [],
+        "confidence": 0.6,
+        "backend_used": "deterministic_fallback",
+        "model_name": "halluguard-srm-fallback",
+        "execution_status": "DISABLED",
+        "latency_ms": 0.01,
+        "is_fallback": true,
+        "inference_mode": "deterministic",
+        "raw_think_trace": null,
+        "model_config_snapshot": {},
+        "error_detail": "SRM remote/local model backend disabled; deterministic fallback executed."
+      },
+      "latency_ms": 0.377
+    },
+    "hf_local": {
+      "health": {
+        "backend_name": "hf_local",
+        "model_name": "Qwen/Qwen2.5-3B-Instruct",
+        "initialized": false,
+        "available": false,
+        "is_real_model": true,
+        "device": "cpu",
+        "inference_mode": "non_think",
+        "detail": "Checkpoint 'Qwen/Qwen2.5-3B-Instruct' missing locally.",
+        "last_error": null
+      },
+      "client_reason_with_fallback": {
+        "verdict": "CAUTION",
+        "reasoning_trace": "Deterministic SRM fallback: moderate evidence confidence (supported=0, avg_g2_trust=0.00).",
+        "claim_judgments": [],
+        "confidence": 0.6,
+        "backend_used": "deterministic_fallback",
+        "model_name": "Qwen/Qwen2.5-3B-Instruct",
+        "execution_status": "UNAVAILABLE",
+        "latency_ms": 0.01,
+        "is_fallback": true,
+        "inference_mode": "deterministic",
+        "raw_think_trace": null,
+        "model_config_snapshot": {},
+        "error_detail": "Local checkpoint 'Qwen/Qwen2.5-3B-Instruct' not found and local_files_only=True (automatic remote download disabled)."
+      },
+      "latency_ms": 4439.965
+    },
+    "local_ollama": {
+      "health": {
+        "backend_name": "local_ollama",
+        "model_name": "halluguard-srm-fallback",
+        "initialized": false,
+        "available": false,
+        "is_real_model": true,
+        "device": "auto",
+        "inference_mode": "non_think",
+        "detail": "Ollama unavailable: [WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions",
+        "last_error": "[WinError 10013] An attempt was made to access a socket in a way forbidden by its access permissions"
+      },
+      "latency_ms": 697.045
+    },
+    "openai_compatible": {
+      "health": {
+        "backend_name": "openai_compatible",
+        "model_name": "halluguard-srm-fallback",
+        "initialized": false,
+        "available": false,
+        "is_real_model": true,
+        "device": "remote_api",
+        "inference_mode": "non_think",
+        "detail": "Missing API credential",
+        "last_error": null
+      },
+      "latency_ms": 0.051
+    }
+  },
+  "config_defaults": {
+    "llm_default_provider": "openai",
+    "llm_default_model": null,
+    "srm_enabled": true,
+    "srm_backend": "disabled",
+    "srm_model_name": "halluguard-srm-fallback",
+    "generation_mode": "extractive"
+  },
+  "calibrator_offline_test_metrics": {
+    "knowledge_poisoning": {
+      "raw": {
+        "method": "none",
+        "dataset_name": "knowledge_poisoning",
+        "split": "test",
+        "sample_count": 24,
+        "clean_count": 12,
+        "attack_count": 12,
+        "brier_score": 0.2132,
+        "ece": 0.187,
+        "precision": 1.0,
+        "recall": 0.3333,
+        "f1": 0.5,
+        "fpr": 0.0,
+        "fnr": 0.6667,
+        "roc_auc": 0.6528,
+        "pr_auc": 0.7354
+      },
+      "platt": {
+        "method": "platt",
+        "dataset_name": "knowledge_poisoning",
+        "split": "test",
+        "sample_count": 24,
+        "clean_count": 12,
+        "attack_count": 12,
+        "brier_score": 0.1867,
+        "ece": 0.0521,
+        "precision": 0.625,
+        "recall": 0.8333,
+        "f1": 0.7143,
+        "fpr": 0.5,
+        "fnr": 0.1667,
+        "roc_auc": 0.6528,
+        "pr_auc": 0.7354
+      },
+      "temp": {
+        "method": "temperature",
+        "dataset_name": "knowledge_poisoning",
+        "split": "test",
+        "sample_count": 24,
+        "clean_count": 12,
+        "attack_count": 12,
+        "brier_score": 0.23,
+        "ece": 0.2199,
+        "precision": 1.0,
+        "recall": 0.3333,
+        "f1": 0.5,
+        "fpr": 0.0,
+        "fnr": 0.6667,
+        "roc_auc": 0.6528,
+        "pr_auc": 0.7354
+      }
+    },
+    "adversarial_robustness": {
+      "raw": {
+        "method": "none",
+        "dataset_name": "adversarial_robustness",
+        "split": "test",
+        "sample_count": 40,
+        "clean_count": 23,
+        "attack_count": 17,
+        "brier_score": 0.1466,
+        "ece": 0.1409,
+        "precision": 1.0,
+        "recall": 0.5882,
+        "f1": 0.7407,
+        "fpr": 0.0,
+        "fnr": 0.4118,
+        "roc_auc": 0.8951,
+        "pr_auc": 0.9
+      },
+      "platt": {
+        "method": "platt",
+        "dataset_name": "adversarial_robustness",
+        "split": "test",
+        "sample_count": 40,
+        "clean_count": 23,
+        "attack_count": 17,
+        "brier_score": 0.1334,
+        "ece": 0.1119,
+        "precision": 0.7692,
+        "recall": 0.5882,
+        "f1": 0.6667,
+        "fpr": 0.1304,
+        "fnr": 0.4118,
+        "roc_auc": 0.8951,
+        "pr_auc": 0.9
+      },
+      "temp": {
+        "method": "temperature",
+        "dataset_name": "adversarial_robustness",
+        "split": "test",
+        "sample_count": 40,
+        "clean_count": 23,
+        "attack_count": 17,
+        "brier_score": 0.1467,
+        "ece": 0.1705,
+        "precision": 1.0,
+        "recall": 0.5882,
+        "f1": 0.7407,
+        "fpr": 0.0,
+        "fnr": 0.4118,
+        "roc_auc": 0.8951,
+        "pr_auc": 0.9
+      }
+    }
+  }
+}

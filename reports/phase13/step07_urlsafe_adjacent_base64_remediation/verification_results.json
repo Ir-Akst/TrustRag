@@ -1,0 +1,92 @@
+{
+  "timestamp": "2026-11-13T09:05:00+00:00",
+  "phase": "phase13_step07",
+  "mission": "URL-Safe Base64 and Adjacent-Token Security Remediation",
+  "verdict": "FIX_VERIFIED",
+  "repository": {
+    "target_path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "head_commit": "8229aee01a0b6f7fd61a5e774da5bb707bd6a7c1",
+    "phase10_baseline_path": "/home/aditya/rags/TrustRag",
+    "phase10_baseline_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "phase10_status": "UNTOUCHED"
+  },
+  "remediations": {
+    "remediation_a": {
+      "name": "URL-Safe Base64 (RFC 4648 §5)",
+      "alphabet": "A-Za-z0-9-_=",
+      "status": "IMPLEMENTED_AND_VERIFIED",
+      "attacks_tested": 14,
+      "attacks_blocked": 14,
+      "block_rate": 1.0
+    },
+    "remediation_b": {
+      "name": "Adjacent Slash-Separated Base64 Tokens",
+      "mechanism": "_split_adjacent_candidates",
+      "status": "IMPLEMENTED_AND_VERIFIED",
+      "attacks_tested": 13,
+      "attacks_blocked": 13,
+      "block_rate": 1.0
+    }
+  },
+  "test_metrics": {
+    "new_unit_tests": {
+      "file": "tests/unit/test_phase_13_step07_urlsafe_adjacent_remediation.py",
+      "passed": 148,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "full_pytest_suite": {
+      "command": "pytest -W error -q",
+      "baseline_passed": 497,
+      "total_passed": 645,
+      "deselected": 2,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "historical_regressions": {
+      "step03_rem01_tests": "17/17 PASS",
+      "step05_advevasion01_tests": "43/43 PASS",
+      "status": "PASS"
+    }
+  },
+  "quality_gates": {
+    "mypy": {
+      "command": "mypy src",
+      "result": "Success: no issues found in 111 source files",
+      "status": "PASS"
+    },
+    "ruff": {
+      "command": "ruff check --select E9,F63,F7,F82 src/ tests/",
+      "result": "All checks passed!",
+      "status": "PASS"
+    },
+    "compileall": {
+      "command": "python -m compileall -q src/",
+      "result": "COMPILEALL_OK",
+      "status": "PASS"
+    },
+    "spec_validation": {
+      "command": "python tools/spec_validation/run_all_validations.py",
+      "result": "13/13 gates PASS",
+      "status": "PASS"
+    }
+  },
+  "false_positive_metrics": {
+    "total_benign_samples": 105,
+    "benign_blocked": 0,
+    "false_positive_rate": 0.0,
+    "verdict": "PASS"
+  },
+  "performance_metrics": {
+    "candidate_cap": 64,
+    "max_token_len": 8192,
+    "urlsafe_p50_ms": 0.105,
+    "urlsafe_p95_ms": 0.248,
+    "adjacent_p50_ms": 0.117,
+    "adjacent_p95_ms": 0.128,
+    "memory_growth_kb": 3.75,
+    "verdict": "PASS"
+  }
+}
+

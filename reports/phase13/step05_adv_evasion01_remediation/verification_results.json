@@ -1,0 +1,98 @@
+{
+  "timestamp": "2026-11-13T08:07:41.706615+00:00",
+  "phase": "phase13_step05",
+  "vulnerability": "ADV-EVASION-01",
+  "title": "G1 Alphabet-Colliding Delimiter Bypass",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "head_commit": "8229aee01a0b6f7fd61a5e774da5bb707bd6a7c1",
+  "phase10_baseline_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+  "phase10_baseline_verified_untouched": true,
+  "modified_files": [
+    "src/trustrag/guardrails/input_guardrail.py"
+  ],
+  "new_files": [
+    "tests/unit/test_phase_13_step05_evasion01_remediation.py"
+  ],
+  "fix_summary": "Two-phase Base64 token extraction with alphanumeric-only boundaries in Phase 2 candidate regex, plus trailing-padding variant testing to handle alphabet-colliding delimiters (+, /, =).",
+  "verification": {
+    "evasion_attacks": {
+      "total": 13,
+      "bypassed_before": 13,
+      "bypassed_after": 0,
+      "verdict": "CLOSED"
+    },
+    "controls": {
+      "total": 3,
+      "blocked": 3,
+      "verdict": "PASS"
+    },
+    "false_positives": {
+      "total": 4,
+      "flagged": 0,
+      "verdict": "PASS"
+    },
+    "new_regression_tests": {
+      "total": 43,
+      "passed": 43,
+      "failed": 0,
+      "verdict": "PASS"
+    },
+    "step3_regression_tests": {
+      "total": 17,
+      "passed": 17,
+      "failed": 0,
+      "verdict": "PASS"
+    },
+    "step4_original_vuln_probes": {
+      "total": 6,
+      "passed": 6,
+      "verdict": "PASS"
+    },
+    "step4_adversarial_probes": {
+      "total": 17,
+      "passed": 17,
+      "verdict": "PASS"
+    },
+    "step4_false_positive_probes": {
+      "total": 21,
+      "passed": 21,
+      "verdict": "PASS"
+    },
+    "full_test_suite": {
+      "passed": 497,
+      "failed": 0,
+      "deselected": 2,
+      "verdict": "PASS"
+    },
+    "compileall": "PASS",
+    "ruff_syntax": "PASS",
+    "spec_validation": {
+      "gates": 13,
+      "passed": 13,
+      "verdict": "PASS"
+    },
+    "step12_independent_audit": {
+      "probes": 17,
+      "passed": 17,
+      "verdict": "PASS"
+    },
+    "p0_probes": "ALL_PASS",
+    "p1_probes": "ALL_PASS",
+    "p2_probes": "ALL_PASS",
+    "integration_regression": "ALL_PASS"
+  },
+  "resource_bounds": {
+    "max_candidates": 64,
+    "max_token_length": 8192,
+    "decode_ceiling_bytes": 4096,
+    "bounded_extraction": true
+  },
+  "remaining_risks": [
+    "URL-safe Base64 (RFC 4648 \u00a75, using - and _) is NOT extracted by the current regex.",
+    "Nested Base64 (base64-of-base64) is detected only to one level.",
+    "Fragmented Base64 across multiple query parameters is not reassembled."
+  ],
+  "overall_verdict": "FIX_VERIFIED",
+  "no_git_commits_made": true
+}

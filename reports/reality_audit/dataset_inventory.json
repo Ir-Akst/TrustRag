@@ -1,0 +1,1804 @@
+{
+  "audit_timestamp_utc": "2026-11-12T17:28:51Z",
+  "total_files_audited": 71,
+  "adapter_probes": [
+    {
+      "name": "natural_questions",
+      "category": "rag_qa",
+      "source_uri": "google-research-datasets/natural_questions",
+      "license": "CC-BY-SA-3.0",
+      "access_type": "open",
+      "tested_file": null,
+      "status": "NO_LOCAL_FILE",
+      "loaded_count": 0,
+      "error": "AcquisitionError: Dataset 'google-research-datasets/natural_questions' unavailable in offline mode. No cached version found in 'data\\raw\\natural_questions': Couldn't reach 'google-research-datasets/natural_questions' on the Hub (LocalEntryNotFoundError)"
+    },
+    {
+      "name": "hotpotqa",
+      "category": "rag_qa",
+      "source_uri": "hotpotqa/hotpot_qa",
+      "license": "CC-BY-SA-4.0",
+      "access_type": "open",
+      "tested_file": null,
+      "status": "NO_LOCAL_FILE",
+      "loaded_count": 0,
+      "error": "AcquisitionError: Dataset 'hotpotqa/hotpot_qa' unavailable in offline mode. No cached version found in 'data\\raw\\hotpotqa': Couldn't reach 'hotpotqa/hotpot_qa' on the Hub (LocalEntryNotFoundError)"
+    },
+    {
+      "name": "ms_marco",
+      "category": "rag_qa",
+      "source_uri": "microsoft/ms_marco",
+      "license": "Microsoft Research License",
+      "access_type": "open",
+      "tested_file": null,
+      "status": "NO_LOCAL_FILE",
+      "loaded_count": 0,
+      "error": "AcquisitionError: Dataset 'microsoft/ms_marco' unavailable in offline mode. No cached version found in 'data\\raw\\ms_marco': Couldn't reach 'microsoft/ms_marco' on the Hub (LocalEntryNotFoundError)"
+    },
+    {
+      "name": "squad",
+      "category": "rag_qa",
+      "source_uri": "rajpurkar/squad",
+      "license": "CC-BY-SA-4.0",
+      "access_type": "open",
+      "tested_file": null,
+      "status": "NO_LOCAL_FILE",
+      "loaded_count": 0,
+      "error": "AcquisitionError: Dataset 'rajpurkar/squad' unavailable in offline mode. No cached version found in 'data\\raw\\squad': Couldn't reach 'rajpurkar/squad' on the Hub (LocalEntryNotFoundError)"
+    },
+    {
+      "name": "boolq",
+      "category": "rag_qa",
+      "source_uri": "google/boolq",
+      "license": "CC-BY-SA-3.0",
+      "access_type": "open",
+      "tested_file": "data/processed/boolq/custom_splits/custom_test.jsonl",
+      "status": "LOADED_OK",
+      "loaded_count": 15,
+      "error": null
+    },
+    {
+      "name": "halueval",
+      "category": "hallucination",
+      "source_uri": "pminervini/HaluEval",
+      "license": "MIT",
+      "access_type": "open",
+      "tested_file": null,
+      "status": "NO_LOCAL_FILE",
+      "loaded_count": 0,
+      "error": "AcquisitionError: Dataset 'pminervini/HaluEval' unavailable in offline mode. No cached version found in 'data\\raw\\halueval': Couldn't reach 'pminervini/HaluEval' on the Hub (LocalEntryNotFoundError)"
+    },
+    {
+      "name": "ragtruth",
+      "category": "hallucination",
+      "source_uri": "https://github.com/ParticleMedia/RAGTruth",
+      "license": "MIT",
+      "access_type": "open",
+      "tested_file": "data/raw/ragtruth/raw_test.jsonl",
+      "status": "LOADED_ZERO",
+      "loaded_count": 0,
+      "error": null
+    },
+    {
+      "name": "llm_aggrefact",
+      "category": "hallucination",
+      "source_uri": "lytang/LLM-AggreFact",
+      "license": "CC-BY-ND-4.0",
+      "access_type": "gated",
+      "tested_file": null,
+      "status": "NO_LOCAL_FILE",
+      "loaded_count": 0,
+      "error": "AcquisitionError: Dataset 'lytang/LLM-AggreFact' unavailable in offline mode. No cached version found in 'data\\raw\\llm_aggrefact': Couldn't reach 'lytang/LLM-AggreFact' on the Hub (LocalEntryNotFoundError)"
+    },
+    {
+      "name": "wice",
+      "category": "hallucination",
+      "source_uri": "https://github.com/ryokamoi/wice",
+      "license": "ODC-BY / CC-BY-SA",
+      "access_type": "open",
+      "tested_file": "data/raw/wice/test.jsonl",
+      "status": "LOADED_OK",
+      "loaded_count": 3,
+      "error": null
+    },
+    {
+      "name": "expertqa",
+      "category": "hallucination",
+      "source_uri": "https://github.com/chaitanyamalaviya/ExpertQA",
+      "license": "MIT",
+      "access_type": "open",
+      "tested_file": "data/raw/expertqa/test.jsonl",
+      "status": "LOADED_OK",
+      "loaded_count": 3,
+      "error": null
+    },
+    {
+      "name": "rsb",
+      "category": "security",
+      "source_uri": "arXiv:2505.18543",
+      "license": "Academic Research / Pending Verification",
+      "access_type": "pending_verification",
+      "tested_file": null,
+      "status": "NO_LOCAL_FILE",
+      "loaded_count": 0,
+      "error": "AcquisitionError: RSB benchmark dataset does not host a verified public direct download link. Per research integrity guidelines, remote acquisition is marked as pending. Please supply benchmark files via local_path or place them in 'data\\raw\\rsb'."
+    },
+    {
+      "name": "custom_security",
+      "category": "security",
+      "source_uri": "trustrag/internal_security",
+      "license": "MIT",
+      "access_type": "local_only",
+      "tested_file": "data/raw/custom_security/raw_train.jsonl",
+      "status": "LOADED_OK",
+      "loaded_count": 50,
+      "error": null
+    },
+    {
+      "name": "fineweb",
+      "category": "training_corpus",
+      "source_uri": "HuggingFaceFW/fineweb",
+      "license": "ODC-By-1.0",
+      "access_type": "open",
+      "tested_file": null,
+      "status": "NO_LOCAL_FILE",
+      "loaded_count": 0,
+      "error": "AcquisitionError: Dataset 'HuggingFaceFW/fineweb' unavailable in offline mode. No cached version found in 'data\\raw\\fineweb': Couldn't reach 'HuggingFaceFW/fineweb' on the Hub (LocalEntryNotFoundError)"
+    }
+  ],
+  "external_benchmarks_live": {
+    "status_counts": {
+      "PARTIALLY_READY": 1,
+      "BLOCKED": 6
+    },
+    "results": [
+      {
+        "name": "ragtruth",
+        "status": "PARTIALLY_READY",
+        "parity_claimed": false,
+        "evaluated_records": 5,
+        "reason": "Local file 'test.jsonl' validated (5 records), below research scale threshold (100 vs canonical target 18000); full research parity remains BLOCKED offline.",
+        "metrics": {
+          "accuracy": 0.6,
+          "balanced_accuracy": 0.6667,
+          "precision": 0.5,
+          "recall": 1.0,
+          "f1": 0.6667,
+          "fpr": 0.6667,
+          "tp": 2,
+          "tn": 1,
+          "fp": 2,
+          "fn": 0,
+          "false_supported_rate": 0.0
+        }
+      },
+      {
+        "name": "llm_aggrefact",
+        "status": "BLOCKED",
+        "parity_claimed": false,
+        "evaluated_records": 0,
+        "reason": "No cached corpus files found locally under 'data\\raw\\llm_aggrefact' or 'data\\processed\\llm_aggrefact' (access_type='gated', source='lytang/LLM-AggreFact'). Remote acquisition disabled in offline verification mode.",
+        "metrics": {}
+      },
+      {
+        "name": "rsb",
+        "status": "BLOCKED",
+        "parity_claimed": false,
+        "evaluated_records": 0,
+        "reason": "No cached corpus files found locally under 'data\\raw\\rsb' or 'data\\processed\\rsb' (access_type='pending_verification', source='arXiv:2505.18543'). Remote acquisition disabled in offline verification mode.",
+        "metrics": {}
+      },
+      {
+        "name": "halueval",
+        "status": "BLOCKED",
+        "parity_claimed": false,
+        "evaluated_records": 0,
+        "reason": "No cached corpus files found locally under 'data\\raw\\halueval' or 'data\\processed\\halueval' (access_type='open', source='pminervini/HaluEval'). Remote acquisition disabled in offline verification mode.",
+        "metrics": {}
+      },
+      {
+        "name": "natural_questions",
+        "status": "BLOCKED",
+        "parity_claimed": false,
+        "evaluated_records": 0,
+        "reason": "No cached corpus files found locally under 'data\\raw\\natural_questions' or 'data\\processed\\natural_questions' (access_type='open', source='google-research-datasets/natural_questions'). Remote acquisition disabled in offline verification mode.",
+        "metrics": {}
+      },
+      {
+        "name": "hotpotqa",
+        "status": "BLOCKED",
+        "parity_claimed": false,
+        "evaluated_records": 0,
+        "reason": "No cached corpus files found locally under 'data\\raw\\hotpotqa' or 'data\\processed\\hotpotqa' (access_type='open', source='hotpotqa/hotpot_qa'). Remote acquisition disabled in offline verification mode.",
+        "metrics": {}
+      },
+      {
+        "name": "ms_marco",
+        "status": "BLOCKED",
+        "parity_claimed": false,
+        "evaluated_records": 0,
+        "reason": "No cached corpus files found locally under 'data\\raw\\ms_marco' or 'data\\processed\\ms_marco' (access_type='open', source='microsoft/ms_marco'). Remote acquisition disabled in offline verification mode.",
+        "metrics": {}
+      }
+    ]
+  },
+  "split_leakage_checks": {
+    "benchmarks_backup/adversarial_robustness": {
+      "split_counts": {
+        "train": 174,
+        "val": 36,
+        "test": 40
+      },
+      "overlaps": {
+        "train_vs_val_exact_query": 5,
+        "train_vs_val_exact_doc": 0,
+        "train_vs_test_exact_query": 5,
+        "train_vs_test_exact_doc": 0,
+        "val_vs_test_exact_query": 5,
+        "val_vs_test_exact_doc": 0
+      }
+    },
+    "benchmarks_backup/clean_rag": {
+      "split_counts": {
+        "train": 70,
+        "val": 15,
+        "test": 15
+      },
+      "overlaps": {
+        "train_vs_val_exact_query": 0,
+        "train_vs_val_exact_doc": 0,
+        "train_vs_test_exact_query": 0,
+        "train_vs_test_exact_doc": 0,
+        "val_vs_test_exact_query": 0,
+        "val_vs_test_exact_doc": 0
+      }
+    },
+    "benchmarks_backup/hallucination": {
+      "split_counts": {
+        "train": 7,
+        "val": 1,
+        "test": 3
+      },
+      "overlaps": {
+        "train_vs_val_exact_query": 0,
+        "train_vs_val_exact_doc": 0,
+        "train_vs_test_exact_query": 0,
+        "train_vs_test_exact_doc": 0,
+        "val_vs_test_exact_query": 0,
+        "val_vs_test_exact_doc": 0
+      }
+    },
+    "benchmarks_backup/knowledge_poisoning": {
+      "split_counts": {
+        "train": 104,
+        "val": 22,
+        "test": 24
+      },
+      "overlaps": {
+        "train_vs_val_exact_query": 3,
+        "train_vs_val_exact_doc": 0,
+        "train_vs_test_exact_query": 3,
+        "train_vs_test_exact_doc": 0,
+        "val_vs_test_exact_query": 3,
+        "val_vs_test_exact_doc": 0
+      }
+    },
+    "benchmarks/adversarial_robustness": {
+      "split_counts": {
+        "train": 22,
+        "val": 4,
+        "test": 4
+      },
+      "overlaps": {
+        "train_vs_val_exact_query": 0,
+        "train_vs_val_exact_doc": 0,
+        "train_vs_test_exact_query": 2,
+        "train_vs_test_exact_doc": 0,
+        "val_vs_test_exact_query": 0,
+        "val_vs_test_exact_doc": 0
+      }
+    },
+    "benchmarks/clean_rag": {
+      "split_counts": {
+        "train": 7,
+        "val": 1,
+        "test": 2
+      },
+      "overlaps": {
+        "train_vs_val_exact_query": 0,
+        "train_vs_val_exact_doc": 0,
+        "train_vs_test_exact_query": 0,
+        "train_vs_test_exact_doc": 0,
+        "val_vs_test_exact_query": 0,
+        "val_vs_test_exact_doc": 0
+      }
+    },
+    "benchmarks/hallucination": {
+      "split_counts": {
+        "train": 7,
+        "val": 1,
+        "test": 3
+      },
+      "overlaps": {
+        "train_vs_val_exact_query": 0,
+        "train_vs_val_exact_doc": 0,
+        "train_vs_test_exact_query": 0,
+        "train_vs_test_exact_doc": 0,
+        "val_vs_test_exact_query": 0,
+        "val_vs_test_exact_doc": 0
+      }
+    },
+    "benchmarks/knowledge_poisoning": {
+      "split_counts": {
+        "train": 14,
+        "val": 2,
+        "test": 4
+      },
+      "overlaps": {
+        "train_vs_val_exact_query": 0,
+        "train_vs_val_exact_doc": 0,
+        "train_vs_test_exact_query": 2,
+        "train_vs_test_exact_doc": 0,
+        "val_vs_test_exact_query": 0,
+        "val_vs_test_exact_doc": 0
+      }
+    }
+  },
+  "eval_partition_checks": [
+    {
+      "location": "data/benchmarks_backup/adversarial_robustness/train.jsonl",
+      "loaded": 174,
+      "invalid": 0,
+      "is_synthetic": true,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks_backup/adversarial_robustness/val.jsonl",
+      "loaded": 36,
+      "invalid": 0,
+      "is_synthetic": true,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks_backup/adversarial_robustness/test.jsonl",
+      "loaded": 40,
+      "invalid": 0,
+      "is_synthetic": true,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks_backup/clean_rag/train.jsonl",
+      "loaded": 70,
+      "invalid": 0,
+      "is_synthetic": false,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks_backup/clean_rag/val.jsonl",
+      "loaded": 15,
+      "invalid": 0,
+      "is_synthetic": false,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks_backup/clean_rag/test.jsonl",
+      "loaded": 15,
+      "invalid": 0,
+      "is_synthetic": false,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks_backup/hallucination/train.jsonl",
+      "loaded": 7,
+      "invalid": 0,
+      "is_synthetic": false,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks_backup/hallucination/val.jsonl",
+      "loaded": 1,
+      "invalid": 0,
+      "is_synthetic": false,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks_backup/hallucination/test.jsonl",
+      "loaded": 3,
+      "invalid": 0,
+      "is_synthetic": false,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks_backup/knowledge_poisoning/train.jsonl",
+      "loaded": 104,
+      "invalid": 0,
+      "is_synthetic": true,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks_backup/knowledge_poisoning/val.jsonl",
+      "loaded": 22,
+      "invalid": 0,
+      "is_synthetic": true,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks_backup/knowledge_poisoning/test.jsonl",
+      "loaded": 24,
+      "invalid": 0,
+      "is_synthetic": true,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks/adversarial_robustness/train.jsonl",
+      "loaded": 22,
+      "invalid": 0,
+      "is_synthetic": true,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks/adversarial_robustness/val.jsonl",
+      "loaded": 4,
+      "invalid": 0,
+      "is_synthetic": true,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks/adversarial_robustness/test.jsonl",
+      "loaded": 4,
+      "invalid": 0,
+      "is_synthetic": true,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks/clean_rag/train.jsonl",
+      "loaded": 7,
+      "invalid": 0,
+      "is_synthetic": false,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks/clean_rag/val.jsonl",
+      "loaded": 1,
+      "invalid": 0,
+      "is_synthetic": false,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks/clean_rag/test.jsonl",
+      "loaded": 2,
+      "invalid": 0,
+      "is_synthetic": false,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks/hallucination/train.jsonl",
+      "loaded": 7,
+      "invalid": 0,
+      "is_synthetic": false,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks/hallucination/val.jsonl",
+      "loaded": 1,
+      "invalid": 0,
+      "is_synthetic": false,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks/hallucination/test.jsonl",
+      "loaded": 3,
+      "invalid": 0,
+      "is_synthetic": false,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks/knowledge_poisoning/train.jsonl",
+      "loaded": 14,
+      "invalid": 0,
+      "is_synthetic": true,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks/knowledge_poisoning/val.jsonl",
+      "loaded": 2,
+      "invalid": 0,
+      "is_synthetic": true,
+      "manifest_match": true
+    },
+    {
+      "location": "data/benchmarks/knowledge_poisoning/test.jsonl",
+      "loaded": 4,
+      "invalid": 0,
+      "is_synthetic": true,
+      "manifest_match": true
+    }
+  ],
+  "files": [
+    {
+      "path": "data/benchmarks/adversarial_robustness/manifest.json",
+      "size_bytes": 2143,
+      "sha256": "5423e59d7dc747bbc81fd660bfca1a5d3b50e1c83d44e0e30ee32e8bba0f0388"
+    },
+    {
+      "path": "data/benchmarks/adversarial_robustness/quality_report.json",
+      "size_bytes": 429,
+      "sha256": "38bac121345c9980589a6c3146b8e245d27e3a0a67b2797bd344b0bcf2c633a5"
+    },
+    {
+      "path": "data/benchmarks/adversarial_robustness/README.md",
+      "size_bytes": 1809,
+      "sha256": "40d5a0d662febe0024df026023bf3b99d120b722b4e99b538d52f6bda85dd93a"
+    },
+    {
+      "path": "data/benchmarks/adversarial_robustness/split_report.json",
+      "size_bytes": 511,
+      "sha256": "ecf4f283fda8079ae0d7e999c1eea6928cbdce91376b35bdf00671b5ad1a053c"
+    },
+    {
+      "path": "data/benchmarks/adversarial_robustness/test.jsonl",
+      "size_bytes": 4586,
+      "sha256": "674d5c4da3034356a06f21023dfc040933a2e41c5f73efb8b30e4bcd3037ab0b",
+      "records": 4,
+      "json_errors": 0,
+      "unique_hashes": 4,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 2,
+        "poisoned": 2
+      },
+      "family_dist": {
+        "KNOWLEDGE_POISONING": 4
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 4
+      },
+      "synthetic_flagged_records": 4
+    },
+    {
+      "path": "data/benchmarks/adversarial_robustness/train.jsonl",
+      "size_bytes": 25652,
+      "sha256": "4e782aeecde569e3357180ae6890f86671e16efb4df26bb01b924a5088d34892",
+      "records": 22,
+      "json_errors": 0,
+      "unique_hashes": 14,
+      "exact_duplicates": 8,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 11,
+        "poisoned": 11
+      },
+      "family_dist": {
+        "CONFLICTING_EVIDENCE": 8,
+        "PROMPT_INJECTION": 4,
+        "BENIGN_INSTRUCTION_LIKE": 4,
+        "KNOWLEDGE_POISONING": 4,
+        "TRIGGER_DOS": 2
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 22
+      },
+      "synthetic_flagged_records": 22
+    },
+    {
+      "path": "data/benchmarks/adversarial_robustness/val.jsonl",
+      "size_bytes": 4824,
+      "sha256": "2dbaf50a91422a471b747c10f3955910fc537e2969c6ae9ef7a565b4991a4910",
+      "records": 4,
+      "json_errors": 0,
+      "unique_hashes": 2,
+      "exact_duplicates": 2,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 2,
+        "poisoned": 2
+      },
+      "family_dist": {
+        "MALICIOUS_INSTRUCTION": 4
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 4
+      },
+      "synthetic_flagged_records": 4
+    },
+    {
+      "path": "data/benchmarks/clean_rag/manifest.json",
+      "size_bytes": 2100,
+      "sha256": "20603eed617eb21eae0147d5206dffcd0feab505c27f6aea65bd3ca0008f7f97"
+    },
+    {
+      "path": "data/benchmarks/clean_rag/quality_report.json",
+      "size_bytes": 412,
+      "sha256": "2cde4e61d5267ff3c0beeb758378e4925495a3ebe85d4996c54e284a5d3007e3"
+    },
+    {
+      "path": "data/benchmarks/clean_rag/README.md",
+      "size_bytes": 1766,
+      "sha256": "07bfb857a6aff98cd7daeb20239fc296293a6266e2373347fd9c930071a487ef"
+    },
+    {
+      "path": "data/benchmarks/clean_rag/split_report.json",
+      "size_bytes": 488,
+      "sha256": "c2e567d74bc9fda45b12554128313653e270391fd65fc53f3de7955f7c8a6b3c"
+    },
+    {
+      "path": "data/benchmarks/clean_rag/test.jsonl",
+      "size_bytes": 1332,
+      "sha256": "0d53055226386817dd555d2b92a21654002183b9f773d7e6c0b72b413158becd",
+      "records": 2,
+      "json_errors": 0,
+      "unique_hashes": 2,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "answer",
+        "content_hash",
+        "metadata",
+        "query",
+        "query_id",
+        "relevant_document_ids",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "yes": 2
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/benchmarks/clean_rag/train.jsonl",
+      "size_bytes": 7374,
+      "sha256": "1bcd858846b4d2bdc384c0077501ba59cbc7d625c936f52f7e245f9ac5211eb2",
+      "records": 7,
+      "json_errors": 0,
+      "unique_hashes": 7,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "answer",
+        "content_hash",
+        "metadata",
+        "query",
+        "query_id",
+        "relevant_document_ids",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "yes": 5,
+        "no": 2
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/benchmarks/clean_rag/val.jsonl",
+      "size_bytes": 961,
+      "sha256": "fc3deaa37531393aba881a12c7fcce76f6e2713ef87a2be753072565c24cd03b",
+      "records": 1,
+      "json_errors": 0,
+      "unique_hashes": 1,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "answer",
+        "content_hash",
+        "metadata",
+        "query",
+        "query_id",
+        "relevant_document_ids",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "yes": 1
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/benchmarks/hallucination/manifest.json",
+      "size_bytes": 2093,
+      "sha256": "7030f7103281cce7f0ce17e677e3c60ebf6c71839423fc880062f59e04627fd4"
+    },
+    {
+      "path": "data/benchmarks/hallucination/quality_report.json",
+      "size_bytes": 417,
+      "sha256": "43e4a7767820770fc2c44b9b77265df13452e6c77170d17472da739fa4c38f77"
+    },
+    {
+      "path": "data/benchmarks/hallucination/README.md",
+      "size_bytes": 1759,
+      "sha256": "edf5345057b9b94b229220b042dae3a37f55d121be4093bf94ecf83870771983"
+    },
+    {
+      "path": "data/benchmarks/hallucination/split_report.json",
+      "size_bytes": 501,
+      "sha256": "822ee2cbb61bd81c0cd7aecab38216175342ddf7c201fd2b1c4812a236c713c7"
+    },
+    {
+      "path": "data/benchmarks/hallucination/test.jsonl",
+      "size_bytes": 1551,
+      "sha256": "fc6a74dd7e88de8925e21d66cfd958464cbc4f999095dad670ef46ed24fc7cd2",
+      "records": 3,
+      "json_errors": 0,
+      "unique_hashes": 3,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "claim",
+        "content_hash",
+        "document",
+        "justification",
+        "label",
+        "metadata",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "NOT_ENOUGH_EVIDENCE": 1,
+        "SUPPORTED": 1,
+        "CONTRADICTED": 1
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/benchmarks/hallucination/train.jsonl",
+      "size_bytes": 3760,
+      "sha256": "e2377a69cc64238ecb404449cb9e7b24d4d794380d98c236e66cd4e0542a438e",
+      "records": 7,
+      "json_errors": 0,
+      "unique_hashes": 7,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "claim",
+        "content_hash",
+        "document",
+        "justification",
+        "label",
+        "metadata",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "CONTRADICTED": 3,
+        "SUPPORTED": 3,
+        "NOT_ENOUGH_EVIDENCE": 1
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/benchmarks/hallucination/val.jsonl",
+      "size_bytes": 523,
+      "sha256": "a2bb0fbef7fed92f70e603e794586d40501836b90d88e8b875012ab5bda2fcf6",
+      "records": 1,
+      "json_errors": 0,
+      "unique_hashes": 1,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "claim",
+        "content_hash",
+        "document",
+        "justification",
+        "label",
+        "metadata",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "SUPPORTED": 1
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/benchmarks/knowledge_poisoning/manifest.json",
+      "size_bytes": 2131,
+      "sha256": "695043cdfbf204db5f516f78c446f5fe589373f3926606ddffb45691a1bfd5c7"
+    },
+    {
+      "path": "data/benchmarks/knowledge_poisoning/quality_report.json",
+      "size_bytes": 422,
+      "sha256": "6758c024581b12238d2e0e858d2a5e9b3eb68c844ccd558fe16f7300006e2954"
+    },
+    {
+      "path": "data/benchmarks/knowledge_poisoning/README.md",
+      "size_bytes": 1797,
+      "sha256": "a18dfdbac9227a5f2ed2d4b4b6eb75145c89180a18bcd857f2fb769bdb0124b9"
+    },
+    {
+      "path": "data/benchmarks/knowledge_poisoning/split_report.json",
+      "size_bytes": 499,
+      "sha256": "e0009abba026ef41308c2ff0e79640989ccfc3c5cf12c8e6feb21e1aea1505f2"
+    },
+    {
+      "path": "data/benchmarks/knowledge_poisoning/test.jsonl",
+      "size_bytes": 4586,
+      "sha256": "674d5c4da3034356a06f21023dfc040933a2e41c5f73efb8b30e4bcd3037ab0b",
+      "records": 4,
+      "json_errors": 0,
+      "unique_hashes": 4,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 2,
+        "poisoned": 2
+      },
+      "family_dist": {
+        "KNOWLEDGE_POISONING": 4
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 4
+      },
+      "synthetic_flagged_records": 4
+    },
+    {
+      "path": "data/benchmarks/knowledge_poisoning/train.jsonl",
+      "size_bytes": 16302,
+      "sha256": "7feaa0c7b69bef241031cb73ed2651b5abb46b6c9e0326f1f2a9ea2a7d2b0e37",
+      "records": 14,
+      "json_errors": 0,
+      "unique_hashes": 14,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 7,
+        "poisoned": 7
+      },
+      "family_dist": {
+        "CONFLICTING_EVIDENCE": 4,
+        "KNOWLEDGE_POISONING": 4,
+        "PROMPT_INJECTION": 2,
+        "TRIGGER_DOS": 2,
+        "BENIGN_INSTRUCTION_LIKE": 2
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 14
+      },
+      "synthetic_flagged_records": 14
+    },
+    {
+      "path": "data/benchmarks/knowledge_poisoning/val.jsonl",
+      "size_bytes": 2412,
+      "sha256": "46cbc33835181050356a244ee8cccfdab3d787377cd5f1a1433dae51f4f31c0c",
+      "records": 2,
+      "json_errors": 0,
+      "unique_hashes": 2,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 1,
+        "poisoned": 1
+      },
+      "family_dist": {
+        "MALICIOUS_INSTRUCTION": 2
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 2
+      },
+      "synthetic_flagged_records": 2
+    },
+    {
+      "path": "data/benchmarks_backup/adversarial_robustness/manifest.json",
+      "size_bytes": 2155,
+      "sha256": "8730566568f17f13683a40ced5fa599934000e0526cc5690e69b5305b91ff738"
+    },
+    {
+      "path": "data/benchmarks_backup/adversarial_robustness/quality_report.json",
+      "size_bytes": 428,
+      "sha256": "7c0549ddb4b355932c1e7c0b5a1099e05b4663e83987e95cccf3834bacd607bd"
+    },
+    {
+      "path": "data/benchmarks_backup/adversarial_robustness/README.md",
+      "size_bytes": 1821,
+      "sha256": "77e88990058cd2ee00433ab4af69b04590c72b91b7e7428e9ec42f0159879721"
+    },
+    {
+      "path": "data/benchmarks_backup/adversarial_robustness/split_report.json",
+      "size_bytes": 512,
+      "sha256": "4849ddd9486c0137d9d2b159a3dfd96b21fd610796a99783800c729a6ef3a00a"
+    },
+    {
+      "path": "data/benchmarks_backup/adversarial_robustness/test.jsonl",
+      "size_bytes": 47144,
+      "sha256": "24b20d20e27954004cb48dd2fca3bb7ffabe1c9bd48f57f51a2ae717a7cdee15",
+      "records": 40,
+      "json_errors": 0,
+      "unique_hashes": 40,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 20,
+        "poisoned": 20
+      },
+      "family_dist": {
+        "CONFLICTING_EVIDENCE": 14,
+        "PROMPT_INJECTION": 14,
+        "BENIGN_INSTRUCTION_LIKE": 6,
+        "MALICIOUS_INSTRUCTION": 6
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 40
+      },
+      "synthetic_flagged_records": 40
+    },
+    {
+      "path": "data/benchmarks_backup/adversarial_robustness/train.jsonl",
+      "size_bytes": 204936,
+      "sha256": "210710dae26ba3ff94f0813869299e4962795d4133001f7b8674baf6300ade5b",
+      "records": 174,
+      "json_errors": 0,
+      "unique_hashes": 174,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 87,
+        "poisoned": 87
+      },
+      "family_dist": {
+        "CONFLICTING_EVIDENCE": 68,
+        "BENIGN_INSTRUCTION_LIKE": 38,
+        "MALICIOUS_INSTRUCTION": 36,
+        "PROMPT_INJECTION": 32
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 174
+      },
+      "synthetic_flagged_records": 174
+    },
+    {
+      "path": "data/benchmarks_backup/adversarial_robustness/val.jsonl",
+      "size_bytes": 42290,
+      "sha256": "d7e5819b87cdf580d970676041c7ad79cf4031c0886fab581d22eb5d7fb3df51",
+      "records": 36,
+      "json_errors": 0,
+      "unique_hashes": 36,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 18,
+        "poisoned": 18
+      },
+      "family_dist": {
+        "CONFLICTING_EVIDENCE": 18,
+        "MALICIOUS_INSTRUCTION": 8,
+        "BENIGN_INSTRUCTION_LIKE": 6,
+        "PROMPT_INJECTION": 4
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 36
+      },
+      "synthetic_flagged_records": 36
+    },
+    {
+      "path": "data/benchmarks_backup/clean_rag/manifest.json",
+      "size_bytes": 1966,
+      "sha256": "835ed778d5d3d471488d7ef86c32e404d3ce5b640137e2af4a428dd6c6a81243"
+    },
+    {
+      "path": "data/benchmarks_backup/clean_rag/quality_report.json",
+      "size_bytes": 415,
+      "sha256": "26d3b9ac9f388ae8932b4c5f746ff461a03852d0372b1f5184a9c8642cf47113"
+    },
+    {
+      "path": "data/benchmarks_backup/clean_rag/README.md",
+      "size_bytes": 1779,
+      "sha256": "e60c6e837ac2c12a5b644f44f53aae93dcc018b198e97cc47f3ea941b939cb45"
+    },
+    {
+      "path": "data/benchmarks_backup/clean_rag/split_report.json",
+      "size_bytes": 495,
+      "sha256": "efb6f99342615d5357378505258fcb21ddeb67173faab954c8f5d9724f12b872"
+    },
+    {
+      "path": "data/benchmarks_backup/clean_rag/test.jsonl",
+      "size_bytes": 12298,
+      "sha256": "b78ab07ac036e9d2405b7396894528b327173a6d2c1c1dd240421b131ccf11fc",
+      "records": 15,
+      "json_errors": 0,
+      "unique_hashes": 15,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "answer",
+        "content_hash",
+        "metadata",
+        "query",
+        "query_id",
+        "relevant_document_ids",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "yes": 9,
+        "no": 6
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/benchmarks_backup/clean_rag/train.jsonl",
+      "size_bytes": 66854,
+      "sha256": "bfc1759cd62e87da4b9a72585377b28c7bafb77bce159272b5174e82b852375b",
+      "records": 70,
+      "json_errors": 0,
+      "unique_hashes": 70,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "answer",
+        "content_hash",
+        "metadata",
+        "query",
+        "query_id",
+        "relevant_document_ids",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "yes": 51,
+        "no": 19
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/benchmarks_backup/clean_rag/val.jsonl",
+      "size_bytes": 14559,
+      "sha256": "1077922658522defd1a6ec67ac19ef36e776ed02a1f5eabf3beb0a732ea382fc",
+      "records": 15,
+      "json_errors": 0,
+      "unique_hashes": 15,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "answer",
+        "content_hash",
+        "metadata",
+        "query",
+        "query_id",
+        "relevant_document_ids",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "yes": 10,
+        "no": 5
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/benchmarks_backup/hallucination/manifest.json",
+      "size_bytes": 2093,
+      "sha256": "307e59c1b374fddad48b5435527afc077afff274163243eaf04a41f44a61abd4"
+    },
+    {
+      "path": "data/benchmarks_backup/hallucination/quality_report.json",
+      "size_bytes": 417,
+      "sha256": "43e4a7767820770fc2c44b9b77265df13452e6c77170d17472da739fa4c38f77"
+    },
+    {
+      "path": "data/benchmarks_backup/hallucination/README.md",
+      "size_bytes": 1759,
+      "sha256": "07cc0bc797f84b5d89c2ee28efb44707cd0dde5dd4cb6879e0a62eea8052ed8b"
+    },
+    {
+      "path": "data/benchmarks_backup/hallucination/split_report.json",
+      "size_bytes": 501,
+      "sha256": "822ee2cbb61bd81c0cd7aecab38216175342ddf7c201fd2b1c4812a236c713c7"
+    },
+    {
+      "path": "data/benchmarks_backup/hallucination/test.jsonl",
+      "size_bytes": 1551,
+      "sha256": "fc6a74dd7e88de8925e21d66cfd958464cbc4f999095dad670ef46ed24fc7cd2",
+      "records": 3,
+      "json_errors": 0,
+      "unique_hashes": 3,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "claim",
+        "content_hash",
+        "document",
+        "justification",
+        "label",
+        "metadata",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "NOT_ENOUGH_EVIDENCE": 1,
+        "SUPPORTED": 1,
+        "CONTRADICTED": 1
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/benchmarks_backup/hallucination/train.jsonl",
+      "size_bytes": 3760,
+      "sha256": "e2377a69cc64238ecb404449cb9e7b24d4d794380d98c236e66cd4e0542a438e",
+      "records": 7,
+      "json_errors": 0,
+      "unique_hashes": 7,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "claim",
+        "content_hash",
+        "document",
+        "justification",
+        "label",
+        "metadata",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "CONTRADICTED": 3,
+        "SUPPORTED": 3,
+        "NOT_ENOUGH_EVIDENCE": 1
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/benchmarks_backup/hallucination/val.jsonl",
+      "size_bytes": 523,
+      "sha256": "a2bb0fbef7fed92f70e603e794586d40501836b90d88e8b875012ab5bda2fcf6",
+      "records": 1,
+      "json_errors": 0,
+      "unique_hashes": 1,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "claim",
+        "content_hash",
+        "document",
+        "justification",
+        "label",
+        "metadata",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "SUPPORTED": 1
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/benchmarks_backup/knowledge_poisoning/manifest.json",
+      "size_bytes": 1996,
+      "sha256": "f72577e03c80d82141e6a28c8e4c569db22be3fb8ae30bfbbef4192bf7486f5f"
+    },
+    {
+      "path": "data/benchmarks_backup/knowledge_poisoning/quality_report.json",
+      "size_bytes": 425,
+      "sha256": "acc882d445878ba58597e9a088e6db9ba368ab6c70b4dad5928236c95a86f3f5"
+    },
+    {
+      "path": "data/benchmarks_backup/knowledge_poisoning/README.md",
+      "size_bytes": 1809,
+      "sha256": "6d6b79b62af38a0fc32eaeee65708541f93418087abe9d4efd8c79892d7c9298"
+    },
+    {
+      "path": "data/benchmarks_backup/knowledge_poisoning/split_report.json",
+      "size_bytes": 510,
+      "sha256": "151f67c26d34b2022f8479f903978db7da083e428565132b2a34b07cf750017b"
+    },
+    {
+      "path": "data/benchmarks_backup/knowledge_poisoning/test.jsonl",
+      "size_bytes": 27356,
+      "sha256": "12668740a6100b7330e95e9df34d60aa3b5a94bab6853cc7adfbc264b0fafd74",
+      "records": 24,
+      "json_errors": 0,
+      "unique_hashes": 24,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 12,
+        "poisoned": 12
+      },
+      "family_dist": {
+        "KNOWLEDGE_POISONING": 16,
+        "TRIGGER_DOS": 8
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 24
+      },
+      "synthetic_flagged_records": 24
+    },
+    {
+      "path": "data/benchmarks_backup/knowledge_poisoning/train.jsonl",
+      "size_bytes": 119234,
+      "sha256": "e8cd264a2159395e09c84b56cc12412bd6e4dfd7e3265444498c0024b3dc4edd",
+      "records": 104,
+      "json_errors": 0,
+      "unique_hashes": 104,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 52,
+        "poisoned": 52
+      },
+      "family_dist": {
+        "KNOWLEDGE_POISONING": 74,
+        "TRIGGER_DOS": 30
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 104
+      },
+      "synthetic_flagged_records": 104
+    },
+    {
+      "path": "data/benchmarks_backup/knowledge_poisoning/val.jsonl",
+      "size_bytes": 25452,
+      "sha256": "0c11be481569ddb67fe45ab0242ac235ab689862ffc6a0847bf8f664fd2f13e1",
+      "records": 22,
+      "json_errors": 0,
+      "unique_hashes": 22,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 11,
+        "poisoned": 11
+      },
+      "family_dist": {
+        "TRIGGER_DOS": 12,
+        "KNOWLEDGE_POISONING": 10
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 22
+      },
+      "synthetic_flagged_records": 22
+    },
+    {
+      "path": "data/processed/boolq/custom_splits/custom_test.jsonl",
+      "size_bytes": 12298,
+      "sha256": "b78ab07ac036e9d2405b7396894528b327173a6d2c1c1dd240421b131ccf11fc",
+      "records": 15,
+      "json_errors": 0,
+      "unique_hashes": 15,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "answer",
+        "content_hash",
+        "metadata",
+        "query",
+        "query_id",
+        "relevant_document_ids",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "yes": 9,
+        "no": 6
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/processed/boolq/custom_splits/custom_train.jsonl",
+      "size_bytes": 66854,
+      "sha256": "bfc1759cd62e87da4b9a72585377b28c7bafb77bce159272b5174e82b852375b",
+      "records": 70,
+      "json_errors": 0,
+      "unique_hashes": 70,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "answer",
+        "content_hash",
+        "metadata",
+        "query",
+        "query_id",
+        "relevant_document_ids",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "yes": 51,
+        "no": 19
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/processed/boolq/custom_splits/custom_val.jsonl",
+      "size_bytes": 14559,
+      "sha256": "1077922658522defd1a6ec67ac19ef36e776ed02a1f5eabf3beb0a732ea382fc",
+      "records": 15,
+      "json_errors": 0,
+      "unique_hashes": 15,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "answer",
+        "content_hash",
+        "metadata",
+        "query",
+        "query_id",
+        "relevant_document_ids",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "yes": 10,
+        "no": 5
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/processed/boolq/custom_splits/manifest.json",
+      "size_bytes": 2162,
+      "sha256": "0b411f7a823abecd98f1dcf91f7dcf798b12a71c57e0ee36a3785af63d023f29"
+    },
+    {
+      "path": "data/processed/boolq/custom_splits/README.md",
+      "size_bytes": 1767,
+      "sha256": "deb2ac9eec2a8069f638c6c73074999076323475d0a1bb950d08662e4c0d9890"
+    },
+    {
+      "path": "data/processed/boolq/manifest.json",
+      "size_bytes": 1355,
+      "sha256": "58c0968984d22380c6c2b7360950942a21bd8db9420634a7f98cd882f0e95cd3"
+    },
+    {
+      "path": "data/processed/boolq/README.md",
+      "size_bytes": 1520,
+      "sha256": "958fe1ee745a4f3f551224e269c3e82ab08f596faed6605dd038128b293aef18"
+    },
+    {
+      "path": "data/processed/boolq/validation.jsonl",
+      "size_bytes": 93711,
+      "sha256": "aaad91da64bb69f2ed70c0fb53ea43d5fb94b91effa717a3e02bddcb7168bc48",
+      "records": 100,
+      "json_errors": 0,
+      "unique_hashes": 100,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "answer",
+        "content_hash",
+        "metadata",
+        "query",
+        "query_id",
+        "relevant_document_ids",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "yes": 70,
+        "no": 30
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/raw/acquisition_log.jsonl",
+      "size_bytes": 2458,
+      "sha256": "50fb3c17095e393d2f656d83dbfa95bb63d3686404c9e5dd9fcd7b1ca95f611b",
+      "records": 5,
+      "json_errors": 0,
+      "unique_hashes": 5,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "dataset_name",
+        "error_message",
+        "license",
+        "raw_file_bytes",
+        "raw_file_path",
+        "raw_file_sha256",
+        "records_acquired",
+        "records_requested",
+        "source_uri",
+        "split",
+        "status",
+        "timestamp"
+      ],
+      "label_dist": {},
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/raw/custom_security/raw_train.jsonl",
+      "size_bytes": 2317794,
+      "sha256": "e895bd65ee5a8d485ed9c5f50a9eb29ddc31420a53206e776fd549631b8c1e8c",
+      "records": 2000,
+      "json_errors": 0,
+      "unique_hashes": 2000,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 1000,
+        "poisoned": 1000
+      },
+      "family_dist": {
+        "KNOWLEDGE_POISONING": 500,
+        "CONFLICTING_EVIDENCE": 500,
+        "PROMPT_INJECTION": 250,
+        "MALICIOUS_INSTRUCTION": 250,
+        "TRIGGER_DOS": 250,
+        "BENIGN_INSTRUCTION_LIKE": 250
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 2000
+      },
+      "synthetic_flagged_records": 2000
+    },
+    {
+      "path": "data/raw/custom_security/raw_train_backup.jsonl",
+      "size_bytes": 116870,
+      "sha256": "8b36fde7f353f66ca3006c8425973e736eda33bab03c5b687182afae6506ec7d",
+      "records": 100,
+      "json_errors": 0,
+      "unique_hashes": 100,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "attack_family",
+        "attack_subtype",
+        "clean_poison_label",
+        "content_hash",
+        "document",
+        "metadata",
+        "passage",
+        "provenance",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "target_behavior",
+        "target_query",
+        "trigger_metadata"
+      ],
+      "label_dist": {
+        "clean": 50,
+        "poisoned": 50
+      },
+      "family_dist": {
+        "KNOWLEDGE_POISONING": 28,
+        "CONFLICTING_EVIDENCE": 24,
+        "PROMPT_INJECTION": 12,
+        "MALICIOUS_INSTRUCTION": 12,
+        "TRIGGER_DOS": 12,
+        "BENIGN_INSTRUCTION_LIKE": 12
+      },
+      "provenance_dist": {
+        "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Development Benchmark, Synthetic Data)": 100
+      },
+      "synthetic_flagged_records": 100
+    },
+    {
+      "path": "data/raw/expertqa/test.jsonl",
+      "size_bytes": 1073,
+      "sha256": "c2958605613714880d7250af376e3bddbdcfb40f34f83ae78f2e2b839e340e82",
+      "records": 3,
+      "json_errors": 0,
+      "unique_hashes": 3,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "claim",
+        "evidence",
+        "expert_rating",
+        "field",
+        "id",
+        "label"
+      ],
+      "label_dist": {
+        "supported": 1,
+        "unsupported": 1,
+        "ambiguous": 1
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/raw/ragtruth/raw_test.jsonl",
+      "size_bytes": 2753,
+      "sha256": "b8446016d2daf404f0676609645eaa65c0dcc0e76c1dd090901b6f47dfd8f13d",
+      "records": 5,
+      "json_errors": 0,
+      "unique_hashes": 5,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "claim",
+        "content_hash",
+        "document",
+        "justification",
+        "label",
+        "metadata",
+        "record_id",
+        "source_dataset",
+        "source_id",
+        "source_split"
+      ],
+      "label_dist": {
+        "FACTUAL": 3,
+        "HALLUCINATED": 2
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/raw/ragtruth/test.jsonl",
+      "size_bytes": 1910,
+      "sha256": "92825ea9cb447c6d16d66e5c998ce078454267de6ca45b8806f0219cc9fb6b3a",
+      "records": 5,
+      "json_errors": 0,
+      "unique_hashes": 5,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "id",
+        "label",
+        "labels",
+        "model",
+        "passage",
+        "response",
+        "task"
+      ],
+      "label_dist": {
+        "factual": 3,
+        "hallucinated": 2
+      },
+      "family_dist": {
+        "qa": 2,
+        "summary": 2,
+        "data2text": 1
+      },
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    },
+    {
+      "path": "data/raw/wice/test.jsonl",
+      "size_bytes": 1011,
+      "sha256": "91e3a2567cbd6af56fdbe73d080855b275511a68d75cc1b6519f6414d04669a6",
+      "records": 3,
+      "json_errors": 0,
+      "unique_hashes": 3,
+      "exact_duplicates": 0,
+      "schema_keys": [
+        "claim",
+        "evidence",
+        "id",
+        "justification",
+        "label"
+      ],
+      "label_dist": {
+        "supported": 1,
+        "refuted": 1,
+        "not_enough_info": 1
+      },
+      "family_dist": {},
+      "provenance_dist": {},
+      "synthetic_flagged_records": 0
+    }
+  ]
+}

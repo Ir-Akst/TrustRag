@@ -1,0 +1,69 @@
+{
+  "phase": "phase_11",
+  "step": "step_11",
+  "status": "PASS",
+  "decision": "GO",
+  "decision_scope": "Independent Acceptance Audit (Step 12) Only",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "starting_head": "8229aee01a0b6f7fd61a5e774da5bb707bd6a7c1",
+  "parent_commit": "5481d6a88b8a9e2d5d7c7099a9692fd79e8ece46",
+  "phase10_worktree_isolated": true,
+  "phase10_worktree_path": "/home/aditya/rags/TrustRag",
+  "phase10_head": "e65bcc80aac634900d1f8e343880fddf66cec168",
+  "remediated_defects": {
+    "DEF-17": {
+      "title": "G3 Currency-Aware Numerical Verification",
+      "status": "PASS",
+      "description": "Recognize currency symbols ($, €, £, ¥) and ISO codes (USD, EUR, GBP, JPY). Different currencies return INSUFFICIENT_EVIDENCE. Same-currency conflicts return CONTRADICTED. Equivalence returns SUPPORTED."
+    },
+    "DEF-18": {
+      "title": "G2 Coordinated Untrusted-Source Consensus Attack",
+      "status": "PASS",
+      "description": "Colluding untrusted documents cannot manufacture consensus or outvote clean documents. F4 catches prompt override variants. F5 for uncorroborated untrusted documents never exceeds 0.50. Swarm injection variants classified POISONED."
+    },
+    "DEF-19": {
+      "title": "API Oversized Payload Semantics",
+      "status": "PASS",
+      "description": "POST requests exceeding 1 MiB return HTTP 413 PAYLOAD_TOO_LARGE. Malformed JSON below limit returns HTTP 400 INVALID_JSON. Unauthenticated requests return HTTP 401 UNAUTHORIZED."
+    }
+  },
+  "acceptance_gates": {
+    "Gate_01_JSON_validity": true,
+    "Gate_02_Graph_schema_validity": true,
+    "Gate_03_Pipeline_consistency": true,
+    "Gate_04_Verdict_determinism": true,
+    "Gate_05_Unicode_policy_consistency": true,
+    "Gate_06_Temporal_boundary_tests": true,
+    "Gate_07_Provenance_examples": true,
+    "Gate_08_Historical_regression": true,
+    "Gate_09_False_SUPPORTED_zero": true,
+    "Gate_10_Positive_controls": true,
+    "Gate_11_Traceability_100_percent": true,
+    "Gate_12_Security_containment": true,
+    "Gate_13_Performance_honesty": true
+  },
+  "test_metrics": {
+    "pytest_total": 439,
+    "pytest_passed": 437,
+    "pytest_failed": 0,
+    "pytest_deselected": 2,
+    "deselected_tests_justification": "Hugging Face Hub unreachable in offline sandbox; tests recorded as BLOCKED, not PASS",
+    "targeted_phase11_passed": 59,
+    "targeted_phase11_failed": 0,
+    "frontend_passed": 5,
+    "frontend_failed": 0,
+    "python_compileall_errors": 0,
+    "ruff_check_errors": 0
+  },
+  "historical_checksum_verifications": {
+    "step6_checksums": "6/6 OK",
+    "step7_checksums": "6/6 OK",
+    "step8_checksums": "9/9 OK",
+    "step9_checksums": "13/13 OK",
+    "step10_checksums": "11/11 OK"
+  },
+  "evidence_directory": "reports/phase11/step11_evidence/",
+  "probe_verification_artifact": "reports/phase11/step11_evidence/step11_probe_verification.json",
+  "spec_validation_artifact": "reports/phase11/step11_evidence/spec_validation_step11.json"
+}

@@ -1,0 +1,109 @@
+{
+  "suite_status": "PASS",
+  "total_duration_ms": 3.23,
+  "peak_memory_mib": 0.226,
+  "latencies_ms": {
+    "Validator_A_Schemas": 0.4,
+    "Validator_B_Verdicts": 1.04,
+    "Validator_C_Coordination": 0.11,
+    "Validator_D_Unicode": 0.47,
+    "Validator_E_Pipeline": 0.06,
+    "Validator_F_Temporal": 0.1,
+    "Validator_G_Provenance": 0.19,
+    "Validator_H_Statistical": 0.55,
+    "Validator_I_Contradictions": 0.31,
+    "Validator_J_RuntimeConformance": 4488.32
+  },
+  "gate_results": {
+    "Gate_01_JSON_validity": true,
+    "Gate_02_Graph_schema_validity": true,
+    "Gate_03_Pipeline_consistency": true,
+    "Gate_04_Verdict_determinism": true,
+    "Gate_05_Unicode_policy_consistency": true,
+    "Gate_06_Temporal_boundary_tests": true,
+    "Gate_07_Provenance_examples": true,
+    "Gate_08_Historical_regression": true,
+    "Gate_09_False_SUPPORTED_zero": true,
+    "Gate_10_Positive_controls": true,
+    "Gate_11_Traceability_100_percent": true,
+    "Gate_12_Security_containment": true,
+    "Gate_13_Performance_honesty": true
+  },
+  "validator_summaries": {
+    "A_schemas": {
+      "valid_claims_tested": 3,
+      "valid_claims_passed": 3,
+      "invalid_claims_tested": 4,
+      "invalid_claims_rejected": 4,
+      "valid_evd_tested": 1,
+      "valid_evd_passed": 1,
+      "invalid_evd_tested": 2,
+      "invalid_evd_rejected": 2,
+      "status": "PASS"
+    },
+    "B_verdicts": {
+      "tested": 576,
+      "violations": 0,
+      "status": "PASS"
+    },
+    "C_coordination": {
+      "tested": 64,
+      "probes": 4,
+      "violations": 0,
+      "status": "PASS"
+    },
+    "D_unicode": {
+      "tested": 9,
+      "passed": 9,
+      "status": "PASS"
+    },
+    "E_pipeline": {
+      "scenarios": 3,
+      "violations": 0,
+      "status": "PASS"
+    },
+    "F_temporal": {
+      "tested": 7,
+      "violations": 0,
+      "status": "PASS"
+    },
+    "G_provenance": {
+      "tested": 4,
+      "rfc8785": true,
+      "status": "PASS"
+    },
+    "H_statistical": {
+      "fsr_point": 0.0,
+      "fsr_ci": "[0.0000, 0.0377]",
+      "disjoint_splits": true,
+      "status": "PASS"
+    },
+    "I_contradictions": {
+      "checks": [
+        "pipeline_stage_consistency",
+        "verdict_definitions",
+        "unicode_severity_rules",
+        "threshold_consistency"
+      ],
+      "contradictions": 0,
+      "status": "PASS"
+    },
+    "J_runtime_conformance": {
+      "status": "PASS",
+      "unicode_cases_checked": 9,
+      "unicode_failures": [],
+      "historical_g3_checked": 15,
+      "historical_g3_failures": [],
+      "stage7_answer_unicode_ok": true,
+      "verifier_performance": {
+        "scope": "Heuristic/TF-IDF OutputEvidenceVerifier (no external ML/NLI model loaded)",
+        "cold_import_init_ms": 3425.92,
+        "warm_p50_ms": 5.289,
+        "warm_p95_ms": 5.705,
+        "warm_p99_ms": 5.841,
+        "warm_mean_ms": 5.338,
+        "peak_traced_heap_mib": 106.892
+      }
+    }
+  }
+}

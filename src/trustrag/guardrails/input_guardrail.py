@@ -9,6 +9,7 @@ Validates, audits, and classifies incoming user queries before retrieval:
 
 from __future__ import annotations
 
+import base64
 import re
 from typing import Callable, Dict, List, Optional, Tuple
 
@@ -75,6 +76,176 @@ _CATEGORY_TO_REASON: Dict[str, G1ReasonCode] = {
     "MALICIOUS_COMMAND": G1ReasonCode.G1_MALICIOUS_COMMAND,
     "DOS_TRIGGER": G1ReasonCode.G1_DOS_TRIGGER,
 }
+
+# Boundary-safe regex for extracting standard Base64 tokens (length >= 16, valid padding preserved).
+# Phase 1 regex: original strict extraction for clean-boundary tokens (backward compat).
+_BASE64_TOKEN_RE: re.Pattern[str] = re.compile(
+    r"(?<![A-Za-z0-9+/=])(?:[A-Za-z0-9+/]{4}){3,}(?:[A-Za-z0-9+/]{4}|[A-Za-z0-9+/]{3}=|[A-Za-z0-9+/]{2}==)(?![A-Za-z0-9+/=])"
+)
+
+# Phase 2 regex: broader candidate extraction with alphanumeric-only boundaries.
+# Catches payloads wrapped in alphabet-colliding delimiters (+, /, =) and URL-safe chars (-, _).
+# ADV-EVASION-01 & Step 07 remediation.
+_BASE64_CANDIDATE_RE: re.Pattern[str] = re.compile(
+    r"(?<![A-Za-z0-9])[A-Za-z0-9+/_\-=]{16,}(?![A-Za-z0-9])"
+)
+
+# Extraction safety bounds
+_MAX_B64_CANDIDATES: int = 64
+_MAX_B64_TOKEN_LEN: int = 8192
+
+
+def _base64_trailing_variants(s: str) -> list[str]:
+    """Generate trailing-trim and padding variants for a Base64 candidate."""
+    core = s.rstrip("+/=_ -")
+    variants = [s]
+    for pad in ("==", "=", ""):
+        candidate = core + pad
+        if len(candidate) >= 16 and candidate not in variants:
+            variants.append(candidate)
+    return variants
+
+
+def _try_validate_and_decode(candidate: str) -> tuple[bool, bytes, str]:
+    """Validate and decode a candidate token as standard or URL-safe Base64."""
+    if len(candidate) < 16:
+        return False, b"", ""
+
+    has_std = ("+" in candidate) or ("/" in candidate)
+    has_url = ("-" in candidate) or ("_" in candidate)
+
+    # Strictly reject mixed standard and URL-safe characters within single token
+    if has_std and has_url:
+        return False, b"", ""
+
+    if has_url:
+        # URL-safe Base64: normalize to standard alphabet
+        normalized = candidate.replace("-", "+").replace("_", "/")
+        pad_len = (-len(normalized)) % 4
+        normalized_padded = normalized + ("=" * pad_len) if pad_len else normalized
+        try:
+            dec = base64.b64decode(normalized_padded, validate=True)
+            return True, dec, candidate
+        except Exception:
+            return False, b"", ""
+    else:
+        # Standard Base64
+        if len(candidate) % 4 != 0:
+            return False, b"", ""
+        try:
+            dec = base64.b64decode(candidate, validate=True)
+            return True, dec, candidate
+        except Exception:
+            return False, b"", ""
+
+
+def _split_adjacent_candidates(raw: str) -> list[str]:
+    """Extract sub-candidates when multiple tokens are glued by delimiters (/+, ++, ==, etc.).
+    
+    Guarantees sub-candidate generation is bounded by _MAX_B64_CANDIDATES.
+    """
+    subcandidates = [raw]
+    # 1. Delimiter runs of 2+ chars: //+, +++, ===, etc.
+    runs = re.split(r"[/+=]{2,}", raw)
+    if len(runs) > 1:
+        for r in runs:
+            if len(subcandidates) >= _MAX_B64_CANDIDATES:
+                break
+            rc = r.strip("/+=_- ")
+            if len(rc) >= 16 and rc not in subcandidates:
+                subcandidates.append(rc)
+    # 2. '=' padding in the middle of string (e.g. {A}={B} or {A}=={B})
+    if "=" in raw[:-2] and len(subcandidates) < _MAX_B64_CANDIDATES:
+        eq_parts = re.split(r"=+[/+=_\- ]*", raw)
+        if len(eq_parts) > 1:
+            for ep in eq_parts:
+                if len(subcandidates) >= _MAX_B64_CANDIDATES:
+                    break
+                epc = ep.strip("/+=_- ")
+                if len(epc) >= 16 and epc not in subcandidates:
+                    subcandidates.append(epc)
+    # 3. Single-slash split if multiple parts exist
+    if "/" in raw and len(subcandidates) < _MAX_B64_CANDIDATES:
+        slash_parts = re.split(r"/+", raw)
+        if len(slash_parts) > 1:
+            for sp in slash_parts:
+                if len(subcandidates) >= _MAX_B64_CANDIDATES:
+                    break
+                spc = sp.strip("/+=_- ")
+                if len(spc) >= 16 and spc not in subcandidates:
+                    subcandidates.append(spc)
+    return subcandidates
+
+
+def _decode_b64_token(token: str) -> bytes:
+    """Safely decode standard or URL-safe Base64 token with appropriate normalization."""
+    if "-" in token or "_" in token:
+        normalized = token.replace("-", "+").replace("_", "/")
+        pad_len = (-len(normalized)) % 4
+        if pad_len in (1, 2, 3):
+            normalized += "=" * pad_len
+        return base64.b64decode(normalized, validate=False)
+    pad_len = (-len(token)) % 4
+    if pad_len in (1, 2, 3):
+        token = token + ("=" * pad_len)
+    return base64.b64decode(token, validate=False)
+
+
+def _extract_base64_tokens(text: str) -> list[str]:
+    """Two-phase Base64 token extraction resilient to alphabet-colliding delimiters,
+    adjacent merged tokens, and URL-safe Base64 encodings.
+
+    Enforces strict candidate-count limits (_MAX_B64_CANDIDATES = 64) and length
+    limits (_MAX_B64_TOKEN_LEN = 8192) consistently across both Phase 1 (clean-boundary)
+    and Phase 2 (broader/delimited) extraction paths to prevent resource exhaustion.
+
+    Returns de-duplicated list of structurally valid Base64 tokens (length >= 16).
+    """
+    seen: set[str] = set()
+    tokens: list[str] = []
+
+    # Phase 1: strict extraction (backward compatible, fast path) bounded to _MAX_B64_CANDIDATES
+    phase1_count = 0
+    for match_obj in _BASE64_TOKEN_RE.finditer(text):
+        if phase1_count >= _MAX_B64_CANDIDATES:
+            break
+        match = match_obj.group(0)
+        phase1_count += 1
+        if len(match) > _MAX_B64_TOKEN_LEN:
+            continue
+        if match not in seen:
+            seen.add(match)
+            tokens.append(match)
+
+    # Phase 2: broader candidate extraction (delimiters, URL-safe, adjacent) bounded to _MAX_B64_CANDIDATES
+    phase2_count = 0
+    for match_obj in _BASE64_CANDIDATE_RE.finditer(text):
+        if phase2_count >= _MAX_B64_CANDIDATES:
+            break
+        raw = match_obj.group(0)
+        phase2_count += 1
+        if len(raw) > _MAX_B64_TOKEN_LEN:
+            continue
+        candidate_slices = _split_adjacent_candidates(raw)
+        for cand in candidate_slices:
+            if len(cand) > _MAX_B64_TOKEN_LEN:
+                continue
+            stripped = cand.lstrip("+/=_ -")
+            if len(stripped) < 16:
+                continue
+            for trial in _base64_trailing_variants(stripped):
+                if len(trial) < 16:
+                    continue
+                if trial in seen:
+                    break
+                ok, dec_bytes, valid_token = _try_validate_and_decode(trial)
+                if ok:
+                    if valid_token not in seen:
+                        seen.add(valid_token)
+                        tokens.append(valid_token)
+                    break
+
+    return tokens
 
 
 class InputGuardrail:
@@ -151,11 +322,13 @@ class InputGuardrail:
         fullwidth_conf_count = count_fullwidth_ascii_confusables(original_input)
         total_obf = obf_count + mixed_conf_count + fullwidth_conf_count
         if has_obf or mixed_conf_count > 0 or fullwidth_conf_count > 0:
+            # Single incidental ZWSP without confusables assigned 0.20 (below 0.35 FLAG threshold)
+            obf_severity = 0.75 if total_obf >= 5 else (0.45 if (total_obf >= 2 or mixed_conf_count > 0 or fullwidth_conf_count > 0) else 0.20)
             matches.append(
                 G1MatchDetail(
                     rule_name="zero_width_or_control_obfuscation",
                     reason_code=G1ReasonCode.G1_OBFUSCATION_DETECTED,
-                    severity=0.45 if total_obf < 5 else 0.75,
+                    severity=obf_severity,
                     matched_snippet=f"{total_obf} hidden/control/confusable chars",
                     is_heuristic=False,
                 )
@@ -191,6 +364,29 @@ class InputGuardrail:
                     is_heuristic=True,
                 )
             )
+
+        # 4b. Base64 encoded payload inspection (boundary-safe, padding-preserving)
+        # Resilient to alphabet-colliding delimiters, adjacent merged tokens, and URL-safe Base64.
+        for b64_token in _extract_base64_tokens(original_input):
+            try:
+                dec_bytes = _decode_b64_token(b64_token)
+                dec_text = dec_bytes[:4096].decode("utf-8", errors="ignore")
+                if not dec_text.strip():
+                    continue
+                for spec, snippet in match_threat_patterns(dec_text, target="query"):
+                    matches.append(
+                        G1MatchDetail(
+                            rule_name=f"base64_{spec.rule_name}",
+                            reason_code=_CATEGORY_TO_REASON.get(
+                                spec.category, G1ReasonCode.G1_PROMPT_INJECTION
+                            ),
+                            severity=spec.severity,
+                            matched_snippet=f"base64 decoded: '{snippet}'",
+                            is_heuristic=True,
+                        )
+                    )
+            except Exception:
+                pass
 
         # 5. Repetitive token flooding check
         is_flood, flood_desc = check_repetitive_flood(analysis_text)

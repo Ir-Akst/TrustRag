@@ -1,0 +1,95 @@
+{
+  "timestamp": "2026-11-13T12:10:00Z",
+  "verdict": "FIX_VERIFIED",
+  "vulnerability_id": "REM-01",
+  "vulnerability_name": "G1 Padded Base64 Inspection Bypass",
+  "target_file": "src/trustrag/guardrails/input_guardrail.py",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "head_commit": "8229aee01a0b6f7fd61a5e774da5bb707bd6a7c1",
+  "baseline_worktree": "/home/aditya/rags/TrustRag",
+  "baseline_worktree_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+  "baseline_worktree_preserved": true,
+  "reproduction_before_fix": {
+    "total_cases": 6,
+    "vulnerable_bypasses": 5,
+    "protected_cases": 1,
+    "bypass_rate": 0.833,
+    "evidence_file": "evidence/reproduction_before_fix.json"
+  },
+  "reproduction_after_fix": {
+    "total_cases": 6,
+    "vulnerable_bypasses": 0,
+    "protected_cases": 6,
+    "bypass_rate": 0.0,
+    "evidence_file": "evidence/reproduction_after_fix.json"
+  },
+  "targeted_regression_tests": {
+    "file": "tests/unit/test_phase_13_step03_base64_remediation.py",
+    "total_tests": 17,
+    "passed": 17,
+    "failed": 0,
+    "categories": {
+      "A_padding_variations": 4,
+      "B_token_boundaries": 4,
+      "C_security_threat_coverage": 3,
+      "D_false_positive_immunity": 4,
+      "E_resource_safety": 2
+    }
+  },
+  "full_test_suite": {
+    "total_passed": 454,
+    "baseline_passed": 437,
+    "new_tests_passed": 17,
+    "deselected": 2,
+    "failed": 0,
+    "errors": 0,
+    "duration_seconds": 17.43,
+    "log_file": "evidence/pytest_audit.log"
+  },
+  "quality_gates": {
+    "python_compileall": {
+      "status": "PASS",
+      "errors": 0,
+      "log_file": "evidence/compileall.log"
+    },
+    "mypy_strict_type_check": {
+      "status": "PASS",
+      "files_checked": 111,
+      "errors": 0,
+      "log_file": "evidence/mypy_audit.log"
+    },
+    "ruff_linter": {
+      "status": "PASS",
+      "errors": 0,
+      "log_file": "evidence/ruff_audit.log"
+    },
+    "spec_validation_13_gates": {
+      "status": "PASS",
+      "gates_passed": 13,
+      "gates_total": 13,
+      "log_file": "evidence/spec_validation.log"
+    },
+    "phase11_step12_independent_probes": {
+      "status": "PASS",
+      "probes_passed": 17,
+      "probes_total": 17,
+      "log_file": "evidence/step12_probes.log"
+    },
+    "phase13_step02_probes": {
+      "status": "PASS",
+      "probes": [
+        "probe_p0",
+        "probe_p1",
+        "probe_p2",
+        "probe_integration_regression"
+      ]
+    }
+  },
+  "academic_transparency": {
+    "srm_is_heuristic_fallback": true,
+    "external_benchmarks_offline": true,
+    "mock_generators_for_eval": true
+  }
+}
+

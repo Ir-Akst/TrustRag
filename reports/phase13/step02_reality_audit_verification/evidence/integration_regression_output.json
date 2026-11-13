@@ -1,0 +1,39 @@
+{
+  "probe": "probe_integration_regression",
+  "timestamp": "2026-11-13T11:15:00Z",
+  "tests": {
+    "INT_1_clean_e2e_pipeline": {
+      "passed": true,
+      "overall_decision": "FLAGGED",
+      "g1_decision": "ALLOW",
+      "safe_to_display": false,
+      "blocked_by_guardrail": false,
+      "g3_status": "VERIFIED"
+    },
+    "INT_2_g1_injection_blocked": {
+      "passed": true,
+      "overall_decision": "BLOCKED",
+      "g1_decision": "BLOCK",
+      "blocked_by_guardrail": true,
+      "safe_to_display": false
+    },
+    "INT_3_g2_poison_defense": {
+      "passed": true,
+      "overall_decision": "UNVERIFIED",
+      "g2_count": 3,
+      "safe_to_display": false
+    },
+    "INT_4_g3_contradiction_quarantine": {
+      "passed": true,
+      "verdict": "CONTRADICTED",
+      "overall_status": "CONTRADICTED"
+    },
+    "INT_5_production_service": {
+      "passed": true,
+      "status": "OK",
+      "latency_ms": 12.6765,
+      "g1_decision": "ALLOW",
+      "g3_verdict": "SUPPORTED"
+    }
+  }
+}

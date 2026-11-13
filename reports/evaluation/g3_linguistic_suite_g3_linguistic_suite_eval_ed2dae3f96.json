@@ -1,7 +1,7 @@
 {
   "experiment_id": "g3_linguistic_suite_g3_linguistic_suite_eval_ed2dae3f96",
   "experiment_name": "g3_linguistic_suite",
-  "timestamp": "2026-11-12T12:22:50.012528Z",
+  "timestamp": "2026-11-13T12:23:36.324202Z",
   "dataset": "g3_linguistic_suite",
   "split": "eval",
   "dataset_path": "tools/spec_validation/fixtures/historical_regression_cases.json",
@@ -37,13 +37,13 @@
     "failures": [],
     "latency_ms": {
       "count": 25,
-      "mean": 3.4756,
-      "std": 3.4085,
-      "min": 1.3586,
-      "p50": 2.0394,
-      "p95": 11.4105,
-      "p99": 11.5747,
-      "max": 11.5797
+      "mean": 6.1535,
+      "std": 6.5096,
+      "min": 2.0788,
+      "p50": 3.429,
+      "p95": 21.7034,
+      "p99": 25.3952,
+      "max": 26.2522
     },
     "execution_accounting": {
       "total_examples": 25,
@@ -53,13 +53,13 @@
       "invalid_examples": 0
     }
   },
-  "execution_time_seconds": 0.087349,
+  "execution_time_seconds": 0.154775,
   "errors": [],
   "sample_outcomes": [
     {
       "sample_id": "h1_mand_or_cures",
       "status": "success",
-      "latency_ms": 2.2568,
+      "latency_ms": 6.1424,
       "prediction": {
         "actual_verdict": "INSUFFICIENT_EVIDENCE",
         "passed": true,
@@ -75,7 +75,7 @@
     {
       "sample_id": "h1_mand_or_toxic",
       "status": "success",
-      "latency_ms": 1.9913,
+      "latency_ms": 3.429,
       "prediction": {
         "actual_verdict": "INSUFFICIENT_EVIDENCE",
         "passed": true,
@@ -91,7 +91,7 @@
     {
       "sample_id": "h1_mand_while_coma",
       "status": "success",
-      "latency_ms": 2.0634,
+      "latency_ms": 3.3525,
       "prediction": {
         "actual_verdict": "INSUFFICIENT_EVIDENCE",
         "passed": true,
@@ -107,7 +107,7 @@
     {
       "sample_id": "h1_mand_aswell_paralysis",
       "status": "success",
-      "latency_ms": 2.0394,
+      "latency_ms": 4.5244,
       "prediction": {
         "actual_verdict": "INSUFFICIENT_EVIDENCE",
         "passed": true,
@@ -123,7 +123,7 @@
     {
       "sample_id": "h1_nor_neg_ev",
       "status": "success",
-      "latency_ms": 2.1757,
+      "latency_ms": 3.7666,
       "prediction": {
         "actual_verdict": "INSUFFICIENT_EVIDENCE",
         "passed": true,
@@ -139,7 +139,7 @@
     {
       "sample_id": "h1_yet_long_shared_prefix",
       "status": "success",
-      "latency_ms": 2.2776,
+      "latency_ms": 3.6255,
       "prediction": {
         "actual_verdict": "INSUFFICIENT_EVIDENCE",
         "passed": true,
@@ -155,7 +155,7 @@
     {
       "sample_id": "h1_pos_and_or",
       "status": "success",
-      "latency_ms": 2.1253,
+      "latency_ms": 3.4953,
       "prediction": {
         "actual_verdict": "SUPPORTED",
         "passed": true,
@@ -171,7 +171,7 @@
     {
       "sample_id": "h2_irreg_withdrew",
       "status": "success",
-      "latency_ms": 2.2997,
+      "latency_ms": 4.1368,
       "prediction": {
         "actual_verdict": "INSUFFICIENT_EVIDENCE",
         "passed": true,
@@ -187,7 +187,7 @@
     {
       "sample_id": "h2_irreg_overcame",
       "status": "success",
-      "latency_ms": 2.3244,
+      "latency_ms": 3.9234,
       "prediction": {
         "actual_verdict": "INSUFFICIENT_EVIDENCE",
         "passed": true,
@@ -203,7 +203,7 @@
     {
       "sample_id": "h2_pos_comma_series",
       "status": "success",
-      "latency_ms": 1.5094,
+      "latency_ms": 2.4641,
       "prediction": {
         "actual_verdict": "SUPPORTED",
         "passed": true,
@@ -219,7 +219,7 @@
     {
       "sample_id": "h3_same_sched_diff_subj",
       "status": "success",
-      "latency_ms": 1.7433,
+      "latency_ms": 2.7927,
       "prediction": {
         "actual_verdict": "INSUFFICIENT_EVIDENCE",
         "passed": true,
@@ -235,7 +235,7 @@
     {
       "sample_id": "h3_plural_no_aux_diff_subj",
       "status": "success",
-      "latency_ms": 1.4833,
+      "latency_ms": 2.2513,
       "prediction": {
         "actual_verdict": "INSUFFICIENT_EVIDENCE",
         "passed": true,
@@ -251,7 +251,7 @@
     {
       "sample_id": "h3_pos_active",
       "status": "success",
-      "latency_ms": 1.4969,
+      "latency_ms": 2.4306,
       "prediction": {
         "actual_verdict": "SUPPORTED",
         "passed": true,
@@ -267,7 +267,7 @@
     {
       "sample_id": "h3_pos_passive",
       "status": "success",
-      "latency_ms": 1.4754,
+      "latency_ms": 2.569,
       "prediction": {
         "actual_verdict": "SUPPORTED",
         "passed": true,
@@ -283,7 +283,7 @@
     {
       "sample_id": "3a_comparative_faster",
       "status": "success",
-      "latency_ms": 1.6371,
+      "latency_ms": 2.5285,
       "prediction": {
         "actual_verdict": "INSUFFICIENT_EVIDENCE",
         "passed": true,
@@ -299,7 +299,7 @@
     {
       "sample_id": "sec3d_vs_supplement_e0100",
       "status": "success",
-      "latency_ms": 9.5224,
+      "latency_ms": 11.944,
       "prediction": {
         "actual_verdict": "POISONED_QUARANTINE",
         "passed": true,
@@ -315,7 +315,7 @@
     {
       "sample_id": "sec3d_hangul_filler_3164",
       "status": "success",
-      "latency_ms": 6.9559,
+      "latency_ms": 10.8879,
       "prediction": {
         "actual_verdict": "POISONED_QUARANTINE",
         "passed": true,
@@ -331,7 +331,7 @@
     {
       "sample_id": "sec2_benign_emoji_1",
       "status": "success",
-      "latency_ms": 11.5797,
+      "latency_ms": 26.2522,
       "prediction": {
         "actual_verdict": "CLEAN_ALLOW",
         "passed": true,
@@ -347,7 +347,7 @@
     {
       "sample_id": "sec2_benign_emoji_clinic",
       "status": "success",
-      "latency_ms": 11.5589,
+      "latency_ms": 22.6815,
       "prediction": {
         "actual_verdict": "CLEAN_ALLOW",
         "passed": true,
@@ -363,7 +363,7 @@
     {
       "sample_id": "ling_partial_01",
       "status": "success",
-      "latency_ms": 1.5993,
+      "latency_ms": 2.6498,
       "prediction": {
         "actual_verdict": "PARTIALLY_SUPPORTED",
         "passed": true,
@@ -379,7 +379,7 @@
     {
       "sample_id": "ling_conflict_01",
       "status": "success",
-      "latency_ms": 1.5336,
+      "latency_ms": 2.6026,
       "prediction": {
         "actual_verdict": "UNCERTAIN",
         "passed": true,
@@ -395,7 +395,7 @@
     {
       "sample_id": "ling_dosage_01",
       "status": "success",
-      "latency_ms": 1.5917,
+      "latency_ms": 3.104,
       "prediction": {
         "actual_verdict": "CONTRADICTED",
         "passed": true,
@@ -411,7 +411,7 @@
     {
       "sample_id": "ling_scope_01",
       "status": "success",
-      "latency_ms": 1.4738,
+      "latency_ms": 2.414,
       "prediction": {
         "actual_verdict": "INSUFFICIENT_EVIDENCE",
         "passed": true,
@@ -427,7 +427,7 @@
     {
       "sample_id": "ling_neg_01",
       "status": "success",
-      "latency_ms": 1.3586,
+      "latency_ms": 2.0788,
       "prediction": {
         "actual_verdict": "CONTRADICTED",
         "passed": true,
@@ -443,7 +443,7 @@
     {
       "sample_id": "ling_unicode_ans_01",
       "status": "success",
-      "latency_ms": 10.8169,
+      "latency_ms": 17.7909,
       "prediction": {
         "actual_verdict": "QUARANTINED_BY_STAGE7",
         "passed": true,

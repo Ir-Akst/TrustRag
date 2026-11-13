@@ -1,0 +1,230 @@
+{
+  "audit_version": "Phase 13 Step 2 - Reality Audit Verification",
+  "audit_date": "2026-11-13T11:20:00Z",
+  "target_repository": "/home/aditya/rags/TrustRag-phase11",
+  "target_branch": "phase-11",
+  "target_head": "8229aee01a0b6f7fd61a5e774da5bb707bd6a7c1",
+  "issues": [
+    {
+      "id": "P0.1",
+      "category": "Platform Blocker",
+      "description": "Unconditional import resource crash on Windows platform",
+      "severity": "CRITICAL",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "Mocked sys.modules['resource']=None import & execution probe",
+      "source_files": ["src/trustrag/serving/service.py", "src/trustrag/evaluation/suites.py"],
+      "evidence": "probe_p0.py (P0.1)",
+      "residual_risk": "NONE"
+    },
+    {
+      "id": "P0.2",
+      "category": "Platform Blocker",
+      "description": "Dependency drift & broken .venv environment (scikit-learn, aiohttp)",
+      "severity": "CRITICAL",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "pyproject.toml & requirements.txt parser and active module import",
+      "source_files": ["pyproject.toml", "requirements.txt"],
+      "evidence": "probe_p0.py (P0.2)",
+      "residual_risk": "NONE"
+    },
+    {
+      "id": "P0.3a",
+      "category": "Security / Guardrail",
+      "description": "G1 Possessive & determiner bypass in threat patterns",
+      "severity": "HIGH",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "G1 evaluation across possessive threat vectors (your, the, their, any)",
+      "source_files": ["src/trustrag/guardrails/input_guardrail.py", "src/trustrag/engine/text_utils.py"],
+      "evidence": "probe_p0.py (P0.3a)",
+      "residual_risk": "LOW (Core possessives covered; specific domain nouns like 'policy' require ongoing lexicon updates)"
+    },
+    {
+      "id": "P0.3b",
+      "category": "Security / Guardrail",
+      "description": "G1 Base64 payload inspection",
+      "severity": "HIGH",
+      "status": "PARTIALLY_CLOSED",
+      "verification_method": "Unpadded vs padded Base64 injection probe",
+      "source_files": ["src/trustrag/guardrails/input_guardrail.py"],
+      "evidence": "probe_p0.py (P0.3b)",
+      "residual_risk": "HIGH: Trailing '=' padding stripped by \\b word boundary regex causes binascii.Error: Incorrect padding in b64decode, allowing padded payloads to slip past"
+    },
+    {
+      "id": "P0.3c",
+      "category": "Security / Guardrail",
+      "description": "G1 Repetition loop / DoS trigger bypass",
+      "severity": "MEDIUM",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "check_repetitive_flood probe on repeated phrases vs benign text",
+      "source_files": ["src/trustrag/guardrails/input_guardrail.py", "src/trustrag/engine/text_utils.py"],
+      "evidence": "probe_p0.py (P0.3c)",
+      "residual_risk": "NONE"
+    },
+    {
+      "id": "P0.3d",
+      "category": "Security / Guardrail",
+      "description": "G1 Single benign ZWSP false positive flag",
+      "severity": "MEDIUM",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "Benign single ZWSP (score=0.20 < 0.35) vs malicious flood (score=0.75 >= 0.35)",
+      "source_files": ["src/trustrag/engine/text_utils.py", "src/trustrag/guardrails/input_guardrail.py"],
+      "evidence": "probe_p0.py (P0.3d)",
+      "residual_risk": "NONE"
+    },
+    {
+      "id": "P0.4a",
+      "category": "Security / Detection",
+      "description": "G2 Stealth factual poison contradiction detection",
+      "severity": "HIGH",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "MultiSignalDetector conflict detection on 100°C vs 500°C evidence",
+      "source_files": ["src/trustrag/detection/msd.py", "src/trustrag/detection/signals.py"],
+      "evidence": "probe_p0.py (P0.4a)",
+      "residual_risk": "LOW"
+    },
+    {
+      "id": "P0.4b",
+      "category": "Security / Detection",
+      "description": "G2 Duplicate poison 3v1 consensus attack override",
+      "severity": "HIGH",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "Consensus signal evaluation on 3 duplicate untrusted poison vs 1 verified clean",
+      "source_files": ["src/trustrag/detection/msd.py", "src/trustrag/detection/signals.py"],
+      "evidence": "probe_p0.py (P0.4b)",
+      "residual_risk": "LOW"
+    },
+    {
+      "id": "P1.4",
+      "category": "Data / Offline Execution",
+      "description": "Offline dataset loader network hang on missing raw cache",
+      "severity": "MEDIUM",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "load_raw() offline timing probe across NQ, HotpotQA, MSMarco",
+      "source_files": ["src/trustrag/data/acquisition/hf.py"],
+      "evidence": "probe_p1.py (P1.4)",
+      "residual_risk": "NONE (Short-circuits in < 0.2s with AcquisitionError)"
+    },
+    {
+      "id": "P1.5a",
+      "category": "Verification / Accuracy",
+      "description": "G3 Phrased unit equivalence (1000 mg per day vs 1 g daily)",
+      "severity": "MEDIUM",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "OutputEvidenceVerifier verification on phrased dosage and volume units",
+      "source_files": ["src/trustrag/verification/output_verifier.py"],
+      "evidence": "probe_p1.py (P1.1)",
+      "residual_risk": "NONE"
+    },
+    {
+      "id": "P1.5b",
+      "category": "Verification / Accuracy",
+      "description": "G3 Coordinated clauses cross-document false contradiction",
+      "severity": "MEDIUM",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "OutputEvidenceVerifier on multi-document freezing & boiling points",
+      "source_files": ["src/trustrag/verification/output_verifier.py"],
+      "evidence": "probe_p1.py (P1.2)",
+      "residual_risk": "NONE"
+    },
+    {
+      "id": "P1.5c",
+      "category": "Verification / Accuracy",
+      "description": "G3 Vague/hedged text provenance gating on unknown sources",
+      "severity": "MEDIUM",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "OutputEvidenceVerifier on vague text with provenance=UNKNOWN",
+      "source_files": ["src/trustrag/verification/output_verifier.py"],
+      "evidence": "probe_p1.py (P1.3)",
+      "residual_risk": "NONE"
+    },
+    {
+      "id": "P1.6",
+      "category": "Calibration",
+      "description": "Adaptive calibration alignment and false-positive reduction",
+      "severity": "MEDIUM",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "Temperature calibrator inspection and evaluation",
+      "source_files": ["configs/adaptive/temperature_calibrator_v1.json"],
+      "evidence": "probe_p1.py (P1.5)",
+      "residual_risk": "LOW"
+    },
+    {
+      "id": "P2.7a",
+      "category": "Retriever",
+      "description": "Retriever index state persistence (save/load)",
+      "severity": "MEDIUM",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "save() and load() roundtrip with document, ID, and similarity preservation",
+      "source_files": ["src/trustrag/retrieval/retriever.py"],
+      "evidence": "probe_p2.py (P2.1)",
+      "residual_risk": "NONE"
+    },
+    {
+      "id": "P2.7b",
+      "category": "Retriever",
+      "description": "Retriever duplicate ID rejection / deduplication",
+      "severity": "MEDIUM",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "index_documents with deduplicate_by_id=True/False",
+      "source_files": ["src/trustrag/retrieval/retriever.py"],
+      "evidence": "probe_p2.py (P2.2)",
+      "residual_risk": "NONE"
+    },
+    {
+      "id": "P2.8a",
+      "category": "Code Hygiene",
+      "description": "Static type checking (mypy) failures",
+      "severity": "LOW",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "mypy src execution (0 errors across 111 source files)",
+      "source_files": ["src/"],
+      "evidence": "evidence/mypy_audit.log",
+      "residual_risk": "NONE"
+    },
+    {
+      "id": "P2.8b",
+      "category": "Code Hygiene",
+      "description": "Linting violations (ruff)",
+      "severity": "LOW",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "ruff check --select E9,F63,F7,F82 src/ tests/ (0 violations)",
+      "source_files": ["src/", "tests/"],
+      "evidence": "evidence/ruff_audit.log",
+      "residual_risk": "NONE"
+    },
+    {
+      "id": "P2.8c",
+      "category": "Deployment / CI",
+      "description": "Missing containerization and automated CI workflows",
+      "severity": "LOW",
+      "status": "VERIFIED_CLOSED",
+      "verification_method": "Inspection of Dockerfile, docker-compose.yml, and .github/workflows/ci.yml",
+      "source_files": ["Dockerfile", "docker-compose.yml", ".github/workflows/ci.yml"],
+      "evidence": "probe_p2.py (P2.4)",
+      "residual_risk": "NONE"
+    },
+    {
+      "id": "GAP.1",
+      "category": "Research / Model Weights",
+      "description": "SRM relies on DeterministicFallbackBackend; no offline neural checkpoints",
+      "severity": "HIGH",
+      "status": "OPEN_RESEARCH_GAP",
+      "verification_method": "SRMClient inspection and disk search for neural checkpoints",
+      "source_files": ["src/trustrag/srm/client.py"],
+      "evidence": "probe_p2.py (P2.3)",
+      "residual_risk": "HIGH: System operates as a deterministic rule-based proxy; neural capabilities require external weights"
+    },
+    {
+      "id": "GAP.2",
+      "category": "Research / Benchmark Datasets",
+      "description": "External benchmark datasets (NQ, HotpotQA, MS MARCO, HaluEval, RSB) missing offline",
+      "severity": "HIGH",
+      "status": "OPEN_DATASET_GAP",
+      "verification_method": "data/raw directory inspection and adapter offline probe",
+      "source_files": ["data/raw/"],
+      "evidence": "reports/dataset_coverage_audit/MISSING_DATASETS_AND_GAPS.md",
+      "residual_risk": "HIGH: Benchmarks operate on synthetic custom_security and minimal fixtures (n=5)"
+    }
+  ]
+}
+
