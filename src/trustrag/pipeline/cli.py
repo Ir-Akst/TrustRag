@@ -32,7 +32,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--adaptive", action="store_true", help="Run via Phase 05/06 adaptive TrustRAGService")
     parser.add_argument(
         "--calibrator",
-        default="configs/adaptive/platt_calibrator_v1.json",
+        default="configs/adaptive/temperature_calibrator_v1.json",
         help="Optional calibration JSON artifact used with --adaptive",
     )
     parser.add_argument("--health", action="store_true", help="Print service health/readiness JSON and exit")

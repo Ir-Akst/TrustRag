@@ -1,0 +1,40 @@
+{
+  "probe": "probe_p2",
+  "timestamp": "2026-11-13T11:00:00Z",
+  "tests": {
+    "P2_1_retriever_persistence": {
+      "passed": true,
+      "file_size": 3314,
+      "doc_count": 3,
+      "ids_preserved": true,
+      "scores_preserved": true
+    },
+    "P2_2_retriever_deduplication": {
+      "passed": true,
+      "without_deduplicate_count": 3,
+      "without_deduplicate_ids": [
+        "dup_id",
+        "dup_id#1",
+        "unique_id"
+      ],
+      "with_deduplicate_count": 2,
+      "with_deduplicate_ids": [
+        "dup_id",
+        "unique_id"
+      ]
+    },
+    "P2_3_srm_reality_probe": {
+      "active_backend_type": "DeterministicFallbackBackend",
+      "is_deterministic_fallback": true,
+      "neural_weight_files_found": [],
+      "neural_model_present": false,
+      "honest_assessment": "SRM operates via DeterministicFallbackBackend (deterministic rule-based proxy). No offline neural weights (Qwen2.5-3B-Instruct / LoRA checkpoints) exist on disk. Component verdict remains BLUE (Fallback-only), not genuine neural inference."
+    },
+    "P2_4_container_and_ci": {
+      "passed": true,
+      "dockerfile_present": true,
+      "docker_compose_present": true,
+      "ci_workflow_present": true
+    }
+  }
+}

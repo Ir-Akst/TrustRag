@@ -1,0 +1,160 @@
+{
+  "probe": "probe_p1",
+  "timestamp": "2026-11-13T10:45:00Z",
+  "tests": {
+    "P1_1_g3_phrased_units": {
+      "passed": true,
+      "cases": [
+        {
+          "claim": "The patient took 1 g daily of medication.",
+          "evidence": "Clinical record confirms the patient was administered 1000 mg per day of medication.",
+          "expected": "SUPPORTED",
+          "actual": "SUPPORTED",
+          "matched": true,
+          "claims_detail": [
+            {
+              "claim_text": "The patient took 1 g daily of medication.",
+              "verdict": "SUPPORTED",
+              "confidence": 0.8,
+              "explanation": "Factual alignment satisfied (coverage=0.80, polarity, numbers & scope verified)."
+            }
+          ]
+        },
+        {
+          "claim": "Daily fluid intake is capped at 1 L per day.",
+          "evidence": "Daily fluid intake is capped at 1000 ml daily.",
+          "expected": "SUPPORTED",
+          "actual": "SUPPORTED",
+          "matched": true,
+          "claims_detail": [
+            {
+              "claim_text": "Daily fluid intake is capped at 1 L per day.",
+              "verdict": "SUPPORTED",
+              "confidence": 0.99,
+              "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+            }
+          ]
+        },
+        {
+          "claim": "The dose was 500 mg per day.",
+          "evidence": "The prescribed dose was 2000 mg daily.",
+          "expected": "CONTRADICTED",
+          "actual": "CONTRADICTED",
+          "matched": true,
+          "claims_detail": [
+            {
+              "claim_text": "The dose was 500 mg per day.",
+              "verdict": "CONTRADICTED",
+              "confidence": 0.6686,
+              "explanation": "Numeric conflict on unit 'mg': claim states 500, evidence states ['2000']."
+            }
+          ]
+        }
+      ]
+    },
+    "P1_2_g3_coordinated_clauses": {
+      "passed": true,
+      "verdict": "SUPPORTED",
+      "claim_verdicts": [
+        {
+          "claim": "Pure water freezes at 0 \u00b0C and boils at 100 \u00b0C.",
+          "verdict": "SUPPORTED"
+        }
+      ]
+    },
+    "P1_3_g3_vague_provenance_gating": {
+      "passed": true,
+      "verdict": "INSUFFICIENT_EVIDENCE",
+      "explanation": "Claim asserts speculative or hedged statements supported exclusively by unverified evidence with unknown provenance; cannot certify as SUPPORTED."
+    },
+    "P1_4_dataset_loader_short_circuit": {
+      "passed": true,
+      "adapters": [
+        {
+          "dataset": "NaturalQuestions",
+          "elapsed_seconds": 0.2616,
+          "error_raised": true,
+          "fast_enough": true,
+          "message": "Dataset 'google-research-datasets/natural_questions' unavailable in offline mode. No cached version found in 'data/raw/n"
+        },
+        {
+          "dataset": "HotpotQA",
+          "elapsed_seconds": 0.0,
+          "error_raised": true,
+          "fast_enough": true,
+          "message": "Dataset 'hotpotqa/hotpot_qa' unavailable in offline mode. No cached version found in 'data/raw/hotpotqa'."
+        },
+        {
+          "dataset": "MSMarco",
+          "elapsed_seconds": 0.0,
+          "error_raised": true,
+          "fast_enough": true,
+          "message": "Dataset 'microsoft/ms_marco' unavailable in offline mode. No cached version found in 'data/raw/ms_marco'."
+        }
+      ]
+    },
+    "P1_5_calibration_alignment": {
+      "passed": true,
+      "temperature_calibrator": {
+        "exists": true,
+        "temperature": 0.64315401,
+        "metadata": {
+          "version": "temp-train-v1",
+          "method": "temperature",
+          "fitted_datasets": [
+            "adversarial_robustness",
+            "knowledge_poisoning",
+            "clean_rag"
+          ],
+          "fitted_splits": [
+            "train"
+          ],
+          "fit_seed": 42,
+          "sample_count": 478,
+          "clean_count": 358,
+          "attack_count": 120,
+          "class_weight": null,
+          "platt_coef": null,
+          "platt_intercept": null,
+          "use_logit_transform": true,
+          "isotonic_x_thresholds": [],
+          "isotonic_y_thresholds": [],
+          "temperature": 0.64315401,
+          "clip_eps": 0.0001,
+          "created_at": "2026-11-12T03:05:55.308743+00:00",
+          "artifact_sha256": "765492884a18dff4034e2661a887ac16c0bfce635a7c2201b2ffb3a4d9467c22"
+        }
+      },
+      "platt_calibrator": {
+        "exists": true,
+        "bias": 0.0,
+        "metadata": {
+          "version": "platt-mixed-v1",
+          "method": "platt",
+          "fitted_datasets": [
+            "adversarial_robustness",
+            "knowledge_poisoning",
+            "clean_rag"
+          ],
+          "fitted_splits": [
+            "train"
+          ],
+          "fit_seed": 42,
+          "sample_count": 428,
+          "clean_count": 308,
+          "attack_count": 120,
+          "class_weight": null,
+          "platt_coef": 2.71326212,
+          "platt_intercept": -1.71367122,
+          "use_logit_transform": true,
+          "isotonic_x_thresholds": [],
+          "isotonic_y_thresholds": [],
+          "temperature": null,
+          "clip_eps": 0.0001,
+          "created_at": "2026-11-11T18:03:30.946877+00:00",
+          "artifact_sha256": "f3c2ce6b0e4586ca1e946e87bda8a7dd9afd851cf985bc2df3dc3cffbb7e1ed9"
+        }
+      }
+    }
+  }
+}

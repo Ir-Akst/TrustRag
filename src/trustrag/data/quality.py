@@ -137,7 +137,7 @@ class DatasetQualityAuditor:
             rec = item
             if isinstance(rec, dict):
                 # Infer and validate into normalized Pydantic model
-                parsed = None
+                parsed: Any = None
                 if "attack_family" in rec or "clean_poison_label" in rec:
                     try:
                         parsed = SecurityRecord.model_validate(rec)

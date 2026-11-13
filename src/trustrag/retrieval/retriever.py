@@ -72,7 +72,50 @@ class TrustAwareRetriever:
     def document_count(self) -> int:
         return len(self._documents)
 
-    def index_documents(self, records: Sequence[Any]) -> int:
+    def save(self, path: Union[str, Path]) -> None:
+        """Persist indexed retriever state to disk."""
+        import pickle
+        p = Path(path)
+        p.parent.mkdir(parents=True, exist_ok=True)
+        state = {
+            "documents": [d.model_dump() for d in self._documents],
+            "vectorizer": self._vectorizer,
+            "raw_vectorizer": self._raw_vectorizer,
+            "doc_matrix": self._doc_matrix,
+            "raw_doc_matrix": self._raw_doc_matrix,
+        }
+        with open(p, "wb") as f:
+            pickle.dump(state, f)
+
+    @classmethod
+    def load(
+        cls,
+        path: Union[str, Path],
+        *,
+        retrieval_config: Optional[RetrievalConfig] = None,
+        msd_config: Optional[MSDConfig] = None,
+        detector: Optional[MultiSignalDetector] = None,
+    ) -> "TrustAwareRetriever":
+        """Load a persisted retriever index from disk."""
+        import pickle
+        p = Path(path)
+        if not p.is_file():
+            raise RetrievalError(f"Persisted index file not found: {p}")
+        with open(p, "rb") as f:
+            state = pickle.load(f)
+        retriever = cls(
+            retrieval_config=retrieval_config,
+            msd_config=msd_config,
+            detector=detector,
+        )
+        retriever._documents = [EvidenceDocument.model_validate(d) for d in state["documents"]]
+        retriever._vectorizer = state.get("vectorizer")
+        retriever._raw_vectorizer = state.get("raw_vectorizer")
+        retriever._doc_matrix = state.get("doc_matrix")
+        retriever._raw_doc_matrix = state.get("raw_doc_matrix")
+        return retriever
+
+    def index_documents(self, records: Sequence[Any], deduplicate_by_id: bool = False) -> int:
         """Adapt and index records while keeping original metadata intact."""
         adapted: List[EvidenceDocument] = []
         seen_ids: set[str] = set()
@@ -81,6 +124,8 @@ class TrustAwareRetriever:
             if doc is None or not doc.text.strip():
                 continue
             if doc.doc_id in seen_ids:
+                if deduplicate_by_id:
+                    continue
                 doc.doc_id = f"{doc.doc_id}#{idx}"
             seen_ids.add(doc.doc_id)
             adapted.append(doc)

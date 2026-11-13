@@ -4,7 +4,10 @@ from __future__ import annotations
 
 import json
 import logging
-import resource
+try:
+    import resource
+except ImportError:
+    resource = None  # type: ignore[assignment]
 import threading
 import time
 import uuid
@@ -386,7 +389,11 @@ class TrustRAGService:
                 else ("degraded" if (self._fail_safe_fallbacks > 0 or srm_degraded) else "healthy")
             )
             try:
-                peak_rss_mib = round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0, 3)
+                peak_rss_mib = (
+                    round(resource.getrusage(resource.RUSAGE_SELF).ru_maxrss / 1024.0, 3)
+                    if resource is not None
+                    else None
+                )
             except Exception:
                 peak_rss_mib = None
             return ServiceHealthStatus(

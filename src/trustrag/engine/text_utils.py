@@ -49,8 +49,46 @@ ZERO_WIDTH_OR_CONTROL_RE = re.compile(
     r"[\u00ad\u034f\u061c\u115f\u1160\u180e\u200b-\u200f\u202a-\u202e\u2060-\u206f\u3164\ufe00-\ufe0f\ufeff\uffa0\ufff9-\ufffb\U000e0001-\U000e007f\U000e0100-\U000e01ef\x00-\x08\x0b\x0c\x0e-\x1f\x7f]"
 )
 TOKEN_RE = re.compile(r"[a-z0-9]+(?:[-'][a-z0-9]+)?")
+
+SUPPORTED_CURRENCY_SYMBOLS: dict[str, str] = {"$": "usd", "€": "eur", "£": "gbp", "¥": "jpy"}
+SUPPORTED_CURRENCY_CODES: dict[str, str] = {"usd": "usd", "eur": "eur", "gbp": "gbp", "jpy": "jpy"}
+
+CURRENCY_QUANTITY_RE = re.compile(
+    r"""(?xi)
+    (?<!\w)
+    (?:
+        (?:
+            (?P<s1>-)\s*(?P<sym1>[\$€£¥])
+            |
+            (?P<sym2>[\$€£¥])\s*(?P<s2>-)?
+        )
+        \s*
+        (?P<num1>\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)
+        (?=$|[^\w])
+    |
+        (?<!\w)\b(?P<code1>usd|eur|gbp|jpy)\b
+        \s*
+        (?P<s3>-)?
+        \s*
+        (?P<num2>\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)
+        (?=$|[^\w])
+    |
+        (?P<s4>-)?
+        \s*
+        (?P<num3>\d{1,3}(?:,\d{3})+(?:\.\d+)?|\d+(?:\.\d+)?)
+        \s*
+        (?:
+            (?P<sym3>[\$€£¥])
+            |
+            \b(?P<code2>usd|eur|gbp|jpy)\b
+        )
+        (?=$|[^\w])
+    )
+    """
+)
+
 NUMBER_UNIT_RE = re.compile(
-    r"(?<!\w)((?:(?:(?<=^)|(?<=[\s(\[:=><,]))-)?(?:\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?))(?:[\s-]*(%|°\s*(?:celsius|fahrenheit|c|f)|(?:percent|mcg|ug|mg|g|kg|ml|l|mmhg|millimeters?|millimetres?|centimeters?|centimetres?|kilometers?|kilometres?|meters?|metres?|mm|cm|km|inches?|feet|ft|yards?|yds?|miles?|mph|kph|kmh|kpa|hpa|mpa|pa|bar|psi|ghz|mhz|khz|hz|kelvin|celsius|fahrenheit|iu|tablets?|capsules?|pills?|doses?|drops?|puffs?|injections?|teaspoons?|tablespoons?|bits?|bytes|kb|mb|gb|tb|hours?|hrs?|minutes?|mins?|seconds?|secs?|days?|weeks?|months?|years?|c|f|bps|bp)))?(?=$|[^\w])",
+    r"(?<!\w)((?:(?:(?<=^)|(?<=[\s(\[:=><,]))-)?(?:\d{1,3}(?:,\d{3})+|\d+(?:\.\d+)?))(?:[\s-]*(%|°\s*(?:celsius|fahrenheit|c|f)|(?:degrees?\s*(?:celsius|fahrenheit|c|f)?|percent|mcg|ug|mg|g|kg|ml|l|mmhg|millimeters?|millimetres?|centimeters?|centimetres?|kilometers?|kilometres?|meters?|metres?|mm|cm|km|inches?|feet|ft|yards?|yds?|miles?|mph|kph|kmh|kpa|hpa|mpa|pa|bar|psi|ghz|mhz|khz|hz|kelvin|celsius|fahrenheit|iu|tablets?|capsules?|pills?|doses?|drops?|puffs?|injections?|teaspoons?|tablespoons?|bits?|bytes|kb|mb|gb|tb|hours?|hrs?|minutes?|mins?|seconds?|secs?|days?|weeks?|months?|years?|volts?|watts?|kw|mw|gw|amps?|amperes?|ohms?|c|f|bps|bp)))?(?=$|[^\w])",
     re.IGNORECASE,
 )
 _WORD_DOSAGE_UNIT_RE = re.compile(
@@ -76,16 +114,25 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="ignore_previous_instructions",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"\b(?:ignore|disregard|forget|override|bypass)\s+(?:all\s+)?(?:previous|prior|above|system|safety|initial)\s+(?:instructions?|directives?|rules?|prompts?|constraints?|guards?)",
+            r"\b(?:ignore|disregard|forget|override|bypass)\s+(?:(?:all|your|the|their|any|every)\s+)?(?:(?:previous|prior|above|system|safety|initial)\s+)?(?:instructions?|directives?|rules?|prompts?|constraints?|guards?|guardrails?)\b",
             re.IGNORECASE,
         ),
         severity=0.90,
     ),
     ThreatPatternSpec(
+        rule_name="encoded_payload_execution",
+        category="PROMPT_INJECTION",
+        pattern=re.compile(
+            r"\b(?:decode\s+and\s+(?:run|execute|evaluate|print|output)|base64\s*(?:decode|payload|eval))\b",
+            re.IGNORECASE,
+        ),
+        severity=0.85,
+    ),
+    ThreatPatternSpec(
         rule_name="system_override_tag",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"(?:SYSTEM\s+OVERRIDE|(?i:system\s+override\s*:|\[/?SYSTEM\]|\[/?INST\]|<\|im_start\|>|<\|system\|>|###\s*SYSTEM\s*:))"
+            r"(?:SYSTEM\s+(?:PROMPT\s+)?OVERRIDE|(?i:system\s+(?:prompt\s+)?override(?:\s*#?\d+)?\s*:|\[/?SYSTEM\]|\[/?INST\]|<\|im_start\|>|<\|system\|>|###\s*SYSTEM\s*:))"
         ),
         severity=0.90,
     ),
@@ -138,7 +185,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="disable_safety_restrictions",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"\b(?:disable|turn\s+off|remove|bypass|suspend)\s+(?:all\s+)?(?:safety|content|moderation|ethical|security)\s+(?:restrictions?|filters?|guardrails?|checks?|rules?|guidelines?)\b",
+            r"\b(?:disable|turn\s+off|remove|bypass|suspend|ignore|disregard)\s+(?:(?:all|your|the|their|any|every)\s+)?(?:(?:safety|content|moderation|ethical|security)\s+)?(?:restrictions?|filters?|guardrails?|checks?|rules?|guidelines?)\b",
             re.IGNORECASE,
         ),
         severity=0.88,
@@ -295,7 +342,8 @@ def fold_mixed_script_confusables(text: str) -> Tuple[str, int]:
 def tokenize_content_words(text: str, include_negations: bool = True) -> List[str]:
     """Extract lowercase content words excluding standard stopwords."""
     normalized = text.lower().replace("'", "")
-    tokens = TOKEN_RE.findall(normalized)
+    clean = re.sub(r"(?<=\d),(?=\d)", "", normalized)
+    tokens = TOKEN_RE.findall(clean)
     result: List[str] = []
     for tok in tokens:
         if tok in STOPWORDS:
@@ -352,6 +400,11 @@ _FREQ_EVERY_INTERVAL_RE = re.compile(
 
 _FREQ_ON_BASIS_RE = re.compile(
     r"\bon\s+an?\s+(daily|weekly|monthly|hourly)\s+basis\b",
+    re.IGNORECASE,
+)
+
+_FREQ_PER_PERIOD_RE = re.compile(
+    r"\b(?:per|each|a|an)\s+(day|daily|week|weekly|month|monthly|hour|hourly|year|annually)\b",
     re.IGNORECASE,
 )
 
@@ -452,9 +505,46 @@ class ScheduleAssertion:
 
 
 def extract_numbers_and_units(text: str) -> List[Tuple[str, str]]:
-    """Extract normalized numeric and word-written dosage quantities with optional units."""
+    """Extract normalized numeric and word-written dosage quantities with optional units (including monetary currencies)."""
+    consumed_spans: List[Tuple[int, int]] = []
     matches_with_pos: List[Tuple[int, str, str]] = []
+
+    # 1. Currency-aware monetary quantities (symbols $, €, £, ¥ and ISO codes USD, EUR, GBP, JPY)
+    for m in CURRENCY_QUANTITY_RE.finditer(text):
+        consumed_spans.append((m.start(), m.end()))
+        if m.group("sym1") or m.group("sym2"):
+            sign = "-" if (m.group("s1") or m.group("s2")) else ""
+            sym = m.group("sym1") or m.group("sym2")
+            unit = SUPPORTED_CURRENCY_SYMBOLS[sym]
+            raw_num = m.group("num1")
+        elif m.group("code1"):
+            sign = "-" if m.group("s3") else ""
+            unit = SUPPORTED_CURRENCY_CODES[m.group("code1").lower()]
+            raw_num = m.group("num2")
+        else:
+            sign = "-" if m.group("s4") else ""
+            sym = m.group("sym3")
+            code = m.group("code2")
+            unit = SUPPORTED_CURRENCY_SYMBOLS[sym] if sym else SUPPORTED_CURRENCY_CODES[code.lower()]
+            raw_num = m.group("num3")
+        clean_num = raw_num.replace(",", "")
+        try:
+            val = float(sign + clean_num)
+            if val == 0.0:
+                norm_num = "0"
+            elif val.is_integer():
+                norm_num = str(int(val))
+            else:
+                norm_num = f"{val:f}".rstrip("0").rstrip(".")
+        except ValueError:
+            norm_num = sign + clean_num
+        matches_with_pos.append((m.start(), norm_num, unit))
+
+    # 2. General numbers with measurement/time/ratio units
     for m in NUMBER_UNIT_RE.finditer(text):
+        m_start, m_end = m.start(), m.end()
+        if any(cs <= m_start < ce or cs < m_end <= ce for cs, ce in consumed_spans):
+            continue
         num_str, unit = m.group(1), m.group(2)
         clean_num = num_str.replace(",", "")
         try:
@@ -462,18 +552,24 @@ def extract_numbers_and_units(text: str) -> List[Tuple[str, str]]:
             val = float(clean_num)
             if val == 0.0:
                 norm_num = "0"
+            elif val.is_integer():
+                norm_num = str(int(val))
             else:
-                norm_num = str(int(val)) if val.is_integer() else f"{val:g}"
+                norm_num = f"{val:f}".rstrip("0").rstrip(".") if abs(val) >= 1e6 else f"{val:g}"
         except ValueError:
             norm_num = clean_num
         norm_unit = (unit or "").lower().lstrip("°").strip()
-        matches_with_pos.append((m.start(), norm_num, norm_unit))
+        matches_with_pos.append((m_start, norm_num, norm_unit))
 
+    # 3. Word-written dosages
     for m in _WORD_DOSAGE_UNIT_RE.finditer(text):
+        m_start, m_end = m.start(), m.end()
+        if any(cs <= m_start < ce or cs < m_end <= ce for cs, ce in consumed_spans):
+            continue
         word_num = m.group(1).lower()
         unit = m.group(2).lower()
         norm_num = str(_WORD_NUMBERS[word_num])
-        matches_with_pos.append((m.start(), norm_num, unit))
+        matches_with_pos.append((m_start, norm_num, unit))
 
     matches_with_pos.sort(key=lambda item: item[0])
     return [(num, unit) for _, num, unit in matches_with_pos]
@@ -743,6 +839,14 @@ def extract_schedule_assertions(text: str) -> List[ScheduleAssertion]:
         base_period, rate = _PERIOD_SCALES[adv]
         found.append((m.start(), m.end(), round(rate, 4), base_period, m.group(0)))
 
+    for m in _FREQ_PER_PERIOD_RE.finditer(text):
+        if _overlaps(m.start(), m.end()):
+            continue
+        raw_period = m.group(1).lower()
+        if raw_period in _PERIOD_SCALES:
+            base_period, scale = _PERIOD_SCALES[raw_period]
+            found.append((m.start(), m.end(), round(1.0 * scale, 4), base_period, m.group(0)))
+
     for m in _FREQ_BARE_ADVERB_RE.finditer(text):
         s, e = m.start(1), m.end(1)
         if _overlaps(s, e):
@@ -893,11 +997,12 @@ def match_threat_patterns(
     return findings
 
 
-def check_repetitive_flood(text: str, min_repeats: int = 8) -> Tuple[bool, str]:
-    """Detect token-flooding DoS repetition patterns (e.g., repeating a word many times)."""
+def check_repetitive_flood(text: str, min_repeats: int = 6) -> Tuple[bool, str]:
+    """Detect token-flooding DoS repetition patterns (single-word or multi-word phrase loops)."""
     words = re.findall(r"\b\w+\b", text.lower())
     if len(words) < min_repeats:
         return False, ""
+    # 1. Consecutive identical token streak
     streak = 1
     for i in range(1, len(words)):
         if words[i] == words[i - 1]:
@@ -906,6 +1011,20 @@ def check_repetitive_flood(text: str, min_repeats: int = 8) -> Tuple[bool, str]:
                 return True, f"token '{words[i]}' repeated {streak}+ consecutive times"
         else:
             streak = 1
+
+    # 2. Phrase-level repetitive loops (n-grams from 2 to 6 words)
+    for n in (2, 3, 4, 5, 6):
+        if len(words) >= n * min_repeats:
+            ngram_counts: dict[tuple[str, ...], int] = {}
+            for i in range(len(words) - n + 1):
+                gram = tuple(words[i : i + n])
+                ngram_counts[gram] = ngram_counts.get(gram, 0) + 1
+            if ngram_counts:
+                max_gram, count = max(ngram_counts.items(), key=lambda x: x[1])
+                if count >= min_repeats and (count * n) >= len(words) * 0.35:
+                    phrase = " ".join(max_gram)
+                    return True, f"phrase '{phrase}' repeated {count}+ times"
+
     return False, ""
 
 

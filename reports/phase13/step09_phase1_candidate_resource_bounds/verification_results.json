@@ -1,0 +1,149 @@
+{
+  "timestamp": "2026-11-13T10:33:00+00:00",
+  "phase": "phase13_step09",
+  "mission": "Phase 1 Base64 Candidate Resource-Bound Remediation",
+  "verdict": "FIX_VERIFIED",
+  "repository": {
+    "target_path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "baseline_head": "8229aee01a0b6f7fd61a5e774da5bb707bd6a7c1",
+    "final_head": "8229aee01a0b6f7fd61a5e774da5bb707bd6a7c1",
+    "git_operations_performed": false,
+    "phase10_baseline_path": "/home/aditya/rags/TrustRag",
+    "phase10_baseline_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "phase10_status": "UNTOUCHED"
+  },
+  "files": {
+    "modified_source": [
+      "src/trustrag/guardrails/input_guardrail.py"
+    ],
+    "added_tests": [
+      "tests/unit/test_phase_13_step09_resource_bounds.py"
+    ]
+  },
+  "candidate_limits": {
+    "max_b64_candidates": 64,
+    "max_b64_token_len": 8192,
+    "decoded_content_ceiling_bytes": 4096,
+    "phase1_enforced": true,
+    "phase2_enforced": true,
+    "splitter_subcandidates_enforced": true,
+    "streaming_iteration_enforced": true
+  },
+  "boundary_verification": {
+    "phase1_candidate_counts": {
+      "input_1": 1,
+      "input_63": 63,
+      "input_64": 64,
+      "input_65": 64,
+      "input_100": 64,
+      "input_200": 64,
+      "input_1000": 64,
+      "input_10000": 64,
+      "status": "PASS"
+    },
+    "phase2_candidate_counts": {
+      "input_1": 1,
+      "input_63": 63,
+      "input_64": 64,
+      "input_65": 64,
+      "input_100": 64,
+      "input_200": 64,
+      "input_1000": 64,
+      "status": "PASS"
+    }
+  },
+  "candidate_starvation": {
+    "malicious_position_1": "BLOCK (Risk 1.00)",
+    "malicious_position_32": "BLOCK (Risk 1.00)",
+    "malicious_position_64": "BLOCK (Risk 1.00)",
+    "malicious_position_65": "ALLOW (Documented Starvation: cap reached at 64)",
+    "malicious_position_101": "ALLOW (Documented Starvation: cap reached at 64)",
+    "malformed_prefix_handling": "BLOCK (Malformed prefixes do not exhaust valid candidate budget)",
+    "status": "PASS"
+  },
+  "false_positive_metrics": {
+    "total_benign_samples": 205,
+    "benign_blocked": 0,
+    "false_positive_rate_percent": 0.0,
+    "verdict": "ZERO_FALSE_POSITIVES",
+    "status": "PASS"
+  },
+  "historical_regressions": {
+    "probes_tested": 18,
+    "probes_passed": 18,
+    "historical_unit_tests": "208 passed in 1.26s",
+    "status": "PASS"
+  },
+  "test_suites": {
+    "step09_unit_tests": {
+      "file": "tests/unit/test_phase_13_step09_resource_bounds.py",
+      "passed": 30,
+      "failed": 0,
+      "duration_seconds": 1.51,
+      "status": "PASS"
+    },
+    "phase13_total_unit_tests": {
+      "command": "pytest tests/unit/test_phase_13_step03_... step05_... step07_... step09_... -q",
+      "total_passed": 238,
+      "failed": 0,
+      "duration_seconds": 1.26,
+      "status": "PASS"
+    },
+    "full_pytest_suite": {
+      "command": "pytest -W error -q",
+      "baseline_passed": 645,
+      "step09_added": 30,
+      "total_passed": 675,
+      "deselected": 2,
+      "failed": 0,
+      "duration_seconds": 22.64,
+      "status": "PASS"
+    }
+  },
+  "quality_gates": {
+    "mypy": {
+      "command": "mypy src",
+      "result": "Success: no issues found in 111 source files",
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    "ruff": {
+      "command": "ruff check --select E9,F63,F7,F82 src/ tests/",
+      "result": "All checks passed!",
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    "compileall": {
+      "command": "python -m compileall -q src/",
+      "result": "COMPILEALL_OK",
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    "spec_validation": {
+      "command": "python tools/spec_validation/run_all_validations.py",
+      "result": "13/13 gates PASS (suite_status: PASS)",
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  },
+  "resource_benchmarks": {
+    "p50_latency_ms": 4.8099,
+    "p95_latency_ms": 4.9346,
+    "p99_latency_ms": 5.0826,
+    "max_latency_ms": 5.0826,
+    "mean_latency_ms": 4.8164,
+    "latency_1000_candidates_ms": 24.004,
+    "latency_10000_candidates_ms": 221.069,
+    "memory_growth_kb": 415.104,
+    "sample_size": 100,
+    "complexity_scaling": "Linear O(N) verified",
+    "status": "PASS"
+  },
+  "remaining_limitations": [
+    "Candidate starvation at position 65+ when preceded by 64 valid Base64 tokens (mitigated by repetitive flood & length rules)",
+    "Non-Base64 encodings such as Base32 and Base85 not inspected by G1 (mitigated by MSD entropy signals)",
+    "Recursive multi-layer Base64 decoding beyond depth 1 not evaluated"
+  ]
+}
+

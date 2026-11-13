@@ -1,0 +1,54 @@
+============================= test session starts ==============================
+platform linux -- Python 3.14.9, pytest-9.2.0, pluggy-1.7.0 -- /home/aditya/rags/.venv/bin/python3
+cachedir: .pytest_cache
+rootdir: /home/aditya/rags/TrustRag-phase11
+configfile: pyproject.toml
+plugins: anyio-4.16.0, mock-3.17.0, cov-7.1.0
+collecting ... collected 44 items
+
+tests/unit/test_phase_03_defense.py::TestG1InputGuardrail::test_safe_and_benign_instruction_queries_allowed PASSED [  2%]
+tests/unit/test_phase_03_defense.py::TestG1InputGuardrail::test_suspicious_inputs_flagged_and_original_preserved PASSED [  4%]
+tests/unit/test_phase_03_defense.py::TestG1InputGuardrail::test_malicious_inputs_blocked_with_clear_reason_codes PASSED [  6%]
+tests/unit/test_phase_03_defense.py::TestG1InputGuardrail::test_empty_input_blocked_and_thresholds_configurable PASSED [  9%]
+tests/unit/test_phase_03_defense.py::TestG2AndTrustAwareRetrieval::test_signal_documentation_and_heuristic_labeling PASSED [ 11%]
+tests/unit/test_phase_03_defense.py::TestG2AndTrustAwareRetrieval::test_poisoned_and_exfiltration_documents_filtered_while_benign_instruction_trusted PASSED [ 13%]
+tests/unit/test_phase_03_defense.py::TestG2AndTrustAwareRetrieval::test_conflicting_evidence_detection_and_minority_outlier_penalty PASSED [ 15%]
+tests/unit/test_phase_03_defense.py::TestG2AndTrustAwareRetrieval::test_threshold_behavior_and_downrank_mode PASSED [ 18%]
+tests/unit/test_phase_03_defense.py::TestG3OutputEvidenceVerification::test_supported_claim_with_evidence_traceability PASSED [ 20%]
+tests/unit/test_phase_03_defense.py::TestG3OutputEvidenceVerification::test_semantic_similarity_alone_does_not_mark_supported PASSED [ 22%]
+tests/unit/test_phase_03_defense.py::TestG3OutputEvidenceVerification::test_contradicted_claims_polarity_and_numeric_mismatch PASSED [ 25%]
+tests/unit/test_phase_03_defense.py::TestSRMIntegration::test_srm_disabled_uses_deterministic_fallback PASSED [ 27%]
+tests/unit/test_phase_03_defense.py::TestSRMIntegration::test_srm_timeout_triggers_fallback_safely PASSED [ 29%]
+tests/unit/test_phase_03_defense.py::TestSRMIntegration::test_srm_unavailable_triggers_fallback_safely PASSED [ 31%]
+tests/unit/test_phase_03_defense.py::TestSRMIntegration::test_ollama_http_transport_and_secret_free_logging PASSED [ 34%]
+tests/unit/test_phase_03_defense.py::TestSRMIntegration::test_openai_compatible_http_transport_success PASSED [ 36%]
+tests/unit/test_phase_03_defense.py::TestSRMIntegration::test_openai_compatible_missing_key_falls_back PASSED [ 38%]
+tests/unit/test_phase_03_defense.py::TestEndToEndDefensePipeline::test_end_to_end_clean_query_and_poisoned_doc_isolation PASSED [ 40%]
+tests/unit/test_phase_03_defense.py::TestEndToEndDefensePipeline::test_end_to_end_blocks_malicious_query_before_retrieval PASSED [ 43%]
+tests/unit/test_phase_03_defense.py::TestEndToEndDefensePipeline::test_end_to_end_catches_unsupported_injected_answer PASSED [ 45%]
+tests/unit/test_phase_03_defense.py::TestEndToEndDefensePipeline::test_end_to_end_deterministic_reproducibility PASSED [ 47%]
+tests/unit/test_phase_03_defense.py::TestEndToEndDefensePipeline::test_ground_truth_benchmark_labels_never_leak_to_g2 PASSED [ 50%]
+tests/unit/test_phase_03_defense.py::TestEndToEndDefensePipeline::test_phase03_settings_env_overrides PASSED [ 52%]
+tests/unit/test_phase_03_defense.py::TestEndToEndDefensePipeline::test_cli_pipeline_json_execution_on_local_benchmark PASSED [ 54%]
+tests/unit/test_phase_08_step04_g1_paraphrasing.py::test_deterministic_paraphraser_accepts_constraint_preserving_reformulation PASSED [ 56%]
+tests/unit/test_phase_08_step04_g1_paraphrasing.py::test_paraphrase_rejects_all_nine_constraint_and_security_violations PASSED [ 59%]
+tests/unit/test_phase_08_step04_g1_paraphrasing.py::test_paraphrasing_never_bypasses_g1_block_and_rejects_malicious_callable PASSED [ 61%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_padding_single_equals PASSED [ 63%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_padding_double_equals PASSED [ 65%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_unpadded_valid PASSED [ 68%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_invalid_and_excessive_padding PASSED [ 70%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_at_beginning_of_input PASSED [ 72%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_at_end_of_input PASSED [ 75%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_surrounded_by_punctuation PASSED [ 77%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_multiple_tokens PASSED [ 79%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_possessive_injection PASSED [ 81%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_system_override_tag PASSED [ 84%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_role_hijack PASSED [ 86%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_false_positive_benign_text PASSED [ 88%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_false_positive_hex_hashes PASSED [ 90%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_false_positive_urls_and_emails PASSED [ 93%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_false_positive_multilingual PASSED [ 95%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_resource_safety_invalid_utf8 PASSED [ 97%]
+tests/unit/test_phase_13_step03_base64_remediation.py::test_base64_resource_safety_large_payload PASSED [100%]
+
+============================== 44 passed in 1.00s ==============================

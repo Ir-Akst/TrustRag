@@ -1,0 +1,78 @@
+{
+  "timestamp": "2026-11-13T09:02:02.174174+00:00",
+  "phase": "phase13_step07",
+  "total_checks": 7,
+  "passed": 7,
+  "failed": 0,
+  "verdict": "PASS",
+  "checks": [
+    {
+      "id": "RES-01",
+      "description": "Candidate count capped at _MAX_B64_CANDIDATES",
+      "passed": true,
+      "metrics": {
+        "extracted": 1,
+        "max_allowed": 64,
+        "latency_ms": 0.84
+      }
+    },
+    {
+      "id": "RES-02",
+      "description": "Candidate exceeding _MAX_B64_TOKEN_LEN safely skipped",
+      "passed": true,
+      "metrics": {
+        "token_len": 10000,
+        "extracted": 0,
+        "max_len": 8192
+      }
+    },
+    {
+      "id": "RES-03",
+      "description": "Large candidate within _MAX_B64_TOKEN_LEN extracted",
+      "passed": true,
+      "metrics": {
+        "token_len": 6936,
+        "extracted": 1
+      }
+    },
+    {
+      "id": "RES-04",
+      "description": "Mass slash delimiter stress test (200 slashes)",
+      "passed": true,
+      "metrics": {
+        "extracted": 1,
+        "latency_ms": 0.03
+      }
+    },
+    {
+      "id": "RES-05",
+      "description": "URL-safe latency distribution (100 iterations)",
+      "passed": true,
+      "metrics": {
+        "p50_ms": 0.105,
+        "p95_ms": 0.248,
+        "p99_ms": 0.28,
+        "mean_ms": 0.135
+      }
+    },
+    {
+      "id": "RES-06",
+      "description": "Adjacent token latency distribution (100 iterations)",
+      "passed": true,
+      "metrics": {
+        "p50_ms": 0.117,
+        "p95_ms": 0.128,
+        "p99_ms": 0.141,
+        "mean_ms": 0.119
+      }
+    },
+    {
+      "id": "RES-07",
+      "description": "Memory stability under repeated evaluation (200 iterations)",
+      "passed": true,
+      "metrics": {
+        "net_diff_kb": 3.75
+      }
+    }
+  ]
+}

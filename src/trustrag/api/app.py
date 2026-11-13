@@ -157,7 +157,21 @@ RUNTIME_KEY: web.AppKey[AppRuntime] = web.AppKey("runtime", AppRuntime)
 async def _parse_json_body(request: web.Request, model_cls: Any) -> tuple[Any | None, web.Response | None]:
     try:
         raw = await request.json()
-    except Exception:
+    except web.HTTPRequestEntityTooLarge:
+        return None, json_error(
+            413,
+            error="Request payload exceeds maximum allowed size.",
+            code="PAYLOAD_TOO_LARGE",
+        )
+    except json.JSONDecodeError:
+        return None, json_error(400, error="Malformed JSON request body.", code="INVALID_JSON")
+    except Exception as exc:
+        if isinstance(exc, web.HTTPRequestEntityTooLarge) or getattr(exc, "status", None) == 413:
+            return None, json_error(
+                413,
+                error="Request payload exceeds maximum allowed size.",
+                code="PAYLOAD_TOO_LARGE",
+            )
         return None, json_error(400, error="Malformed JSON request body.", code="INVALID_JSON")
     try:
         return model_cls.model_validate(raw), None

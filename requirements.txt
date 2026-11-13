@@ -2,6 +2,7 @@
 numpy
 pandas
 scipy
+scikit-learn
 pydantic
 pydantic-settings
 pyyaml

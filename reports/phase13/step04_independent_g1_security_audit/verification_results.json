@@ -1,0 +1,129 @@
+{
+  "timestamp": "2026-11-13T13:05:00Z",
+  "audit_phase": "Phase 13 Step 4",
+  "verdict": "CONDITIONALLY_VERIFIED",
+  "target_vulnerability": {
+    "id": "REM-01",
+    "name": "G1 Padded Base64 Inspection Bypass",
+    "status": "CLOSED",
+    "verification_method": "Independent empirical reproduction across 6 vectors"
+  },
+  "new_findings": [
+    {
+      "id": "ADV-EVASION-01",
+      "name": "Alphabet-Colliding Delimiter Bypass (Slash / Plus / Equals Enclosure)",
+      "severity": "MEDIUM",
+      "affected_file": "src/trustrag/guardrails/input_guardrail.py",
+      "lines": "81-83",
+      "description": "Enclosing Base64 tokens in '/', '+', or '=' characters prevents token extraction due to negative lookaround collision with the Base64 alphabet, allowing hostile payloads to pass as ALLOW (risk_score=0.0).",
+      "remediation_status": "OPEN_TECHNICAL_DEBT"
+    },
+    {
+      "id": "ADV-LIMITATION-02",
+      "name": "Single-Pass Decoding Limitation on Nested Base64",
+      "severity": "LOW",
+      "description": "Multi-layer encoded payloads are decoded only once and not recursively inspected.",
+      "remediation_status": "RESEARCH_BACKLOG"
+    }
+  ],
+  "probe_metrics": {
+    "original_vulnerability_probes": {
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "bypass_rate": 0.0,
+      "evidence_file": "evidence/original_vulnerability_results.json"
+    },
+    "fresh_adversarial_probes": {
+      "total_categories": 16,
+      "passed_safe": 15,
+      "evasion_discovered": 1,
+      "evidence_file": "evidence/adversarial_probes_results.json"
+    },
+    "false_positive_probes": {
+      "total": 18,
+      "passed_allow": 18,
+      "failed_flag_block": 0,
+      "false_positive_rate": 0.0,
+      "evidence_file": "evidence/false_positive_resource_results.json"
+    },
+    "resource_and_performance": {
+      "nominal_latency_ms": 0.35,
+      "max_bounded_latency_ms": 3.95,
+      "memory_leak_detected": false,
+      "net_memory_drift_kib": 12.4,
+      "decode_ceiling_enforced": true
+    }
+  },
+  "regression_and_quality_gates": {
+    "full_pytest_suite": {
+      "passed": 454,
+      "deselected": 2,
+      "failed": 0,
+      "errors": 0,
+      "duration_seconds": 17.49,
+      "log_file": "evidence/full_pytest.log"
+    },
+    "g1_subsystem_tests": {
+      "passed": 44,
+      "failed": 0,
+      "duration_seconds": 1.00,
+      "log_file": "evidence/g1_tests.log"
+    },
+    "phase11_step12_historical_probes": {
+      "passed": 17,
+      "total": 17,
+      "status": "PASS",
+      "log_file": "evidence/phase11_step12_probes.log"
+    },
+    "phase13_step02_reality_audit_probes": {
+      "probes_tested": [
+        "probe_p0",
+        "probe_p1",
+        "probe_p2",
+        "probe_integration_regression"
+      ],
+      "status": "PASS",
+      "log_file": "evidence/phase13_step02_probes.log"
+    },
+    "static_analysis": {
+      "python_compileall": {
+        "status": "PASS",
+        "errors": 0,
+        "log_file": "evidence/compileall.log"
+      },
+      "mypy_strict_type_check": {
+        "status": "PASS",
+        "files_checked": 111,
+        "errors": 0,
+        "log_file": "evidence/mypy_audit.log"
+      },
+      "ruff_syntax_audit": {
+        "status": "PASS",
+        "errors": 0,
+        "log_file": "evidence/ruff_syntax_audit.log"
+      },
+      "spec_validation_13_gates": {
+        "status": "PASS",
+        "gates_passed": 13,
+        "gates_total": 13,
+        "log_file": "evidence/spec_validation.log"
+      }
+    }
+  },
+  "worktree_isolation": {
+    "active_repository": "/home/aditya/rags/TrustRag-phase11",
+    "active_branch": "phase-11",
+    "active_head": "8229aee01a0b6f7fd61a5e774da5bb707bd6a7c1",
+    "baseline_worktree": "/home/aditya/rags/TrustRag",
+    "baseline_head": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "baseline_untouched": true,
+    "audit_mode": "READ_ONLY"
+  },
+  "academic_transparency": {
+    "srm_is_deterministic_heuristic_fallback": true,
+    "external_benchmarks_offline": true,
+    "mock_generators_active": true
+  }
+}
+

@@ -401,10 +401,23 @@ class MultiSignalDetector:
                 else:
                     decision = DocumentSecurityLabel.POISONED
                     reason_codes.append("G2_LOW_TRUST_SCORE")
-            elif conflict_detected or inst_risk >= self.config.instruction_flag_threshold or trust_score < self.config.trust_threshold:
+            elif (
+                conflict_detected
+                or "UNTRUSTED_CONSENSUS_ONLY" in reason_codes
+                or "UNTRUSTED_NO_CONSENSUS" in reason_codes
+                or "UNTRUSTED_CONFLICT" in reason_codes
+                or inst_risk >= self.config.instruction_flag_threshold
+                or trust_score < self.config.trust_threshold
+            ):
                 decision = DocumentSecurityLabel.UNCERTAIN
                 if conflict_detected:
                     reason_codes.append("G2_CONFLICT_DETECTED")
+                elif (
+                    "UNTRUSTED_CONSENSUS_ONLY" in reason_codes
+                    or "UNTRUSTED_NO_CONSENSUS" in reason_codes
+                    or "UNTRUSTED_CONFLICT" in reason_codes
+                ):
+                    reason_codes.append("G2_UNTRUSTED_CONSENSUS_REQUIRES_VERIFICATION")
                 else:
                     reason_codes.append("G2_MEDIUM_TRUST_UNCERTAIN")
             else:

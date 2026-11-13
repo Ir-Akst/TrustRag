@@ -1,0 +1,116 @@
+{
+  "timestamp": "2026-11-13T09:53:00+00:00",
+  "phase": "phase13_step08",
+  "mission": "Independent URL-Safe & Adjacent-Token Security Acceptance Audit",
+  "final_verdict": "INDEPENDENTLY_VERIFIED",
+  "repository": {
+    "target_path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "head_commit": "8229aee01a0b6f7fd61a5e774da5bb707bd6a7c1",
+    "phase10_baseline_path": "/home/aditya/rags/TrustRag",
+    "phase10_baseline_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "phase10_status": "UNTOUCHED"
+  },
+  "attack_evaluations": {
+    "urlsafe_base64": {
+      "probes_tested": 17,
+      "probes_passed": 17,
+      "attacks_blocked": 16,
+      "mixed_rejected": 1,
+      "bypass_count": 0,
+      "block_rate": 1.0,
+      "status": "PASS"
+    },
+    "adjacent_token": {
+      "probes_tested": 14,
+      "probes_passed": 14,
+      "attacks_blocked": 14,
+      "internal_slash_tested": 3,
+      "internal_slash_blocked": 3,
+      "bypass_count": 0,
+      "block_rate": 1.0,
+      "status": "PASS"
+    },
+    "splitter_security": {
+      "probes_tested": 6,
+      "probes_passed": 6,
+      "candidate_cap_enforced": true,
+      "max_token_len_enforced": true,
+      "min_token_len_enforced": true,
+      "redos_safe": true,
+      "status": "PASS"
+    }
+  },
+  "false_positive_audit": {
+    "total_benign_samples": 205,
+    "benign_blocked": 0,
+    "false_positive_rate_percent": 0.0,
+    "verdict": "ZERO_FALSE_POSITIVES",
+    "status": "PASS"
+  },
+  "historical_regressions": {
+    "probes_tested": 18,
+    "probes_passed": 18,
+    "rem01_probes_passed": 5,
+    "advevasion01_probes_passed": 8,
+    "step06_probes_passed": 2,
+    "step07_probes_passed": 3,
+    "status": "PASS"
+  },
+  "test_suites": {
+    "focused_g1_tests": {
+      "command": "pytest tests/unit/test_phase_13_step03_... test_phase_13_step05_... test_phase_13_step07_... -q",
+      "total_passed": 208,
+      "failed": 0,
+      "duration_seconds": 1.01,
+      "status": "PASS"
+    },
+    "full_pytest_suite": {
+      "command": "pytest -W error -q",
+      "baseline_passed": 497,
+      "step07_added": 148,
+      "total_passed": 645,
+      "deselected": 2,
+      "failed": 0,
+      "duration_seconds": 19.53,
+      "status": "PASS"
+    }
+  },
+  "quality_gates": {
+    "mypy": {
+      "command": "mypy src",
+      "result": "Success: no issues found in 111 source files",
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    "ruff": {
+      "command": "ruff check --select E9,F63,F7,F82 src/ tests/",
+      "result": "All checks passed!",
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    "compileall": {
+      "command": "python -m compileall -q src/",
+      "result": "COMPILEALL_OK",
+      "exit_code": 0,
+      "status": "PASS"
+    },
+    "spec_validation": {
+      "command": "python tools/spec_validation/run_all_validations.py",
+      "result": "13/13 gates PASS (suite_status: PASS)",
+      "exit_code": 0,
+      "status": "PASS"
+    }
+  },
+  "performance_benchmarks": {
+    "p50_latency_ms": 0.2414,
+    "p95_latency_ms": 0.2548,
+    "p99_latency_ms": 0.2755,
+    "max_latency_ms": 0.2755,
+    "mean_latency_ms": 0.2425,
+    "memory_growth_kb": 31.486,
+    "sample_size": 100,
+    "status": "PASS"
+  }
+}
+

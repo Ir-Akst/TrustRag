@@ -1,0 +1,260 @@
+{
+  "status": "PASS",
+  "DEF-17": {
+    "extraction": {
+      "Revenue reached \u20ac250.": {
+        "extracted": [
+          [
+            "250",
+            "eur"
+          ]
+        ],
+        "expected": [
+          [
+            "250",
+            "eur"
+          ]
+        ],
+        "passed": true
+      },
+      "Revenue reached $250.": {
+        "extracted": [
+          [
+            "250",
+            "usd"
+          ]
+        ],
+        "expected": [
+          [
+            "250",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      "Cost was -$250.": {
+        "extracted": [
+          [
+            "-250",
+            "usd"
+          ]
+        ],
+        "expected": [
+          [
+            "-250",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      "Price was 250 USD.": {
+        "extracted": [
+          [
+            "250",
+            "usd"
+          ]
+        ],
+        "expected": [
+          [
+            "250",
+            "usd"
+          ]
+        ],
+        "passed": true
+      },
+      "Grant was \u00a31,000,000.": {
+        "extracted": [
+          [
+            "1000000",
+            "gbp"
+          ]
+        ],
+        "expected": [
+          [
+            "1000000",
+            "gbp"
+          ]
+        ],
+        "passed": true
+      },
+      "Ticket was \u00a51500.": {
+        "extracted": [
+          [
+            "1500",
+            "jpy"
+          ]
+        ],
+        "expected": [
+          [
+            "1500",
+            "jpy"
+          ]
+        ],
+        "passed": true
+      }
+    },
+    "cross_currency": {
+      "Revenue reached \u20ac250. vs Revenue reached $250.": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      "Revenue reached \u20ac250. vs Revenue reached $400.": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      "The grant was \u00a3100. vs The grant was 100 EUR.": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      "Fare was \u00a51500. vs Fare was $15.": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      "Profit was 500 USD. vs Profit was 500 EUR.": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      },
+      "Device cost 250 GBP. vs Device cost 250 JPY.": {
+        "verdict": "INSUFFICIENT_EVIDENCE",
+        "expected": "INSUFFICIENT_EVIDENCE",
+        "passed": true
+      }
+    },
+    "same_currency_conflict": {
+      "Revenue reached \u20ac250. vs Revenue reached \u20ac400.": {
+        "verdict": "CONTRADICTED",
+        "expected": "CONTRADICTED",
+        "passed": true
+      },
+      "The device cost $250. vs The device cost $400.": {
+        "verdict": "CONTRADICTED",
+        "expected": "CONTRADICTED",
+        "passed": true
+      },
+      "The grant was \u00a3100. vs The grant was \u00a3150.": {
+        "verdict": "CONTRADICTED",
+        "expected": "CONTRADICTED",
+        "passed": true
+      },
+      "Fare was \u00a51500. vs Fare was \u00a52000.": {
+        "verdict": "CONTRADICTED",
+        "expected": "CONTRADICTED",
+        "passed": true
+      },
+      "Price was 250 USD. vs Price was 400 USD.": {
+        "verdict": "CONTRADICTED",
+        "expected": "CONTRADICTED",
+        "passed": true
+      }
+    },
+    "same_currency_equiv": {
+      "Revenue reached \u20ac250. vs Revenue reached \u20ac250.": {
+        "verdict": "SUPPORTED",
+        "expected": "SUPPORTED",
+        "passed": true
+      },
+      "Revenue reached $250. vs Revenue reached 250 USD.": {
+        "verdict": "SUPPORTED",
+        "expected": "SUPPORTED",
+        "passed": true
+      },
+      "The grant was \u00a31,000,000. vs The grant was \u00a31000000.": {
+        "verdict": "SUPPORTED",
+        "expected": "SUPPORTED",
+        "passed": true
+      },
+      "Device cost $250.50. vs Device cost $250.50.": {
+        "verdict": "SUPPORTED",
+        "expected": "SUPPORTED",
+        "passed": true
+      },
+      "Fare was \u00a51500. vs Fare was 1500 JPY.": {
+        "verdict": "SUPPORTED",
+        "expected": "SUPPORTED",
+        "passed": true
+      }
+    },
+    "status": "PASS"
+  },
+  "DEF-18": {
+    "prompt_override_attack": {
+      "evade_decisions": [
+        "POISONED",
+        "POISONED",
+        "POISONED",
+        "POISONED"
+      ],
+      "evade_trust_scores": [
+        0.0614,
+        0.0614,
+        0.0614,
+        0.0614
+      ],
+      "evade_f4_scores": [
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "evade_f5_scores": [
+        0.5,
+        0.5,
+        0.5,
+        0.5
+      ],
+      "passed": true
+    },
+    "untrusted_disinformation_consensus": {
+      "clean_doc_decision": "CLEAN",
+      "clean_doc_trust_score": 0.8736,
+      "bot_decisions": [
+        "UNCERTAIN",
+        "UNCERTAIN",
+        "UNCERTAIN",
+        "UNCERTAIN"
+      ],
+      "bot_f5_scores": [
+        0.2,
+        0.2,
+        0.2,
+        0.2
+      ],
+      "bot_trust_scores": [
+        0.4622,
+        0.4622,
+        0.4622,
+        0.4622
+      ],
+      "passed": true
+    },
+    "status": "PASS"
+  },
+  "DEF-19": {
+    "oversized_authenticated": {
+      "status_code": 413,
+      "code": "PAYLOAD_TOO_LARGE",
+      "passed": true
+    },
+    "oversized_unauthenticated": {
+      "status_code": 401,
+      "code": "UNAUTHORIZED",
+      "passed": true
+    },
+    "malformed_json_below_limit": {
+      "status_code": 400,
+      "code": "INVALID_JSON",
+      "passed": true
+    },
+    "valid_json_below_limit": {
+      "status_code": 200,
+      "request_id": "dd45d2db701f",
+      "passed": true
+    },
+    "status": "PASS"
+  }
+}

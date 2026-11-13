@@ -1,0 +1,81 @@
+{
+  "verification_suite": "TrustRAG Phase 13 Step 2 - Reality Audit Remediation Verification",
+  "generated_at": "2026-11-13T11:20:00Z",
+  "environment": {
+    "os": "linux",
+    "python_version": "3.14.0rc3",
+    "repository_path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "commit_head": "8229aee01a0b6f7fd61a5e774da5bb707bd6a7c1",
+    "commit_parent": "5481d6a88b8a9e2d5d7c7099a9692fd79e8ece46",
+    "phase10_worktree_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "phase10_worktree_clean": true
+  },
+  "summary_metrics": {
+    "total_audit_issues_tracked": 20,
+    "verified_closed": 17,
+    "partially_closed": 1,
+    "open_research_gaps": 2,
+    "overall_software_pass_rate": 0.944,
+    "pytest_suite": {
+      "passed": 437,
+      "failed": 0,
+      "errors": 0,
+      "deselected": 2,
+      "total": 439,
+      "duration_seconds": 17.48,
+      "status": "PASS"
+    },
+    "static_analysis": {
+      "mypy_errors": 0,
+      "source_files_checked": 111,
+      "ruff_violations": 0,
+      "status": "PASS"
+    },
+    "spec_validation": {
+      "gates_evaluated": 13,
+      "gates_passed": 13,
+      "status": "PASS"
+    },
+    "step12_independent_probes": {
+      "probes_evaluated": 17,
+      "probes_passed": 17,
+      "duration_seconds": 0.23,
+      "status": "PASS"
+    }
+  },
+  "probes": {
+    "p0_platform_security": {
+      "P0_1_windows_resource_guard": "PASS",
+      "P0_2_dependency_alignment": "PASS",
+      "P0_3_g1_guardrail_possessives": "PASS",
+      "P0_3_g1_guardrail_base64_unpadded": "PASS",
+      "P0_3_g1_guardrail_base64_padded": "FAIL (Bypass confirmed: \\b regex strips trailing '=' padding)",
+      "P0_3_g1_guardrail_repetition": "PASS",
+      "P0_3_g1_guardrail_zwsp": "PASS",
+      "P0_4_g2_stealth_factual": "PASS",
+      "P0_4_g2_duplicate_poison": "PASS"
+    },
+    "p1_data_verification_calibration": {
+      "P1_1_g3_phrased_units": "PASS",
+      "P1_2_g3_coordinated_clauses": "PASS",
+      "P1_3_g3_vague_provenance_gating": "PASS",
+      "P1_4_dataset_loader_short_circuit": "PASS",
+      "P1_5_calibration_alignment": "PASS"
+    },
+    "p2_retrieval_tooling_deployment": {
+      "P2_1_retriever_persistence": "PASS",
+      "P2_2_retriever_deduplication": "PASS",
+      "P2_3_srm_reality_probe": "VERIFIED_DETERMINISTIC_FALLBACK (No neural weights)",
+      "P2_4_container_and_ci": "PASS"
+    },
+    "integration_regression": {
+      "INT_1_clean_e2e_pipeline": "PASS",
+      "INT_2_g1_injection_blocked": "PASS",
+      "INT_3_g2_poison_defense": "PASS",
+      "INT_4_g3_contradiction_quarantine": "PASS",
+      "INT_5_production_service": "PASS"
+    }
+  }
+}
+

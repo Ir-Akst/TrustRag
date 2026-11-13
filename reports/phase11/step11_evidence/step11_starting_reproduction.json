@@ -1,0 +1,67 @@
+{
+  "DEF-17": {
+    "probe1_eur_vs_usd_same_scalar": {
+      "verdict": "INSUFFICIENT_EVIDENCE",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "is_incorrect": false,
+      "explanation": "Similarity alone insufficient: Numeric dosage/unit '250eur' not verified in evidence span units ['usd']."
+    },
+    "probe2_eur_vs_usd_diff_scalar": {
+      "verdict": "INSUFFICIENT_EVIDENCE",
+      "expected": "INSUFFICIENT_EVIDENCE",
+      "is_incorrect": false,
+      "explanation": "Similarity alone insufficient: Numeric dosage/unit '250eur' not verified in evidence span units ['usd']."
+    }
+  },
+  "DEF-18": {
+    "evade_doc_count": 4,
+    "evade_decisions": [
+      "POISONED",
+      "POISONED",
+      "POISONED",
+      "POISONED"
+    ],
+    "evade_trust_scores": [
+      0.1,
+      0.1,
+      0.1,
+      0.1
+    ],
+    "evade_f4_values": [
+      0.0,
+      0.0,
+      0.0,
+      0.0
+    ],
+    "evade_f5_values": [
+      0.85,
+      0.85,
+      0.85,
+      0.85
+    ],
+    "evade_f6_values": [
+      0.25,
+      0.25,
+      0.25,
+      0.25
+    ],
+    "is_incorrect": false
+  },
+  "DEF-19": {
+    "big_payload_status": 413,
+    "big_payload_body": {
+      "error": "Request payload exceeds maximum allowed size.",
+      "code": "PAYLOAD_TOO_LARGE",
+      "request_id": null,
+      "details": []
+    },
+    "big_payload_is_incorrect": false,
+    "malformed_payload_status": 400,
+    "malformed_payload_body": {
+      "error": "Malformed JSON request body.",
+      "code": "INVALID_JSON",
+      "request_id": null,
+      "details": []
+    }
+  }
+}
