@@ -1,0 +1,29 @@
+{
+  "g3_output_verifier": {
+    "status": "COMPLETED",
+    "datasets": [
+      "ragtruth",
+      "halueval"
+    ],
+    "eligible_records": 5700
+  },
+  "retrieval_relevance": {
+    "status": "COMPLETED",
+    "datasets": [
+      "hotpotqa",
+      "ms_marco"
+    ],
+    "eligible_queries": 17111,
+    "corpus_mode": "candidate_pool_reranking",
+    "full_corpus_status": "BLOCKED",
+    "blocker_detail": "Full 5.23M Wikipedia (HotpotQA) and 8.84M passage collection (MS MARCO) archives not present locally."
+  },
+  "g1_prompt_injection": {
+    "status": "NOT_EVALUABLE",
+    "reason": "Canonical benchmark datasets (RAGTruth, HaluEval, HotpotQA, MS MARCO) do not contain adversarial prompt-injection attack vectors or ground-truth injection labels. TrustRAG strictly refuses to fabricate attack labels."
+  },
+  "g2_poisoning_detection": {
+    "status": "NOT_EVALUABLE",
+    "reason": "Canonical benchmark datasets do not contain knowledge-poisoning attack metadata or poisoned passage labels. Dedicated security benchmarks (RSB arXiv:2505.18543) remain pending public distribution."
+  }
+}

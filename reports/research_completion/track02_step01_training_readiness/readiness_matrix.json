@@ -1,0 +1,106 @@
+{
+  "metadata": {
+    "task": "Track 2, Step 1: Independent Neural Training Readiness Audit",
+    "date": "2026-11-14T01:15:00+05:30",
+    "auditor": "Senior ML Infrastructure Engineer & Independent ML Research Evaluator",
+    "target_repo": "/home/aditya/rags/TrustRag-phase11",
+    "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "protected_repo": "/home/aditya/rags/TrustRag",
+    "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168"
+  },
+  "overall_verdict": "BLOCKED",
+  "dimension_verdicts": {
+    "dataset_readiness": "CONDITIONALLY_READY",
+    "sft_readiness": "BLOCKED",
+    "orpo_preference_readiness": "BLOCKED",
+    "model_readiness": "BLOCKED",
+    "hardware_readiness": "BLOCKED",
+    "training_implementation_readiness": "BLOCKED",
+    "research_methodology_compliance": "BLOCKED",
+    "evaluation_readiness": "READY"
+  },
+  "quantitative_census": {
+    "usable_raw_sft_examples": 29090,
+    "sft_examples_breakdown": {
+      "ragtruth_train": 15090,
+      "halueval_train": 14000
+    },
+    "formatted_reasoning_trace_sft_examples": 0,
+    "valid_response_preference_pairs": 7000,
+    "valid_srm_reasoning_preference_pairs": 0,
+    "validation_only_queries_isolated": {
+      "hotpotqa_val": 7405,
+      "msmarco_val": 10047
+    }
+  },
+  "hardware_audit": {
+    "cpu": "13th Gen Intel(R) Core(TM) i7-1355U (10 cores, 12 threads)",
+    "gpu_model": "NONE",
+    "gpu_count": 0,
+    "available_vram_gb": 0.0,
+    "cuda_available": false,
+    "system_ram_total_gb": 15.0,
+    "system_ram_available_gb": 2.2,
+    "system_swap_used_gb": 5.9,
+    "system_swap_status": "99.9% exhausted",
+    "disk_space_available_gb": 7.7
+  },
+  "software_dependencies": {
+    "torch": {
+      "installed": false,
+      "version": null
+    },
+    "transformers": {
+      "installed": false,
+      "version": null
+    },
+    "peft": {
+      "installed": false,
+      "version": null
+    },
+    "trl": {
+      "installed": false,
+      "version": null
+    },
+    "accelerate": {
+      "installed": false,
+      "version": null
+    },
+    "bitsandbytes": {
+      "installed": false,
+      "version": null
+    }
+  },
+  "critical_blockers": [
+    {
+      "id": "BLOCKER_01_NO_GPU",
+      "severity": "CRITICAL",
+      "description": "No dedicated GPU or CUDA runtime available on host (0 GB VRAM). Training 4B or 1.5B model is physically impossible."
+    },
+    {
+      "id": "BLOCKER_02_MISSING_LIBRARIES",
+      "severity": "CRITICAL",
+      "description": "PyTorch, Transformers, PEFT, TRL, Accelerate, and BitsAndBytes are not installed in the python virtual environment."
+    },
+    {
+      "id": "BLOCKER_03_NO_MODEL_WEIGHTS",
+      "severity": "CRITICAL",
+      "description": "No pretrained model weights exist locally in models/ or cache. local_files_only: True blocks runtime downloads."
+    },
+    {
+      "id": "BLOCKER_04_NO_TRAINING_CODE",
+      "severity": "CRITICAL",
+      "description": "Zero training scripts, loss collators, or training configs exist in the repository."
+    },
+    {
+      "id": "BLOCKER_05_NO_REASONING_SFT_TARGETS",
+      "severity": "MAJOR",
+      "description": "Raw classification pairs exist, but HalluGuard-mandated <think> reasoning chains and JSON justification targets are absent."
+    },
+    {
+      "id": "BLOCKER_06_EMPTY_RAGTRUTH_VAL_SPLIT",
+      "severity": "MAJOR",
+      "description": "data/processed/ragtruth/validation.jsonl is 0 bytes. Intermediate validation split is unpopulated."
+    }
+  ]
+}

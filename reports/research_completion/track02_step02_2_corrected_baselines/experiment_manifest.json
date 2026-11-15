@@ -1,0 +1,35 @@
+{
+  "manifest_version": "2.0.0",
+  "task": "Track 1, Step 2.2: Benchmark Metric Corrections and Strict Baseline Re-evaluation",
+  "generated_at": "2026-11-13T23:14:00+05:30",
+  "environment": {
+    "python_version": "3.14.9",
+    "platform": "Linux-7.2.14-arch1-1-x86_64",
+    "repo_root": "/home/aditya/rags/TrustRag-phase11",
+    "commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+  },
+  "artifacts_generated": [
+    "00_EXECUTIVE_SUMMARY.md",
+    "01_FIVE_OUTCOME_ACCOUNTING.md",
+    "02_METRIC_DEFINITIONS.md",
+    "03_RAGTRUTH_CORRECTED_RESULTS.md",
+    "04_HALUEVAL_CORRECTED_RESULTS.md",
+    "05_THRESHOLD_CONFIGURATION_AUDIT.md",
+    "06_BASELINE_COMPARISON.md",
+    "07_REPRODUCIBILITY.md",
+    "08_LIMITATIONS.md",
+    "corrected_metrics.json",
+    "effective_configurations.json",
+    "verification_results.json",
+    "experiment_manifest.json",
+    "checksums.sha256",
+    "predictions_ragtruth_no_verification.jsonl",
+    "predictions_ragtruth_default.jsonl",
+    "predictions_ragtruth_strict.jsonl",
+    "predictions_halueval_no_verification.jsonl",
+    "predictions_halueval_default.jsonl",
+    "predictions_halueval_strict.jsonl",
+    "predictions_hotpotqa_retrieval.jsonl",
+    "predictions_msmarco_retrieval.jsonl"
+  ]
+}

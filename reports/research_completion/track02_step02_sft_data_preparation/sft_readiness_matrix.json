@@ -1,0 +1,73 @@
+{
+  "track": "Track 2",
+  "step": "Step 2",
+  "title": "Evidence-Grounded SFT Data Preparation",
+  "audit_timestamp_iso": "2026-11-14T01:31:00Z",
+  "verdict": "SFT_DATA_CONDITIONALLY_READY",
+  "repositories": {
+    "target": {
+      "path": "/home/aditya/rags/TrustRag-phase11",
+      "branch": "phase-11",
+      "baseline_head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+    },
+    "protected_baseline": {
+      "path": "/home/aditya/rags/TrustRag",
+      "branch": "phase-10",
+      "head": "e65bcc80aac634900d1f8e343880fddf66cec168",
+      "status": "UNTOUCHED"
+    }
+  },
+  "readiness_checklist": {
+    "ragtruth_validation_split_resolved": {
+      "status": "PASSED",
+      "details": "80/20 source-grouped partition of train.jsonl with seed 42 yielded 12,072 train / 3,018 val records across 2,012 / 503 distinct source documents."
+    },
+    "halueval_split_integrated": {
+      "status": "PASSED",
+      "details": "Canonical pre-partitioned train (14,000 records, 7,000 sources) and validation (3,000 records, 1,500 sources) integrated with 100% balance."
+    },
+    "split_isolation_and_zero_leakage": {
+      "status": "PASSED",
+      "details": "0.00% source document leakage between train, validation, and test splits across both benchmarks."
+    },
+    "test_set_quarantine": {
+      "status": "PASSED",
+      "details": "RAGTruth test (2,700 records) and HaluEval test (3,000 records) strictly excluded from sft_v1."
+    },
+    "retrieval_benchmark_quarantine": {
+      "status": "PASSED",
+      "details": "HotpotQA (7,405 records) and MS MARCO (10,047 records) strictly excluded from sft_v1 (0 records)."
+    },
+    "pydantic_schema_compliance": {
+      "status": "PASSED",
+      "details": "SFTExampleRecord schema strictly validated with extra='forbid' via Pydantic v2."
+    },
+    "target_provenance_and_integrity": {
+      "status": "PASSED",
+      "details": "Deterministic JSON targets derived 100% from human annotations (verdicts, conflict types, spans); zero synthetic CoT fabricated."
+    },
+    "unit_testing_and_regressions": {
+      "status": "PASSED",
+      "details": "8/8 dedicated SFT tests passed; 693/693 full regression suite tests passed; mypy, ruff, compileall clean."
+    },
+    "generative_reasoning_cot_traces": {
+      "status": "CONDITIONALLY_READY",
+      "details": "Omitted in sft_v1 to preserve research integrity; ready for discriminative/NLI fine-tuning; teacher distillation protocol required for generative CoT models."
+    },
+    "hardware_and_training_scripts": {
+      "status": "DEFERRED",
+      "details": "Out of scope for Step 2; deferred to Track 2 Step 3+."
+    }
+  },
+  "dataset_summary": {
+    "name": "sft_v1",
+    "total_records": 32090,
+    "train_records": 26072,
+    "validation_records": 6018,
+    "train_sources": 9012,
+    "validation_sources": 2003,
+    "train_sha256": "424ba69a38b00a5a3a7be3bf2bcae69738f7127e9095690bdf51649f8749830d",
+    "validation_sha256": "f3161e0c8e4a9e5ce6eb9dbf170f3f6c8d20894be6a3e2154316d90ef26ec3ba"
+  }
+}
+

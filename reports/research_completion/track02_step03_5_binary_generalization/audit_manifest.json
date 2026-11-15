@@ -1,0 +1,54 @@
+{
+  "manifest_version": "1.0.0",
+  "task": "Track 2, Step 3.5: Independent Binary Model Generalization & Robustness Evaluation",
+  "auditor": "Senior ML Evaluation Engineer & Independent Experimental Auditor",
+  "timestamp": "2026-11-14T04:50:20Z",
+  "status": "COMPLETED",
+  "verdict": "CONDITIONALLY_SUPPORTED",
+  "verdict_summary": "The frozen DeBERTa-v3-small binary classifier demonstrates robust generalization to independent QA-style hallucination benchmarks (HaluEval: 98.80% Acc, 0.9880 F1; Combined: 76.60% Acc, 0.7583 F1, 0.9178 ROC-AUC), but exhibits domain transfer degradation on long-form multi-sentence generation (RAGTruth: 54.40% Acc, 0.4812 F1), driven by context truncation (128 tokens) and high false-negative rates on subtle unsupported claims.",
+  "target_repo": "/home/aditya/rags/TrustRag-phase11",
+  "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+  "protected_repo": "/home/aditya/rags/TrustRag",
+  "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+  "checkpoint_evaluated": "/home/aditya/rags/models/trained/deberta-v3-small-binary-pilot1000",
+  "checkpoint_hashes": {
+    "config.json": "7cee3abbc6b9a3971c682867db8d16bb79eeaee218d544463bcc2433d82ff16d",
+    "model.safetensors": "472ea687cae7b9d3caf1feb97adb35bef6acd31260b7b2ab7564a48eaf3fdb1b",
+    "tokenizer.json": "d87197028bcdd4a6c68dc03bd9b04e0956b0998daf7351345de21278a1c9249a",
+    "training_meta.json": "d1e91f1c47eb3858874173753a0cdd093e007f2be52b5bf4e2247f10fbd8d8c3"
+  },
+  "dataset_provenance": {
+    "source_file": "/home/aditya/rags/TrustRag-phase11/data/processed/sft_v2/binary/validation.jsonl",
+    "total_eval_samples": 1000,
+    "halueval_samples": 500,
+    "ragtruth_samples": 500,
+    "train_set_overlap": 0,
+    "step342_val_overlap": 0,
+    "test_set_overlap": 0,
+    "isolation_verified": true
+  },
+  "summary_metrics": {
+    "combined_accuracy": 0.766,
+    "combined_balanced_accuracy": 0.766,
+    "combined_macro_f1": 0.7583433507243503,
+    "combined_roc_auc": 0.917828,
+    "combined_brier_score": 0.1771646004233056,
+    "halueval_accuracy": 0.988,
+    "ragtruth_accuracy": 0.544
+  },
+  "deliverables": [
+    "00_EXECUTIVE_EVALUATION_REPORT.md",
+    "01_EVALUATION_DATA_PROVENANCE.md",
+    "02_METRICS_BY_DATASET.md",
+    "03_CONFUSION_AND_ERROR_ANALYSIS.md",
+    "04_CALIBRATION_AND_ROBUSTNESS.md",
+    "05_RESOURCE_AND_INFERENCE_PERFORMANCE.md",
+    "predictions/predictions_combined.jsonl",
+    "predictions/predictions_halueval.jsonl",
+    "predictions/predictions_ragtruth.jsonl",
+    "evaluation_results.json",
+    "audit_manifest.json",
+    "CONSOLIDATED_BINARY_GENERALIZATION_REPORT.md",
+    "checksums.sha256"
+  ]
+}

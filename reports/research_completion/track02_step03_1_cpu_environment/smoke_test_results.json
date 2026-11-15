@@ -1,0 +1,64 @@
+{
+  "timestamp": "2026-11-13T22:05:16Z",
+  "tests": {
+    "pytorch_import": {
+      "status": "PASSED",
+      "version": "2.14.1+cpu",
+      "cuda_available": false,
+      "num_threads": 10
+    },
+    "cpu_tensor_ops": {
+      "status": "PASSED",
+      "matmul_shape": [
+        256,
+        256
+      ],
+      "mean_softmax": 0.00390625
+    },
+    "framework_imports": {
+      "status": "PASSED",
+      "transformers_version": "5.20.2",
+      "accelerate_version": "1.15.0",
+      "sklearn_version": "1.7.2"
+    },
+    "tokenizer_loading": {
+      "status": "OFFLINE_GUARDED",
+      "local_weights_exist": false,
+      "detail": "Local weights not present; remote download strictly disallowed by offline policy."
+    },
+    "forward_pass": {
+      "status": "PASSED",
+      "initial_loss": 0.6951658725738525,
+      "logits_shape": [
+        2,
+        2
+      ]
+    },
+    "backward_pass": {
+      "status": "PASSED",
+      "populated_grad_tensors": 40,
+      "mean_grad_norm": 0.04987709967715957
+    },
+    "optimizer_step": {
+      "status": "PASSED",
+      "weight_delta_l1": 8.066422462463379
+    },
+    "checkpoint_io": {
+      "status": "PASSED",
+      "checkpoint_size_bytes": 1919225,
+      "weights_verified": true
+    },
+    "deterministic_seed": {
+      "status": "PASSED",
+      "seed": 1337,
+      "reproducible": true
+    }
+  },
+  "summary": "ALL_TESTS_PASSED",
+  "metrics": {
+    "elapsed_seconds": 3.2742019100114703,
+    "rss_start_mb": 14.3671875,
+    "rss_end_mb": 424.5078125,
+    "rss_peak_mb": 424.5078125
+  }
+}

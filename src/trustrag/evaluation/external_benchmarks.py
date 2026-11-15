@@ -244,7 +244,11 @@ def audit_external_benchmark(
         )
         return summary, [], "BLOCKED", reason
 
-    eval_file = _select_eval_file(files, split)
+    eval_file: Path | None
+    if loc is not None and loc.exists():
+        eval_file = loc
+    else:
+        eval_file = _select_eval_file(files, split)
     if eval_file is None:
         return summary, [], "BLOCKED", "No usable local dataset file found."
 

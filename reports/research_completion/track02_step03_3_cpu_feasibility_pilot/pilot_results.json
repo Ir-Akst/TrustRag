@@ -1,0 +1,153 @@
+{
+  "timestamp": "2026-11-13T22:50:23Z",
+  "model_target": "microsoft/deberta-v3-small",
+  "model_dir": "/home/aditya/rags/models/pretrained/deberta-v3-small",
+  "dataset_path": "/home/aditya/rags/TrustRag-phase11/data/processed/sft_v2/binary/train.jsonl",
+  "offline_enforced": true,
+  "seed": 42,
+  "num_threads": 4,
+  "max_steps": 3,
+  "batch_size": 1,
+  "max_seq_len": 128,
+  "pre_pilot_telemetry": {
+    "rss_mb": 213.51953125,
+    "available_ram_mb": 6122.453125,
+    "swap_total_mb": 5999.99609375,
+    "swap_used_mb": 2647.94921875,
+    "swap_free_mb": 3352.046875,
+    "cpu_percent": 0.0
+  },
+  "steps": [
+    {
+      "step": 1,
+      "example_id": "binary_halueval_train_halueval_0_factual",
+      "source_dataset": "halueval",
+      "label_str": "FACTUAL",
+      "label_int": 0,
+      "active_tokens": 62,
+      "max_seq_len": 128,
+      "loss": 0.5788118243217468,
+      "logits": [
+        -0.0122,
+        -0.2557
+      ],
+      "gradient_l2_norm": 8.923904035209238,
+      "gradient_is_finite": true,
+      "grad_param_count": 106,
+      "grad_non_zero_params": 106,
+      "param_delta_l2_norm": 0.0007332109962590039,
+      "timings": {
+        "forward_ms": 224.7283820033772,
+        "backward_ms": 296.14365499583073,
+        "optimizer_ms": 1261.5601750003407,
+        "total_step_ms": 1940.8025320008164
+      },
+      "memory": {
+        "pre_rss_mb": 1044.58203125,
+        "post_fwd_rss_mb": 1212.87890625,
+        "post_bwd_rss_mb": 1725.109375,
+        "post_step_rss_mb": 2316.6171875,
+        "available_ram_mb": 4609.40625,
+        "swap_used_mb": 2848.63671875
+      }
+    },
+    {
+      "step": 2,
+      "example_id": "binary_halueval_train_halueval_0_hallucinated",
+      "source_dataset": "halueval",
+      "label_str": "HALLUCINATED",
+      "label_int": 1,
+      "active_tokens": 65,
+      "max_seq_len": 128,
+      "loss": 0.8186659812927246,
+      "logits": [
+        -0.0598,
+        -0.2968
+      ],
+      "gradient_l2_norm": 11.543751249460984,
+      "gradient_is_finite": true,
+      "grad_param_count": 106,
+      "grad_non_zero_params": 106,
+      "param_delta_l2_norm": 0.0003483428154140711,
+      "timings": {
+        "forward_ms": 152.7463320089737,
+        "backward_ms": 285.25524500582833,
+        "optimizer_ms": 575.4172570013907,
+        "total_step_ms": 1144.2455140058883
+      },
+      "memory": {
+        "pre_rss_mb": 2316.6171875,
+        "post_fwd_rss_mb": 2316.6875,
+        "post_bwd_rss_mb": 2813.6171875,
+        "post_step_rss_mb": 2369.98828125,
+        "available_ram_mb": 4597.359375,
+        "swap_used_mb": 2848.63671875
+      }
+    },
+    {
+      "step": 3,
+      "example_id": "binary_halueval_train_halueval_1000_factual",
+      "source_dataset": "halueval",
+      "label_str": "FACTUAL",
+      "label_int": 0,
+      "active_tokens": 100,
+      "max_seq_len": 128,
+      "loss": 0.6163815259933472,
+      "logits": [
+        0.1285,
+        -0.0314
+      ],
+      "gradient_l2_norm": 9.579408141005107,
+      "gradient_is_finite": true,
+      "grad_param_count": 106,
+      "grad_non_zero_params": 106,
+      "param_delta_l2_norm": 0.00033060015994124115,
+      "timings": {
+        "forward_ms": 154.91185900464188,
+        "backward_ms": 277.37596599035896,
+        "optimizer_ms": 587.446509001893,
+        "total_step_ms": 1146.6088270099135
+      },
+      "memory": {
+        "pre_rss_mb": 2369.98828125,
+        "post_fwd_rss_mb": 2370.23046875,
+        "post_bwd_rss_mb": 2808.40234375,
+        "post_step_rss_mb": 2336.48046875,
+        "available_ram_mb": 4629.59375,
+        "swap_used_mb": 2848.6328125
+      }
+    }
+  ],
+  "verdict": "PILOT_PASSED",
+  "model_info": {
+    "class": "DebertaV2ForSequenceClassification",
+    "total_parameters": 141896450,
+    "trainable_parameters": 141896450,
+    "parameter_dtypes": [
+      "torch.float32"
+    ],
+    "newly_initialized_keys": [
+      "pooler.dense.weight",
+      "pooler.dense.bias",
+      "classifier.weight",
+      "classifier.bias"
+    ],
+    "load_time_seconds": 0.33551443699980155,
+    "post_load_rss_mb": 1044.57421875
+  },
+  "summary": {
+    "status": "COMPLETED",
+    "total_steps": 3,
+    "total_elapsed_seconds": 6.8338654689869145,
+    "peak_process_rss_mb": 2369.98828125,
+    "final_available_ram_mb": 4629.59375,
+    "swap_drift_mb": 200.68359375,
+    "avg_step_ms": 1410.5522910055395,
+    "avg_fwd_ms": 177.46219100566427,
+    "avg_bwd_ms": 286.258288664006,
+    "avg_opt_ms": 808.1413136678748,
+    "throughput_samples_per_sec": 0.708942168522608,
+    "all_gradients_finite": true,
+    "all_updates_verified": true
+  }
+}

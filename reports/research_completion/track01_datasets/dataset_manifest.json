@@ -1,0 +1,158 @@
+{
+  "manifest_version": "1.0.0",
+  "created_at": "2026-11-13T15:05:00Z",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "datasets": {
+    "ragtruth": {
+      "version": "1.0",
+      "license": "MIT",
+      "source_uri": "https://github.com/ParticleMedia/RAGTruth",
+      "status": "READY_FOR_EXPERIMENTS",
+      "raw_files": [
+        {
+          "file_name": "response.jsonl",
+          "relative_path": "data/raw/ragtruth/response.jsonl",
+          "size_bytes": 21458735,
+          "sha256": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073",
+          "record_count": 17790
+        },
+        {
+          "file_name": "source_info.jsonl",
+          "relative_path": "data/raw/ragtruth/source_info.jsonl",
+          "size_bytes": 15117971,
+          "sha256": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b",
+          "record_count": 2965
+        }
+      ],
+      "processed_files": [
+        {
+          "file_name": "train.jsonl",
+          "relative_path": "data/processed/ragtruth/train.jsonl",
+          "size_bytes": 96020628,
+          "sha256": "29056a653cad65b40f8898e06cc195979a1859fb988896f0ceab60841a79d547",
+          "record_count": 15090
+        },
+        {
+          "file_name": "test.jsonl",
+          "relative_path": "data/processed/ragtruth/test.jsonl",
+          "size_bytes": 16963121,
+          "sha256": "55f5ec8bf47039551fc5fe64fbdf35306422c50402a1d6cc9dd1b3bfe12540f1",
+          "record_count": 2700
+        }
+      ],
+      "split_counts": {
+        "train": 15090,
+        "test": 2700
+      },
+      "label_distribution": {
+        "FACTUAL": 10126,
+        "HALLUCINATED": 7664
+      }
+    },
+    "halueval": {
+      "version": "1.0",
+      "license": "MIT",
+      "source_uri": "https://github.com/RUCAIBox/HaluEval",
+      "status": "READY_FOR_EXPERIMENTS",
+      "raw_files": [
+        {
+          "file_name": "qa_data.json",
+          "relative_path": "data/raw/halueval/qa_data.json",
+          "size_bytes": 6164420,
+          "sha256": "89ed139ec5e3a3169a0b30e45569ac1283846f76f27f7bb5e908ee6deed57e88",
+          "record_count": 10000
+        }
+      ],
+      "processed_files": [
+        {
+          "file_name": "train.jsonl",
+          "relative_path": "data/processed/halueval/train.jsonl",
+          "size_bytes": 10123599,
+          "sha256": "28b4793f1a953c1f45e83fa0ad6074c6e1689277315dffa99923d9e0cf51de3c",
+          "record_count": 14000
+        },
+        {
+          "file_name": "validation.jsonl",
+          "relative_path": "data/processed/halueval/validation.jsonl",
+          "size_bytes": 2176620,
+          "sha256": "d58ccd53812174106a8237bb3577b389cf630924a09170dad17f9afd8d4aee45",
+          "record_count": 3000
+        },
+        {
+          "file_name": "test.jsonl",
+          "relative_path": "data/processed/halueval/test.jsonl",
+          "size_bytes": 2183178,
+          "sha256": "93873eb19dcd7e08b6d89add90d1d3f3652689d9ee649d1d800c1a95431aa904",
+          "record_count": 3000
+        }
+      ],
+      "split_counts": {
+        "train": 14000,
+        "validation": 3000,
+        "test": 3000
+      },
+      "label_distribution": {
+        "FACTUAL": 10000,
+        "HALLUCINATED": 10000
+      }
+    },
+    "hotpotqa": {
+      "version": "1.0",
+      "license": "CC-BY-SA-4.0",
+      "source_uri": "https://huggingface.co/datasets/hotpotqa/hotpot_qa",
+      "status": "READY_FOR_EXPERIMENTS",
+      "raw_files": [
+        {
+          "file_name": "hotpotqa_val_distractor.parquet",
+          "relative_path": "data/raw/hotpotqa/hotpotqa_val_distractor.parquet",
+          "size_bytes": 27452575,
+          "sha256": "c20b638ca82b21d04fe12e14ff417ad05153d4d215a65de54497fca4e972f7c6",
+          "record_count": 7405
+        }
+      ],
+      "processed_files": [
+        {
+          "file_name": "validation.jsonl",
+          "relative_path": "data/processed/hotpotqa/validation.jsonl",
+          "size_bytes": 3009303,
+          "sha256": "2db3e688ad9b7e4fafc4c80e6fd0ecd39a7be06c19c87b90aa1239dfa71eb746",
+          "record_count": 7405
+        }
+      ],
+      "split_counts": {
+        "validation": 7405
+      },
+      "label_distribution": {}
+    },
+    "ms_marco": {
+      "version": "1.1",
+      "license": "Microsoft Research License / CC-BY-4.0",
+      "source_uri": "https://huggingface.co/datasets/microsoft/ms_marco",
+      "status": "READY_FOR_EXPERIMENTS",
+      "raw_files": [
+        {
+          "file_name": "ms_marco_val_v1.1.parquet",
+          "relative_path": "data/raw/ms_marco/ms_marco_val_v1.1.parquet",
+          "size_bytes": 21391358,
+          "sha256": "67aca2e1b2fffe418a6bd317142887c90973c9c98dd8d940eaae3f8521daed7c",
+          "record_count": 10047
+        }
+      ],
+      "processed_files": [
+        {
+          "file_name": "validation.jsonl",
+          "relative_path": "data/processed/ms_marco/validation.jsonl",
+          "size_bytes": 2563989,
+          "sha256": "a33845903b8e5a1fd2bed0ecfd68aa50b40527f05237e1688425a7249502474a",
+          "record_count": 10047
+        }
+      ],
+      "split_counts": {
+        "validation": 10047
+      },
+      "label_distribution": {}
+    }
+  }
+}
+

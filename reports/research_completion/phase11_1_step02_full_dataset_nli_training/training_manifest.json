@@ -1,0 +1,71 @@
+{
+  "task": "TrustRAG Phase 11.1, Step 2: Authorized Full-Dataset NLI Training",
+  "audit_timestamp": "2026-11-14T18:25:00Z",
+  "auditor_role": "Senior ML Training Engineer, Reproducibility Engineer & Independent Experimental Auditor",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "head_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+  "verdict": "TRAINING_BLOCKED_PREFLIGHT",
+  "optimizer_steps_executed": 0,
+  "epochs_completed": 0,
+  "training_runtime_seconds": 0.0,
+  "output_directory": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+  "output_directory_created": false,
+  "predictions_file_created": false,
+  "report_files": {
+    "00_TRAINING_EXECUTION_SUMMARY.md": {
+      "sha256": "1e1a45e711af83e98de17d3706cfab36c910055379aeeb3a41878ddb2b6dc723",
+      "bytes": 3698
+    },
+    "01_PREFLIGHT_AND_RESOURCE_AUDIT.md": {
+      "sha256": "8707bd32188261e372215fe93970ddacb448b6868904db57c2a484f66c9124c9",
+      "bytes": 3712
+    },
+    "02_TRAINING_CONFIGURATION_AND_DATA_PROVENANCE.md": {
+      "sha256": "f462486b4d39e3cb4b889a6882b96d6f53cf6cd671a2e0e58992913ac4a8dcd3",
+      "bytes": 4895
+    },
+    "03_EPOCH_LEVEL_METRICS.md": {
+      "sha256": "11b0c642e96ac5f97a197c1c19b2bc2541f3d51621271cfae2081fa0ca5c4c8b",
+      "bytes": 2210
+    },
+    "04_FINAL_VALIDATION_METRICS.md": {
+      "sha256": "96d5d54eb304d13daac538a90efa4c693aa42fea708754ef7be2f0c11a64a05a",
+      "bytes": 1640
+    },
+    "05_CLASSWISE_AND_CONFUSION_ANALYSIS.md": {
+      "sha256": "4c6b868cfcd4b7535421a9109697cdd2a7aacce337c7f9a1b6cdf845e5c0dd0d",
+      "bytes": 2490
+    },
+    "06_CALIBRATION_AND_PREDICTION_PROVENANCE.md": {
+      "sha256": "d7047460977d02a6fc767ecef56ea261625d089571f72ba1ffde594bda921429",
+      "bytes": 1820
+    },
+    "07_CHECKPOINT_INTEGRITY.md": {
+      "sha256": "a98e764f92b0e8088704f5e35f10c4ee3346df01983260131bfc16f39ce62988",
+      "bytes": 2180
+    },
+    "08_FAILURES_AND_LIMITATIONS.md": {
+      "sha256": "57f2f40dbae1490ac9068f4a8030afa68761dda904ce8effa1e8b22fec4b7628",
+      "bytes": 3120
+    }
+  },
+  "protected_checkpoints_verified": {
+    "deberta-v3-small-binary-pilot1000": {
+      "path": "/home/aditya/rags/models/trained/deberta-v3-small-binary-pilot1000/model.safetensors",
+      "sha256": "472ea687cae7b9d3caf1feb97adb35bef6acd31260b7b2ab7564a48eaf3fdb1b"
+    },
+    "deberta-v3-small-nli-pilot1000": {
+      "path": "/home/aditya/rags/models/trained/deberta-v3-small-nli-pilot1000/model.safetensors",
+      "sha256": "500832fa1b9b7c67c2c08d9e1f4d4c76d235d15fa9960d76e1e6e81c220a2f8a"
+    },
+    "deberta-v3-small-nli-remediated": {
+      "path": "/home/aditya/rags/models/trained/deberta-v3-small-nli-remediated/model.safetensors",
+      "sha256": "bb4c26bab4a147c2ad6bdae7ec8a1ecc56841ea56fc89922fd377fb5d70fe113"
+    },
+    "pretrained-deberta-v3-small": {
+      "path": "/home/aditya/rags/models/pretrained/deberta-v3-small/pytorch_model.bin",
+      "sha256": "b3f81e3da06c7e2ad6e58b1a37803a6bcbf3ee258ab08e2f81643c1b64ff06d6"
+    }
+  }
+}

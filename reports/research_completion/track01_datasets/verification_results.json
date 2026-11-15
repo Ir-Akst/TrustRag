@@ -1,0 +1,141 @@
+{
+  "timestamp": "2026-11-13T15:05:00Z",
+  "track": "Track 1: Dataset Acquisition & Integration",
+  "step": "Step 1",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "baseline_commit": "8229aee01a0b6f7fd61a5e774da5bb707bd6a7c1",
+  "overall_status": "SUCCESS",
+  "gates": {
+    "unit_tests": {
+      "status": "PASS",
+      "total_tests": 680,
+      "passed": 680,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 20.34
+    },
+    "static_type_checking": {
+      "tool": "mypy",
+      "target": "src",
+      "files_checked": 112,
+      "errors": 0,
+      "status": "PASS"
+    },
+    "linter": {
+      "tool": "ruff",
+      "flags": "--select E9,F63,F7,F82",
+      "status": "PASS",
+      "errors": 0
+    },
+    "compilation": {
+      "tool": "python -m compileall",
+      "target": "src/",
+      "status": "PASS",
+      "errors": 0
+    },
+    "spec_validation": {
+      "tool": "run_all_validations.py",
+      "suite_status": "PASS",
+      "gates_evaluated": 13,
+      "gates_passed": 13,
+      "validators": [
+        "Validator_A_Schemas",
+        "Validator_B_Verdicts",
+        "Validator_C_Coordination",
+        "Validator_D_Unicode",
+        "Validator_E_Pipeline",
+        "Validator_F_Temporal",
+        "Validator_G_Provenance",
+        "Validator_H_Statistical",
+        "Validator_I_Contradictions",
+        "Validator_J_RuntimeConformance"
+      ]
+    }
+  },
+  "datasets": {
+    "ragtruth": {
+      "category": "hallucination",
+      "record_type": "ClaimVerificationRecord",
+      "status": "READY_FOR_EXPERIMENTS",
+      "raw_records": 17790,
+      "raw_sources": 2965,
+      "processed_splits": {
+        "train": 15090,
+        "validation": 0,
+        "test": 2700
+      },
+      "label_distribution": {
+        "FACTUAL": 10126,
+        "HALLUCINATED": 7664
+      },
+      "license": "MIT",
+      "source": "https://github.com/ParticleMedia/RAGTruth"
+    },
+    "halueval": {
+      "category": "hallucination",
+      "record_type": "ClaimVerificationRecord",
+      "status": "READY_FOR_EXPERIMENTS",
+      "raw_records": 10000,
+      "processed_splits": {
+        "train": 14000,
+        "validation": 3000,
+        "test": 3000
+      },
+      "label_distribution": {
+        "FACTUAL": 10000,
+        "HALLUCINATED": 10000
+      },
+      "license": "MIT",
+      "source": "https://github.com/RUCAIBox/HaluEval"
+    },
+    "hotpotqa": {
+      "category": "rag_qa",
+      "record_type": "QueryRecord",
+      "status": "READY_FOR_EXPERIMENTS",
+      "raw_records": 7405,
+      "processed_splits": {
+        "validation": 7405
+      },
+      "license": "CC-BY-SA-4.0",
+      "source": "https://huggingface.co/datasets/hotpotqa/hotpot_qa"
+    },
+    "ms_marco": {
+      "category": "rag_qa",
+      "record_type": "QueryRecord",
+      "status": "READY_FOR_EXPERIMENTS",
+      "raw_records": 10047,
+      "processed_splits": {
+        "validation": 10047
+      },
+      "license": "Microsoft Research License / CC-BY-4.0",
+      "source": "https://huggingface.co/datasets/microsoft/ms_marco"
+    },
+    "natural_questions": {
+      "category": "rag_qa",
+      "record_type": "QueryRecord",
+      "status": "NOT_DOWNLOADED",
+      "raw_records": 0,
+      "license": "CC-BY-SA-3.0",
+      "reason": "Large multi-gigabyte full corpus (40GB train); adapter ready for streaming"
+    },
+    "llm_aggrefact": {
+      "category": "hallucination",
+      "record_type": "ClaimVerificationRecord",
+      "status": "ACCESS_BLOCKED",
+      "raw_records": 0,
+      "license": "CC-BY-ND-4.0",
+      "reason": "Gated Hugging Face Hub repository; requires license acceptance and HF_TOKEN"
+    },
+    "rsb": {
+      "category": "security",
+      "record_type": "SecurityRecord",
+      "status": "ACCESS_BLOCKED",
+      "raw_records": 0,
+      "license": "Pending verification",
+      "reason": "Preprint arXiv:2505.18543; public canonical repository pending; local import supported"
+    }
+  },
+  "total_records_ready": 55242
+}
+

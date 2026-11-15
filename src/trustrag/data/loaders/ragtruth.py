@@ -67,36 +67,72 @@ class RAGTruthAdapter(BaseAdapter):
     def acquire(self) -> Any:
         if self.local_path and self.local_path.exists():
             return self.local_path
-        target = self.cache_dir / f"{self.split}.jsonl"
-        if target.exists():
-            return target
+
+        # Check self.cache_dir and data/processed/ragtruth
+        candidates = [
+            self.cache_dir / f"{self.split}.jsonl",
+            Path("data/processed/ragtruth") / f"{self.split}.jsonl",
+            self.cache_dir / "ragtruth.jsonl",
+        ]
+        for c in candidates:
+            if c.exists():
+                return c
+
         if self.offline:
             raise AcquisitionError(
-                f"RAGTruth dataset file '{target}' unavailable in offline mode. "
-                "Provide a local_path or import raw data from https://github.com/ParticleMedia/RAGTruth"
+                f"RAGTruth dataset file for split '{self.split}' unavailable in offline mode. "
+                "Provide a local_path or run DatasetDownloader.acquire_ragtruth() while online."
             )
-        # Marked as local-import preferred
+
+        # Online: automatically acquire canonical RAGTruth
+        from trustrag.data.acquisition.downloader import DatasetDownloader
+
+        downloader = DatasetDownloader()
+        downloader.acquire_ragtruth()
+
+        for c in candidates:
+            if c.exists():
+                return c
+
         raise AcquisitionError(
-            "RAGTruth requires cloning or downloading files from https://github.com/ParticleMedia/RAGTruth. "
-            f"Please place dataset files in '{self.cache_dir}' or specify local_path."
+            f"Failed to locate RAGTruth file for split '{self.split}' after download."
         )
 
     def load_raw(self) -> Iterator[Dict[str, Any]]:
-        target_path = self.local_path or (self.cache_dir / f"{self.split}.jsonl")
+        target_path = None
+        if self.local_path and self.local_path.exists():
+            target_path = self.local_path
+        else:
+            candidates = [
+                self.cache_dir / f"{self.split}.jsonl",
+                Path("data/processed/ragtruth") / f"{self.split}.jsonl",
+                self.cache_dir / "ragtruth.jsonl",
+            ]
+            for c in candidates:
+                if c.exists():
+                    target_path = c
+                    break
+
         if not target_path or not target_path.exists():
-            # Check for alternative file in cache_dir
-            alt = self.cache_dir / "ragtruth.jsonl"
-            if alt.exists():
-                target_path = alt
-            else:
-                self.acquire()
+            target_path = self.acquire()
 
         yield from LocalFileImporter.read_records(target_path, limit=self.limit)
 
     def transform(self, raw_item: Dict[str, Any]) -> Iterator[ClaimVerificationRecord]:
-        rid = str(raw_item.get("id") or raw_item.get("sample_id") or "")
-        passage = str(raw_item.get("passage") or raw_item.get("source_info") or raw_item.get("context") or "")
-        response = str(raw_item.get("response") or raw_item.get("generation") or raw_item.get("claim") or "")
+        rid = str(raw_item.get("id") or raw_item.get("sample_id") or raw_item.get("record_id") or "")
+        passage = str(
+            raw_item.get("passage")
+            or raw_item.get("source_info")
+            or raw_item.get("context")
+            or raw_item.get("document")
+            or ""
+        )
+        response = str(
+            raw_item.get("response")
+            or raw_item.get("generation")
+            or raw_item.get("claim")
+            or ""
+        )
 
         # Determine label
         raw_label = raw_item.get("label")

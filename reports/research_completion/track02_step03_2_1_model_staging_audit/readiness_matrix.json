@@ -1,0 +1,56 @@
+{
+  "metadata": {
+    "task": "TrustRAG Track 2, Step 3.2.1: Independent DeBERTa Model Staging Acceptance Audit",
+    "date": "2026-11-14T04:05:00+05:30",
+    "auditor": "Independent ML Infrastructure & Model Integrity Auditor",
+    "target_repo": "/home/aditya/rags/TrustRag-phase11",
+    "target_branch": "phase-11",
+    "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "protected_repo": "/home/aditya/rags/TrustRag",
+    "protected_branch": "phase-10",
+    "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168"
+  },
+  "final_verdict": "MODEL_STAGING_VERIFIED",
+  "audit_dimensions": {
+    "1_upstream_provenance": "AUTHENTIC_AND_VERIFIED",
+    "2_checkpoint_integrity": "CRYPTOGRAPHICALLY_VERIFIED",
+    "3_architecture_and_dtype": "VERIFIED_100_PERCENT_FP16",
+    "4_tokenizer_loading": "VERIFIED_OFFLINE",
+    "5_pretrained_model_loading": "VERIFIED_OFFLINE",
+    "6_classification_head_status": "NEWLY_INITIALIZED_RANDOM_WEIGHTS",
+    "7_resource_safety": "VERIFIED_SAFE_UNDER_HOST_LIMITS",
+    "8_binary_training_readiness": "PILOT_AUTHORIZED",
+    "9_nli_training_readiness": "PILOT_AUTHORIZED",
+    "10_span_training_readiness": "CONDITIONALLY_READY_REQUIRES_COLLATOR"
+  },
+  "staged_model_technical_profile": {
+    "model_id": "microsoft/deberta-v3-small",
+    "upstream_commit": "a36c739020e01763fe789b4b85e2df55d6180012",
+    "local_path": "/home/aditya/rags/models/pretrained/deberta-v3-small",
+    "total_parameters": 141896450,
+    "backbone_parameters": 141304320,
+    "classification_head_parameters": 592130,
+    "parameter_dtype": "torch.float16",
+    "raw_checkpoint_bytes": 286059269,
+    "packaging_format": "PyTorch v1.6+ Zip Archive (Safe Unpickler Compatible)",
+    "safetensors_available_upstream": false,
+    "license": "MIT"
+  },
+  "empirical_resource_measurements": {
+    "baseline_rss_mb": 14.33,
+    "post_load_rss_mb": 514.92,
+    "peak_forward_rss_mb": 623.1,
+    "inference_latency_ms": 322.5,
+    "available_ram_remaining_mb": 2618.7,
+    "swap_free_mb": 0.41
+  },
+  "dataset_preservation": {
+    "sft_v2_files_verified": 18,
+    "sft_v2_files_matched": 18,
+    "status": "ALL_MATCH"
+  },
+  "pilot_authorization_status": {
+    "full_architecture_single_step_pilot": "AUTHORIZED",
+    "multi_epoch_full_training": "NOT_AUTHORIZED_PENDING_PILOT_REVIEW"
+  }
+}

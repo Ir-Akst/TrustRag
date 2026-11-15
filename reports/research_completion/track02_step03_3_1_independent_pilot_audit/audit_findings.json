@@ -1,0 +1,132 @@
+{
+  "audit_name": "Track 2, Step 3.3.1: Independent CPU Feasibility Pilot Acceptance Audit",
+  "audit_version": "1.0.0",
+  "timestamp": "2026-11-14T04:28:00+05:30",
+  "auditor_role": "Independent Adversarial ML Infrastructure Auditor",
+  "overall_verdict": "INDEPENDENTLY_VERIFIED",
+  "repository_states": {
+    "target_repository": {
+      "path": "/home/aditya/rags/TrustRag-phase11",
+      "branch": "phase-11",
+      "head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+      "status": "VERIFIED_AT_EXPECTED_HEAD"
+    },
+    "protected_repository": {
+      "path": "/home/aditya/rags/TrustRag",
+      "branch": "phase-10",
+      "head": "e65bcc80aac634900d1f8e343880fddf66cec168",
+      "status": "UNTOUCHED"
+    }
+  },
+  "audited_pilot_deliverables": {
+    "directory": "/home/aditya/rags/TrustRag-phase11/reports/research_completion/track02_step03_3_cpu_feasibility_pilot",
+    "total_files": 11,
+    "manifest_verified": true,
+    "checksums_verified": true
+  },
+  "model_provenance_verification": {
+    "model_id": "microsoft/deberta-v3-small",
+    "commit": "a36c739020e01763fe789b4b85e2df55d6180012",
+    "backbone_parameters": 141304320,
+    "head_parameters": 592130,
+    "total_parameters": 141896450,
+    "hidden_layers": 6,
+    "attention_heads": 12,
+    "hidden_size": 768,
+    "intermediate_size": 3072,
+    "vocab_size": 128100,
+    "runtime_dtype": "torch.float32",
+    "storage_dtype": "torch.float16",
+    "full_architecture_verified": true,
+    "toy_substitute_detected": false
+  },
+  "dataset_verification": {
+    "dataset_path": "data/processed/sft_v2/binary/train.jsonl",
+    "records_tested": [
+      "binary_halueval_train_halueval_0_factual",
+      "binary_halueval_train_halueval_0_hallucinated",
+      "binary_halueval_train_halueval_1000_factual"
+    ],
+    "records_exist_in_source": true,
+    "real_text_fields_used": true,
+    "synthetic_inputs_detected": false,
+    "label_mapping_verified": {
+      "FACTUAL": 0,
+      "HALLUCINATED": 1
+    },
+    "active_tokens_reproduced": [
+      62,
+      65,
+      100
+    ]
+  },
+  "optimization_verification": {
+    "forward_pass_verified": true,
+    "backward_pass_verified": true,
+    "autograd_tensors": 106,
+    "non_zero_grad_tensors": 106,
+    "gradients_all_finite": true,
+    "optimizer": "AdamW",
+    "optimizer_steps_executed": 3,
+    "parameter_updates_verified": true,
+    "parameter_deltas": [
+      0.000733,
+      0.000348,
+      0.000331
+    ]
+  },
+  "resource_verification": {
+    "peak_rss_mb": 2369.99,
+    "lowest_avail_ram_mb": 4597.36,
+    "abort_threshold_mb": 700.0,
+    "safety_headroom_mb": 3897.36,
+    "swap_drift_mb": 200.68,
+    "memory_leak_detected": false
+  },
+  "discrepancies_and_reconciliation": [
+    {
+      "id": "DISC-01",
+      "item": "Transformer Layer Count in Step 3.3 Text",
+      "claimed": "all 12 transformer encoder blocks",
+      "actual": "6 transformer encoder blocks (num_hidden_layers=6, num_attention_heads=12)",
+      "impact": "Non-critical descriptive typo; does not alter the fact that the full 141.9M parameter checkpoint was executed."
+    },
+    {
+      "id": "DISC-02",
+      "item": "Epoch Time Arithmetic",
+      "claimed": "~8.3 hours per epoch",
+      "reconciliation": "8.29 hours is derived strictly from steady-state throughput (0.873 samples/sec). Using overall pilot average throughput (0.709 samples/sec) yields 10.21 hours. Both estimates are idealized bounds that exclude validation loops, data loading I/O, checkpointing, and thermal throttling.",
+      "impact": "Clarified arithmetic boundaries for operational planning."
+    },
+    {
+      "id": "DISC-03",
+      "item": "Total Elapsed Time vs Step Time Sum",
+      "claimed": "6.83 seconds elapsed time vs sum of step times 4.23 seconds",
+      "reconciliation": "The remaining 2.60 seconds accounted for process startup, model load (0.34s), tokenizer load (0.17s), and PyTorch JIT/library initialization.",
+      "impact": "Fully reconciled and verified."
+    }
+  ],
+  "objective_readiness_verdicts": {
+    "binary_classification": {
+      "verdict": "CONDITIONALLY_READY",
+      "rationale": "CPU tensor execution and memory stability are verified for batch size 1. Feasible for small pilots, evaluation runs, or linear probing, but multi-epoch training of all 26,054 examples requires GPU or bounded subsets due to 8.3-10.2 hr/epoch run time."
+    },
+    "three_class_nli": {
+      "verdict": "NOT_READY",
+      "rationale": "Requires separate 3-class classification head (num_labels=3), premise-hypothesis tokenization, and separate bounded pilot."
+    },
+    "span_extraction": {
+      "verdict": "BLOCKED",
+      "rationale": "Requires token-level classification head (DebertaV2ForTokenClassification) and resolution of character-to-subword alignment gap."
+    },
+    "g3_readiness": {
+      "verdict": "BLOCKED",
+      "rationale": "Missing 5-outcome supervision must be resolved before model training can be conceptualized."
+    },
+    "generative_reasoning": {
+      "verdict": "BLOCKED",
+      "rationale": "Encoder classification architecture cannot perform autoregressive generative text reasoning."
+    }
+  },
+  "training_authorization": "NO_TRAINING_AUTHORIZED"
+}

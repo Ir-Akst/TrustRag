@@ -1,0 +1,49 @@
+{
+  "timestamp": "2026-11-13T22:05:55Z",
+  "model_target": "microsoft/deberta-v3-small",
+  "local_weights_staged": false,
+  "pilot_status": "COMPLETED_BOUNDED_PILOT",
+  "steps_executed": 3,
+  "max_steps": 3,
+  "batch_size": 1,
+  "max_seq_len": 64,
+  "telemetry": [
+    {
+      "step": 1,
+      "example_id": "binary_halueval_train_halueval_0_factual",
+      "raw_label": "FACTUAL",
+      "numeric_label": 0,
+      "loss": 0.6797576546669006,
+      "step_latency_ms": 30.793969999649562,
+      "rss_mb": 419.78125
+    },
+    {
+      "step": 2,
+      "example_id": "binary_halueval_train_halueval_0_hallucinated",
+      "raw_label": "HALLUCINATED",
+      "numeric_label": 1,
+      "loss": 0.6823209524154663,
+      "step_latency_ms": 5.3272379882400855,
+      "rss_mb": 420.64453125
+    },
+    {
+      "step": 3,
+      "example_id": "binary_halueval_train_halueval_1000_factual",
+      "raw_label": "FACTUAL",
+      "numeric_label": 0,
+      "loss": 0.7015367746353149,
+      "step_latency_ms": 4.978801996912807,
+      "rss_mb": 420.64453125
+    }
+  ],
+  "summary_metrics": {
+    "total_elapsed_seconds": 2.4585773889994016,
+    "avg_step_latency_ms": 13.700003328267485,
+    "tokens_per_second": 78.09394199225946,
+    "initial_rss_mb": 14.2109375,
+    "peak_rss_mb": 420.64453125,
+    "rss_delta_mb": 406.43359375,
+    "final_available_ram_mb": 3006.79296875,
+    "final_swap_free_mb": 7.02734375
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "manifest_version": "1.0.0",
+  "track": "Track 2",
+  "step": "Step 2.1",
+  "title": "Independent SFT Dataset Semantic and Integrity Audit",
+  "generated_at_iso": "2026-11-14T01:42:00Z",
+  "overall_verdict": "CONDITIONALLY_VERIFIED",
+  "repository": {
+    "target_path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "baseline_head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+  },
+  "deliverables": [
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_semantic_audit/00_EXECUTIVE_AUDIT_VERDICT.md",
+      "description": "Executive audit verdict, discrepancies noted in Step 2 reports, and objective summary"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_semantic_audit/01_HALUEVAL_LABEL_SEMANTICS.md",
+      "description": "Linguistic and empirical case studies of HaluEval label semantics and unmentioned entity conflation"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_semantic_audit/02_RAGTRUTH_ANNOTATION_AUDIT.md",
+      "description": "Audit of RAGTruth spans, metadata, and empirical census of conflict vs baseless info records"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_semantic_audit/03_G3_FIVE_OUTCOME_COMPATIBILITY.md",
+      "description": "Detailed comparison of sft_v1 targets against TrustRAG G3 five-outcome decision semantics"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_semantic_audit/04_INPUT_EVIDENCE_QUALITY.md",
+      "description": "Field completeness, truncation checks, input-target leakage scan, and duplicate triplet analysis"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_semantic_audit/05_SPLIT_AND_LEAKAGE_REVERIFICATION.md",
+      "description": "Identifier and document text deduplication across splits, test set quarantine, and provenance verification"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_semantic_audit/06_TRAINING_OBJECTIVE_READINESS.md",
+      "description": "Definitive readiness verdicts and recommendations across five distinct ML training objectives"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_semantic_audit/audit_matrix.json",
+      "description": "Machine-readable checklist and audit matrix"
+    }
+  ]
+}
+

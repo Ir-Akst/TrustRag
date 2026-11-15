@@ -1,0 +1,63 @@
+{
+  "step": "track02_step03_10_remediation",
+  "timestamp": "2026-11-14T13:13:41Z",
+  "role": "Senior ML Infrastructure Engineer and Independent Experimental Auditor",
+  "verdict": "REMEDIATION_COMPLETE_READY_FOR_REAUDIT",
+  "repository": {
+    "path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+  },
+  "protected_repository": {
+    "path": "/home/aditya/rags/TrustRag",
+    "branch": "phase-10",
+    "commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "status": "UNTOUCHED_IMMUTABLE"
+  },
+  "protected_checkpoints": {
+    "pretrained": "/home/aditya/rags/models/pretrained/deberta-v3-small",
+    "binary_pilot": "/home/aditya/rags/models/trained/deberta-v3-small-binary-pilot1000",
+    "nli_pilot": "/home/aditya/rags/models/trained/deberta-v3-small-nli-pilot1000"
+  },
+  "remediations": {
+    "sampling": {
+      "shuffling": "random.Random(seed).shuffle(selected)",
+      "quotas": {
+        "ENTAILMENT": 334,
+        "CONTRADICTION": 333,
+        "NEUTRAL": 333
+      },
+      "starvation_detector": "check_class_starvation(max_threshold=25)",
+      "observed_max_absence": {
+        "ENTAILMENT": 12,
+        "CONTRADICTION": 10,
+        "NEUTRAL": 13
+      }
+    },
+    "serialization": {
+      "strategy": "evidence_preserving_tokenize",
+      "recommended_seq_len": 384,
+      "hypothesis_retention_rate": 0.995,
+      "hypothesis_truncated_samples_pct": 2.0,
+      "avg_premise_tokens_retained": 225
+    },
+    "resource_profiling": {
+      "seq_len_384_latency_ms": 549.8,
+      "throughput_samples_per_sec": 1.82,
+      "rss_mb": 1107.7,
+      "available_ram_mb": 5272.1
+    }
+  },
+  "tests": {
+    "suite": "tests/unit/test_track02_step03_6_nli_training_runner.py",
+    "total": 28,
+    "passed": 28,
+    "failed": 0
+  },
+  "execution_boundary": {
+    "backward_passes": 0,
+    "optimizer_steps": 0,
+    "checkpoints_overwritten": 0,
+    "training_executed": false
+  }
+}

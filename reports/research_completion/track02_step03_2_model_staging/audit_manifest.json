@@ -1,0 +1,32 @@
+{
+  "audit_name": "Track 2, Step 3.2: Authorized DeBERTa-v3-small Model Staging & Integrity Verification",
+  "audit_version": "1.0.0",
+  "completion_timestamp": "2026-11-14T04:00:00+05:30",
+  "auditor_role": "Senior ML Infrastructure Engineer",
+  "repository_states": {
+    "target_repository": {
+      "path": "/home/aditya/rags/TrustRag-phase11",
+      "branch": "phase-11",
+      "head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+    },
+    "protected_repository": {
+      "path": "/home/aditya/rags/TrustRag",
+      "branch": "phase-10",
+      "head": "e65bcc80aac634900d1f8e343880fddf66cec168",
+      "status": "UNTOUCHED"
+    }
+  },
+  "deliverables": [
+    "00_EXECUTIVE_REPORT.md",
+    "01_MODEL_PROVENANCE.md",
+    "02_MODEL_FILE_INVENTORY.md",
+    "03_SHA256_MANIFEST.md",
+    "04_OFFLINE_LOADING_TEST.md",
+    "05_RESOURCE_SAFETY.md",
+    "readiness_matrix.json",
+    "audit_manifest.json",
+    "offline_verification_results.json",
+    "CONSOLIDATED_MODEL_STAGING_REPORT.md",
+    "checksums.sha256"
+  ]
+}

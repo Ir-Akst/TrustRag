@@ -1,0 +1,490 @@
+{
+  "metadata": {
+    "audit_task": "Track 1, Step 2.3: Independent Corrected Baseline Acceptance Audit",
+    "auditor": "Senior Software Architect, Security Auditor & Research Evaluator",
+    "repo_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "audit_verdict": "INDEPENDENTLY_VERIFIED"
+  },
+  "ragtruth": {
+    "no_verification": {
+      "total_records": 2700,
+      "ground_truth_distribution": {
+        "FACTUAL": 1757,
+        "HALLUCINATED": 943
+      },
+      "five_outcome_distribution": {
+        "SUPPORTED": 2700,
+        "CONTRADICTED": 0,
+        "PARTIALLY_SUPPORTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "UNCERTAIN": 0
+      },
+      "cross_tabulation": {
+        "FACTUAL": {
+          "SUPPORTED": 1757,
+          "CONTRADICTED": 0,
+          "PARTIALLY_SUPPORTED": 0,
+          "INSUFFICIENT_EVIDENCE": 0,
+          "UNCERTAIN": 0
+        },
+        "HALLUCINATED": {
+          "SUPPORTED": 943,
+          "CONTRADICTED": 0,
+          "PARTIALLY_SUPPORTED": 0,
+          "INSUFFICIENT_EVIDENCE": 0,
+          "UNCERTAIN": 0
+        }
+      },
+      "safety_metrics": {
+        "strict_false_supported_rate": 1.0,
+        "strict_false_supported_count": 943,
+        "strict_false_supported_ratio": "943/943",
+        "partial_inclusive_unsafe_acceptance_rate": 1.0,
+        "partial_inclusive_unsafe_acceptance_count": 943,
+        "partial_inclusive_unsafe_acceptance_ratio": "943/943",
+        "false_contradiction_rate": 0.0,
+        "false_contradiction_count": 0,
+        "false_contradiction_ratio": "0/1757"
+      },
+      "coverage_metrics": {
+        "explicit_decisive_coverage": 1.0,
+        "explicit_decisive_count": 2700,
+        "partial_support_coverage": 0.0,
+        "partial_support_count": 0,
+        "strict_abstention_rate": 0.0,
+        "strict_abstention_count": 0,
+        "inclusive_decisive_coverage": 1.0,
+        "inclusive_decisive_count": 2700
+      },
+      "policy1_conservative": {
+        "accuracy": 0.6507,
+        "precision": 0.6507,
+        "recall": 1.0,
+        "f1_score": 0.7884,
+        "confusion_matrix": {
+          "tp": 1757,
+          "fp": 943,
+          "fn": 0,
+          "tn": 0
+        }
+      },
+      "policy2_decisive": {
+        "evaluated_subset_count": 2700,
+        "accuracy": 0.6507,
+        "precision": 0.6507,
+        "recall": 1.0,
+        "f1_score": 0.7884,
+        "confusion_matrix": {
+          "tp": 1757,
+          "fp": 943,
+          "fn": 0,
+          "tn": 0
+        }
+      }
+    },
+    "default_g3": {
+      "total_records": 2700,
+      "ground_truth_distribution": {
+        "FACTUAL": 1757,
+        "HALLUCINATED": 943
+      },
+      "five_outcome_distribution": {
+        "SUPPORTED": 9,
+        "CONTRADICTED": 1885,
+        "PARTIALLY_SUPPORTED": 436,
+        "INSUFFICIENT_EVIDENCE": 280,
+        "UNCERTAIN": 90
+      },
+      "cross_tabulation": {
+        "FACTUAL": {
+          "SUPPORTED": 9,
+          "CONTRADICTED": 1100,
+          "PARTIALLY_SUPPORTED": 363,
+          "INSUFFICIENT_EVIDENCE": 207,
+          "UNCERTAIN": 78
+        },
+        "HALLUCINATED": {
+          "SUPPORTED": 0,
+          "CONTRADICTED": 785,
+          "PARTIALLY_SUPPORTED": 73,
+          "INSUFFICIENT_EVIDENCE": 73,
+          "UNCERTAIN": 12
+        }
+      },
+      "safety_metrics": {
+        "strict_false_supported_rate": 0.0,
+        "strict_false_supported_count": 0,
+        "strict_false_supported_ratio": "0/943",
+        "partial_inclusive_unsafe_acceptance_rate": 0.0774,
+        "partial_inclusive_unsafe_acceptance_count": 73,
+        "partial_inclusive_unsafe_acceptance_ratio": "73/943",
+        "false_contradiction_rate": 0.6261,
+        "false_contradiction_count": 1100,
+        "false_contradiction_ratio": "1100/1757"
+      },
+      "coverage_metrics": {
+        "explicit_decisive_coverage": 0.7015,
+        "explicit_decisive_count": 1894,
+        "partial_support_coverage": 0.1615,
+        "partial_support_count": 436,
+        "strict_abstention_rate": 0.137,
+        "strict_abstention_count": 370,
+        "inclusive_decisive_coverage": 0.863,
+        "inclusive_decisive_count": 2330
+      },
+      "policy1_conservative": {
+        "accuracy": 0.3526,
+        "precision": 1.0,
+        "recall": 0.0051,
+        "f1_score": 0.0102,
+        "confusion_matrix": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 1748,
+          "tn": 943
+        }
+      },
+      "policy2_decisive": {
+        "evaluated_subset_count": 1894,
+        "accuracy": 0.4192,
+        "precision": 1.0,
+        "recall": 0.0081,
+        "f1_score": 0.0161,
+        "confusion_matrix": {
+          "tp": 9,
+          "fp": 0,
+          "fn": 1100,
+          "tn": 785
+        }
+      }
+    },
+    "strict_g3": {
+      "total_records": 2700,
+      "ground_truth_distribution": {
+        "FACTUAL": 1757,
+        "HALLUCINATED": 943
+      },
+      "five_outcome_distribution": {
+        "SUPPORTED": 3,
+        "CONTRADICTED": 1914,
+        "PARTIALLY_SUPPORTED": 343,
+        "INSUFFICIENT_EVIDENCE": 379,
+        "UNCERTAIN": 61
+      },
+      "cross_tabulation": {
+        "FACTUAL": {
+          "SUPPORTED": 3,
+          "CONTRADICTED": 1125,
+          "PARTIALLY_SUPPORTED": 287,
+          "INSUFFICIENT_EVIDENCE": 288,
+          "UNCERTAIN": 54
+        },
+        "HALLUCINATED": {
+          "SUPPORTED": 0,
+          "CONTRADICTED": 789,
+          "PARTIALLY_SUPPORTED": 56,
+          "INSUFFICIENT_EVIDENCE": 91,
+          "UNCERTAIN": 7
+        }
+      },
+      "safety_metrics": {
+        "strict_false_supported_rate": 0.0,
+        "strict_false_supported_count": 0,
+        "strict_false_supported_ratio": "0/943",
+        "partial_inclusive_unsafe_acceptance_rate": 0.0594,
+        "partial_inclusive_unsafe_acceptance_count": 56,
+        "partial_inclusive_unsafe_acceptance_ratio": "56/943",
+        "false_contradiction_rate": 0.6403,
+        "false_contradiction_count": 1125,
+        "false_contradiction_ratio": "1125/1757"
+      },
+      "coverage_metrics": {
+        "explicit_decisive_coverage": 0.71,
+        "explicit_decisive_count": 1917,
+        "partial_support_coverage": 0.127,
+        "partial_support_count": 343,
+        "strict_abstention_rate": 0.163,
+        "strict_abstention_count": 440,
+        "inclusive_decisive_coverage": 0.837,
+        "inclusive_decisive_count": 2260
+      },
+      "policy1_conservative": {
+        "accuracy": 0.3504,
+        "precision": 1.0,
+        "recall": 0.0017,
+        "f1_score": 0.0034,
+        "confusion_matrix": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 1754,
+          "tn": 943
+        }
+      },
+      "policy2_decisive": {
+        "evaluated_subset_count": 1917,
+        "accuracy": 0.4131,
+        "precision": 1.0,
+        "recall": 0.0027,
+        "f1_score": 0.0053,
+        "confusion_matrix": {
+          "tp": 3,
+          "fp": 0,
+          "fn": 1125,
+          "tn": 789
+        }
+      }
+    }
+  },
+  "halueval": {
+    "no_verification": {
+      "total_records": 3000,
+      "ground_truth_distribution": {
+        "FACTUAL": 1500,
+        "HALLUCINATED": 1500
+      },
+      "five_outcome_distribution": {
+        "SUPPORTED": 3000,
+        "CONTRADICTED": 0,
+        "PARTIALLY_SUPPORTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "UNCERTAIN": 0
+      },
+      "cross_tabulation": {
+        "FACTUAL": {
+          "SUPPORTED": 1500,
+          "CONTRADICTED": 0,
+          "PARTIALLY_SUPPORTED": 0,
+          "INSUFFICIENT_EVIDENCE": 0,
+          "UNCERTAIN": 0
+        },
+        "HALLUCINATED": {
+          "SUPPORTED": 1500,
+          "CONTRADICTED": 0,
+          "PARTIALLY_SUPPORTED": 0,
+          "INSUFFICIENT_EVIDENCE": 0,
+          "UNCERTAIN": 0
+        }
+      },
+      "safety_metrics": {
+        "strict_false_supported_rate": 1.0,
+        "strict_false_supported_count": 1500,
+        "strict_false_supported_ratio": "1500/1500",
+        "partial_inclusive_unsafe_acceptance_rate": 1.0,
+        "partial_inclusive_unsafe_acceptance_count": 1500,
+        "partial_inclusive_unsafe_acceptance_ratio": "1500/1500",
+        "false_contradiction_rate": 0.0,
+        "false_contradiction_count": 0,
+        "false_contradiction_ratio": "0/1500"
+      },
+      "coverage_metrics": {
+        "explicit_decisive_coverage": 1.0,
+        "explicit_decisive_count": 3000,
+        "partial_support_coverage": 0.0,
+        "partial_support_count": 0,
+        "strict_abstention_rate": 0.0,
+        "strict_abstention_count": 0,
+        "inclusive_decisive_coverage": 1.0,
+        "inclusive_decisive_count": 3000
+      },
+      "policy1_conservative": {
+        "accuracy": 0.5,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6667,
+        "confusion_matrix": {
+          "tp": 1500,
+          "fp": 1500,
+          "fn": 0,
+          "tn": 0
+        }
+      },
+      "policy2_decisive": {
+        "evaluated_subset_count": 3000,
+        "accuracy": 0.5,
+        "precision": 0.5,
+        "recall": 1.0,
+        "f1_score": 0.6667,
+        "confusion_matrix": {
+          "tp": 1500,
+          "fp": 1500,
+          "fn": 0,
+          "tn": 0
+        }
+      }
+    },
+    "default_g3": {
+      "total_records": 3000,
+      "ground_truth_distribution": {
+        "FACTUAL": 1500,
+        "HALLUCINATED": 1500
+      },
+      "five_outcome_distribution": {
+        "SUPPORTED": 1153,
+        "CONTRADICTED": 235,
+        "PARTIALLY_SUPPORTED": 19,
+        "INSUFFICIENT_EVIDENCE": 1571,
+        "UNCERTAIN": 22
+      },
+      "cross_tabulation": {
+        "FACTUAL": {
+          "SUPPORTED": 914,
+          "CONTRADICTED": 13,
+          "PARTIALLY_SUPPORTED": 0,
+          "INSUFFICIENT_EVIDENCE": 559,
+          "UNCERTAIN": 14
+        },
+        "HALLUCINATED": {
+          "SUPPORTED": 239,
+          "CONTRADICTED": 222,
+          "PARTIALLY_SUPPORTED": 19,
+          "INSUFFICIENT_EVIDENCE": 1012,
+          "UNCERTAIN": 8
+        }
+      },
+      "safety_metrics": {
+        "strict_false_supported_rate": 0.1593,
+        "strict_false_supported_count": 239,
+        "strict_false_supported_ratio": "239/1500",
+        "partial_inclusive_unsafe_acceptance_rate": 0.172,
+        "partial_inclusive_unsafe_acceptance_count": 258,
+        "partial_inclusive_unsafe_acceptance_ratio": "258/1500",
+        "false_contradiction_rate": 0.0087,
+        "false_contradiction_count": 13,
+        "false_contradiction_ratio": "13/1500"
+      },
+      "coverage_metrics": {
+        "explicit_decisive_coverage": 0.4627,
+        "explicit_decisive_count": 1388,
+        "partial_support_coverage": 0.0063,
+        "partial_support_count": 19,
+        "strict_abstention_rate": 0.531,
+        "strict_abstention_count": 1593,
+        "inclusive_decisive_coverage": 0.469,
+        "inclusive_decisive_count": 1407
+      },
+      "policy1_conservative": {
+        "accuracy": 0.725,
+        "precision": 0.7927,
+        "recall": 0.6093,
+        "f1_score": 0.689,
+        "confusion_matrix": {
+          "tp": 914,
+          "fp": 239,
+          "fn": 586,
+          "tn": 1261
+        }
+      },
+      "policy2_decisive": {
+        "evaluated_subset_count": 1388,
+        "accuracy": 0.8184,
+        "precision": 0.7927,
+        "recall": 0.986,
+        "f1_score": 0.8788,
+        "confusion_matrix": {
+          "tp": 914,
+          "fp": 239,
+          "fn": 13,
+          "tn": 222
+        }
+      }
+    },
+    "strict_g3": {
+      "total_records": 3000,
+      "ground_truth_distribution": {
+        "FACTUAL": 1500,
+        "HALLUCINATED": 1500
+      },
+      "five_outcome_distribution": {
+        "SUPPORTED": 1050,
+        "CONTRADICTED": 235,
+        "PARTIALLY_SUPPORTED": 20,
+        "INSUFFICIENT_EVIDENCE": 1675,
+        "UNCERTAIN": 20
+      },
+      "cross_tabulation": {
+        "FACTUAL": {
+          "SUPPORTED": 914,
+          "CONTRADICTED": 13,
+          "PARTIALLY_SUPPORTED": 0,
+          "INSUFFICIENT_EVIDENCE": 559,
+          "UNCERTAIN": 14
+        },
+        "HALLUCINATED": {
+          "SUPPORTED": 136,
+          "CONTRADICTED": 222,
+          "PARTIALLY_SUPPORTED": 20,
+          "INSUFFICIENT_EVIDENCE": 1116,
+          "UNCERTAIN": 6
+        }
+      },
+      "safety_metrics": {
+        "strict_false_supported_rate": 0.0907,
+        "strict_false_supported_count": 136,
+        "strict_false_supported_ratio": "136/1500",
+        "partial_inclusive_unsafe_acceptance_rate": 0.104,
+        "partial_inclusive_unsafe_acceptance_count": 156,
+        "partial_inclusive_unsafe_acceptance_ratio": "156/1500",
+        "false_contradiction_rate": 0.0087,
+        "false_contradiction_count": 13,
+        "false_contradiction_ratio": "13/1500"
+      },
+      "coverage_metrics": {
+        "explicit_decisive_coverage": 0.4283,
+        "explicit_decisive_count": 1285,
+        "partial_support_coverage": 0.0067,
+        "partial_support_count": 20,
+        "strict_abstention_rate": 0.565,
+        "strict_abstention_count": 1695,
+        "inclusive_decisive_coverage": 0.435,
+        "inclusive_decisive_count": 1305
+      },
+      "policy1_conservative": {
+        "accuracy": 0.7593,
+        "precision": 0.8705,
+        "recall": 0.6093,
+        "f1_score": 0.7169,
+        "confusion_matrix": {
+          "tp": 914,
+          "fp": 136,
+          "fn": 586,
+          "tn": 1364
+        }
+      },
+      "policy2_decisive": {
+        "evaluated_subset_count": 1285,
+        "accuracy": 0.884,
+        "precision": 0.8705,
+        "recall": 0.986,
+        "f1_score": 0.9246,
+        "confusion_matrix": {
+          "tp": 914,
+          "fp": 136,
+          "fn": 13,
+          "tn": 222
+        }
+      }
+    }
+  },
+  "retrieval": {
+    "hotpotqa": {
+      "total_queries": 7405,
+      "evaluated_queries": 7405,
+      "skipped_queries": 0,
+      "recall_at_1": 0.4154,
+      "recall_at_5": 0.8182,
+      "recall_at_10": 0.9876,
+      "mrr_at_10": 0.8965
+    },
+    "msmarco": {
+      "total_queries": 10047,
+      "evaluated_queries": 9706,
+      "skipped_queries": 341,
+      "recall_at_1": 0.2311,
+      "recall_at_5": 0.7592,
+      "recall_at_10": 0.9768,
+      "mrr_at_10": 0.4626,
+      "canonical_full_corpus_status": "BLOCKED",
+      "canonical_full_corpus_missing": "Canonical 8.84M passage collection (collection.tsv / collection.tar.gz ~3.2 GB) and official qrels.dev.small.tsv"
+    }
+  }
+}

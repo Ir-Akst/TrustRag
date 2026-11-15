@@ -1,0 +1,76 @@
+{
+  "track": "Track 2",
+  "step": "Step 2.2.1",
+  "title": "Independent SFT Remediation Acceptance Audit",
+  "audit_timestamp_iso": "2026-11-14T02:50:00Z",
+  "overall_verdict": "INDEPENDENTLY_VERIFIED",
+  "preflight": {
+    "target_repository": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "baseline_head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "protected_baseline": "/home/aditya/rags/TrustRag",
+    "protected_head": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "protected_status": "UNTOUCHED",
+    "sft_v1_baseline_status": "PRESERVED_UNCHANGED"
+  },
+  "reconciliation_findings": {
+    "span_count_discrepancy_resolved": {
+      "reported_step2_1": 14289,
+      "reported_step2_2": 12756,
+      "difference": 1533,
+      "root_cause": "The 1,533 spans belong strictly to the canonical RAGTruth test set (2,700 responses) which was quarantined to prevent test contamination",
+      "spans_lost": 0,
+      "verdict": "MATHEMATICALLY_RECONCILED"
+    },
+    "ragtruth_duplicate_article_resolved": {
+      "source_ids": ["12084", "12085"],
+      "remediation": "Grouped together into train split via normalized document text hashing",
+      "train_val_doc_overlap": 0
+    },
+    "halueval_leakage_resolved": {
+      "quarantined_records": 52,
+      "quarantined_pairs": 26,
+      "group_completeness": "100%_PAIRED",
+      "train_val_passage_overlap": 0,
+      "test_passage_overlap": 0
+    }
+  },
+  "objective_acceptance_verdicts": {
+    "binary_hallucination_classification": {
+      "verdict": "READY",
+      "authorized_for_training": true,
+      "verified_train_records": 26054,
+      "verified_val_records": 5984,
+      "leakage_status": "0.00%_ZERO_DOCUMENT_LEAKAGE"
+    },
+    "evidence_grounded_3way_nli": {
+      "verdict": "READY",
+      "authorized_for_training": true,
+      "scope": "RAGTruth only (HaluEval quarantined)",
+      "verified_train_records": 10815,
+      "verified_val_records": 2662,
+      "leakage_status": "0.00%_ZERO_DOCUMENT_LEAKAGE"
+    },
+    "span_level_hallucination_detection": {
+      "verdict": "READY",
+      "authorized_for_training": true,
+      "scope": "RAGTruth only (HaluEval quarantined)",
+      "verified_train_records": 12072,
+      "verified_val_records": 3018,
+      "verified_spans": 12756,
+      "offset_exactness": "100.00%_EXACT_MATCH (0 mismatches)"
+    },
+    "full_five_outcome_g3_verification": {
+      "verdict": "BLOCKED",
+      "authorized_for_training": false,
+      "fabricated_records": 0,
+      "status": "SUPERVISION_GAP_DOCUMENTED_NO_FABRICATION"
+    },
+    "generative_structured_verification": {
+      "verdict": "CONDITIONALLY_READY",
+      "authorized_for_training": true,
+      "scope": "Direct JSON output only; reasoning traces blocked pending teacher distillation"
+    }
+  }
+}
+

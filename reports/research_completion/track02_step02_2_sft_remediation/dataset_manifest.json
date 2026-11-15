@@ -1,0 +1,58 @@
+{
+  "manifest_name": "sft_v2_master_dataset_manifest",
+  "version": "2.0.0",
+  "track": "Track 2",
+  "step": "Step 2.2",
+  "created_at_iso": "2026-11-14T02:26:00Z",
+  "base_directory": "data/processed/sft_v2/",
+  "subdatasets": {
+    "binary": {
+      "directory": "data/processed/sft_v2/binary/",
+      "objective": "Binary Hallucination Classification",
+      "records": {
+        "train": 26054,
+        "validation": 5984,
+        "total": 32038
+      },
+      "exclusions": 52,
+      "train_sha256": "c68fb5020129eb5110eb2df8f15b497676eeb182e0717208ff95f92ffccb997c",
+      "val_sha256": "2d5e2193b2cc2a15f3e5898d24b6113b28b61c92a9bf8c105077d2427a942fa5"
+    },
+    "nli": {
+      "directory": "data/processed/sft_v2/nli/",
+      "objective": "Evidence-Grounded 3-Way NLI",
+      "records": {
+        "train": 10815,
+        "validation": 2662,
+        "total": 13477
+      },
+      "exclusions": 18613,
+      "train_sha256": "16867e3a992ca79979ccf415309d29837a77df3c467a2eec9313cb1277a08b98",
+      "val_sha256": "775f0a78601db7a195325b6a7a00ff01908990c8e312f1dfb1b36ae270a4a833"
+    },
+    "spans": {
+      "directory": "data/processed/sft_v2/spans/",
+      "objective": "Character/Token Span Hallucination Detection",
+      "records": {
+        "train": 12072,
+        "validation": 3018,
+        "total": 15090
+      },
+      "exclusions": 17000,
+      "total_verified_spans": 12756,
+      "train_sha256": "ea158525eef050dbd2fa8c13e414c5b3c45fe155a069df8b49e6f2162fb16556",
+      "val_sha256": "6cebe4684a0d9382f6e9195b0fe21bc566a7b7ea2ae1e5f86b4df9d1bdf6b5c3"
+    },
+    "g3_readiness": {
+      "directory": "data/processed/sft_v2/g3_readiness/",
+      "objective": "G3 Five-Outcome Gap Specification",
+      "records": {
+        "train": 0,
+        "validation": 0,
+        "total": 0
+      },
+      "status": "SUPERVISION_GAP_DOCUMENTED_NO_FABRICATED_RECORDS"
+    }
+  }
+}
+

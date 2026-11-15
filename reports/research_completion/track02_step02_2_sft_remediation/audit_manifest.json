@@ -1,0 +1,63 @@
+{
+  "manifest_version": "1.0.0",
+  "track": "Track 2",
+  "step": "Step 2.2",
+  "title": "Objective-Specific SFT Dataset Remediation",
+  "generated_at_iso": "2026-11-14T02:26:00Z",
+  "repository": {
+    "target_path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "baseline_head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+  },
+  "deliverables": [
+    {
+      "path": "reports/research_completion/track02_step02_2_sft_remediation/00_EXECUTIVE_REMEDIATION_REPORT.md",
+      "description": "Executive summary of remediated datasets, counts, and objective readiness verdicts"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_2_sft_remediation/01_BINARY_DATASET_REPORT.md",
+      "description": "Detailed report on binary hallucination dataset (32,038 records) and leakage remediation"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_2_sft_remediation/02_NLI_DATASET_REPORT.md",
+      "description": "Detailed report on 3-way evidence-grounded NLI dataset (13,477 records) from RAGTruth"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_2_sft_remediation/03_HALUEVAL_EXCLUSION_AND_MAPPING_REPORT.md",
+      "description": "Analysis of HaluEval limits, rejection of pseudo-labels, and quarantine rationale"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_2_sft_remediation/04_RAGTRUTH_SPAN_INTEGRITY_REPORT.md",
+      "description": "Span-level dataset audit, 100% verified character offsets, and multi-span distributions"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_2_sft_remediation/05_SPLIT_AND_LEAKAGE_REMEDIATION.md",
+      "description": "Proof of zero document leakage across all splits, test quarantine, and exclusion ledger"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_2_sft_remediation/06_G3_SUPERVISION_GAP_REPORT.md",
+      "description": "G3 five-outcome gap specification and human annotation protocol (0 fabricated records)"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_2_sft_remediation/07_TEST_AND_REPRODUCIBILITY_REPORT.md",
+      "description": "Pytest logs, typing, linting, and exact deterministic reproduction commands"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_2_sft_remediation/objective_readiness_matrix.json",
+      "description": "Machine-readable readiness matrix covering all objectives"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_2_sft_remediation/dataset_manifest.json",
+      "description": "Master dataset manifest for sft_v2"
+    },
+    {
+      "path": "tools/data_prep/prepare_sft_v2_remediated.py",
+      "description": "Deterministic SFT v2 dataset remediation pipeline"
+    },
+    {
+      "path": "tests/unit/test_track02_step02_2_sft_remediation.py",
+      "description": "Comprehensive quality assurance unit test suite for sft_v2"
+    }
+  ]
+}
+

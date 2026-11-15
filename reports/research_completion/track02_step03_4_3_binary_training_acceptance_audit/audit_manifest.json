@@ -1,0 +1,24 @@
+{
+  "manifest_version": "1.0.0",
+  "task": "Track 2, Step 3.4.3: Independent Binary Training Acceptance Audit",
+  "auditor": "Independent ML Infrastructure and Experimental Auditor",
+  "timestamp": "2026-11-14T09:58:00+05:30",
+  "overall_verdict": "INDEPENDENTLY_VERIFIED",
+  "target_repo": "/home/aditya/rags/TrustRag-phase11",
+  "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+  "protected_repo": "/home/aditya/rags/TrustRag",
+  "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+  "audited_checkpoint": "/home/aditya/rags/models/trained/deberta-v3-small-binary-pilot1000",
+  "audited_report_dir": "/home/aditya/rags/TrustRag-phase11/reports/research_completion/track02_step03_4_2_binary_training",
+  "deliverables": [
+    "00_EXECUTIVE_AUDIT_REPORT.md",
+    "01_CHECKPOINT_INTEGRITY.md",
+    "02_METRIC_RECOMPUTATION.md",
+    "03_DATASET_PROVENANCE.md",
+    "04_RESOURCE_AND_EXECUTION_AUDIT.md",
+    "05_FINAL_ACCEPTANCE_VERDICT.md",
+    "audit_manifest.json",
+    "CONSOLIDATED_BINARY_TRAINING_ACCEPTANCE_AUDIT_REPORT.md",
+    "checksums.sha256"
+  ]
+}

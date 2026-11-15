@@ -1,0 +1,602 @@
+{
+  "metadata": {
+    "evaluation_task": "Track 1, Step 2.2: Corrected Baseline Re-evaluation",
+    "timestamp": "2026-11-13T17:42:49.459380+00:00",
+    "repo_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+  },
+  "ragtruth": {
+    "no_verification": {
+      "dataset_name": "ragtruth",
+      "split": "test",
+      "baseline_mode": "no_verification",
+      "effective_configuration": {
+        "policy": "pass_through_always_accept",
+        "description": "Baseline: always certifes response as SUPPORTED without evidence checking."
+      },
+      "evaluated_records": 2700,
+      "runtime_seconds": 0.02,
+      "throughput_records_per_sec": 165705.1,
+      "ground_truth_distribution": {
+        "FACTUAL": 1757,
+        "HALLUCINATED": 943
+      },
+      "five_outcome_distribution": {
+        "SUPPORTED": 2700,
+        "CONTRADICTED": 0,
+        "PARTIALLY_SUPPORTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "UNCERTAIN": 0
+      },
+      "coverage_metrics": {
+        "explicit_decisive_coverage": 1.0,
+        "explicit_decisive_count": 2700,
+        "explicit_decisive_ratio": "2700/2700",
+        "partial_support_coverage": 0.0,
+        "partial_support_count": 0,
+        "partial_support_ratio": "0/2700",
+        "strict_abstention_rate": 0.0,
+        "strict_abstention_count": 0,
+        "strict_abstention_ratio": "0/2700",
+        "inclusive_decisive_coverage": 1.0,
+        "inclusive_decisive_count": 2700,
+        "non_full_support_rate": 0.0,
+        "non_full_support_count": 0
+      },
+      "safety_metrics": {
+        "strict_false_supported_rate": 1.0,
+        "strict_false_supported_count": 943,
+        "strict_false_supported_ratio": "943/943",
+        "partial_inclusive_unsafe_acceptance_rate": 1.0,
+        "partial_inclusive_unsafe_acceptance_count": 943,
+        "partial_inclusive_unsafe_acceptance_ratio": "943/943",
+        "false_contradiction_rate": 0.0,
+        "false_contradiction_count": 0,
+        "false_contradiction_ratio": "0/1757",
+        "partial_inclusive_factual_rejection_rate": 0.0,
+        "partial_inclusive_factual_rejection_count": 0,
+        "partial_inclusive_factual_rejection_ratio": "0/1757",
+        "hallucinated_total": 943,
+        "factual_total": 1757
+      },
+      "classification_conservative_policy": {
+        "policy_description": "Conservative defense policy: SUPPORTED = 0 (Factual), all other outcomes = 1 (Hallucinated/Unverified).",
+        "metrics": {
+          "accuracy": 0.6507,
+          "balanced_accuracy": 0.5,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.0,
+          "tp": 0,
+          "tn": 1757,
+          "fp": 0,
+          "fn": 943,
+          "total": 2700
+        }
+      },
+      "classification_decisive_policy": {
+        "policy_description": "Decisive-only policy: Evaluated strictly on records with verdict in (SUPPORTED, CONTRADICTED). Non-decisive excluded.",
+        "evaluated_count": 2700,
+        "excluded_count": 0,
+        "coverage": 1.0,
+        "metrics": {
+          "accuracy": 0.6507,
+          "balanced_accuracy": 0.5,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.0,
+          "tp": 0,
+          "tn": 1757,
+          "fp": 0,
+          "fn": 943,
+          "total": 2700
+        }
+      }
+    },
+    "default_g3": {
+      "dataset_name": "ragtruth",
+      "split": "test",
+      "baseline_mode": "default_g3",
+      "effective_configuration": {
+        "enabled": true,
+        "min_support_coverage": 0.65,
+        "min_relevance_for_check": 0.1,
+        "strict_numeric_matching": true,
+        "strict_negation_check": true,
+        "enable_query_consistency": false
+      },
+      "evaluated_records": 2700,
+      "runtime_seconds": 69.36,
+      "throughput_records_per_sec": 38.9,
+      "ground_truth_distribution": {
+        "FACTUAL": 1757,
+        "HALLUCINATED": 943
+      },
+      "five_outcome_distribution": {
+        "SUPPORTED": 9,
+        "CONTRADICTED": 1885,
+        "PARTIALLY_SUPPORTED": 436,
+        "INSUFFICIENT_EVIDENCE": 280,
+        "UNCERTAIN": 90
+      },
+      "coverage_metrics": {
+        "explicit_decisive_coverage": 0.7015,
+        "explicit_decisive_count": 1894,
+        "explicit_decisive_ratio": "1894/2700",
+        "partial_support_coverage": 0.1615,
+        "partial_support_count": 436,
+        "partial_support_ratio": "436/2700",
+        "strict_abstention_rate": 0.137,
+        "strict_abstention_count": 370,
+        "strict_abstention_ratio": "370/2700",
+        "inclusive_decisive_coverage": 0.863,
+        "inclusive_decisive_count": 2330,
+        "non_full_support_rate": 0.9967,
+        "non_full_support_count": 2691
+      },
+      "safety_metrics": {
+        "strict_false_supported_rate": 0.0,
+        "strict_false_supported_count": 0,
+        "strict_false_supported_ratio": "0/943",
+        "partial_inclusive_unsafe_acceptance_rate": 0.0774,
+        "partial_inclusive_unsafe_acceptance_count": 73,
+        "partial_inclusive_unsafe_acceptance_ratio": "73/943",
+        "false_contradiction_rate": 0.6261,
+        "false_contradiction_count": 1100,
+        "false_contradiction_ratio": "1100/1757",
+        "partial_inclusive_factual_rejection_rate": 0.8327,
+        "partial_inclusive_factual_rejection_count": 1463,
+        "partial_inclusive_factual_rejection_ratio": "1463/1757",
+        "hallucinated_total": 943,
+        "factual_total": 1757
+      },
+      "classification_conservative_policy": {
+        "policy_description": "Conservative defense policy: SUPPORTED = 0 (Factual), all other outcomes = 1 (Hallucinated/Unverified).",
+        "metrics": {
+          "accuracy": 0.3526,
+          "balanced_accuracy": 0.5026,
+          "precision": 0.3504,
+          "recall": 1.0,
+          "f1": 0.519,
+          "fpr": 0.9949,
+          "tp": 943,
+          "tn": 9,
+          "fp": 1748,
+          "fn": 0,
+          "total": 2700
+        }
+      },
+      "classification_decisive_policy": {
+        "policy_description": "Decisive-only policy: Evaluated strictly on records with verdict in (SUPPORTED, CONTRADICTED). Non-decisive excluded.",
+        "evaluated_count": 1894,
+        "excluded_count": 806,
+        "coverage": 0.7015,
+        "metrics": {
+          "accuracy": 0.4192,
+          "balanced_accuracy": 0.5041,
+          "precision": 0.4164,
+          "recall": 1.0,
+          "f1": 0.588,
+          "fpr": 0.9919,
+          "tp": 785,
+          "tn": 9,
+          "fp": 1100,
+          "fn": 0,
+          "total": 1894
+        }
+      }
+    },
+    "strict_g3": {
+      "dataset_name": "ragtruth",
+      "split": "test",
+      "baseline_mode": "strict_g3",
+      "effective_configuration": {
+        "enabled": true,
+        "min_support_coverage": 0.8,
+        "min_relevance_for_check": 0.1,
+        "strict_numeric_matching": true,
+        "strict_negation_check": true,
+        "enable_query_consistency": false
+      },
+      "evaluated_records": 2700,
+      "runtime_seconds": 66.97,
+      "throughput_records_per_sec": 40.3,
+      "ground_truth_distribution": {
+        "FACTUAL": 1757,
+        "HALLUCINATED": 943
+      },
+      "five_outcome_distribution": {
+        "SUPPORTED": 3,
+        "CONTRADICTED": 1914,
+        "PARTIALLY_SUPPORTED": 343,
+        "INSUFFICIENT_EVIDENCE": 379,
+        "UNCERTAIN": 61
+      },
+      "coverage_metrics": {
+        "explicit_decisive_coverage": 0.71,
+        "explicit_decisive_count": 1917,
+        "explicit_decisive_ratio": "1917/2700",
+        "partial_support_coverage": 0.127,
+        "partial_support_count": 343,
+        "partial_support_ratio": "343/2700",
+        "strict_abstention_rate": 0.163,
+        "strict_abstention_count": 440,
+        "strict_abstention_ratio": "440/2700",
+        "inclusive_decisive_coverage": 0.837,
+        "inclusive_decisive_count": 2260,
+        "non_full_support_rate": 0.9989,
+        "non_full_support_count": 2697
+      },
+      "safety_metrics": {
+        "strict_false_supported_rate": 0.0,
+        "strict_false_supported_count": 0,
+        "strict_false_supported_ratio": "0/943",
+        "partial_inclusive_unsafe_acceptance_rate": 0.0594,
+        "partial_inclusive_unsafe_acceptance_count": 56,
+        "partial_inclusive_unsafe_acceptance_ratio": "56/943",
+        "false_contradiction_rate": 0.6403,
+        "false_contradiction_count": 1125,
+        "false_contradiction_ratio": "1125/1757",
+        "partial_inclusive_factual_rejection_rate": 0.8036,
+        "partial_inclusive_factual_rejection_count": 1412,
+        "partial_inclusive_factual_rejection_ratio": "1412/1757",
+        "hallucinated_total": 943,
+        "factual_total": 1757
+      },
+      "classification_conservative_policy": {
+        "policy_description": "Conservative defense policy: SUPPORTED = 0 (Factual), all other outcomes = 1 (Hallucinated/Unverified).",
+        "metrics": {
+          "accuracy": 0.3504,
+          "balanced_accuracy": 0.5009,
+          "precision": 0.3496,
+          "recall": 1.0,
+          "f1": 0.5181,
+          "fpr": 0.9983,
+          "tp": 943,
+          "tn": 3,
+          "fp": 1754,
+          "fn": 0,
+          "total": 2700
+        }
+      },
+      "classification_decisive_policy": {
+        "policy_description": "Decisive-only policy: Evaluated strictly on records with verdict in (SUPPORTED, CONTRADICTED). Non-decisive excluded.",
+        "evaluated_count": 1917,
+        "excluded_count": 783,
+        "coverage": 0.71,
+        "metrics": {
+          "accuracy": 0.4131,
+          "balanced_accuracy": 0.5013,
+          "precision": 0.4122,
+          "recall": 1.0,
+          "f1": 0.5838,
+          "fpr": 0.9973,
+          "tp": 789,
+          "tn": 3,
+          "fp": 1125,
+          "fn": 0,
+          "total": 1917
+        }
+      }
+    }
+  },
+  "halueval": {
+    "no_verification": {
+      "dataset_name": "halueval",
+      "split": "test",
+      "baseline_mode": "no_verification",
+      "effective_configuration": {
+        "policy": "pass_through_always_accept",
+        "description": "Baseline: always certifes response as SUPPORTED without evidence checking."
+      },
+      "evaluated_records": 3000,
+      "runtime_seconds": 0.0,
+      "throughput_records_per_sec": 628266.0,
+      "ground_truth_distribution": {
+        "FACTUAL": 1500,
+        "HALLUCINATED": 1500
+      },
+      "five_outcome_distribution": {
+        "SUPPORTED": 3000,
+        "CONTRADICTED": 0,
+        "PARTIALLY_SUPPORTED": 0,
+        "INSUFFICIENT_EVIDENCE": 0,
+        "UNCERTAIN": 0
+      },
+      "coverage_metrics": {
+        "explicit_decisive_coverage": 1.0,
+        "explicit_decisive_count": 3000,
+        "explicit_decisive_ratio": "3000/3000",
+        "partial_support_coverage": 0.0,
+        "partial_support_count": 0,
+        "partial_support_ratio": "0/3000",
+        "strict_abstention_rate": 0.0,
+        "strict_abstention_count": 0,
+        "strict_abstention_ratio": "0/3000",
+        "inclusive_decisive_coverage": 1.0,
+        "inclusive_decisive_count": 3000,
+        "non_full_support_rate": 0.0,
+        "non_full_support_count": 0
+      },
+      "safety_metrics": {
+        "strict_false_supported_rate": 1.0,
+        "strict_false_supported_count": 1500,
+        "strict_false_supported_ratio": "1500/1500",
+        "partial_inclusive_unsafe_acceptance_rate": 1.0,
+        "partial_inclusive_unsafe_acceptance_count": 1500,
+        "partial_inclusive_unsafe_acceptance_ratio": "1500/1500",
+        "false_contradiction_rate": 0.0,
+        "false_contradiction_count": 0,
+        "false_contradiction_ratio": "0/1500",
+        "partial_inclusive_factual_rejection_rate": 0.0,
+        "partial_inclusive_factual_rejection_count": 0,
+        "partial_inclusive_factual_rejection_ratio": "0/1500",
+        "hallucinated_total": 1500,
+        "factual_total": 1500
+      },
+      "classification_conservative_policy": {
+        "policy_description": "Conservative defense policy: SUPPORTED = 0 (Factual), all other outcomes = 1 (Hallucinated/Unverified).",
+        "metrics": {
+          "accuracy": 0.5,
+          "balanced_accuracy": 0.5,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.0,
+          "tp": 0,
+          "tn": 1500,
+          "fp": 0,
+          "fn": 1500,
+          "total": 3000
+        }
+      },
+      "classification_decisive_policy": {
+        "policy_description": "Decisive-only policy: Evaluated strictly on records with verdict in (SUPPORTED, CONTRADICTED). Non-decisive excluded.",
+        "evaluated_count": 3000,
+        "excluded_count": 0,
+        "coverage": 1.0,
+        "metrics": {
+          "accuracy": 0.5,
+          "balanced_accuracy": 0.5,
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "fpr": 0.0,
+          "tp": 0,
+          "tn": 1500,
+          "fp": 0,
+          "fn": 1500,
+          "total": 3000
+        }
+      }
+    },
+    "default_g3": {
+      "dataset_name": "halueval",
+      "split": "test",
+      "baseline_mode": "default_g3",
+      "effective_configuration": {
+        "enabled": true,
+        "min_support_coverage": 0.65,
+        "min_relevance_for_check": 0.1,
+        "strict_numeric_matching": true,
+        "strict_negation_check": true,
+        "enable_query_consistency": false
+      },
+      "evaluated_records": 3000,
+      "runtime_seconds": 8.4,
+      "throughput_records_per_sec": 357.3,
+      "ground_truth_distribution": {
+        "FACTUAL": 1500,
+        "HALLUCINATED": 1500
+      },
+      "five_outcome_distribution": {
+        "SUPPORTED": 1153,
+        "CONTRADICTED": 235,
+        "PARTIALLY_SUPPORTED": 19,
+        "INSUFFICIENT_EVIDENCE": 1571,
+        "UNCERTAIN": 22
+      },
+      "coverage_metrics": {
+        "explicit_decisive_coverage": 0.4627,
+        "explicit_decisive_count": 1388,
+        "explicit_decisive_ratio": "1388/3000",
+        "partial_support_coverage": 0.0063,
+        "partial_support_count": 19,
+        "partial_support_ratio": "19/3000",
+        "strict_abstention_rate": 0.531,
+        "strict_abstention_count": 1593,
+        "strict_abstention_ratio": "1593/3000",
+        "inclusive_decisive_coverage": 0.469,
+        "inclusive_decisive_count": 1407,
+        "non_full_support_rate": 0.6157,
+        "non_full_support_count": 1847
+      },
+      "safety_metrics": {
+        "strict_false_supported_rate": 0.1593,
+        "strict_false_supported_count": 239,
+        "strict_false_supported_ratio": "239/1500",
+        "partial_inclusive_unsafe_acceptance_rate": 0.172,
+        "partial_inclusive_unsafe_acceptance_count": 258,
+        "partial_inclusive_unsafe_acceptance_ratio": "258/1500",
+        "false_contradiction_rate": 0.0087,
+        "false_contradiction_count": 13,
+        "false_contradiction_ratio": "13/1500",
+        "partial_inclusive_factual_rejection_rate": 0.0087,
+        "partial_inclusive_factual_rejection_count": 13,
+        "partial_inclusive_factual_rejection_ratio": "13/1500",
+        "hallucinated_total": 1500,
+        "factual_total": 1500
+      },
+      "classification_conservative_policy": {
+        "policy_description": "Conservative defense policy: SUPPORTED = 0 (Factual), all other outcomes = 1 (Hallucinated/Unverified).",
+        "metrics": {
+          "accuracy": 0.725,
+          "balanced_accuracy": 0.725,
+          "precision": 0.6827,
+          "recall": 0.8407,
+          "f1": 0.7535,
+          "fpr": 0.3907,
+          "tp": 1261,
+          "tn": 914,
+          "fp": 586,
+          "fn": 239,
+          "total": 3000
+        }
+      },
+      "classification_decisive_policy": {
+        "policy_description": "Decisive-only policy: Evaluated strictly on records with verdict in (SUPPORTED, CONTRADICTED). Non-decisive excluded.",
+        "evaluated_count": 1388,
+        "excluded_count": 1612,
+        "coverage": 0.4627,
+        "metrics": {
+          "accuracy": 0.8184,
+          "balanced_accuracy": 0.7338,
+          "precision": 0.9447,
+          "recall": 0.4816,
+          "f1": 0.6379,
+          "fpr": 0.014,
+          "tp": 222,
+          "tn": 914,
+          "fp": 13,
+          "fn": 239,
+          "total": 1388
+        }
+      }
+    },
+    "strict_g3": {
+      "dataset_name": "halueval",
+      "split": "test",
+      "baseline_mode": "strict_g3",
+      "effective_configuration": {
+        "enabled": true,
+        "min_support_coverage": 0.8,
+        "min_relevance_for_check": 0.1,
+        "strict_numeric_matching": true,
+        "strict_negation_check": true,
+        "enable_query_consistency": false
+      },
+      "evaluated_records": 3000,
+      "runtime_seconds": 8.95,
+      "throughput_records_per_sec": 335.1,
+      "ground_truth_distribution": {
+        "FACTUAL": 1500,
+        "HALLUCINATED": 1500
+      },
+      "five_outcome_distribution": {
+        "SUPPORTED": 1050,
+        "CONTRADICTED": 235,
+        "PARTIALLY_SUPPORTED": 20,
+        "INSUFFICIENT_EVIDENCE": 1675,
+        "UNCERTAIN": 20
+      },
+      "coverage_metrics": {
+        "explicit_decisive_coverage": 0.4283,
+        "explicit_decisive_count": 1285,
+        "explicit_decisive_ratio": "1285/3000",
+        "partial_support_coverage": 0.0067,
+        "partial_support_count": 20,
+        "partial_support_ratio": "20/3000",
+        "strict_abstention_rate": 0.565,
+        "strict_abstention_count": 1695,
+        "strict_abstention_ratio": "1695/3000",
+        "inclusive_decisive_coverage": 0.435,
+        "inclusive_decisive_count": 1305,
+        "non_full_support_rate": 0.65,
+        "non_full_support_count": 1950
+      },
+      "safety_metrics": {
+        "strict_false_supported_rate": 0.0907,
+        "strict_false_supported_count": 136,
+        "strict_false_supported_ratio": "136/1500",
+        "partial_inclusive_unsafe_acceptance_rate": 0.104,
+        "partial_inclusive_unsafe_acceptance_count": 156,
+        "partial_inclusive_unsafe_acceptance_ratio": "156/1500",
+        "false_contradiction_rate": 0.0087,
+        "false_contradiction_count": 13,
+        "false_contradiction_ratio": "13/1500",
+        "partial_inclusive_factual_rejection_rate": 0.0087,
+        "partial_inclusive_factual_rejection_count": 13,
+        "partial_inclusive_factual_rejection_ratio": "13/1500",
+        "hallucinated_total": 1500,
+        "factual_total": 1500
+      },
+      "classification_conservative_policy": {
+        "policy_description": "Conservative defense policy: SUPPORTED = 0 (Factual), all other outcomes = 1 (Hallucinated/Unverified).",
+        "metrics": {
+          "accuracy": 0.7593,
+          "balanced_accuracy": 0.7593,
+          "precision": 0.6995,
+          "recall": 0.9093,
+          "f1": 0.7907,
+          "fpr": 0.3907,
+          "tp": 1364,
+          "tn": 914,
+          "fp": 586,
+          "fn": 136,
+          "total": 3000
+        }
+      },
+      "classification_decisive_policy": {
+        "policy_description": "Decisive-only policy: Evaluated strictly on records with verdict in (SUPPORTED, CONTRADICTED). Non-decisive excluded.",
+        "evaluated_count": 1285,
+        "excluded_count": 1715,
+        "coverage": 0.4283,
+        "metrics": {
+          "accuracy": 0.884,
+          "balanced_accuracy": 0.803,
+          "precision": 0.9447,
+          "recall": 0.6201,
+          "f1": 0.7487,
+          "fpr": 0.014,
+          "tp": 222,
+          "tn": 914,
+          "fp": 13,
+          "fn": 136,
+          "total": 1285
+        }
+      }
+    }
+  },
+  "retrieval": {
+    "hotpotqa": {
+      "dataset_name": "hotpotqa",
+      "split": "validation",
+      "evaluated_queries": 7405,
+      "skipped_queries": 0,
+      "candidate_pool_per_query": 10,
+      "runtime_seconds": 57.75,
+      "queries_per_second": 128.2,
+      "recall_at_1": 0.4154,
+      "recall_at_5": 0.8182,
+      "recall_at_10": 0.9876,
+      "mrr_at_10": 0.8965,
+      "canonical_full_corpus_status": "BLOCKED",
+      "canonical_full_corpus_missing": "Canonical 5.23M Wikipedia passage archive (hotpot_corpus.tsv, ~2.5 GB)",
+      "configuration": {
+        "retriever": "TrustAwareRetriever (TF-IDF + Lexical Overlap)",
+        "evaluation_scope": "Distractor candidate re-ranking (10 candidate passages per query)",
+        "corpus_mode": "local_distractor_candidates"
+      }
+    },
+    "ms_marco": {
+      "dataset_name": "ms_marco",
+      "split": "validation",
+      "evaluated_queries": 9706,
+      "skipped_queries": 341,
+      "runtime_seconds": 65.16,
+      "queries_per_second": 149.0,
+      "recall_at_1": 0.2311,
+      "recall_at_5": 0.7592,
+      "recall_at_10": 0.9768,
+      "mrr_at_10": 0.4626,
+      "canonical_full_corpus_status": "BLOCKED",
+      "canonical_full_corpus_missing": "Canonical 8.84M passage collection (collection.tsv / collection.tar.gz ~3.2 GB) and official qrels.dev.small.tsv",
+      "configuration": {
+        "retriever": "TrustAwareRetriever (TF-IDF + Lexical Overlap)",
+        "evaluation_scope": "Candidate search snippet re-ranking (6 to 10 candidates per query)",
+        "corpus_mode": "local_candidate_snippets"
+      }
+    }
+  }
+}

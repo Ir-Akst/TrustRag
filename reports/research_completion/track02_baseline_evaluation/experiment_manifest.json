@@ -1,0 +1,66 @@
+{
+  "manifest_version": "1.0.0",
+  "task": "Track 1, Step 2: Canonical Benchmark Baseline Evaluation",
+  "generated_at": "2026-11-13T21:40:00+05:30",
+  "environment": {
+    "python_version": "3.14.9",
+    "platform": "Linux-7.2.14-arch1-1-x86_64",
+    "repo_root": "/home/aditya/rags/TrustRag-phase11",
+    "commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+  },
+  "datasets": {
+    "ragtruth": {
+      "path": "data/processed/ragtruth/test.jsonl",
+      "record_count": 2700,
+      "ground_truth_labels": {
+        "FACTUAL": 1757,
+        "HALLUCINATED": 943
+      }
+    },
+    "halueval": {
+      "path": "data/processed/halueval/test.jsonl",
+      "record_count": 3000,
+      "ground_truth_labels": {
+        "FACTUAL": 1500,
+        "HALLUCINATED": 1500
+      }
+    },
+    "hotpotqa": {
+      "path": "data/raw/hotpotqa/hotpotqa_val_distractor.parquet",
+      "query_count": 7405,
+      "candidate_pool_size": 10
+    },
+    "ms_marco": {
+      "path": "data/raw/ms_marco/ms_marco_val_v1.1.parquet",
+      "query_count": 10047,
+      "evaluated_query_count": 9706,
+      "skipped_query_count": 341
+    }
+  },
+  "artifacts_generated": [
+    "00_EXECUTIVE_SUMMARY.md",
+    "01_EXPERIMENT_PROTOCOL.md",
+    "02_DATASET_AND_SPLIT_VALIDATION.md",
+    "03_G3_RAGTRUTH_RESULTS.md",
+    "04_G3_HALUEVAL_RESULTS.md",
+    "05_RETRIEVAL_HOTPOTQA_RESULTS.md",
+    "06_RETRIEVAL_MSMARCO_RESULTS.md",
+    "07_G1_G2_EVALUATION_SCOPE.md",
+    "08_BASELINE_COMPARISON.md",
+    "09_FAILURE_ANALYSIS.md",
+    "10_LIMITATIONS_AND_BLOCKERS.md",
+    "metrics_ragtruth.json",
+    "metrics_halueval.json",
+    "metrics_hotpotqa.json",
+    "metrics_msmarco.json",
+    "metrics_baseline_comparison.json",
+    "component_evaluation_scope.json",
+    "predictions_ragtruth.jsonl",
+    "predictions_halueval.jsonl",
+    "predictions_hotpotqa_retrieval.jsonl",
+    "predictions_msmarco_retrieval.jsonl",
+    "verification_results.json",
+    "experiment_manifest.json",
+    "checksums.sha256"
+  ]
+}

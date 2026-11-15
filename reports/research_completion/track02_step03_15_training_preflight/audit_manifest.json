@@ -1,0 +1,118 @@
+{
+  "audit_step": "track02_step03_15_training_preflight",
+  "audit_role": "Independent Senior ML Training Auditor, NLP Research Engineer & Adversarial Experimental Reviewer",
+  "audit_timestamp_utc": "2026-11-14T14:15:20Z",
+  "repository": {
+    "path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "phase10_head": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "phase10_path": "/home/aditya/rags/TrustRag"
+  },
+  "protected_assets": {
+    "binary_pilot": {
+      "path": "/home/aditya/rags/models/trained/deberta-v3-small-binary-pilot1000/model.safetensors",
+      "sha256": "472ea687cae7b9d3caf1feb97adb35bef6acd31260b7b2ab7564a48eaf3fdb1b",
+      "status": "VERIFIED_UNCHANGED"
+    },
+    "nli_pilot": {
+      "path": "/home/aditya/rags/models/trained/deberta-v3-small-nli-pilot1000/model.safetensors",
+      "sha256": "500832fa1b9b7c67c2c08d9e1f4d4c76d235d15fa9960d76e1e6e81c220a2f8a",
+      "status": "VERIFIED_UNCHANGED"
+    },
+    "pretrained_model": {
+      "path": "/home/aditya/rags/models/pretrained/deberta-v3-small",
+      "checksums_verified": true,
+      "status": "ALL_OK"
+    }
+  },
+  "training_config_verified": {
+    "max_seq_len": 384,
+    "min_premise_tokens": 64,
+    "batch_size": 1,
+    "num_steps": 1000,
+    "learning_rate": 2e-05,
+    "weight_decay": 0.01,
+    "warmup_steps": 100,
+    "max_grad_norm": 1.0,
+    "seed": 42,
+    "shuffle": true,
+    "max_starvation_threshold": 25,
+    "optimizer": "AdamW",
+    "lr_schedule": "linear_warmup_linear_decay",
+    "precision": "FP32",
+    "authorized_default": false,
+    "output_dir": "/home/aditya/rags/models/trained/deberta-v3-small-nli-remediated",
+    "output_dir_exists_already": false
+  },
+  "supervision_policy": {
+    "label_source": "example_level_nli_label",
+    "chunk_training": "PROHIBITED",
+    "multi_chunk_inference_only": true,
+    "aggregation_policy": "CONTRADICTION_PRIORITY"
+  },
+  "dataset_verified": {
+    "train_total": 10815,
+    "train_entailment": 6707,
+    "train_contradiction": 1420,
+    "train_neutral": 2688,
+    "val_total": 2662,
+    "val_entailment": 1662,
+    "val_contradiction": 356,
+    "val_neutral": 644,
+    "id_overlap": 0,
+    "doc_overlap": 0
+  },
+  "sampler_quota_verified": {
+    "entailment": 334,
+    "contradiction": 333,
+    "neutral": 333,
+    "total": 1000
+  },
+  "test_results": {
+    "suites_run": 2,
+    "total_tests": 47,
+    "passed": 46,
+    "skipped": 1,
+    "failed": 0,
+    "all_safety_critical_pass": true
+  },
+  "resource_feasibility": {
+    "ram_available_mb": 5796,
+    "swap_free_mb": 2632,
+    "cpu_logical": 12,
+    "num_threads_configured": 16,
+    "thread_oversubscription": true,
+    "estimated_rss_mb_range": "2400-2800",
+    "estimated_total_wall_minutes": 251,
+    "watchdog_limit_seconds": 3600.0,
+    "watchdog_sufficient": false,
+    "watchdog_fix_required": "increase max_duration_seconds to 21600"
+  },
+  "final_verdict": "READY_FOR_EXPLICIT_TRAINING_AUTHORIZATION",
+  "verdict_conditions": [
+    "Increase max_duration_seconds to 21600 before Step 3.16 execution (L1)"
+  ],
+  "verdict_does_not_authorize_training": true,
+  "deliverables": [
+    "00_EXECUTIVE_PREFLIGHT_REPORT.md",
+    "01_SUPERVISION_POLICY_VERIFICATION.md",
+    "02_SERIALIZATION_CONFIGURATION_AUDIT.md",
+    "03_SAMPLER_AND_OPTIMIZATION_AUDIT.md",
+    "04_MODEL_AND_CHECKPOINT_SAFETY.md",
+    "05_RESOURCE_FEASIBILITY.md",
+    "06_EVALUATION_PROTOCOL_READINESS.md",
+    "07_TEST_RESULTS.md",
+    "08_REMAINING_LIMITATIONS.md",
+    "CONSOLIDATED_PREFLIGHT_REPORT.md",
+    "audit_manifest.json",
+    "checksums.sha256"
+  ],
+  "previous_step_verdicts": {
+    "step03_11": "INDEPENDENTLY_VERIFIED_WITH_LIMITATIONS",
+    "step03_12": "EVIDENCE_RETENTION_REMEDIATED",
+    "step03_13": "INDEPENDENTLY_VERIFIED_WITH_LIMITATIONS",
+    "step03_14": "CONDITIONALLY_READY_WITH_LIMITATIONS",
+    "step03_15": "READY_FOR_EXPLICIT_TRAINING_AUTHORIZATION"
+  }
+}

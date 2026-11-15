@@ -1,0 +1,67 @@
+{
+  "metadata": {
+    "task": "Track 1, Step 2.4: Retrieval Baseline Discrepancy Resolution",
+    "auditor": "Senior Software Architect, Security Auditor & ML Research Evaluator",
+    "date": "2026-11-14T01:05:00+05:30",
+    "commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "resolution_status": "RESOLVED_DEFINITIVE"
+  },
+  "hotpotqa": {
+    "dataset_name": "hotpotqa",
+    "split": "validation",
+    "evaluated_queries": 7405,
+    "skipped_queries": 0,
+    "candidate_pool_per_query": 10,
+    "recomputed_metrics": {
+      "recall_at_1": 0.4154,
+      "recall_at_5": 0.8182,
+      "recall_at_10": 0.9876,
+      "mrr_at_10": 0.8965
+    },
+    "exact_sums": {
+      "recall_at_1_sum": 3076.0,
+      "recall_at_5_sum": 6059.0,
+      "recall_at_10_sum": 7313.5,
+      "mrr_at_10_sum": 6638.8925
+    },
+    "canonical_full_corpus_status": "BLOCKED",
+    "canonical_full_corpus_missing": "Canonical 5.23M Wikipedia passage archive (hotpot_corpus.tsv, ~2.5 GB)",
+    "configuration": {
+      "retriever": "TrustAwareRetriever (TF-IDF + Lexical Overlap)",
+      "evaluation_scope": "Distractor candidate re-ranking (10 candidate passages per query)",
+      "corpus_mode": "local_distractor_candidates"
+    }
+  },
+  "ms_marco": {
+    "dataset_name": "ms_marco",
+    "split": "validation",
+    "total_queries_in_parquet": 10047,
+    "evaluated_queries": 9706,
+    "skipped_queries": 341,
+    "recomputed_metrics_evaluated_queries": {
+      "recall_at_1": 0.2311,
+      "recall_at_5": 0.7592,
+      "recall_at_10": 0.9768,
+      "mrr_at_10": 0.4626
+    },
+    "recomputed_metrics_total_queries": {
+      "recall_at_1": 0.2233,
+      "recall_at_5": 0.7334,
+      "recall_at_10": 0.9437,
+      "mrr_at_10": 0.4469
+    },
+    "exact_sums": {
+      "recall_at_1_sum": 2243.2821,
+      "recall_at_5_sum": 7368.3503,
+      "recall_at_10_sum": 9481.0834,
+      "mrr_at_10_sum": 4489.988
+    },
+    "canonical_full_corpus_status": "BLOCKED",
+    "canonical_full_corpus_missing": "Canonical 8.84M passage collection (collection.tsv / collection.tar.gz ~3.2 GB) and official qrels.dev.small.tsv",
+    "configuration": {
+      "retriever": "TrustAwareRetriever (TF-IDF + Lexical Overlap)",
+      "evaluation_scope": "Candidate search snippet re-ranking (6 to 10 candidates per query)",
+      "corpus_mode": "local_candidate_snippets"
+    }
+  }
+}

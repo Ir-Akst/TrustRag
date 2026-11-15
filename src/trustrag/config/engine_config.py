@@ -314,6 +314,8 @@ class GenerationConfig(_ValidatedConfigModel):
 class VerificationConfig(_ValidatedConfigModel):
     """Configuration for G3 Output Evidence Verification."""
 
+    model_config = {"extra": "forbid"}
+
     enabled: bool = Field(default=True, description="Whether G3 output evidence verification is active")
     min_support_coverage: float = Field(
         default=0.65,

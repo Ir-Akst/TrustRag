@@ -1,0 +1,79 @@
+{
+  "task": "TrustRAG Phase 11.1, Step 1: Publication-Grade Research Readiness and Experimental Closure Plan",
+  "audit_timestamp": "2026-11-14T18:15:00Z",
+  "auditor_role": "Principal Research Scientist, Independent ML Experimental Auditor, Reproducibility Engineer & Academic Publication Reviewer",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "head_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+  "verdict": "NOT_READY_FOR_SUBMISSION (SUBMISSION_BLOCKED)",
+  "report_files": {
+    "00_PUBLICATION_READINESS_VERDICT.md": {
+      "sha256": "68983200c5597f76225d44f3a55fe93722fdb104ec101585c83009aa22f324eb",
+      "bytes": 3574
+    },
+    "01_RESEARCH_CONTRIBUTION_ANALYSIS.md": {
+      "sha256": "330a50156e5abae1a23590b0b205cbc845755ed087e711361a614b98adef4791",
+      "bytes": 5602
+    },
+    "02_COMPLETE_EVIDENCE_PROVENANCE.md": {
+      "sha256": "4e3a60be763b3807ee6ce7aeda2b6aa307e34f59a3a8dfebc64aa00f8096a9da",
+      "bytes": 5590
+    },
+    "03_RELATED_WORK_AND_BIBLIOGRAPHY.md": {
+      "sha256": "f2e767920d39a305a3983bf548c852e693436b8a511a9742aa5ccecab227a2f2",
+      "bytes": 6393
+    },
+    "04_CRITICAL_EXPERIMENTAL_GAPS.md": {
+      "sha256": "fefe0e28bbceda827ff1d78f702e8f370b3d9d440847864589ac34a0efd3de9f",
+      "bytes": 5585
+    },
+    "05_PROPOSED_EXPERIMENTAL_PROTOCOL.md": {
+      "sha256": "ec855d2537ddfbac66515d1f130e522d1ad70eb88e9241305d25de351e6033c0",
+      "bytes": 5163
+    },
+    "06_PUBLICATION_STRATEGY.md": {
+      "sha256": "32a2082b048065c0f38a535b18507e4ee65f4366ebf742d602e9578eca437287",
+      "bytes": 4543
+    },
+    "07_EXECUTION_ROADMAP_AND_RESOURCE_ESTIMATES.md": {
+      "sha256": "4bc4131e37d43f0e1fa41ffa29a62ebca145be0c867fa8106b150573d8a939ff",
+      "bytes": 4825
+    }
+  },
+  "inspected_evidence": {
+    "step03_16_training_results": {
+      "path": "/home/aditya/rags/TrustRag-phase11/reports/training_runs/step03_16/training_results.json",
+      "sha256": "47a9ec6f290d238cb23e20d297ffb12c759c25ff9efd3989c687e14a1a364be7"
+    },
+    "step03_8_training_results": {
+      "path": "/home/aditya/rags/TrustRag-phase11/reports/research_completion/track02_step03_8_nli_training/training_results.json",
+      "sha256": "4ecdf81c818816c7a4095c723f533a651944e83f7c463f25c7e18928eeabdd78"
+    },
+    "step03_5_evaluation_results": {
+      "path": "/home/aditya/rags/TrustRag-phase11/reports/research_completion/track02_step03_5_binary_generalization/evaluation_results.json",
+      "sha256": "b0d87be3be26ea3a5eb5da20cbeec73e2dcfcf2980bc9bf6ca9a7eb4ebad41cb"
+    },
+    "sft_v2_nli_manifest": {
+      "path": "/home/aditya/rags/TrustRag-phase11/data/processed/sft_v2/nli/dataset_manifest.json"
+    },
+    "sft_v2_binary_manifest": {
+      "path": "/home/aditya/rags/TrustRag-phase11/data/processed/sft_v2/binary/dataset_manifest.json"
+    },
+    "remediated_checkpoint_safetensors": {
+      "path": "/home/aditya/rags/models/trained/deberta-v3-small-nli-remediated/model.safetensors",
+      "sha256": "bb4c26bab4a147c2ad6bdae7ec8a1ecc56841ea56fc89922fd377fb5d70fe113"
+    },
+    "binary_pilot_checkpoint_safetensors": {
+      "path": "/home/aditya/rags/models/trained/deberta-v3-small-binary-pilot1000/model.safetensors",
+      "sha256": "472ea687cae7b9d3caf1feb97adb35bef6acd31260b7b2ab7564a48eaf3fdb1b"
+    },
+    "failed_nli_pilot_checkpoint_safetensors": {
+      "path": "/home/aditya/rags/models/trained/deberta-v3-small-nli-pilot1000/model.safetensors",
+      "sha256": "500832fa1b9b7c67c2c08d9e1f4d4c76d235d15fa9960d76e1e6e81c220a2f8a"
+    },
+    "phase10_baseline_repo": {
+      "path": "/home/aditya/rags/TrustRag",
+      "head_commit": "e65bcc80aac634900d1f8e343880fddf66cec168"
+    }
+  }
+}

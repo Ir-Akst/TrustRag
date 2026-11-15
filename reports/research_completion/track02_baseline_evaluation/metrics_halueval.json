@@ -1,0 +1,46 @@
+{
+  "dataset_name": "halueval",
+  "split": "test",
+  "baseline_mode": "default_g3",
+  "evaluated_records": 3000,
+  "runtime_seconds": 9.93,
+  "throughput_records_per_sec": 302.0,
+  "ground_truth_distribution": {
+    "FACTUAL": 1500,
+    "HALLUCINATED": 1500
+  },
+  "verdict_distribution": {
+    "SUPPORTED": 1153,
+    "INSUFFICIENT_EVIDENCE": 1571,
+    "CONTRADICTED": 235,
+    "UNCERTAIN": 22,
+    "PARTIALLY_SUPPORTED": 19
+  },
+  "classification_metrics": {
+    "accuracy": 0.725,
+    "balanced_accuracy": 0.725,
+    "precision": 0.6827,
+    "recall": 0.8407,
+    "f1": 0.7535,
+    "fpr": 0.3907,
+    "tp": 1261,
+    "tn": 914,
+    "fp": 586,
+    "fn": 239,
+    "total": 3000
+  },
+  "safety_metrics": {
+    "false_supported_rate": 0.1593,
+    "false_supported_count": 239,
+    "hallucinated_total": 1500,
+    "false_supported_ratio": "239/1500",
+    "false_contradiction_rate": 0.0087,
+    "false_contradiction_count": 13,
+    "factual_total": 1500,
+    "false_contradiction_ratio": "13/1500",
+    "abstention_rate": 0.531,
+    "abstention_count": 1593,
+    "decisive_coverage": 0.4627
+  },
+  "failure_sample_count": 825
+}

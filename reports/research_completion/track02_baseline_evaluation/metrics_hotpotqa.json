@@ -1,0 +1,20 @@
+{
+  "dataset_name": "hotpotqa",
+  "split": "validation",
+  "evaluated_queries": 7405,
+  "skipped_queries": 0,
+  "candidate_pool_per_query": 10,
+  "runtime_seconds": 57.75,
+  "queries_per_second": 128.2,
+  "recall_at_1": 0.4154,
+  "recall_at_5": 0.8182,
+  "recall_at_10": 0.9876,
+  "mrr_at_10": 0.8965,
+  "canonical_full_corpus_status": "BLOCKED",
+  "canonical_full_corpus_missing": "Canonical 5.23M Wikipedia passage archive (hotpot_corpus.tsv, ~2.5 GB)",
+  "configuration": {
+    "retriever": "TrustAwareRetriever (TF-IDF + Lexical Overlap)",
+    "evaluation_scope": "Distractor candidate re-ranking (10 candidate passages per query)",
+    "corpus_mode": "local_distractor_candidates"
+  }
+}
