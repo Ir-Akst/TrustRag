@@ -1,0 +1,126 @@
+{
+  "manifest_version": "1.0.0",
+  "task": "Track 2, Step 3.8: Authorized NLI Classification Training Execution",
+  "auditor": "Senior ML Infrastructure Engineer, Independent Experimental Auditor",
+  "timestamp": "2026-11-14T12:08:47Z",
+  "status": "COMPLETED",
+  "target_repo": "/home/aditya/rags/TrustRag-phase11",
+  "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+  "protected_repo": "/home/aditya/rags/TrustRag",
+  "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+  "checkpoint_path": "/home/aditya/rags/models/trained/deberta-v3-small-nli-pilot1000",
+  "checkpoint_hashes": {
+    "config.json": "38370396a4e2988a14226b6b8875766e660ab8bbd1374b9e23a6e0c7a05ef385",
+    "model.safetensors": "500832fa1b9b7c67c2c08d9e1f4d4c76d235d15fa9960d76e1e6e81c220a2f8a",
+    "tokenizer_config.json": "1121ad33ecd98a97b2db184ce896546feb7555bebddf33a2dfe1b1a1077dc847",
+    "tokenizer.json": "d87197028bcdd4a6c68dc03bd9b04e0956b0998daf7351345de21278a1c9249a",
+    "training_meta.json": "f2e755836bf5c74a858f6e836cb7181f378a69b0280c8e7dc416f8e8dcb0d95f"
+  },
+  "training_steps": 1000,
+  "initial_metrics": {
+    "total_samples": 2662,
+    "loss": 1.089782240357639,
+    "accuracy": 0.24192336589030805,
+    "balanced_accuracy": 0.3333333333333333,
+    "macro_f1": 0.12986489211534583,
+    "weighted_f1": 0.09425205543457857,
+    "per_class": {
+      "ENTAILMENT": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1662
+      },
+      "CONTRADICTION": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 356
+      },
+      "NEUTRAL": {
+        "precision": 0.24192336589030805,
+        "recall": 1.0,
+        "f1": 0.3895946763460375,
+        "support": 644
+      }
+    },
+    "confusion_matrix": [
+      [
+        0,
+        0,
+        1662
+      ],
+      [
+        0,
+        0,
+        356
+      ],
+      [
+        0,
+        0,
+        644
+      ]
+    ],
+    "brier_score": 0.663883203334469,
+    "ece_10bins": 0.15243197896935545
+  },
+  "final_metrics": {
+    "total_samples": 2662,
+    "loss": 2.4506738467224554,
+    "accuracy": 0.24117205108940645,
+    "balanced_accuracy": 0.360771861260381,
+    "macro_f1": 0.19203511928454584,
+    "weighted_f1": 0.11962334853998768,
+    "per_class": {
+      "ENTAILMENT": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1662
+      },
+      "CONTRADICTION": {
+        "precision": 0.17480719794344474,
+        "recall": 0.19101123595505617,
+        "f1": 0.1825503355704698,
+        "support": 356
+      },
+      "NEUTRAL": {
+        "precision": 0.25252969643642764,
+        "recall": 0.8913043478260869,
+        "f1": 0.3935550222831677,
+        "support": 644
+      }
+    },
+    "confusion_matrix": [
+      [
+        0,
+        251,
+        1411
+      ],
+      [
+        0,
+        68,
+        288
+      ],
+      [
+        0,
+        70,
+        574
+      ]
+    ],
+    "brier_score": 1.1490729362112035,
+    "ece_10bins": 0.5179944473782666
+  },
+  "peak_rss_mb": 2442.640625,
+  "deliverables": [
+    "00_EXECUTIVE_TRAINING_REPORT.md",
+    "01_EXECUTION_LOG.md",
+    "02_TRAINING_METRICS.md",
+    "03_VALIDATION_RESULTS.md",
+    "04_ERROR_ANALYSIS.md",
+    "05_CHECKPOINT_INTEGRITY.md",
+    "audit_manifest.json",
+    "CONSOLIDATED_NLI_TRAINING_REPORT.md",
+    "checksums.sha256"
+  ]
+}

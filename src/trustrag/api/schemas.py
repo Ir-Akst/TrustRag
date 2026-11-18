@@ -289,17 +289,94 @@ class AuditQueryResponse(BaseModel):
     items: list[AuditRecordView] = Field(default_factory=list)
 
 
+# ---- Phase 5 Unified Application Endpoints Schemas ----
+
+class VerifyApiRequest(BaseModel):
+    query: str = Field(..., min_length=1, max_length=4096)
+    evidence: list[str] | None = None
+    documents: list[CandidateDocInput] | None = None
+    answer: str | None = Field(default=None, max_length=4096)
+    enable_neural: bool = True
+    top_k: int = Field(default=5, ge=1, le=50)
+
+
+class VerifyApiResponse(BaseModel):
+    request_id: str
+    query: str
+    decision: Literal["ALLOW", "BLOCK", "ABSTAIN"]
+    answer: str | None = None
+    g1_result: dict[str, Any]
+    g2_result: dict[str, Any]
+    g3_result: dict[str, Any]
+    verification_mode: str
+    neural_model_loaded: bool
+    execution_time_ms: float
+    timestamp: str
+
+
+class SecurityScanApiRequest(BaseModel):
+    query: str = Field(..., min_length=1, max_length=4096)
+    documents: list[CandidateDocInput] | None = None
+    top_k: int = Field(default=5, ge=1, le=50)
+
+
+class SecurityScanApiResponse(BaseModel):
+    request_id: str
+    query: str
+    decision: Literal["ALLOW", "BLOCK", "SUSPICIOUS"]
+    g1_decision: str
+    g1_risk_score: float
+    g1_reasons: list[str]
+    g2_evaluated_count: int
+    g2_retained_count: int
+    g2_mean_trust: float
+    g2_documents: list[G2DocumentView]
+    execution_time_ms: float
+    timestamp: str
+
+
+class EvidenceIngestApiRequest(BaseModel):
+    documents: list[CandidateDocInput] = Field(..., min_length=1)
+
+
+class EvidenceIngestApiResponse(BaseModel):
+    ingested_count: int
+    total_corpus_size: int
+    document_ids: list[str]
+    timestamp: str
+
+
+class StatusApiResponse(BaseModel):
+    status: str
+    ready: bool
+    version: str
+    environment: str
+    model_checkpoint: str
+    model_exists: bool
+    verification_mode: str
+    components: dict[str, str]
+    corpus_documents: int
+    timestamp: str
+
+
 def generate_openapi_spec() -> dict[str, Any]:
     """Build an OpenAPI 3.1 document directly from registered Pydantic schemas."""
     models: list[type[BaseModel]] = [
         APIErrorResponse,
         SystemHealthResponse,
+        StatusApiResponse,
         G1AnalyzeRequest,
         G1AnalyzeResponse,
         G2AnalyzeRequest,
         G2AnalyzeResponse,
         G3VerifyRequest,
         G3VerifyResponse,
+        VerifyApiRequest,
+        VerifyApiResponse,
+        SecurityScanApiRequest,
+        SecurityScanApiResponse,
+        EvidenceIngestApiRequest,
+        EvidenceIngestApiResponse,
         PipelineExecuteRequest,
         PipelineExecuteResponse,
         RetrievalEvidenceRequest,
@@ -315,12 +392,16 @@ def generate_openapi_spec() -> dict[str, Any]:
         "openapi": "3.1.0",
         "info": {
             "title": "TrustRAG Operational API",
-            "version": "0.1.0",
-            "description": "Phase 09 REST API exposing G1/G2/G3 security stages, SRM health, monitoring, configuration management, and tamper-evident audit logs.",
+            "version": "1.0.0-rc1",
+            "description": "Enterprise-grade REST API exposing unified RAG verification, G1/G2/G3 security screening, evidence ingestion, SRM health, monitoring, configuration, and audit logs.",
         },
         "paths": {
+            "/health": {"get": {"summary": "Liveness probe", "tags": ["System"]}},
             "/api/v1/health": {"get": {"summary": "System and component health", "tags": ["System"]}},
-            "/api/v1/srm/health": {"get": {"summary": "SRM backend health and fallback state", "tags": ["System"]}},
+            "/api/v1/status": {"get": {"summary": "Comprehensive runtime & model status", "tags": ["System"]}},
+            "/api/v1/verify": {"post": {"summary": "Unified end-to-end RAG verification", "tags": ["Verification"]}},
+            "/api/v1/security/scan": {"post": {"summary": "Pre-retrieval G1 & G2 security screening", "tags": ["Security"]}},
+            "/api/v1/evidence": {"post": {"summary": "Ingest evidence documents into active corpus", "tags": ["Evidence"]}},
             "/api/v1/g1/analyze": {"post": {"summary": "Run G1 input guardrail analysis", "tags": ["Pipeline"]}},
             "/api/v1/g2/analyze": {"post": {"summary": "Run G2 Multi-Signal Detector", "tags": ["Pipeline"]}},
             "/api/v1/g3/verify": {"post": {"summary": "Run G3 evidence verification & query consistency", "tags": ["Pipeline"]}},

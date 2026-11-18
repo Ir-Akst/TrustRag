@@ -11,7 +11,11 @@ import threading
 from collections import deque
 from collections.abc import Iterator
 from contextlib import contextmanager
-from datetime import UTC, datetime
+try:
+    from datetime import UTC, datetime
+except ImportError:
+    from datetime import datetime, timezone
+    UTC = timezone.utc
 from pathlib import Path
 from typing import IO
 

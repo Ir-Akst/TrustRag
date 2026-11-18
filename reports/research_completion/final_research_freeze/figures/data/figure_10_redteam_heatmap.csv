@@ -1,0 +1,16 @@
+Threat_Category,ADR_pct,ASR_pct,Sample_Count
+04. Character Obfuscation,100.0,0.0,30
+06. Narrative Contradictions,100.0,0.0,30
+08. Duplicate Source Mirroring,100.0,0.0,30
+12. Context Exhaustion Padding,100.0,0.0,30
+14. Domain Misinformation,75.0,25.0,40
+01. Adaptive Prompt Injection,33.3,66.7,30
+03. Cross-lingual Injection,20.0,80.0,30
+02. Multi-turn Manipulation,0.0,100.0,30
+05. Paraphrased Inversion,0.0,100.0,30
+07. Multi-doc Distributed,0.0,100.0,30
+09. Sybil Varied Ratios (2v1-5v1),0.0,100.0,30
+10. Majority Consensus Spoofing,0.0,100.0,30
+11. Retrieval Ranking Gaming,0.0,100.0,30
+13. Citation Header Forgery,0.0,100.0,30
+15. Mixed Benign/Malicious,0.0,100.0,30

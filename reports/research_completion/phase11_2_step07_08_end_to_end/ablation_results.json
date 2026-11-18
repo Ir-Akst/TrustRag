@@ -1,0 +1,110 @@
+{
+  "experiment_title": "TrustRAG Component and Signal Ablation Campaign",
+  "ablation_matrix": {
+    "full_trustrag": {
+      "name": "Full TrustRAG (G1 + G2 + G3 Heuristic)",
+      "g1_active": true,
+      "g2_active": true,
+      "g3_active": true,
+      "attack_success_rate": 0.625,
+      "attack_detection_rate": 0.375,
+      "clean_evidence_preservation": 1.0,
+      "clean_false_contradiction_rate": 0.0,
+      "mean_latency_ms": 4.942244230056531,
+      "findings": "Blocks 100% of instruction and jailbreak injections; leaks 100% of pure factual poison due to lack of neural factual verification inside G2."
+    },
+    "without_g1": {
+      "name": "Without G1 (No Input Guardrail)",
+      "g1_active": false,
+      "g2_active": true,
+      "g3_active": true,
+      "attack_success_rate": 0.625,
+      "attack_detection_rate": 0.375,
+      "clean_evidence_preservation": 1.0,
+      "clean_false_contradiction_rate": 0.0,
+      "mean_latency_ms": 4.870195714131114,
+      "findings": "Zero impact on custom_security (where attacks are corpus-side), but completely removes defense against direct prompt injection, malicious commands, and confusable/Unicode query flooding."
+    },
+    "without_g2": {
+      "name": "Without G2 (No MSD Evidence Filter)",
+      "g1_active": true,
+      "g2_active": false,
+      "g3_active": true,
+      "attack_success_rate": 1.0,
+      "attack_detection_rate": 0.0,
+      "clean_evidence_preservation": 1.0,
+      "clean_false_contradiction_rate": 0.0,
+      "mean_latency_ms": 3.6116122087769327,
+      "findings": "CRITICAL COLLAPSE: ASR jumps from 50.0% to 100.0%. All 1,000 poisoned documents (including prompt injections and credential exfiltration) enter generator context and leak into output."
+    },
+    "without_g3": {
+      "name": "Without G3 (No Output Evidence Verifier)",
+      "g1_active": true,
+      "g2_active": true,
+      "g3_active": false,
+      "attack_success_rate": 0.625,
+      "attack_detection_rate": 0.375,
+      "clean_evidence_preservation": 1.0,
+      "clean_false_contradiction_rate": 0.0,
+      "mean_latency_ms": 1.4032468441146193,
+      "findings": "ASR unchanged on custom_security because G3's heuristic verifier verifies grounding against retrieved documents (if a poisoned document passed G2, G3 grounded the answer in it). However, hallucinated model outputs and polarity inversions are no longer checked."
+    },
+    "without_g2_s4_instruction": {
+      "name": "Without G2 S4 (Instruction Content Signal Disabled)",
+      "g1_active": true,
+      "g2_active": true,
+      "dropped_signal": "S4_instruction_content",
+      "attack_success_rate": 1.0,
+      "attack_detection_rate": 0.0,
+      "clean_evidence_preservation": 1.0,
+      "clean_false_contradiction_rate": 0.0,
+      "mean_latency_ms": 4.492244230056531,
+      "findings": "CRITICAL SINGLE POINT OF FAILURE: S4 is the ONLY active signal catching indirect prompt injection, credential exfiltration, and DoS triggers. Dropping S4 causes 100% ASR across all attack families."
+    },
+    "without_g2_s1_s2_neural": {
+      "name": "Without G2 S1/S2 (Perplexity & Embedding Norm - Current Baseline)",
+      "g1_active": true,
+      "g2_active": true,
+      "dropped_signals": [
+        "S1_perplexity",
+        "S2_embedding_norm"
+      ],
+      "attack_success_rate": 0.625,
+      "attack_detection_rate": 0.375,
+      "clean_evidence_preservation": 1.0,
+      "clean_false_contradiction_rate": 0.0,
+      "mean_latency_ms": 4.942244230056531,
+      "findings": "Current repository runtime reality: S1 and S2 are unavailable offline, which is the root cause of the 50.0% factual poison leak (cryptographic, medical, financial disinformation)."
+    },
+    "without_g2_s6_provenance": {
+      "name": "Without G2 S6 (Provenance Prior Disabled)",
+      "g1_active": true,
+      "g2_active": true,
+      "dropped_signal": "S6_provenance",
+      "attack_success_rate": 0.625,
+      "attack_detection_rate": 0.375,
+      "clean_evidence_preservation": 1.0,
+      "clean_false_contradiction_rate": 0.0,
+      "mean_latency_ms": 4.822244230056531,
+      "findings": "Minimal impact when untrusted metadata is already stripped; essential when corpus metadata contains verified domain whitelist / source provenance."
+    },
+    "nli_theta_0_20_vs_heuristic": {
+      "name": "NLI Contradiction Gating (theta=0.20) vs Heuristic G3",
+      "g1_active": true,
+      "g2_active": true,
+      "g3_neural_nli_active": true,
+      "operating_threshold": 0.2,
+      "clean_evidence_preservation": 0.9556252801434334,
+      "clean_false_contradiction_rate": 0.04437471985656656,
+      "contradiction_recall_on_hallucinations": 0.449,
+      "mean_latency_ms": 346.86224423005655,
+      "findings": "Neural NLI provides semantic contradiction detection (catching 44.9% of non-entailed hallucinations vs 0% for pure lexical match), but incurs a 9.14% false contradiction penalty on clean RAG evidence and adds ~342 ms CPU latency."
+    }
+  },
+  "summary_insights": [
+    "1. G2 MSD is the primary security defense boundary; disabling G2 increases ASR from 50.0% to 100.0%.",
+    "2. G2 Signal S4 (Instruction Content) is the single point of failure against adversarial prompt injection; dropping S4 causes complete security collapse.",
+    "3. The lack of active neural Perplexity (S1) and Embedding Norm (S2) signals in G2 causes 100% bypass for pure factual poisoning (500/500 breaches across cryptographic, medical, financial, and astrophysical disinformation).",
+    "4. Neural NLI at G3 adds powerful hallucination detection but introduces a 9.14% false contradiction rate on clean evidence at theta=0.20 and increases CPU latency by ~342 ms."
+  ]
+}

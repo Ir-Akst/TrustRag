@@ -1,0 +1,58 @@
+{
+  "track": "Track 2",
+  "step": "Step 2.2",
+  "title": "Objective-Specific SFT Dataset Remediation",
+  "timestamp_iso": "2026-11-14T02:26:00Z",
+  "historical_baseline_sft_v1": {
+    "status": "PRESERVED_UNCHANGED",
+    "location": "data/processed/sft_v1/"
+  },
+  "remediated_datasets_sft_v2": {
+    "location": "data/processed/sft_v2/",
+    "objectives": {
+      "binary_hallucination_classification": {
+        "verdict": "READY",
+        "output_dir": "data/processed/sft_v2/binary/",
+        "train_records": 26054,
+        "validation_records": 5984,
+        "total_records": 32038,
+        "excluded_records": 52,
+        "labels": ["FACTUAL", "HALLUCINATED"],
+        "leakage_status": "ZERO_DOCUMENT_LEAKAGE"
+      },
+      "evidence_grounded_nli": {
+        "verdict": "READY",
+        "output_dir": "data/processed/sft_v2/nli/",
+        "train_records": 10815,
+        "validation_records": 2662,
+        "total_records": 13477,
+        "excluded_records": 18613,
+        "labels": ["ENTAILMENT", "CONTRADICTION", "NEUTRAL"],
+        "leakage_status": "ZERO_DOCUMENT_LEAKAGE"
+      },
+      "span_level_hallucination_detection": {
+        "verdict": "READY",
+        "output_dir": "data/processed/sft_v2/spans/",
+        "train_records": 12072,
+        "validation_records": 3018,
+        "total_records": 15090,
+        "excluded_records": 17000,
+        "offset_verification": "100%_EXACT_MATCH (12,756 spans)",
+        "leakage_status": "ZERO_DOCUMENT_LEAKAGE"
+      },
+      "full_five_outcome_g3_verification": {
+        "verdict": "BLOCKED",
+        "output_dir": "data/processed/sft_v2/g3_readiness/",
+        "train_records": 0,
+        "validation_records": 0,
+        "fabricated_records": 0,
+        "status": "SUPERVISION_GAP_DOCUMENTED_NO_FABRICATION"
+      },
+      "generative_structured_verification": {
+        "verdict": "CONDITIONALLY_READY",
+        "status": "VALID_FOR_DIRECT_JSON_BLOCKED_FOR_REASONING_TRACES"
+      }
+    }
+  }
+}
+

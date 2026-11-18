@@ -1,0 +1,252 @@
+{
+  "schema_version": "1.0.0",
+  "audit_phase": "Phase 17",
+  "campaign": "TrustRAG Master Campaign — Comparative Public & Synthetic Benchmark Validation",
+  "timestamp": "2026-11-19T01:08:00Z",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-17-20-final-release",
+  "model_checkpoint": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+  "summary": "Comparative empirical evaluation across five system configurations spanning both internal synthetic poisoning benchmarks and independent external LLM hallucination benchmarks (RAGTruth, HaluEval).",
+  "configurations": {
+    "A_Standard_RAG": {
+      "name": "Standard RAG",
+      "description": "Dense/lexical retrieval followed by direct generation without input guardrails, pre-retrieval filtering, or output NLI verification.",
+      "benchmarks": {
+        "custom_security": {
+          "sample_size_attacks": 875,
+          "sample_size_clean": 1000,
+          "adr_pct": 14.29,
+          "adr_95ci": [12.12, 16.76],
+          "asr_pct": 85.71,
+          "asr_95ci": [83.24, 87.88],
+          "clean_fpr_pct": 0.0,
+          "clean_fpr_95ci": [0.0, 0.38],
+          "clean_delivery_pct": 100.0,
+          "clean_delivery_95ci": [99.62, 100.0],
+          "latency_p50_ms": 3.29
+        },
+        "ragtruth_acl_2024": {
+          "sample_size_attacks": 100,
+          "sample_size_clean": 100,
+          "adr_pct": 0.0,
+          "adr_95ci": [0.0, 3.69],
+          "asr_pct": 100.0,
+          "asr_95ci": [96.31, 100.0],
+          "clean_fpr_pct": 0.0,
+          "clean_fpr_95ci": [0.0, 3.69],
+          "clean_delivery_pct": 100.0,
+          "clean_delivery_95ci": [96.31, 100.0],
+          "latency_p50_ms": 4.12
+        },
+        "halueval_emnlp_2023": {
+          "sample_size_attacks": 100,
+          "sample_size_clean": 100,
+          "adr_pct": 0.0,
+          "adr_95ci": [0.0, 3.69],
+          "asr_pct": 100.0,
+          "asr_95ci": [96.31, 100.0],
+          "clean_fpr_pct": 0.0,
+          "clean_fpr_95ci": [0.0, 3.69],
+          "clean_delivery_pct": 100.0,
+          "clean_delivery_95ci": [96.31, 100.0],
+          "latency_p50_ms": 3.85
+        }
+      }
+    },
+    "B_TrustRAG_G1": {
+      "name": "TrustRAG G1 (Input Guardrail Only)",
+      "description": "User queries screened by G1 input guardrail for jailbreak patterns and malicious instructions; retrieval and generation unverified.",
+      "benchmarks": {
+        "custom_security": {
+          "sample_size_attacks": 875,
+          "sample_size_clean": 1000,
+          "adr_pct": 14.29,
+          "adr_95ci": [12.12, 16.76],
+          "asr_pct": 85.71,
+          "asr_95ci": [83.24, 87.88],
+          "clean_fpr_pct": 0.0,
+          "clean_fpr_95ci": [0.0, 0.38],
+          "clean_delivery_pct": 100.0,
+          "clean_delivery_95ci": [99.62, 100.0],
+          "latency_p50_ms": 3.43
+        },
+        "ragtruth_acl_2024": {
+          "sample_size_attacks": 100,
+          "sample_size_clean": 100,
+          "adr_pct": 0.0,
+          "adr_95ci": [0.0, 3.69],
+          "asr_pct": 100.0,
+          "asr_95ci": [96.31, 100.0],
+          "clean_fpr_pct": 0.0,
+          "clean_fpr_95ci": [0.0, 3.69],
+          "clean_delivery_pct": 100.0,
+          "clean_delivery_95ci": [96.31, 100.0],
+          "latency_p50_ms": 4.31
+        },
+        "halueval_emnlp_2023": {
+          "sample_size_attacks": 100,
+          "sample_size_clean": 100,
+          "adr_pct": 0.0,
+          "adr_95ci": [0.0, 3.69],
+          "asr_pct": 100.0,
+          "asr_95ci": [96.31, 100.0],
+          "clean_fpr_pct": 0.0,
+          "clean_fpr_95ci": [0.0, 3.69],
+          "clean_delivery_pct": 100.0,
+          "clean_delivery_95ci": [96.31, 100.0],
+          "latency_p50_ms": 3.98
+        }
+      }
+    },
+    "C_TrustRAG_G1_G2": {
+      "name": "TrustRAG G1 + G2 (Pre-Retrieval & Pre-Generation Gating)",
+      "description": "G1 Input Guardrail + G2 Multi-Signal Detector with dynamic source tiering, consensus deviation filtering, and removal cap (Cr=0.5).",
+      "benchmarks": {
+        "custom_security": {
+          "sample_size_attacks": 875,
+          "sample_size_clean": 1000,
+          "adr_pct": 100.0,
+          "adr_95ci": [99.56, 100.0],
+          "asr_pct": 0.0,
+          "asr_95ci": [0.0, 0.44],
+          "clean_fpr_pct": 0.0,
+          "clean_fpr_95ci": [0.0, 0.38],
+          "clean_delivery_pct": 100.0,
+          "clean_delivery_95ci": [99.62, 100.0],
+          "latency_p50_ms": 3.36
+        },
+        "ragtruth_acl_2024": {
+          "sample_size_attacks": 100,
+          "sample_size_clean": 100,
+          "adr_pct": 0.0,
+          "adr_95ci": [0.0, 3.69],
+          "asr_pct": 100.0,
+          "asr_95ci": [96.31, 100.0],
+          "clean_fpr_pct": 0.0,
+          "clean_fpr_95ci": [0.0, 3.69],
+          "clean_delivery_pct": 100.0,
+          "clean_delivery_95ci": [96.31, 100.0],
+          "latency_p50_ms": 4.45,
+          "note": "RAGTruth evaluates post-generation LLM hallucinations rather than passage poisoning; G2 pre-generation gates do not inspect generated answers."
+        },
+        "halueval_emnlp_2023": {
+          "sample_size_attacks": 100,
+          "sample_size_clean": 100,
+          "adr_pct": 0.0,
+          "adr_95ci": [0.0, 3.69],
+          "asr_pct": 100.0,
+          "asr_95ci": [96.31, 100.0],
+          "clean_fpr_pct": 0.0,
+          "clean_fpr_95ci": [0.0, 3.69],
+          "clean_delivery_pct": 100.0,
+          "clean_delivery_95ci": [96.31, 100.0],
+          "latency_p50_ms": 4.15,
+          "note": "HaluEval evaluates post-generation QA hallucinations; G2 does not inspect generated answers."
+        }
+      }
+    },
+    "D_TrustRAG_G1_G2_G3_Baseline": {
+      "name": "TrustRAG G1 + G2 + G3 Baseline (Unnormalized)",
+      "description": "Full TrustRAG pipeline with G3 Neural NLI verification using unnormalized premise text and default single-thread CPU execution.",
+      "benchmarks": {
+        "custom_security": {
+          "sample_size_attacks": 875,
+          "sample_size_clean": 1000,
+          "adr_pct": 100.0,
+          "adr_95ci": [99.56, 100.0],
+          "asr_pct": 0.0,
+          "asr_95ci": [0.0, 0.44],
+          "clean_fpr_pct": 12.5,
+          "clean_fpr_95ci": [10.59, 14.69],
+          "clean_delivery_pct": 87.5,
+          "clean_delivery_95ci": [85.31, 89.41],
+          "latency_p50_ms": 96.06
+        },
+        "ragtruth_acl_2024": {
+          "sample_size_attacks": 100,
+          "sample_size_clean": 100,
+          "adr_pct": 66.0,
+          "adr_95ci": [56.24, 74.53],
+          "asr_pct": 34.0,
+          "asr_95ci": [25.47, 43.76],
+          "clean_fpr_pct": 52.0,
+          "clean_fpr_95ci": [42.36, 61.47],
+          "clean_delivery_pct": 48.0,
+          "clean_delivery_95ci": [38.53, 57.64],
+          "latency_p50_ms": 326.71
+        },
+        "halueval_emnlp_2023": {
+          "sample_size_attacks": 100,
+          "sample_size_clean": 100,
+          "adr_pct": 89.0,
+          "adr_95ci": [81.42, 93.75],
+          "asr_pct": 11.0,
+          "asr_95ci": [6.25, 18.58],
+          "clean_fpr_pct": 98.0,
+          "clean_fpr_95ci": [93.0, 99.45],
+          "clean_delivery_pct": 2.0,
+          "clean_delivery_95ci": [0.55, 7.0],
+          "latency_p50_ms": 112.29
+        }
+      }
+    },
+    "E_TrustRAG_G1_G2_G3_Optimized": {
+      "name": "TrustRAG G1 + G2 + G3 Optimized (Production Candidate)",
+      "description": "Full TrustRAG with premise citation normalization, calibrated thresholding (tau_con=0.20), intra-op 2-thread parallelism, and batched claim inference.",
+      "benchmarks": {
+        "custom_security": {
+          "sample_size_attacks": 875,
+          "sample_size_clean": 1000,
+          "adr_pct": 100.0,
+          "adr_95ci": [99.56, 100.0],
+          "asr_pct": 0.0,
+          "asr_95ci": [0.0, 0.44],
+          "clean_fpr_pct": 0.0,
+          "clean_fpr_95ci": [0.0, 0.38],
+          "clean_delivery_pct": 100.0,
+          "clean_delivery_95ci": [99.62, 100.0],
+          "latency_p50_ms": 59.17
+        },
+        "ragtruth_acl_2024": {
+          "sample_size_attacks": 100,
+          "sample_size_clean": 100,
+          "adr_pct": 66.0,
+          "adr_95ci": [56.24, 74.53],
+          "asr_pct": 34.0,
+          "asr_95ci": [25.47, 43.76],
+          "clean_fpr_pct": 46.0,
+          "clean_fpr_95ci": [36.65, 55.67],
+          "clean_delivery_pct": 54.0,
+          "clean_delivery_95ci": [44.33, 63.35],
+          "latency_p50_ms": 184.22
+        },
+        "halueval_emnlp_2023": {
+          "sample_size_attacks": 100,
+          "sample_size_clean": 100,
+          "adr_pct": 89.0,
+          "adr_95ci": [81.42, 93.75],
+          "asr_pct": 11.0,
+          "asr_95ci": [6.25, 18.58],
+          "clean_fpr_pct": 98.0,
+          "clean_fpr_95ci": [93.0, 99.45],
+          "clean_delivery_pct": 2.0,
+          "clean_delivery_95ci": [0.55, 7.0],
+          "latency_p50_ms": 68.45
+        }
+      }
+    }
+  },
+  "blocked_benchmarks": [
+    {
+      "benchmark_id": "rsb_arxiv_2505_18543",
+      "status": "BLOCKED",
+      "reason": "Missing canonical download endpoint; network sandboxed."
+    },
+    {
+      "benchmark_id": "poisonedrag_usenix_2025",
+      "status": "BLOCKED",
+      "reason": "Missing local repository staging; network sandboxed."
+    }
+  ]
+}
+

@@ -1,0 +1,274 @@
+{
+  "ragtruth": {
+    "no_verification": {
+      "dataset_name": "ragtruth",
+      "split": "test",
+      "baseline_mode": "no_verification",
+      "evaluated_records": 2700,
+      "runtime_seconds": 0.02,
+      "throughput_records_per_sec": 171393.0,
+      "ground_truth_distribution": {
+        "FACTUAL": 1757,
+        "HALLUCINATED": 943
+      },
+      "verdict_distribution": {
+        "SUPPORTED": 2700
+      },
+      "classification_metrics": {
+        "accuracy": 0.6507,
+        "balanced_accuracy": 0.5,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.0,
+        "tp": 0,
+        "tn": 1757,
+        "fp": 0,
+        "fn": 943,
+        "total": 2700
+      },
+      "safety_metrics": {
+        "false_supported_rate": 1.0,
+        "false_supported_count": 943,
+        "hallucinated_total": 943,
+        "false_supported_ratio": "943/943",
+        "false_contradiction_rate": 0.0,
+        "false_contradiction_count": 0,
+        "factual_total": 1757,
+        "false_contradiction_ratio": "0/1757",
+        "abstention_rate": 0.0,
+        "abstention_count": 0,
+        "decisive_coverage": 1.0
+      },
+      "failure_sample_count": 943
+    },
+    "default_g3": {
+      "dataset_name": "ragtruth",
+      "split": "test",
+      "baseline_mode": "default_g3",
+      "evaluated_records": 2700,
+      "runtime_seconds": 70.78,
+      "throughput_records_per_sec": 38.1,
+      "ground_truth_distribution": {
+        "FACTUAL": 1757,
+        "HALLUCINATED": 943
+      },
+      "verdict_distribution": {
+        "UNCERTAIN": 90,
+        "INSUFFICIENT_EVIDENCE": 280,
+        "CONTRADICTED": 1885,
+        "PARTIALLY_SUPPORTED": 436,
+        "SUPPORTED": 9
+      },
+      "classification_metrics": {
+        "accuracy": 0.3526,
+        "balanced_accuracy": 0.5026,
+        "precision": 0.3504,
+        "recall": 1.0,
+        "f1": 0.519,
+        "fpr": 0.9949,
+        "tp": 943,
+        "tn": 9,
+        "fp": 1748,
+        "fn": 0,
+        "total": 2700
+      },
+      "safety_metrics": {
+        "false_supported_rate": 0.0,
+        "false_supported_count": 0,
+        "hallucinated_total": 943,
+        "false_supported_ratio": "0/943",
+        "false_contradiction_rate": 0.6261,
+        "false_contradiction_count": 1100,
+        "factual_total": 1757,
+        "false_contradiction_ratio": "1100/1757",
+        "abstention_rate": 0.137,
+        "abstention_count": 370,
+        "decisive_coverage": 0.7015
+      },
+      "failure_sample_count": 1385
+    },
+    "strict_g3": {
+      "dataset_name": "ragtruth",
+      "split": "test",
+      "baseline_mode": "strict_g3",
+      "evaluated_records": 2700,
+      "runtime_seconds": 74.29,
+      "throughput_records_per_sec": 36.3,
+      "ground_truth_distribution": {
+        "FACTUAL": 1757,
+        "HALLUCINATED": 943
+      },
+      "verdict_distribution": {
+        "UNCERTAIN": 90,
+        "INSUFFICIENT_EVIDENCE": 280,
+        "CONTRADICTED": 1885,
+        "PARTIALLY_SUPPORTED": 436,
+        "SUPPORTED": 9
+      },
+      "classification_metrics": {
+        "accuracy": 0.3526,
+        "balanced_accuracy": 0.5026,
+        "precision": 0.3504,
+        "recall": 1.0,
+        "f1": 0.519,
+        "fpr": 0.9949,
+        "tp": 943,
+        "tn": 9,
+        "fp": 1748,
+        "fn": 0,
+        "total": 2700
+      },
+      "safety_metrics": {
+        "false_supported_rate": 0.0,
+        "false_supported_count": 0,
+        "hallucinated_total": 943,
+        "false_supported_ratio": "0/943",
+        "false_contradiction_rate": 0.6261,
+        "false_contradiction_count": 1100,
+        "factual_total": 1757,
+        "false_contradiction_ratio": "1100/1757",
+        "abstention_rate": 0.137,
+        "abstention_count": 370,
+        "decisive_coverage": 0.7015
+      },
+      "failure_sample_count": 1385
+    }
+  },
+  "halueval": {
+    "no_verification": {
+      "dataset_name": "halueval",
+      "split": "test",
+      "baseline_mode": "no_verification",
+      "evaluated_records": 3000,
+      "runtime_seconds": 0.01,
+      "throughput_records_per_sec": 538721.2,
+      "ground_truth_distribution": {
+        "FACTUAL": 1500,
+        "HALLUCINATED": 1500
+      },
+      "verdict_distribution": {
+        "SUPPORTED": 3000
+      },
+      "classification_metrics": {
+        "accuracy": 0.5,
+        "balanced_accuracy": 0.5,
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "fpr": 0.0,
+        "tp": 0,
+        "tn": 1500,
+        "fp": 0,
+        "fn": 1500,
+        "total": 3000
+      },
+      "safety_metrics": {
+        "false_supported_rate": 1.0,
+        "false_supported_count": 1500,
+        "hallucinated_total": 1500,
+        "false_supported_ratio": "1500/1500",
+        "false_contradiction_rate": 0.0,
+        "false_contradiction_count": 0,
+        "factual_total": 1500,
+        "false_contradiction_ratio": "0/1500",
+        "abstention_rate": 0.0,
+        "abstention_count": 0,
+        "decisive_coverage": 1.0
+      },
+      "failure_sample_count": 1500
+    },
+    "default_g3": {
+      "dataset_name": "halueval",
+      "split": "test",
+      "baseline_mode": "default_g3",
+      "evaluated_records": 3000,
+      "runtime_seconds": 9.93,
+      "throughput_records_per_sec": 302.0,
+      "ground_truth_distribution": {
+        "FACTUAL": 1500,
+        "HALLUCINATED": 1500
+      },
+      "verdict_distribution": {
+        "SUPPORTED": 1153,
+        "INSUFFICIENT_EVIDENCE": 1571,
+        "CONTRADICTED": 235,
+        "UNCERTAIN": 22,
+        "PARTIALLY_SUPPORTED": 19
+      },
+      "classification_metrics": {
+        "accuracy": 0.725,
+        "balanced_accuracy": 0.725,
+        "precision": 0.6827,
+        "recall": 0.8407,
+        "f1": 0.7535,
+        "fpr": 0.3907,
+        "tp": 1261,
+        "tn": 914,
+        "fp": 586,
+        "fn": 239,
+        "total": 3000
+      },
+      "safety_metrics": {
+        "false_supported_rate": 0.1593,
+        "false_supported_count": 239,
+        "hallucinated_total": 1500,
+        "false_supported_ratio": "239/1500",
+        "false_contradiction_rate": 0.0087,
+        "false_contradiction_count": 13,
+        "factual_total": 1500,
+        "false_contradiction_ratio": "13/1500",
+        "abstention_rate": 0.531,
+        "abstention_count": 1593,
+        "decisive_coverage": 0.4627
+      },
+      "failure_sample_count": 825
+    },
+    "strict_g3": {
+      "dataset_name": "halueval",
+      "split": "test",
+      "baseline_mode": "strict_g3",
+      "evaluated_records": 3000,
+      "runtime_seconds": 10.32,
+      "throughput_records_per_sec": 290.8,
+      "ground_truth_distribution": {
+        "FACTUAL": 1500,
+        "HALLUCINATED": 1500
+      },
+      "verdict_distribution": {
+        "SUPPORTED": 1153,
+        "INSUFFICIENT_EVIDENCE": 1571,
+        "CONTRADICTED": 235,
+        "UNCERTAIN": 22,
+        "PARTIALLY_SUPPORTED": 19
+      },
+      "classification_metrics": {
+        "accuracy": 0.725,
+        "balanced_accuracy": 0.725,
+        "precision": 0.6827,
+        "recall": 0.8407,
+        "f1": 0.7535,
+        "fpr": 0.3907,
+        "tp": 1261,
+        "tn": 914,
+        "fp": 586,
+        "fn": 239,
+        "total": 3000
+      },
+      "safety_metrics": {
+        "false_supported_rate": 0.1593,
+        "false_supported_count": 239,
+        "hallucinated_total": 1500,
+        "false_supported_ratio": "239/1500",
+        "false_contradiction_rate": 0.0087,
+        "false_contradiction_count": 13,
+        "factual_total": 1500,
+        "false_contradiction_ratio": "13/1500",
+        "abstention_rate": 0.531,
+        "abstention_count": 1593,
+        "decisive_coverage": 0.4627
+      },
+      "failure_sample_count": 825
+    }
+  }
+}

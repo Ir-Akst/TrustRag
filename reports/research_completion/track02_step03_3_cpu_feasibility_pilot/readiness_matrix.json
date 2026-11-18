@@ -1,0 +1,75 @@
+{
+  "metadata": {
+    "task": "Track 2, Step 3.3: Full-Architecture DeBERTa-v3-small CPU Feasibility Pilot",
+    "date": "2026-11-14T04:20:00+05:30",
+    "auditor": "Senior ML Infrastructure Engineer and Experimental Auditor",
+    "target_repo": "/home/aditya/rags/TrustRag-phase11",
+    "target_branch": "phase-11",
+    "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "protected_repo": "/home/aditya/rags/TrustRag",
+    "protected_branch": "phase-10",
+    "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168"
+  },
+  "overall_verdict": "PILOT_PASSED",
+  "evaluations": {
+    "1_actual_pretrained_model_loading": {
+      "status": "VERIFIED_READY",
+      "details": "DebertaV2ForSequenceClassification (141.9M params) loaded offline in 0.34s; 100% weights intact."
+    },
+    "2_real_tokenizer_and_dataset_input": {
+      "status": "VERIFIED_READY",
+      "details": "DebertaV2Tokenizer loaded offline (vocab 128,001); real text inputs from sft_v2/binary/train.jsonl tokenized."
+    },
+    "3_forward_pass": {
+      "status": "VERIFIED_READY",
+      "details": "Average forward latency 177.5ms; clean logits [-0.0122 to 0.1285] and CrossEntropyLoss [0.5788 to 0.8187]."
+    },
+    "4_backward_pass": {
+      "status": "VERIFIED_READY",
+      "details": "Average backward latency 286.3ms; full reverse-mode autograd computed through all 12 transformer layers."
+    },
+    "5_optimizer_step": {
+      "status": "VERIFIED_READY",
+      "details": "AdamW stepped across 141.9M parameters; verified non-zero parameter delta (0.00033 to 0.00073)."
+    },
+    "6_gradient_integrity": {
+      "status": "VERIFIED_READY",
+      "details": "All gradients strictly finite (no NaN, no Inf); non-zero gradients across 106 of 106 trainable tensors; L2 norm 8.92 to 11.54."
+    },
+    "7_peak_memory_and_swap_safety": {
+      "status": "VERIFIED_READY",
+      "details": "Peak RSS 2,370 MB (~2.31 GB); Available physical RAM maintained > 4,597 MB (4.5 GB safety buffer, far above 700 MB abort limit); Swap drift +200 MB."
+    },
+    "8_cpu_throughput": {
+      "status": "EVALUATED_CONSTRAINED",
+      "details": "Overall: 0.71 samples/sec (2,552 samples/hr); Steady-state: 0.87 samples/sec (3,130 samples/hr) on 4 CPU threads."
+    },
+    "9_binary_objective_readiness": {
+      "status": "CONDITIONALLY_PASSED",
+      "details": "Feasible for bounded CPU training/pilot, but full 26,054 training set takes ~8.3 to 10.2 hours per epoch on CPU; GPU recommended for multi-epoch training."
+    },
+    "10_nli_objective_readiness": {
+      "status": "NOT_READY",
+      "details": "Requires separate 3-class classification head (num_labels=3), longer premise-hypothesis context, and dedicated pilot."
+    },
+    "11_span_objective_readiness": {
+      "status": "BLOCKED",
+      "details": "Requires token-level classification architecture (DebertaV2ForTokenClassification) and resolution of character-to-subword alignment gap."
+    }
+  },
+  "telemetry_summary": {
+    "status": "COMPLETED",
+    "total_steps": 3,
+    "total_elapsed_seconds": 6.8338654689869145,
+    "peak_process_rss_mb": 2369.98828125,
+    "final_available_ram_mb": 4629.59375,
+    "swap_drift_mb": 200.68359375,
+    "avg_step_ms": 1410.5522910055395,
+    "avg_fwd_ms": 177.46219100566427,
+    "avg_bwd_ms": 286.258288664006,
+    "avg_opt_ms": 808.1413136678748,
+    "throughput_samples_per_sec": 0.708942168522608,
+    "all_gradients_finite": true,
+    "all_updates_verified": true
+  }
+}

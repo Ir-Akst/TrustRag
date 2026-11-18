@@ -1,0 +1,70 @@
+{
+  "manifest_version": "1.0.0",
+  "task": "Track 2, Step 3.6: NLI Training Preparation and Independent Readiness Audit",
+  "auditor": "Senior ML Infrastructure Engineer and Experimental Auditor",
+  "timestamp": "2026-11-14T06:08:20Z",
+  "status": "COMPLETED",
+  "verdict": "READY_FOR_EXPLICIT_TRAINING_AUTHORIZATION",
+  "target_repo": "/home/aditya/rags/TrustRag-phase11",
+  "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+  "protected_repo": "/home/aditya/rags/TrustRag",
+  "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+  "pretrained_base_hashes": {
+    "config.json": "b0bb1caf90a50aa67d1085130508dfbf8646ac5a11928305e280b07a36e100ae",
+    "pytorch_model.bin": "d4b0ebcc7799a2c2dde1a39199cb0ed709f2c6b63a48b8c05133b77955f271a9"
+  },
+  "preserved_binary_checkpoint_hashes": {
+    "model.safetensors": "472ea687cae7b9d3caf1feb97adb35bef6acd31260b7b2ab7564a48eaf3fdb1b",
+    "config.json": "7cee3abbc6b9a3971c682867db8d16bb79eeaee218d544463bcc2433d82ff16d"
+  },
+  "nli_dataset_hashes": {
+    "train.jsonl": "b1777c7ac608d6d79171dbc4deaeb7bf5c4ba87acf83adbe53d63020524474ad",
+    "validation.jsonl": "7601dd266edde160c51e1032150ea42c031131cb6be89c601637ad464121615c",
+    "schema.json": "21fc6294183221011b2ccf8095b05a0b272c25b27a729d66d32611909be588f3",
+    "dataset_manifest.json": "f935f6fe2430702bd28a9611bdca2e0a94e116fd30aa0185572ec3f5a8cc5e68",
+    "exclusion_manifest.json": "b10387b7e516beaf4f5f07632e49dcc5cf29e437c644d63291387ba3ea2c05bd"
+  },
+  "dataset_census": {
+    "train_records": 10815,
+    "train_labels": {
+      "ENTAILMENT": 6707,
+      "CONTRADICTION": 1420,
+      "NEUTRAL": 2688
+    },
+    "validation_records": 2662,
+    "validation_labels": {
+      "ENTAILMENT": 1662,
+      "CONTRADICTION": 356,
+      "NEUTRAL": 644
+    },
+    "quarantined_exclusions": 1614,
+    "train_val_overlap": 0
+  },
+  "model_architecture": {
+    "backbone": "microsoft/deberta-v3-small",
+    "num_classes": 3,
+    "labels": {
+      "0": "ENTAILMENT",
+      "1": "CONTRADICTION",
+      "2": "NEUTRAL"
+    },
+    "total_parameters": 141897219,
+    "precision": "FP32"
+  },
+  "test_suite": {
+    "total_tests": 21,
+    "passed": 21,
+    "failed": 0
+  },
+  "deliverables": [
+    "00_EXECUTIVE_READINESS_REPORT.md",
+    "01_DATASET_INTEGRITY_AUDIT.md",
+    "02_LABEL_AND_INPUT_MAPPING.md",
+    "03_MODEL_ARCHITECTURE.md",
+    "04_TRAINING_RUNNER_AUDIT.md",
+    "05_RESOURCE_FEASIBILITY.md",
+    "audit_manifest.json",
+    "CONSOLIDATED_NLI_PREPARATION_REPORT.md",
+    "checksums.sha256"
+  ]
+}

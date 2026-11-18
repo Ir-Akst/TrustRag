@@ -1,0 +1,46 @@
+{
+  "dataset_name": "ragtruth",
+  "split": "test",
+  "baseline_mode": "default_g3",
+  "evaluated_records": 2700,
+  "runtime_seconds": 70.78,
+  "throughput_records_per_sec": 38.1,
+  "ground_truth_distribution": {
+    "FACTUAL": 1757,
+    "HALLUCINATED": 943
+  },
+  "verdict_distribution": {
+    "UNCERTAIN": 90,
+    "INSUFFICIENT_EVIDENCE": 280,
+    "CONTRADICTED": 1885,
+    "PARTIALLY_SUPPORTED": 436,
+    "SUPPORTED": 9
+  },
+  "classification_metrics": {
+    "accuracy": 0.3526,
+    "balanced_accuracy": 0.5026,
+    "precision": 0.3504,
+    "recall": 1.0,
+    "f1": 0.519,
+    "fpr": 0.9949,
+    "tp": 943,
+    "tn": 9,
+    "fp": 1748,
+    "fn": 0,
+    "total": 2700
+  },
+  "safety_metrics": {
+    "false_supported_rate": 0.0,
+    "false_supported_count": 0,
+    "hallucinated_total": 943,
+    "false_supported_ratio": "0/943",
+    "false_contradiction_rate": 0.6261,
+    "false_contradiction_count": 1100,
+    "factual_total": 1757,
+    "false_contradiction_ratio": "1100/1757",
+    "abstention_rate": 0.137,
+    "abstention_count": 370,
+    "decisive_coverage": 0.7015
+  },
+  "failure_sample_count": 1385
+}

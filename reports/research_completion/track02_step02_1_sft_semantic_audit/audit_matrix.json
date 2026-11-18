@@ -1,0 +1,94 @@
+{
+  "track": "Track 2",
+  "step": "Step 2.1",
+  "title": "Independent SFT Dataset Semantic and Integrity Audit",
+  "audit_timestamp_iso": "2026-11-14T01:42:00Z",
+  "overall_verdict": "CONDITIONALLY_VERIFIED",
+  "repository": {
+    "target_path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "baseline_head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+  },
+  "dataset_census_recalculation": {
+    "train_records": 26072,
+    "validation_records": 6018,
+    "total_records": 32090,
+    "train_label_distribution": {
+      "FACTUAL": 13660,
+      "HALLUCINATED": 12412
+    },
+    "validation_label_distribution": {
+      "FACTUAL": 3209,
+      "HALLUCINATED": 2809
+    },
+    "ragtruth_train": {
+      "total": 12072,
+      "factual": 6660,
+      "hallucinated": 5412
+    },
+    "ragtruth_val": {
+      "total": 3018,
+      "factual": 1709,
+      "hallucinated": 1309
+    },
+    "halueval_train": {
+      "total": 14000,
+      "factual": 7000,
+      "hallucinated": 7000
+    },
+    "halueval_val": {
+      "total": 3000,
+      "factual": 1500,
+      "hallucinated": 1500
+    },
+    "step2_executive_report_discrepancy_noted": true
+  },
+  "semantic_audit_findings": {
+    "ragtruth_baseless_info_misclassification": {
+      "pure_baseless_info_train": 2678,
+      "pure_baseless_info_val": 654,
+      "total_pure_baseless_info": 3332,
+      "issue": "Records containing only baseless information were assigned verdict CONTRADICTED instead of INSUFFICIENT_EVIDENCE/NEUTRAL"
+    },
+    "halueval_unmentioned_entity_conflation": {
+      "estimated_unmentioned_percentage": 51.8,
+      "issue": "HaluEval hallucinated answers frequently introduce unmentioned entities rather than refuting passage claims, but are unconditionally labeled CONTRADICTED"
+    },
+    "g3_taxonomy_collapse": {
+      "supported_count": 16869,
+      "contradicted_count": 15221,
+      "partially_supported_count": 0,
+      "insufficient_evidence_count": 0,
+      "uncertain_count": 0,
+      "issue": "Three out of five G3 outcomes are completely unrepresented (60% void)"
+    }
+  },
+  "objective_readiness_verdicts": {
+    "binary_hallucination_classification": {
+      "verdict": "VERIFIED",
+      "usable_as_is": true,
+      "notes": "Fully supported by 32,090 balanced examples"
+    },
+    "evidence_grounded_nli": {
+      "verdict": "CONDITIONALLY_VERIFIED",
+      "usable_as_is": false,
+      "notes": "Requires re-mapping baseless info from CONTRADICTED to NEUTRAL/INSUFFICIENT_EVIDENCE"
+    },
+    "span_level_hallucination_detection": {
+      "verdict": "CONDITIONALLY_VERIFIED",
+      "usable_as_is": false,
+      "notes": "Valid only on RAGTruth subset; HaluEval contains zero span annotations"
+    },
+    "full_five_outcome_g3_verification": {
+      "verdict": "NOT_VERIFIED",
+      "usable_as_is": false,
+      "notes": "Blocked; 0 records for PARTIALLY_SUPPORTED, INSUFFICIENT_EVIDENCE, and UNCERTAIN"
+    },
+    "generative_structured_verification": {
+      "verdict": "CONDITIONALLY_VERIFIED",
+      "usable_as_is": true,
+      "notes": "Valid for direct JSON targets; blocked for reasoning traces without teacher distillation"
+    }
+  }
+}
+

@@ -1,0 +1,45 @@
+{
+  "audit_name": "Track 1 Step 2.1 Independent Benchmark Metric Integrity Audit",
+  "audit_verdict": "CONDITIONALLY_VERIFIED",
+  "timestamp": "2026-11-13T22:45:00+05:30",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "head_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+  "protected_baseline": {
+    "path": "/home/aditya/rags/TrustRag",
+    "branch": "phase-10",
+    "head_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "status": "UNTOUCHED"
+  },
+  "defects_identified": [
+    {
+      "id": "DEF-01",
+      "severity": "MEDIUM",
+      "title": "Omission of PARTIALLY_SUPPORTED from decisive and abstention rates",
+      "resolved": true
+    },
+    {
+      "id": "DEF-02",
+      "severity": "MEDIUM",
+      "title": "Silent discard of strict threshold parameters in VerificationConfig",
+      "resolved": true
+    },
+    {
+      "id": "DEF-03",
+      "severity": "LOW",
+      "title": "Conflation of Classification FP and False Contradictions in narrative",
+      "resolved": true
+    },
+    {
+      "id": "DEF-04",
+      "severity": "LOW",
+      "title": "MS MARCO denominator scope documentation",
+      "resolved": true
+    }
+  ],
+  "reproducibility": {
+    "prediction_match_rate": 1.0,
+    "score_match_rate": 1.0,
+    "metric_match_rate": 1.0
+  }
+}

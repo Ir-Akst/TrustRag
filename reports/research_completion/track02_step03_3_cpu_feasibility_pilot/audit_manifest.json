@@ -1,0 +1,44 @@
+{
+  "audit_name": "Track 2, Step 3.3: Full-Architecture DeBERTa-v3-small CPU Feasibility Pilot",
+  "audit_version": "1.0.0",
+  "completion_timestamp": "2026-11-14T04:20:00+05:30",
+  "auditor_role": "Senior ML Infrastructure Engineer and Experimental Auditor",
+  "repository_states": {
+    "target_repository": {
+      "path": "/home/aditya/rags/TrustRag-phase11",
+      "branch": "phase-11",
+      "head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+    },
+    "protected_repository": {
+      "path": "/home/aditya/rags/TrustRag",
+      "branch": "phase-10",
+      "head": "e65bcc80aac634900d1f8e343880fddf66cec168",
+      "status": "UNTOUCHED"
+    }
+  },
+  "staged_model": {
+    "path": "/home/aditya/rags/models/pretrained/deberta-v3-small",
+    "model_id": "microsoft/deberta-v3-small",
+    "commit": "a36c739020e01763fe789b4b85e2df55d6180012"
+  },
+  "training_environment": {
+    "path": "/home/aditya/rags/.venv-train",
+    "python": "3.10.22",
+    "torch": "2.14.1+cpu",
+    "transformers": "5.20.2"
+  },
+  "deliverables": [
+    "00_EXECUTIVE_REPORT.md",
+    "01_PREFLIGHT_AND_SAFETY.md",
+    "02_MODEL_AND_TOKENIZER.md",
+    "03_DATASET_INPUT_AUDIT.md",
+    "04_FORWARD_BACKWARD_RESULTS.md",
+    "05_RESOURCE_TELEMETRY.md",
+    "06_TRAINING_READINESS_ASSESSMENT.md",
+    "pilot_results.json",
+    "readiness_matrix.json",
+    "audit_manifest.json",
+    "CONSOLIDATED_CPU_FEASIBILITY_PILOT_REPORT.md",
+    "checksums.sha256"
+  ]
+}

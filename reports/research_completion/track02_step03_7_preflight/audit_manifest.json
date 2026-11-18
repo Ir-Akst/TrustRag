@@ -1,0 +1,44 @@
+{
+  "manifest_version": "1.0.0",
+  "task": "Track 2, Step 3.7: Final Pre-Flight Verification & Bounded NLI Pilot Authorization",
+  "auditor": "Senior ML Infrastructure Engineer, Independent Experimental Auditor",
+  "timestamp": "2026-11-14T10:41:50Z",
+  "status": "COMPLETED",
+  "verdict": "READY_FOR_EXPLICIT_TRAINING_AUTHORIZATION",
+  "target_repo": "/home/aditya/rags/TrustRag-phase11",
+  "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+  "protected_repo": "/home/aditya/rags/TrustRag",
+  "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+  "pretrained_base_hashes": {
+    "config.json": "b0bb1caf90a50aa67d1085130508dfbf8646ac5a11928305e280b07a36e100ae",
+    "pytorch_model.bin": "d4b0ebcc7799a2c2dde1a39199cb0ed709f2c6b63a48b8c05133b77955f271a9",
+    "tokenizer_config.json": "3f3978e0c036f2c2588cac34a6047cbb0af0b0dc1814254e291028529805496d",
+    "spm.model": "c679fbf93643d19aab7ee10c0b99e460bdbc02fedf34b92b05af343b4af586fd"
+  },
+  "preserved_binary_checkpoint_hashes": {
+    "model.safetensors": "472ea687cae7b9d3caf1feb97adb35bef6acd31260b7b2ab7564a48eaf3fdb1b",
+    "config.json": "7cee3abbc6b9a3971c682867db8d16bb79eeaee218d544463bcc2433d82ff16d",
+    "tokenizer.json": "d87197028bcdd4a6c68dc03bd9b04e0956b0998daf7351345de21278a1c9249a"
+  },
+  "nli_dataset_hashes": {
+    "train.jsonl": "b1777c7ac608d6d79171dbc4deaeb7bf5c4ba87acf83adbe53d63020524474ad",
+    "validation.jsonl": "7601dd266edde160c51e1032150ea42c031131cb6be89c601637ad464121615c",
+    "schema.json": "21fc6294183221011b2ccf8095b05a0b272c25b27a729d66d32611909be588f3",
+    "dataset_manifest.json": "f935f6fe2430702bd28a9611bdca2e0a94e116fd30aa0185572ec3f5a8cc5e68",
+    "exclusion_manifest.json": "b10387b7e516beaf4f5f07632e49dcc5cf29e437c644d63291387ba3ea2c05bd"
+  },
+  "runner_hash": "4e4b247edea5310b0f1841abdd695d88aac3bbe15b2f1d26ea68c713c94048d8",
+  "proposed_pilot_budget_steps": 1000,
+  "deliverables": [
+    "00_EXECUTIVE_PREFLIGHT_REPORT.md",
+    "01_CHECKPOINT_AND_REPOSITORY_AUDIT.md",
+    "02_DATASET_REVALIDATION.md",
+    "03_TRAINING_CONFIGURATION_AUDIT.md",
+    "04_EVALUATION_PROTOCOL.md",
+    "05_RESOURCE_AND_SAFETY_AUDIT.md",
+    "PILOT_EXECUTION_SPECIFICATION.md",
+    "audit_manifest.json",
+    "CONSOLIDATED_PREFLIGHT_REPORT.md",
+    "checksums.sha256"
+  ]
+}

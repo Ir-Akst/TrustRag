@@ -1,0 +1,24 @@
+{
+  "manifest_version": "1.0.0",
+  "task": "Track 2, Step 3.4.2: Authorized Binary Classification Training Execution",
+  "auditor": "Senior ML Infrastructure Engineer and Experimental Auditor",
+  "timestamp": "2026-11-14T08:42:00+05:30",
+  "status": "COMPLETED",
+  "target_repo": "/home/aditya/rags/TrustRag-phase11",
+  "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+  "protected_repo": "/home/aditya/rags/TrustRag",
+  "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+  "checkpoint_path": "/home/aditya/rags/models/trained/deberta-v3-small-binary-pilot1000",
+  "deliverables": [
+    "00_EXECUTIVE_TRAINING_REPORT.md",
+    "01_EXECUTION_AND_DATASET_PROVENANCE.md",
+    "02_TRAINING_METRICS.md",
+    "03_VALIDATION_RESULTS.md",
+    "04_RESOURCE_TELEMETRY.md",
+    "05_CHECKPOINT_INTEGRITY.md",
+    "training_results.json",
+    "audit_manifest.json",
+    "CONSOLIDATED_BINARY_TRAINING_REPORT.md",
+    "checksums.sha256"
+  ]
+}

@@ -1,0 +1,134 @@
+{
+  "schema_version": "1.0.0",
+  "audit_phase": "Phase 16",
+  "timestamp": "2026-11-19T00:20:00Z",
+  "external_benchmark_status": {
+    "rsb_arxiv_2505_18543": {
+      "status": "ACCESS_BLOCKED",
+      "reason": "No public direct unauthenticated download URL exists. Academic repository requires authenticated external network download, which is prohibited under sandboxed execution constraints.",
+      "license": "Pending Verification / Academic Research Reference",
+      "access_type": "LOCAL_IMPORT_ONLY"
+    },
+    "poisonedrag_usenix_2024": {
+      "status": "ACCESS_BLOCKED",
+      "reason": "Public benchmark repository not pre-staged in local filesystem. External cloning / network downloads are prohibited under execution safety restrictions.",
+      "license": "Academic / Non-commercial Research",
+      "access_type": "REMOTE_DOWNLOAD_PROHIBITED"
+    }
+  },
+  "evaluated_datasets": [
+    {
+      "dataset_name": "custom_security_raw",
+      "file_path": "/home/aditya/rags/TrustRag-phase11/data/raw/custom_security/raw_train.jsonl",
+      "sha256": "823bca9639587ff7170530a67c2b35c54d959ee2007bdb554c3e50143c4dae00",
+      "total_records": 2000,
+      "unique_queries": 8,
+      "unique_passages": 2000,
+      "clean_records": 1000,
+      "poisoned_records": 1000,
+      "license": "MIT",
+      "provenance": "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Audited Ground Truth)",
+      "attack_families": {
+        "KNOWLEDGE_POISONING": 500,
+        "CONFLICTING_EVIDENCE": 500,
+        "PROMPT_INJECTION": 250,
+        "MALICIOUS_INSTRUCTION": 250,
+        "TRIGGER_DOS": 250,
+        "BENIGN_INSTRUCTION_LIKE": 250
+      },
+      "attack_subtypes": {
+        "cryptographic_falsification": 250,
+        "medical_dosage_distortion": 250,
+        "financial_disinformation": 250,
+        "direct_jailbreak_instruction": 250,
+        "credential_exfiltration_payload": 250,
+        "token_exhaustion_trigger": 250,
+        "benign_instruction_control": 250,
+        "astrophysical_disinformation": 250
+      }
+    },
+    {
+      "dataset_name": "knowledge_poisoning_backup_test",
+      "file_path": "/home/aditya/rags/TrustRag-phase11/data/benchmarks_backup/knowledge_poisoning/test.jsonl",
+      "sha256": "a833b154cdb9fd418beb5d33dd622ebfcbc5791a3849dec29b84cd27441c7dd7",
+      "total_records": 24,
+      "unique_queries": 3,
+      "unique_passages": 24,
+      "clean_records": 12,
+      "poisoned_records": 12,
+      "license": "MIT",
+      "provenance": "TrustRAG-Phase02-Preserved-Benchmark",
+      "attack_families": {
+        "KNOWLEDGE_POISONING": 16,
+        "TRIGGER_DOS": 8
+      },
+      "attack_subtypes": {
+        "cryptographic_falsification": 4,
+        "medical_dosage_distortion": 12,
+        "token_exhaustion_trigger": 8
+      }
+    },
+    {
+      "dataset_name": "knowledge_poisoning_backup_train",
+      "file_path": "/home/aditya/rags/TrustRag-phase11/data/benchmarks_backup/knowledge_poisoning/train.jsonl",
+      "sha256": "ba83bceaa743c2e4ccaf3ea8fce52a99949444a866584815a460157efdd4b4d9",
+      "total_records": 104,
+      "unique_queries": 3,
+      "unique_passages": 104,
+      "clean_records": 52,
+      "poisoned_records": 52,
+      "license": "MIT",
+      "provenance": "TrustRAG-Phase02-Preserved-Benchmark",
+      "attack_families": {
+        "KNOWLEDGE_POISONING": 74,
+        "TRIGGER_DOS": 30
+      },
+      "attack_subtypes": {
+        "cryptographic_falsification": 40,
+        "token_exhaustion_trigger": 30,
+        "medical_dosage_distortion": 34
+      }
+    },
+    {
+      "dataset_name": "knowledge_poisoning_active_test",
+      "file_path": "/home/aditya/rags/TrustRag-phase11/data/benchmarks/knowledge_poisoning/test.jsonl",
+      "sha256": "b1dcfd265c8a905e6ca581f5624bc515ab16e5e56095dbb50d6a72693e3175e6",
+      "total_records": 4,
+      "unique_queries": 2,
+      "unique_passages": 4,
+      "clean_records": 2,
+      "poisoned_records": 2,
+      "license": "MIT",
+      "provenance": "TrustRAG-Active-Benchmark-Test",
+      "attack_families": {
+        "KNOWLEDGE_POISONING": 4
+      },
+      "attack_subtypes": {
+        "cryptographic_falsification": 2,
+        "medical_dosage_distortion": 2
+      }
+    }
+  ],
+  "attack_objective_mapping": {
+    "1_targeted_knowledge_poisoning": [
+      "cryptographic_falsification",
+      "medical_dosage_distortion"
+    ],
+    "2_explicit_prompt_injection_poisoning": [
+      "direct_jailbreak_instruction",
+      "credential_exfiltration_payload"
+    ],
+    "3_denial_of_service_poisoning": [
+      "corrupted_context_injection",
+      "token_exhaustion_trigger"
+    ],
+    "4_trigger_based_denial_of_service": [
+      "token_exhaustion_trigger"
+    ],
+    "5_stealthy_factual_poisoning": [
+      "financial_disinformation",
+      "astrophysical_disinformation"
+    ]
+  }
+}
+

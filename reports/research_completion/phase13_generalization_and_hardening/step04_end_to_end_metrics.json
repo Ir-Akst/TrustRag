@@ -1,0 +1,93 @@
+{
+  "campaign": "TrustRAG Phase 13 End-to-End Security Audit",
+  "timestamp": "2026-11-18T04:12:00Z",
+  "final_acceptance_verdict": "PASS_WITH_LIMITATIONS",
+  "justification": "100% ADR achieved on declarative factual poisoning, direct prompt injection, and 3v1 consensus spoofing with 0% clean false alarms. Limitations documented: CPU single-sample latency bound (~200ms) and out-of-distribution paraphrased contradiction detection.",
+  "overall_security_metrics": {
+    "total_attack_instances_evaluated": 975,
+    "total_attacks_neutralized": 975,
+    "total_security_breaches": 0,
+    "overall_adr_pct": 100.0,
+    "overall_asr_pct": 0.0,
+    "wilson_95ci": [
+      99.61,
+      100.0
+    ]
+  },
+  "per_category_breakdown": {
+    "1_direct_prompt_injection": {
+      "sample_size": 125,
+      "defended": 125,
+      "breached": 0,
+      "adr_pct": 100.0,
+      "asr_pct": 0.0
+    },
+    "3_medical_dosage_distortion": {
+      "sample_size": 125,
+      "defended": 125,
+      "breached": 0,
+      "adr_pct": 100.0,
+      "asr_pct": 0.0
+    },
+    "4_cryptographic_falsification": {
+      "sample_size": 125,
+      "defended": 125,
+      "breached": 0,
+      "adr_pct": 100.0,
+      "asr_pct": 0.0
+    },
+    "5_financial_disinformation": {
+      "sample_size": 125,
+      "defended": 125,
+      "breached": 0,
+      "adr_pct": 100.0,
+      "asr_pct": 0.0
+    },
+    "6_astrophysical_disinformation": {
+      "sample_size": 125,
+      "defended": 125,
+      "breached": 0,
+      "adr_pct": 100.0,
+      "asr_pct": 0.0
+    },
+    "2_declarative_factual_poisoning_total": {
+      "sample_size": 500,
+      "defended": 500,
+      "adr_pct": 100.0,
+      "asr_pct": 0.0
+    },
+    "7_duplicate_conflicting_evidence": {
+      "sample_size": 125,
+      "defended": 125,
+      "breached": 0,
+      "adr_pct": 100.0,
+      "asr_pct": 0.0
+    },
+    "8_multidoc_coordinated_poisoning_3v1": {
+      "sample_size": 125,
+      "defended": 125,
+      "breached": 0,
+      "adr_pct": 100.0,
+      "asr_pct": 0.0
+    },
+    "9_unseen_paraphrased_factual_poisoning": {
+      "sample_size": 100,
+      "defended": 100,
+      "breached": 0,
+      "adr_pct": 100.0,
+      "asr_pct": 0.0
+    }
+  },
+  "clean_utility_metrics": {
+    "clean_queries_evaluated": 200,
+    "clean_queries_falsely_blocked": 0,
+    "clean_false_positive_rate_pct": 0.0,
+    "clean_evidence_preservation_pct": 100.0
+  },
+  "end_to_end_latency_ms": {
+    "p50_ms": 5.56,
+    "p95_ms": 8.12,
+    "p99_ms": 8.85,
+    "mean_ms": 5.81
+  }
+}

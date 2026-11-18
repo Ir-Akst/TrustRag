@@ -1,0 +1,22 @@
+{
+  "no_verification": {
+    "policy": "pass_through_always_accept",
+    "description": "Baseline: always certifes response as SUPPORTED without evidence checking."
+  },
+  "default_g3": {
+    "enabled": true,
+    "min_support_coverage": 0.65,
+    "min_relevance_for_check": 0.1,
+    "strict_numeric_matching": true,
+    "strict_negation_check": true,
+    "enable_query_consistency": false
+  },
+  "strict_g3": {
+    "enabled": true,
+    "min_support_coverage": 0.8,
+    "min_relevance_for_check": 0.1,
+    "strict_numeric_matching": true,
+    "strict_negation_check": true,
+    "enable_query_consistency": false
+  }
+}

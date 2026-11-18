@@ -1,0 +1,6 @@
+Architecture,ADR,ADR_low,ADR_high,ASR,Clean_FPR,Clean_Delivery
+Standard RAG,14.29,12.12,16.76,85.71,0.0,100.0
+TrustRAG G1,14.29,12.12,16.76,85.71,0.0,100.0
+TrustRAG G1+G2,100.0,99.56,100.0,0.0,0.0,100.0
+TrustRAG G1+G2+G3 Base,100.0,99.56,100.0,0.0,12.5,87.5
+TrustRAG G1+G2+G3 Opt,100.0,99.56,100.0,0.0,0.0,100.0

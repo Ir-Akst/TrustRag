@@ -1,0 +1,186 @@
+{
+  "metadata": {
+    "task": "Track 2, Step 3.1: CPU Training Environment Preparation and Feasibility Pilot",
+    "date": "2026-11-14T03:35:00+05:30",
+    "auditor": "Independent ML Infrastructure Engineer",
+    "target_repo": "/home/aditya/rags/TrustRag-phase11",
+    "target_branch": "phase-11",
+    "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "protected_repo": "/home/aditya/rags/TrustRag",
+    "protected_branch": "phase-10",
+    "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168"
+  },
+  "overall_verdict": "ENVIRONMENT_READY",
+  "objective_readiness": {
+    "objective_a_binary_classification": {
+      "verdict": "CONDITIONALLY_READY",
+      "environment_status": "READY",
+      "dataset_status": "READY",
+      "weights_status": "PENDING_STAGING",
+      "prerequisites": [
+        "Stage microsoft/deberta-v3-small weights locally in models/pretrained/"
+      ]
+    },
+    "objective_b_3way_nli": {
+      "verdict": "CONDITIONALLY_READY",
+      "environment_status": "READY",
+      "dataset_status": "READY",
+      "weights_status": "PENDING_STAGING",
+      "prerequisites": [
+        "Stage microsoft/deberta-v3-small weights locally in models/pretrained/"
+      ]
+    },
+    "objective_c_span_extraction": {
+      "verdict": "CONDITIONALLY_READY",
+      "environment_status": "READY",
+      "dataset_status": "READY",
+      "weights_status": "PENDING_STAGING",
+      "prerequisites": [
+        "Stage microsoft/deberta-v3-base weights locally in models/pretrained/",
+        "Implement sliding window token collator"
+      ]
+    },
+    "objective_d_g3_5outcome": {
+      "verdict": "BLOCKED",
+      "environment_status": "READY",
+      "dataset_status": "BLOCKED",
+      "weights_status": "BLOCKED",
+      "prerequisites": [
+        "Supervision gap resolution via teacher LLM distillation"
+      ]
+    },
+    "objective_e_generative_structured_srm": {
+      "verdict": "BLOCKED",
+      "environment_status": "NOT_SUPPORTED",
+      "dataset_status": "BLOCKED",
+      "weights_status": "BLOCKED",
+      "prerequisites": [
+        "GPU hardware accelerator with >= 16 GB VRAM",
+        "Reasoning trace synthesis"
+      ]
+    }
+  },
+  "environment_census": {
+    "virtualenv_path": "/home/aditya/rags/.venv-train",
+    "python_version": "3.10.22",
+    "torch_version": "2.14.1+cpu",
+    "transformers_version": "5.20.2",
+    "accelerate_version": "1.15.0",
+    "sklearn_version": "1.7.2",
+    "sentencepiece_version": "0.2.3",
+    "cuda_available": false
+  },
+  "runtime_smoke_tests": {
+    "timestamp": "2026-11-13T22:05:16Z",
+    "tests": {
+      "pytorch_import": {
+        "status": "PASSED",
+        "version": "2.14.1+cpu",
+        "cuda_available": false,
+        "num_threads": 10
+      },
+      "cpu_tensor_ops": {
+        "status": "PASSED",
+        "matmul_shape": [
+          256,
+          256
+        ],
+        "mean_softmax": 0.00390625
+      },
+      "framework_imports": {
+        "status": "PASSED",
+        "transformers_version": "5.20.2",
+        "accelerate_version": "1.15.0",
+        "sklearn_version": "1.7.2"
+      },
+      "tokenizer_loading": {
+        "status": "OFFLINE_GUARDED",
+        "local_weights_exist": false,
+        "detail": "Local weights not present; remote download strictly disallowed by offline policy."
+      },
+      "forward_pass": {
+        "status": "PASSED",
+        "initial_loss": 0.6951658725738525,
+        "logits_shape": [
+          2,
+          2
+        ]
+      },
+      "backward_pass": {
+        "status": "PASSED",
+        "populated_grad_tensors": 40,
+        "mean_grad_norm": 0.04987709967715957
+      },
+      "optimizer_step": {
+        "status": "PASSED",
+        "weight_delta_l1": 8.066422462463379
+      },
+      "checkpoint_io": {
+        "status": "PASSED",
+        "checkpoint_size_bytes": 1919225,
+        "weights_verified": true
+      },
+      "deterministic_seed": {
+        "status": "PASSED",
+        "seed": 1337,
+        "reproducible": true
+      }
+    },
+    "summary": "ALL_TESTS_PASSED",
+    "metrics": {
+      "elapsed_seconds": 3.2742019100114703,
+      "rss_start_mb": 14.3671875,
+      "rss_end_mb": 424.5078125,
+      "rss_peak_mb": 424.5078125
+    }
+  },
+  "bounded_feasibility_pilot": {
+    "timestamp": "2026-11-13T22:05:55Z",
+    "model_target": "microsoft/deberta-v3-small",
+    "local_weights_staged": false,
+    "pilot_status": "COMPLETED_BOUNDED_PILOT",
+    "steps_executed": 3,
+    "max_steps": 3,
+    "batch_size": 1,
+    "max_seq_len": 64,
+    "telemetry": [
+      {
+        "step": 1,
+        "example_id": "binary_halueval_train_halueval_0_factual",
+        "raw_label": "FACTUAL",
+        "numeric_label": 0,
+        "loss": 0.6797576546669006,
+        "step_latency_ms": 30.793969999649562,
+        "rss_mb": 419.78125
+      },
+      {
+        "step": 2,
+        "example_id": "binary_halueval_train_halueval_0_hallucinated",
+        "raw_label": "HALLUCINATED",
+        "numeric_label": 1,
+        "loss": 0.6823209524154663,
+        "step_latency_ms": 5.3272379882400855,
+        "rss_mb": 420.64453125
+      },
+      {
+        "step": 3,
+        "example_id": "binary_halueval_train_halueval_1000_factual",
+        "raw_label": "FACTUAL",
+        "numeric_label": 0,
+        "loss": 0.7015367746353149,
+        "step_latency_ms": 4.978801996912807,
+        "rss_mb": 420.64453125
+      }
+    ],
+    "summary_metrics": {
+      "total_elapsed_seconds": 2.4585773889994016,
+      "avg_step_latency_ms": 13.700003328267485,
+      "tokens_per_second": 78.09394199225946,
+      "initial_rss_mb": 14.2109375,
+      "peak_rss_mb": 420.64453125,
+      "rss_delta_mb": 406.43359375,
+      "final_available_ram_mb": 3006.79296875,
+      "final_swap_free_mb": 7.02734375
+    }
+  }
+}

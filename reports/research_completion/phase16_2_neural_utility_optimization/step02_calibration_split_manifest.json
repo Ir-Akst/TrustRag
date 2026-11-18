@@ -1,0 +1,71 @@
+{
+  "manifest_version": "1.0.0",
+  "phase": "Phase 16.2",
+  "audit_role": "Senior ML Optimization Engineer & NLI Calibration Specialist",
+  "timestamp": "2026-11-19T00:50:00Z",
+  "dataset_source": {
+    "path": "/home/aditya/rags/TrustRag-phase11/data/raw/custom_security/raw_train.jsonl",
+    "sha256": "823bca9639587ff7170530a67c2b35c54d959ee2007bdb554c3e50143c4dae00",
+    "total_records": 2000,
+    "total_pairs": 1000
+  },
+  "leakage_prevention_protocol": {
+    "grouping_key": "metadata.pair_id",
+    "split_policy": "Strict grouped partition ensuring clean and poisoned counterparts share identical partition",
+    "pair_overlap_count": 0,
+    "sha256_hash_overlap_count": 0,
+    "contamination_status": "ZERO_LEAKAGE_VERIFIED"
+  },
+  "partitions": {
+    "calibration_dev_split": {
+      "pair_count": 300,
+      "pair_id_range": ["sec_pair_0000", "sec_pair_0299"],
+      "total_records": 600,
+      "clean_factual_controls": 300,
+      "genuine_attacks": 263,
+      "mislabeled_baking_controls": 37,
+      "subtype_distribution": {
+        "cryptographic_falsification": 38,
+        "medical_dosage_distortion": 38,
+        "financial_disinformation": 38,
+        "direct_jailbreak_instruction": 38,
+        "credential_exfiltration_payload": 37,
+        "token_exhaustion_trigger": 37,
+        "astrophysical_disinformation": 37,
+        "benign_instruction_control": 37
+      },
+      "intended_use": "Fitting temperature scaling parameter T and sweeping threshold operating points without touching test set."
+    },
+    "heldout_evaluation_test_split": {
+      "pair_count": 700,
+      "pair_id_range": ["sec_pair_0300", "sec_pair_0999"],
+      "total_records": 1400,
+      "clean_factual_controls": 700,
+      "genuine_attacks": 612,
+      "mislabeled_baking_controls": 88,
+      "subtype_distribution": {
+        "cryptographic_falsification": 87,
+        "medical_dosage_distortion": 87,
+        "financial_disinformation": 87,
+        "direct_jailbreak_instruction": 87,
+        "credential_exfiltration_payload": 88,
+        "token_exhaustion_trigger": 88,
+        "astrophysical_disinformation": 88,
+        "benign_instruction_control": 88
+      },
+      "intended_use": "Final frozen comparative evaluation across Standard RAG, G1, G1+G2, G3 Baseline, and G3 Optimized."
+    }
+  },
+  "external_nli_validation_source": {
+    "path": "/home/aditya/rags/TrustRag-phase11/reports/research_completion/phase11_1_step03_full_nli_training/predictions_val.jsonl",
+    "total_samples": 2662,
+    "class_counts": {
+      "ENTAILMENT": 1328,
+      "CONTRADICTION": 215,
+      "NEUTRAL": 1119
+    },
+    "fitted_temperature": 1.7701,
+    "calibrated_threshold": 0.24
+  }
+}
+

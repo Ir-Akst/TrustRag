@@ -1,0 +1,53 @@
+{
+  "audit_metadata": {
+    "task": "Track 1, Step 2.4: Retrieval Baseline Discrepancy Resolution",
+    "date": "2026-11-14T01:05:00+05:30",
+    "auditor": "Senior Software Architect, Security Auditor & ML Research Evaluator",
+    "final_verdict": "DISCREPANCY_RESOLVED",
+    "target_repository": {
+      "path": "/home/aditya/rags/TrustRag-phase11",
+      "branch": "phase-11",
+      "head_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+      "status": "clean"
+    },
+    "protected_baseline_repository": {
+      "path": "/home/aditya/rags/TrustRag",
+      "branch": "phase-10",
+      "head_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+      "status": "clean_untouched"
+    }
+  },
+  "audited_prediction_files": [
+    {
+      "dataset": "hotpotqa",
+      "path": "reports/research_completion/track02_baseline_evaluation/predictions_hotpotqa_retrieval.jsonl",
+      "records": 7405,
+      "sha256": "36c5629437fcbb7dbb89fc6b23b53f651040e255a7eeb30c53159a2e175d12ae",
+      "recomputed_metrics": {
+        "recall_at_1": 0.4154,
+        "recall_at_5": 0.8182,
+        "recall_at_10": 0.9876,
+        "mrr_at_10": 0.8965
+      }
+    },
+    {
+      "dataset": "ms_marco",
+      "path": "reports/research_completion/track02_baseline_evaluation/predictions_msmarco_retrieval.jsonl",
+      "records": 9706,
+      "sha256": "775703ccf0a01eb8537aec9721d1a66be42643decadc1212cca03b5a95eb27ad",
+      "recomputed_metrics": {
+        "recall_at_1": 0.2311,
+        "recall_at_5": 0.7592,
+        "recall_at_10": 0.9768,
+        "mrr_at_10": 0.4626
+      }
+    }
+  ],
+  "resolution_deliverables": [
+    "00_RETRIEVAL_DISCREPANCY_EXECUTIVE_REPORT.md",
+    "01_PER_EXAMPLE_RECOMPUTATION_ANALYSIS.md",
+    "recomputed_retrieval_metrics.json",
+    "audit_manifest.json",
+    "checksums.sha256"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "timestamp": "2026-11-13T22:28:49Z",
+  "model_dir": "/home/aditya/rags/models/pretrained/deberta-v3-small",
+  "offline_enforced": true,
+  "checks": {
+    "tokenizer": {
+      "status": "PASSED",
+      "class": "DebertaV2Tokenizer",
+      "vocab_size": 128001,
+      "load_latency_ms": 202.8824010048993,
+      "sample_token_count": 9,
+      "roundtrip_exact_match": true
+    },
+    "model_architecture": {
+      "status": "PASSED",
+      "model_class": "DebertaV2ForSequenceClassification",
+      "total_parameters": 141896450,
+      "trainable_parameters": 141896450,
+      "hidden_size": 768,
+      "num_hidden_layers": 6,
+      "num_attention_heads": 12,
+      "load_latency_ms": 312.3263050074456
+    },
+    "inference_forward_pass": {
+      "status": "PASSED",
+      "latency_ms": 322.4642630084418,
+      "logits": [
+        0.151611328125,
+        0.245361328125
+      ],
+      "probabilities": [
+        0.4765625,
+        0.5234375
+      ],
+      "input_token_length": 39
+    }
+  },
+  "summary": "OFFLINE_VERIFICATION_SUCCESSFUL",
+  "resource_telemetry": {
+    "initial_rss_mb": 14.328125,
+    "post_load_rss_mb": 514.91796875,
+    "final_rss_mb": 623.078125,
+    "peak_rss_mb": 623.078125,
+    "initial_available_ram_mb": 3014.9140625,
+    "final_available_ram_mb": 2618.6640625,
+    "swap_free_before_mb": 0.4140625,
+    "swap_free_after_mb": 0.4375,
+    "total_elapsed_seconds": 3.307355209006346
+  }
+}

@@ -2172,34 +2172,28 @@ class OutputEvidenceVerifier:
                     explanation=f"Neural NLI inference failed ({error_notes[0]}); fail-closed unverified rejection.",
                 )
 
-        # In hybrid mode: verify heuristic numeric & polarity checks don't detect a conflict on supporting evidence
-        if self.config.nli_backend == "hybrid" and supp_refs and not contr_refs:
-            top_doc = next(d for d in trusted_documents if d.doc_id == supp_refs[0].doc_id)
-            pol_ok, pol_expl = _evaluate_polarity(claim_text, top_doc.text)
-            num_ok, num_conflict, num_expl = _evaluate_numbers(claim_text, top_doc.text)
-            if not pol_ok:
-                contr_refs.append(
-                    EvidenceReference(
-                        doc_id=top_doc.doc_id,
-                        matched_span=top_doc.text[:200],
-                        similarity_score=0.90,
-                        polarity_match=False,
-                        numeric_match=num_ok,
-                        coverage_score=0.0,
-                        alignment_note=f"[Hybrid Conflict] Heuristic polarity contradiction: {pol_expl}",
-                        span_outcome="CONTRADICTS",
+        # In hybrid mode: verify heuristic numeric & polarity checks detect conflicts even when neural score is neutral or borderline
+        if self.config.nli_backend == "hybrid" and not contr_refs:
+            candidate_docs = [d for d in trusted_documents if any(ref.doc_id == d.doc_id for ref in (supp_refs + neutral_refs))]
+            for top_doc in candidate_docs:
+                pol_ok, pol_expl = _evaluate_polarity(claim_text, top_doc.text)
+                num_ok, num_conflict, num_expl = _evaluate_numbers(claim_text, top_doc.text)
+                if not pol_ok:
+                    contr_refs.append(
+                        EvidenceReference(
+                            doc_id=top_doc.doc_id,
+                            matched_span=top_doc.text[:200],
+                            similarity_score=0.90,
+                            polarity_match=False,
+                            numeric_match=num_ok,
+                            coverage_score=0.0,
+                            alignment_note=f"[Hybrid Conflict] Heuristic polarity contradiction: {pol_expl}",
+                            span_outcome="CONTRADICTS",
+                        )
                     )
-                )
-            elif not num_ok and self.config.strict_numeric_matching:
-                return ClaimVerificationItem(
-                    claim_id=claim_id,
-                    claim_text=claim_text,
-                    outcome=EvidenceOutcome.CONTRADICTS,
-                    verdict=G3ClaimVerdict.CONTRADICTED,
-                    confidence=0.85,
-                    unsupported_flag=True,
-                    supporting_evidence_refs=[],
-                    contradicting_evidence_refs=[
+                    break
+                elif num_conflict and self.config.strict_numeric_matching:
+                    contr_refs.append(
                         EvidenceReference(
                             doc_id=top_doc.doc_id,
                             matched_span=top_doc.text[:200],
@@ -2210,10 +2204,8 @@ class OutputEvidenceVerifier:
                             alignment_note=f"[Hybrid Conflict] Heuristic numeric mismatch: {num_expl}",
                             span_outcome="CONTRADICTS",
                         )
-                    ],
-                    evidence_refs=supp_refs[:1],
-                    explanation=f"Hybrid check: numeric conflict detected despite neural score ({num_expl}).",
-                )
+                    )
+                    break
 
         # Resolution Logic
         if contr_refs:

@@ -1,0 +1,87 @@
+{
+  "benchmark_title": "TrustRAG Phase 13 Expanded Security Evaluation Suite",
+  "timestamp": "2026-11-18T03:55:00Z",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "source_data": {
+    "custom_security_raw": {
+      "path": "/home/aditya/rags/TrustRag-phase11/data/raw/custom_security/raw_train.jsonl",
+      "total_records": 2000,
+      "total_attacks": 875,
+      "total_clean_controls": 1125,
+      "unique_sha256_hashes": 2000,
+      "duplicate_count": 0,
+      "provenance": "TrustRAG-Synthetic-Security-Benchmark-v1.0 (Audited)"
+    }
+  },
+  "training_contamination_audit": {
+    "sft_v2_nli_train_overlap": 0,
+    "sft_v2_nli_val_overlap": 0,
+    "contamination_status": "ZERO_CONTAMINATION_VERIFIED"
+  },
+  "categories": {
+    "1_direct_prompt_injection": {
+      "count": 125,
+      "threat_family": "PROMPT_INJECTION",
+      "sample_ids": [
+        "sec_pair_0003_poison",
+        "sec_pair_0011_poison",
+        "sec_pair_0019_poison"
+      ],
+      "description": "Direct adversarial user/retrieved prompts attempting guardrail bypass and system override"
+    },
+    "2_declarative_factual_poisoning": {
+      "count": 500,
+      "threat_family": "KNOWLEDGE_POISONING / CONFLICTING_EVIDENCE",
+      "sample_subtypes": [
+        "medical_dosage",
+        "cryptographic",
+        "financial",
+        "astrophysical"
+      ],
+      "description": "Non-imperative false factual statements designed to bypass keyword and instruction screening"
+    },
+    "3_medical_dosage_distortion": {
+      "count": 125,
+      "threat_family": "KNOWLEDGE_POISONING",
+      "description": "Lethal and dangerous distortion of pharmaceutical dosing guidelines"
+    },
+    "4_cryptographic_falsification": {
+      "count": 125,
+      "threat_family": "KNOWLEDGE_POISONING",
+      "description": "Fabricated backdoors, compromised keyspaces, and weakened cipher claims"
+    },
+    "5_financial_disinformation": {
+      "count": 125,
+      "threat_family": "CONFLICTING_EVIDENCE",
+      "description": "Falsified macroeconomic indicators, central bank policies, and financial solvency status"
+    },
+    "6_astrophysical_disinformation": {
+      "count": 125,
+      "threat_family": "CONFLICTING_EVIDENCE",
+      "description": "Contradictory scientific and celestial observations, distances, and spectroscopic findings"
+    },
+    "7_duplicate_conflicting_evidence": {
+      "count": 875,
+      "threat_family": "CONFLICTING_EVIDENCE",
+      "description": "Co-retrieved clean and conflicting evidence evaluating inter-document conflict detection"
+    },
+    "8_multidoc_coordinated_poisoning_3v1": {
+      "count": 125,
+      "threat_family": "COORDINATED_POISONING",
+      "description": "Consensus spoofing with 3 coordinated poisoned documents confronting 1 authentic reference"
+    },
+    "9_unseen_paraphrased_factual_poisoning": {
+      "count": 100,
+      "threat_family": "KNOWLEDGE_POISONING",
+      "description": "Out-of-distribution held-out paraphrased factual contradictions testing semantic generalization"
+    }
+  },
+  "clean_controls": {
+    "total_count": 1125,
+    "breakdown": {
+      "paired_clean_factual_controls": 1000,
+      "benign_instruction_controls": 125
+    },
+    "description": "Benign reference documents used to evaluate False Positive Rate and clean evidence preservation"
+  }
+}

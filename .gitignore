@@ -54,6 +54,7 @@ coverage.xml
 # Environments
 .env
 .env.*
+!.env.example
 
 # IDEs and editors
 .vscode/
@@ -67,3 +68,20 @@ Desktop.ini
 
 
 wheelhouse/
+
+# Local logs, datasets and scratch files
+logs/
+tat
+data/raw/halueval/
+data/raw/hotpotqa/
+data/raw/ms_marco/
+data/raw/ragtruth/manifest.json
+data/raw/ragtruth/response.jsonl
+data/raw/ragtruth/source_info.jsonl
+data/processed/halueval/
+data/processed/hotpotqa/
+data/processed/ms_marco/
+data/processed/ragtruth/
+data/processed/sft_v1/
+data/processed/sft_v2/
+reports/training_runs/

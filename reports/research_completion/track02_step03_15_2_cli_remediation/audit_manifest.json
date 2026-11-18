@@ -1,0 +1,47 @@
+{
+  "audit_step": "track02_step03_15_2_cli_remediation",
+  "audit_role": "Senior ML Infrastructure Engineer and Independent Code Auditor",
+  "audit_timestamp_utc": "2026-11-14T14:47:54Z",
+  "repository": {
+    "path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "phase10_head": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "phase10_path": "/home/aditya/rags/TrustRag"
+  },
+  "remediation": {
+    "file_modified": "tools/training/train_nli_classifier.py",
+    "cli_argument_added": "--max-duration-seconds",
+    "default_value": 3600.0,
+    "input_validation": "positive finite float required (>0, math.isfinite)",
+    "config_wired": true,
+    "config_field": "NLITrainingConfig.max_duration_seconds"
+  },
+  "protected_assets_verified": {
+    "binary_pilot_sha256": "472ea687cae7b9d3caf1feb97adb35bef6acd31260b7b2ab7564a48eaf3fdb1b",
+    "binary_pilot_status": "UNCHANGED",
+    "nli_pilot_sha256": "500832fa1b9b7c67c2c08d9e1f4d4c76d235d15fa9960d76e1e6e81c220a2f8a",
+    "nli_pilot_status": "UNCHANGED",
+    "pretrained_model_checksums": "ALL_OK"
+  },
+  "test_results": {
+    "total_collected": 56,
+    "passed": 55,
+    "skipped": 1,
+    "failed": 0,
+    "new_tests": 9
+  },
+  "final_verdict": "REMEDIATION_COMPLETE_READY_FOR_PREFLIGHT",
+  "deliverables": [
+    "00_EXECUTIVE_SUMMARY.md",
+    "01_SOURCE_CHANGE_DETAILS.md",
+    "02_CLI_CONFIGURATION_VERIFICATION.md",
+    "03_TEST_RESULTS.md",
+    "04_WATCHDOG_REGRESSION_RESULTS.md",
+    "05_PROTECTED_ASSET_INTEGRITY.md",
+    "06_REMAINING_LIMITATIONS.md",
+    "CONSOLIDATED_REMEDIATION_REPORT.md",
+    "audit_manifest.json",
+    "checksums.sha256"
+  ]
+}

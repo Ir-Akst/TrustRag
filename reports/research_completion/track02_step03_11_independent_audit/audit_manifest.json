@@ -1,0 +1,66 @@
+{
+  "step": "track02_step03_11_independent_audit",
+  "timestamp": "2026-11-14T13:18:27Z",
+  "role": "Independent ML Infrastructure Auditor and Adversarial Experimental Reviewer",
+  "verdict": "INDEPENDENTLY_VERIFIED_WITH_LIMITATIONS",
+  "repository": {
+    "path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+  },
+  "protected_repository": {
+    "path": "/home/aditya/rags/TrustRag",
+    "branch": "phase-10",
+    "commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "status": "UNTOUCHED_IMMUTABLE"
+  },
+  "audited_checkpoints": {
+    "pretrained": {
+      "path": "/home/aditya/rags/models/pretrained/deberta-v3-small",
+      "status": "VERIFIED_OK"
+    },
+    "binary_pilot": {
+      "path": "/home/aditya/rags/models/trained/deberta-v3-small-binary-pilot1000",
+      "status": "VERIFIED_OK"
+    },
+    "nli_pilot": {
+      "path": "/home/aditya/rags/models/trained/deberta-v3-small-nli-pilot1000",
+      "status": "VERIFIED_OK"
+    }
+  },
+  "verified_sampling_properties": {
+    "quotas": {
+      "ENTAILMENT": 334,
+      "CONTRADICTION": 333,
+      "NEUTRAL": 333
+    },
+    "duplicates": 0,
+    "max_consecutive_absence": {
+      "ENTAILMENT": 15,
+      "CONTRADICTION": 18,
+      "NEUTRAL": 15
+    },
+    "starvation_threshold": 25,
+    "starvation_detector_verified": true
+  },
+  "verified_serialization_properties": {
+    "max_seq_len": 384,
+    "hypothesis_token_retention": 0.9945,
+    "samples_with_truncated_hypothesis": 54,
+    "samples_with_truncated_hypothesis_pct": 2.03,
+    "average_kept_premise_tokens": 216.6,
+    "premise_token_retention": 0.3688
+  },
+  "test_results": {
+    "total": 28,
+    "passed": 28,
+    "failed": 0
+  },
+  "scientific_limitations": [
+    "2.03% (54 samples) hypothesis truncation due to 64-token premise floor",
+    "36.88% premise token retention limits full-evidence visibility in 800+ token documents",
+    "Multi-chunk premise aggregation is designed but not yet implemented in runner",
+    "Span-level retention inferred from token retention rather than token-index intersection"
+  ],
+  "training_authorization": false
+}

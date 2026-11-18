@@ -1,0 +1,76 @@
+{
+  "manifest_version": "1.0.0",
+  "track": "Track 2",
+  "step": "Step 2",
+  "title": "Evidence-Grounded SFT Data Preparation",
+  "generated_at_iso": "2026-11-14T01:31:00Z",
+  "verdict": "SFT_DATA_CONDITIONALLY_READY",
+  "repository": {
+    "target_path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "baseline_head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+  },
+  "deliverables": [
+    {
+      "path": "reports/research_completion/track02_step02_sft_data_preparation/00_EXECUTIVE_REPORT.md",
+      "description": "Executive summary, record census, blocker resolutions, and audit verdict"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_sft_data_preparation/01_PAPER_TARGET_FORMAT_VERIFICATION.md",
+      "description": "Analysis of TrustRAG, HalluGuard, and FilterRAG papers regarding target format and CoT traces"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_sft_data_preparation/02_SFT_SCHEMA_SPECIFICATION.md",
+      "description": "Canonical Pydantic schema definition, target format schemas, and validation rules"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_sft_data_preparation/03_DATASET_TRANSFORMATION_REPORT.md",
+      "description": "Exact transformation algorithms, class balances, and source grouping mechanics"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_sft_data_preparation/04_SPLIT_AND_LEAKAGE_AUDIT.md",
+      "description": "RAGTruth 0-byte validation resolution, source-level leakage proof, and benchmark quarantine"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_sft_data_preparation/05_TEST_AND_REPRODUCIBILITY_REPORT.md",
+      "description": "Pytest logs, full unit regression test suite results, typing, linting, and reproduction commands"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_sft_data_preparation/sft_readiness_matrix.json",
+      "description": "Machine-readable checklist covering all SFT readiness dimensions"
+    },
+    {
+      "path": "tools/data_prep/prepare_sft_dataset.py",
+      "description": "Reproducible SFT dataset preparation pipeline implementation"
+    },
+    {
+      "path": "tests/unit/test_track02_step02_sft_data_prep.py",
+      "description": "Comprehensive quality assurance unit test suite"
+    },
+    {
+      "path": "data/processed/sft_v1/train.jsonl",
+      "description": "Processed SFT training dataset (26,072 records)"
+    },
+    {
+      "path": "data/processed/sft_v1/validation.jsonl",
+      "description": "Processed SFT validation dataset (6,018 records)"
+    },
+    {
+      "path": "data/processed/sft_v1/schema.json",
+      "description": "Standard JSON Schema for SFTExampleRecord"
+    },
+    {
+      "path": "data/processed/sft_v1/dataset_manifest.json",
+      "description": "Manifest and metadata for sft_v1 dataset"
+    },
+    {
+      "path": "data/processed/sft_v1/preprocessing_report.md",
+      "description": "SFT v1 dataset preprocessing summary"
+    },
+    {
+      "path": "data/processed/sft_v1/checksums.sha256",
+      "description": "Cryptographic SHA-256 digests for sft_v1 dataset files"
+    }
+  ]
+}
+

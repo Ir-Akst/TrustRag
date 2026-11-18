@@ -1,0 +1,89 @@
+{
+  "metadata": {
+    "task": "Track 2, Step 3.2: Authorized DeBERTa-v3-small Model Staging & Integrity Verification",
+    "date": "2026-11-14T04:00:00+05:30",
+    "auditor": "Senior ML Infrastructure Engineer",
+    "target_repo": "/home/aditya/rags/TrustRag-phase11",
+    "target_branch": "phase-11",
+    "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "protected_repo": "/home/aditya/rags/TrustRag",
+    "protected_branch": "phase-10",
+    "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168"
+  },
+  "overall_verdict": "MODEL_STAGED_AND_VERIFIED",
+  "dimensions": {
+    "model_acquisition_status": "ACQUIRED",
+    "file_integrity_status": "VERIFIED",
+    "tokenizer_loading_status": "VERIFIED",
+    "pretrained_model_loading_status": "VERIFIED",
+    "resource_safety_status": "VERIFIED"
+  },
+  "staged_model": {
+    "model_id": "microsoft/deberta-v3-small",
+    "upstream_commit": "a36c739020e01763fe789b4b85e2df55d6180012",
+    "local_path": "/home/aditya/rags/models/pretrained/deberta-v3-small",
+    "total_parameters": 141896450,
+    "architecture": "DebertaV2ForSequenceClassification",
+    "num_hidden_layers": 6,
+    "hidden_size": 768,
+    "num_attention_heads": 12,
+    "vocab_size": 128001,
+    "license": "MIT",
+    "total_staged_files": 6,
+    "total_size_bytes": 288529275
+  },
+  "offline_loading_verification": {
+    "timestamp": "2026-11-13T22:28:49Z",
+    "model_dir": "/home/aditya/rags/models/pretrained/deberta-v3-small",
+    "offline_enforced": true,
+    "checks": {
+      "tokenizer": {
+        "status": "PASSED",
+        "class": "DebertaV2Tokenizer",
+        "vocab_size": 128001,
+        "load_latency_ms": 202.8824010048993,
+        "sample_token_count": 9,
+        "roundtrip_exact_match": true
+      },
+      "model_architecture": {
+        "status": "PASSED",
+        "model_class": "DebertaV2ForSequenceClassification",
+        "total_parameters": 141896450,
+        "trainable_parameters": 141896450,
+        "hidden_size": 768,
+        "num_hidden_layers": 6,
+        "num_attention_heads": 12,
+        "load_latency_ms": 312.3263050074456
+      },
+      "inference_forward_pass": {
+        "status": "PASSED",
+        "latency_ms": 322.4642630084418,
+        "logits": [
+          0.151611328125,
+          0.245361328125
+        ],
+        "probabilities": [
+          0.4765625,
+          0.5234375
+        ],
+        "input_token_length": 39
+      }
+    },
+    "summary": "OFFLINE_VERIFICATION_SUCCESSFUL",
+    "resource_telemetry": {
+      "initial_rss_mb": 14.328125,
+      "post_load_rss_mb": 514.91796875,
+      "final_rss_mb": 623.078125,
+      "peak_rss_mb": 623.078125,
+      "initial_available_ram_mb": 3014.9140625,
+      "final_available_ram_mb": 2618.6640625,
+      "swap_free_before_mb": 0.4140625,
+      "swap_free_after_mb": 0.4375,
+      "total_elapsed_seconds": 3.307355209006346
+    }
+  },
+  "dataset_integrity": {
+    "sft_v2_status": "ALL_18_FILES_VERIFIED",
+    "sft_v1_status": "UNTOUCHED_AND_VERIFIED"
+  }
+}

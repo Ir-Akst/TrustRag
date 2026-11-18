@@ -1,0 +1,146 @@
+{
+  "audit_step": "track02_step03_16_training",
+  "audit_role": "Senior ML Infrastructure Engineer and Reproducibility Auditor",
+  "execution_timestamp_utc": "2026-11-14T16:32:14Z",
+  "repository": {
+    "path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "phase10_head": "e65bcc80aac634900d1f8e343880fddf66cec168"
+  },
+  "training_execution": {
+    "status": "COMPLETED",
+    "total_steps": 1000,
+    "batch_size": 1,
+    "max_seq_len": 384,
+    "learning_rate": 2e-05,
+    "warmup_steps": 100,
+    "seed": 42,
+    "output_directory": "/home/aditya/rags/models/trained/deberta-v3-small-nli-remediated",
+    "total_wall_time_seconds": 5320
+  },
+  "metrics_comparison": {
+    "initial": {
+      "total_samples": 2662,
+      "loss": 1.088340216700427,
+      "accuracy": 0.24192336589030805,
+      "balanced_accuracy": 0.3333333333333333,
+      "macro_f1": 0.12986489211534583,
+      "weighted_f1": 0.09425205543457857,
+      "per_class": {
+        "ENTAILMENT": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 1662
+        },
+        "CONTRADICTION": {
+          "precision": 0.0,
+          "recall": 0.0,
+          "f1": 0.0,
+          "support": 356
+        },
+        "NEUTRAL": {
+          "precision": 0.24192336589030805,
+          "recall": 1.0,
+          "f1": 0.3895946763460375,
+          "support": 644
+        }
+      },
+      "confusion_matrix": [
+        [
+          0,
+          0,
+          1662
+        ],
+        [
+          0,
+          0,
+          356
+        ],
+        [
+          0,
+          0,
+          644
+        ]
+      ],
+      "brier_score": 0.6629327270046323,
+      "ece_10bins": 0.1517970906577551
+    },
+    "final": {
+      "total_samples": 2662,
+      "loss": 1.137097450226523,
+      "accuracy": 0.3805409466566491,
+      "balanced_accuracy": 0.3544373404580911,
+      "macro_f1": 0.29751608842788874,
+      "weighted_f1": 0.38336264924037056,
+      "per_class": {
+        "ENTAILMENT": {
+          "precision": 0.7023959646910467,
+          "recall": 0.3351383874849579,
+          "f1": 0.4537678207739308,
+          "support": 1662
+        },
+        "CONTRADICTION": {
+          "precision": 0.07547169811320754,
+          "recall": 0.0449438202247191,
+          "f1": 0.056338028169014086,
+          "support": 356
+        },
+        "NEUTRAL": {
+          "precision": 0.2655401327700664,
+          "recall": 0.6832298136645962,
+          "f1": 0.3824424163407214,
+          "support": 644
+        }
+      },
+      "confusion_matrix": [
+        [
+          557,
+          143,
+          962
+        ],
+        [
+          85,
+          16,
+          255
+        ],
+        [
+          151,
+          53,
+          440
+        ]
+      ],
+      "brier_score": 0.6613831189299026,
+      "ece_10bins": 0.13043289378027909
+    }
+  },
+  "checkpoint_hashes": {
+    "config.json": "38370396a4e2988a14226b6b8875766e660ab8bbd1374b9e23a6e0c7a05ef385",
+    "model.safetensors": "bb4c26bab4a147c2ad6bdae7ec8a1ecc56841ea56fc89922fd377fb5d70fe113",
+    "tokenizer_config.json": "1121ad33ecd98a97b2db184ce896546feb7555bebddf33a2dfe1b1a1077dc847",
+    "tokenizer.json": "e9ddd853a4a31023721c993458663f2019e3154a05dacf0d2b3c217e53d9bdc8",
+    "training_meta.json": "d673d317525d566c29cbccc1f67fc3a47fbbb767c7a812f6d4509afc6969243c"
+  },
+  "protected_assets_verified": {
+    "binary_pilot_sha256": "472ea687cae7b9d3caf1feb97adb35bef6acd31260b7b2ab7564a48eaf3fdb1b",
+    "nli_pilot_sha256": "500832fa1b9b7c67c2c08d9e1f4d4c76d235d15fa9960d76e1e6e81c220a2f8a",
+    "phase10_head": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "phase11_head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+  },
+  "final_verdict": "TRAINING_COMPLETED_AWAITING_INDEPENDENT_AUDIT",
+  "deliverables": [
+    "00_EXECUTIVE_SUMMARY.md",
+    "01_TRAINING_CONFIGURATION.md",
+    "02_DATASET_AND_SAMPLER_VERIFICATION.md",
+    "03_RUNTIME_AND_RESOURCE_METRICS.md",
+    "04_PRE_POST_EVALUATION.md",
+    "05_CONFUSION_MATRIX_AND_CLASS_METRICS.md",
+    "06_CHECKPOINT_INTEGRITY.md",
+    "07_PROTECTED_ASSET_VERIFICATION.md",
+    "08_LIMITATIONS_AND_FAILURE_ANALYSIS.md",
+    "CONSOLIDATED_TRAINING_REPORT.md",
+    "audit_manifest.json",
+    "checksums.sha256"
+  ]
+}

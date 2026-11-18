@@ -80,42 +80,124 @@ export function renderOverviewView(state, actions) {
     ])
   );
 
-  // Interactive Pipeline Execution
+  // Interactive Unified Verification & Pipeline Execution
   const qInput = el("input", {
     type: "text",
     id: "overview-query-input",
-    value: "At what temperature does water boil?",
-    placeholder: "Enter query to execute full TrustRAG pipeline...",
+    value: state.lastVerifyQuery || "At what temperature does water boil?",
+    placeholder: "Enter user query for TrustRAG verification...",
   });
-  const runBtn = el("button", {
+  const evInput = el("textarea", {
+    id: "overview-evidence-input",
+    placeholder: "Optional: Enter evidence passages (one per line) or leave blank to retrieve from corpus...",
+  });
+  if (state.lastVerifyEvidence) evInput.value = state.lastVerifyEvidence;
+
+  const ansInput = el("input", {
+    type: "text",
+    id: "overview-answer-input",
+    value: state.lastVerifyAnswer || "",
+    placeholder: "Optional: Enter candidate answer to verify against evidence...",
+  });
+
+  const neuralCheck = el("input", { type: "checkbox", id: "overview-neural-check" });
+  neuralCheck.checked = state.enableNeural !== false;
+
+  const topKInput = el("input", { type: "number", id: "overview-top-k", value: "5", min: "1", max: "20", style: "width: 70px;" });
+
+  const verifyBtn = el("button", {
     className: "btn btn-primary",
     type: "button",
-    text: "Run Full Pipeline",
-    onClick: () => actions.runPipeline(qInput.value, 5),
+    text: state.isVerifying ? "Verifying..." : "Run TrustRAG Verification",
+    disabled: Boolean(state.isVerifying),
+    onClick: () => {
+      const evLines = evInput.value.split("\n").map((s) => s.trim()).filter(Boolean);
+      actions.runVerify(qInput.value, {
+        evidence: evLines.length ? evLines : null,
+        answer: ansInput.value.trim() || null,
+        enableNeural: neuralCheck.checked,
+        topK: parseInt(topKInput.value, 10) || 5,
+      });
+    },
   });
-  const pipeCard = el("div", { className: "card" }, [
-    el("h2", { text: "Live Pipeline Execution" }),
-    el("div", { className: "form-row" }, [el("label", { for: "overview-query-input", text: "Query" }), qInput]),
-    runBtn,
+
+  const verifyCard = el("div", { className: "card" }, [
+    el("h2", { text: "Live TrustRAG End-to-End Verification" }),
+    el("div", { className: "form-row" }, [el("label", { for: "overview-query-input", text: "User Query (Required)" }), qInput]),
+    el("div", { className: "form-row" }, [el("label", { for: "overview-evidence-input", text: "Evidence Documents / Passages (Optional)" }), evInput]),
+    el("div", { className: "form-row" }, [el("label", { for: "overview-answer-input", text: "Candidate Answer (Optional - generated if omitted)" }), ansInput]),
+    el("div", { style: "display:flex; gap:1.5rem; align-items:center; margin-bottom:1rem;" }, [
+      el("div", { className: "inline-check" }, [neuralCheck, el("label", { for: "overview-neural-check", text: "Enable Neural DeBERTa-v3-small NLI (Hybrid)" })]),
+      el("div", { style: "display:flex; align-items:center; gap:0.4rem;" }, [el("label", { for: "overview-top-k", text: "Top-K:" }), topKInput]),
+    ]),
+    verifyBtn,
   ]);
 
-  if (pipelineResult) {
-    pipeCard.appendChild(
-      el("div", { style: "margin-top:0.85rem" }, [
+  const vRes = state.verifyResult;
+  if (vRes) {
+    const decTone = vRes.decision === "ALLOW" ? "ok" : (vRes.decision === "BLOCK" ? "danger" : "warn");
+    const decBanner = el("div", { className: `banner ${decTone === "danger" ? "error" : (decTone === "warn" ? "warn" : "info")}` }, [
+      el("strong", { text: `Final Decision: ${vRes.decision} ` }),
+      el("span", { text: `| Mode: ${vRes.verification_mode} | Neural Model Active: ${vRes.neural_model_loaded ? "YES" : "NO"} | Latency: ${vRes.execution_time_ms} ms` }),
+    ]);
+
+    const claimRows = (vRes.g3_result?.claims || []).map((c) => {
+      const outcomeBadge = badge(c.outcome || c.verdict);
+      return el("tr", {}, [
+        el("td", { text: c.claim_id }),
+        el("td", { text: c.claim_text }),
+        el("td", {}, outcomeBadge),
+        el("td", { text: c.confidence !== undefined && c.confidence !== null ? c.confidence.toFixed(3) : "—" }),
+        el("td", { text: c.explanation || "—" }),
+      ]);
+    });
+
+    const g2Docs = (vRes.g2_result?.documents || []).map((d) => {
+      const retainedBadge = badge(d.retained ? "RETAINED" : "REJECTED");
+      const poisonBadge = d.poison_flag ? badge("POISONED", "danger") : badge("CLEAN", "ok");
+      return el("tr", {}, [
+        el("td", { text: d.document_id || d.doc_id }),
+        el("td", { text: d.trust_score !== undefined ? d.trust_score.toFixed(3) : "—" }),
+        el("td", {}, retainedBadge),
+        el("td", {}, poisonBadge),
+        el("td", { text: (d.reason_codes || []).join(", ") || "—" }),
+      ]);
+    });
+
+    verifyCard.appendChild(
+      el("div", { style: "margin-top:1rem;" }, [
+        decBanner,
         renderKeyValueTable([
-          ["Request ID", pipelineResult.request_id],
-          ["Status", badge(pipelineResult.status)],
-          ["G1 Decision", badge(pipelineResult.g1_decision)],
-          ["G3 Verdict", badge(pipelineResult.g3_verdict || "NONE")],
-          ["Safe to Display", String(pipelineResult.safe_to_display)],
-          ["Retained Docs", (pipelineResult.retained_doc_ids || []).join(", ") || "None"],
-          ["Latency", `${pipelineResult.latency_ms} ms`],
-          ["Answer", pipelineResult.answer],
+          ["Request ID", vRes.request_id],
+          ["Decision", badge(vRes.decision)],
+          ["Answer", vRes.answer || "No answer generated"],
+          ["G1 Input Security", `${vRes.g1_result?.decision} (Risk: ${vRes.g1_result?.risk_score}) | Reasons: ${(vRes.g1_result?.reasons || []).join(", ") || "None"}`],
+          ["G2 Multi-Signal MSD", `Evaluated: ${vRes.g2_result?.evaluated_count} | Retained: ${vRes.g2_result?.retained_count} | Mean Trust: ${vRes.g2_result?.mean_trust}`],
+          ["G3 Verification", `Verdict: ${vRes.g3_result?.verdict} | Supported: ${vRes.g3_result?.supported_count} | Contradicted: ${vRes.g3_result?.contradicted_count}`],
+          ["Explanation", vRes.g3_result?.explanation || "—"],
         ]),
+        claimRows.length
+          ? el("div", { className: "table-wrap", style: "margin-top:0.75rem;" }, [
+              el("h4", { text: "Atomic Claim Classifications (Entailment / Contradiction / Neutral)" }),
+              el("table", {}, [
+                el("thead", {}, el("tr", {}, [el("th", { text: "Claim ID" }), el("th", { text: "Claim Text" }), el("th", { text: "Verdict / Classification" }), el("th", { text: "Confidence" }), el("th", { text: "Explanation" })])),
+                el("tbody", {}, claimRows),
+              ]),
+            ])
+          : el("div"),
+        g2Docs.length
+          ? el("div", { className: "table-wrap", style: "margin-top:0.75rem;" }, [
+              el("h4", { text: "Retrieved & Screened Evidence Documents (G2 MSD)" }),
+              el("table", {}, [
+                el("thead", {}, el("tr", {}, [el("th", { text: "Doc ID" }), el("th", { text: "Trust Score" }), el("th", { text: "Status" }), el("th", { text: "Integrity" }), el("th", { text: "Signals / Flags" })])),
+                el("tbody", {}, g2Docs),
+              ]),
+            ])
+          : el("div"),
       ])
     );
   }
-  root.appendChild(pipeCard);
+  root.appendChild(verifyCard);
 
   // Recent audit events
   const auditCard = el("div", { className: "card" }, [el("h2", { text: "Recent Security & Verification Events" })]);
@@ -620,5 +702,53 @@ export function renderAuditView(state, actions) {
     );
   }
   root.appendChild(listCard);
+  return root;
+}
+
+export function renderEvidenceView(state, actions) {
+  const root = el("div");
+  const docIdInput = el("input", { type: "text", id: "ev-doc-id", placeholder: "e.g. doc_custom_01 (optional auto-generated)" });
+  const textInput = el("textarea", { id: "ev-text", placeholder: "Enter factual evidence document text to add to active corpus..." });
+  textInput.value = "At standard sea-level atmospheric pressure, pure water boils at 100 degrees Celsius.";
+  const provInput = el("input", { type: "text", id: "ev-prov", value: "Verified-Reference" });
+
+  const ingestBtn = el("button", {
+    className: "btn btn-primary",
+    type: "button",
+    text: state.isIngesting ? "Ingesting..." : "Ingest Document into Corpus",
+    disabled: Boolean(state.isIngesting),
+    onClick: () => {
+      if (!textInput.value.trim()) return;
+      actions.ingestEvidence([{
+        doc_id: docIdInput.value.trim() || undefined,
+        text: textInput.value.trim(),
+        provenance: provInput.value.trim() || "User-Ingested",
+      }]);
+    },
+  });
+
+  const card = el("div", { className: "card" }, [
+    el("h2", { text: "Corpus Management & Evidence Ingestion" }),
+    el("div", { className: "form-row" }, [el("label", { for: "ev-doc-id", text: "Document ID (optional)" }), docIdInput]),
+    el("div", { className: "form-row" }, [el("label", { for: "ev-text", text: "Document Content (Required)" }), textInput]),
+    el("div", { className: "form-row" }, [el("label", { for: "ev-prov", text: "Provenance / Source Attribution" }), provInput]),
+    ingestBtn,
+  ]);
+  root.appendChild(card);
+
+  const res = state.evidenceResult;
+  if (res) {
+    root.appendChild(
+      el("div", { className: "card" }, [
+        el("h3", { text: "Ingestion Confirmation" }),
+        renderKeyValueTable([
+          ["Ingested Count", String(res.ingested_count)],
+          ["New Total Corpus Size", `${res.total_corpus_size} documents`],
+          ["Document IDs", (res.document_ids || []).join(", ")],
+          ["Timestamp", res.timestamp],
+        ]),
+      ])
+    );
+  }
   return root;
 }

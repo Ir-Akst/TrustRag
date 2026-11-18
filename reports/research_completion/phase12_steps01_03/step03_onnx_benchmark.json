@@ -1,0 +1,73 @@
+{
+  "benchmark_metadata": {
+    "title": "Phase 12 Step 03 ONNX Conversion & CPU Optimization Benchmark",
+    "timestamp": "2026-11-18T03:40:00Z",
+    "hardware": "AMD EPYC 7B13 64-Core Processor (Dedicated CPU)",
+    "runtime": "Python 3.10.12 (torch 2.14.1+cpu, transformers 5.20.2)",
+    "source_checkpoint": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+    "experimental_export_dir": "/home/aditya/rags/models/experimental/deberta-v3-small-nli-quantized"
+  },
+  "conversion_evaluations": {
+    "onnx_export": {
+      "status": "BLOCKED_OFFLINE_DEPENDENCY",
+      "attempted_frameworks": [
+        "torch.onnx.export (Dynamo engine, opset 14)",
+        "torch.onnx.export (Legacy TorchScript engine, opset 14)"
+      ],
+      "blocker_details": {
+        "dynamo_error": "ModuleNotFoundError: No module named 'onnxscript'",
+        "legacy_error": "ModuleNotFoundError: Module onnx is not installed!"
+      },
+      "compliance_note": "In accordance with strict audit safety rules ('Do NOT install packages or download external models'), missing external Python wheels were NOT installed into the sandbox. Export blockers are documented objectively."
+    },
+    "pytorch_int8_dynamic_quantization": {
+      "status": "SUCCESS",
+      "method": "torch.quantization.quantize_dynamic",
+      "quantized_module_types": ["torch.nn.Linear"],
+      "quantized_dtype": "torch.qint8",
+      "exported_artifact": "/home/aditya/rags/models/experimental/deberta-v3-small-nli-quantized/quantized_int8_state_dict.pt",
+      "exported_artifact_sha256": "6bb058a2d0f8e72989777d97b816d6f211ee075493ee1d7820b924c5c48684c1"
+    }
+  },
+  "quantitative_comparison": {
+    "model_storage": {
+      "fp32_safetensors_bytes": 567400000,
+      "fp32_safetensors_mb": 567.4,
+      "int8_state_dict_bytes": 438487243,
+      "int8_state_dict_mb": 438.5,
+      "storage_reduction_pct": 22.72
+    },
+    "inference_latency_ms": {
+      "sample_size": 100,
+      "fp32_baseline": {
+        "mean": 340.54,
+        "median_p50": 335.77,
+        "p95": 380.94,
+        "p99": 429.75
+      },
+      "int8_quantized": {
+        "mean": 304.12,
+        "median_p50": 302.33,
+        "p95": 337.22,
+        "p99": 390.40
+      },
+      "speedup_percentage": 10.69
+    },
+    "classification_fidelity": {
+      "sample_size": 100,
+      "prediction_agreement_count": 94,
+      "prediction_agreement_pct": 94.00,
+      "fp32_accuracy_pct": 63.00,
+      "int8_accuracy_pct": 62.00,
+      "accuracy_delta_pct": -1.00
+    }
+  },
+  "target_latency_feasibility_analysis": {
+    "optimization_target_ms": 50.0,
+    "achieved_single_sample_p50_ms": 302.33,
+    "achieved_batched_amortized_per_sample_ms": 21.36,
+    "target_status": "REJECTED_FOR_SINGLE_SAMPLE_CPU",
+    "root_cause_analysis": "DeBERTa-v3 utilizes DisentangledSelfAttention where query-key, query-relative-position, and relative-position-key matrix multiplications remain unquantized tensor operations. On CPU, single-sample eager execution cannot achieve <50 ms without dedicated ONNX Runtime kernel fusion or hardware acceleration."
+  }
+}
+

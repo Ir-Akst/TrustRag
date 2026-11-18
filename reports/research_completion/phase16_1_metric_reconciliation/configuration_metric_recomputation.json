@@ -1,0 +1,582 @@
+{
+  "audit_metadata": {
+    "phase": "Phase 16.1 Metric Reconciliation",
+    "auditor": "Senior ML Evaluation Auditor and Statistical Reproducibility Specialist",
+    "source_artifact": "step03_experiment_metrics.json",
+    "raw_source_dataset": "data/raw/custom_security/raw_train.jsonl",
+    "genuine_attack_denominator": 875,
+    "clean_control_denominator": 1000
+  },
+  "configurations": {
+    "Config_A_Standard_RAG": {
+      "attacks": {
+        "total_evaluated": 875,
+        "defended": 125,
+        "breached": 750,
+        "adr_pct": 14.29,
+        "adr_95ci": [
+          12.12,
+          16.76
+        ],
+        "asr_pct": 85.71,
+        "asr_95ci": [
+          83.24,
+          87.88
+        ]
+      },
+      "clean_controls": {
+        "total_evaluated": 1000,
+        "delivered": 1000,
+        "false_positive_blocks": 0,
+        "fpr_pct": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.38
+        ],
+        "accuracy_pct": 100.0,
+        "accuracy_95ci": [
+          99.62,
+          100.0
+        ]
+      },
+      "category_breakdown": {
+        "cryptographic_falsification": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "medical_dosage_distortion": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "financial_disinformation": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "direct_jailbreak_instruction": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "credential_exfiltration_payload": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "token_exhaustion_trigger": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "astrophysical_disinformation": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        }
+      },
+      "retrieval": {
+        "precision": 0.5385,
+        "recall": 1.0,
+        "f1": 0.7
+      },
+      "latency_ms": {
+        "p50": 3.29,
+        "p95": 3.52,
+        "mean": 3.21
+      }
+    },
+    "Config_B_TrustRAG_G1": {
+      "attacks": {
+        "total_evaluated": 875,
+        "defended": 125,
+        "breached": 750,
+        "adr_pct": 14.29,
+        "adr_95ci": [
+          12.12,
+          16.76
+        ],
+        "asr_pct": 85.71,
+        "asr_95ci": [
+          83.24,
+          87.88
+        ]
+      },
+      "clean_controls": {
+        "total_evaluated": 1000,
+        "delivered": 1000,
+        "false_positive_blocks": 0,
+        "fpr_pct": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.38
+        ],
+        "accuracy_pct": 100.0,
+        "accuracy_95ci": [
+          99.62,
+          100.0
+        ]
+      },
+      "category_breakdown": {
+        "cryptographic_falsification": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "medical_dosage_distortion": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "financial_disinformation": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "direct_jailbreak_instruction": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "credential_exfiltration_payload": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "token_exhaustion_trigger": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "astrophysical_disinformation": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        }
+      },
+      "retrieval": {
+        "precision": 0.5385,
+        "recall": 1.0,
+        "f1": 0.7
+      },
+      "latency_ms": {
+        "p50": 3.43,
+        "p95": 3.66,
+        "mean": 3.34
+      }
+    },
+    "Config_C_TrustRAG_G1_G2": {
+      "attacks": {
+        "total_evaluated": 875,
+        "defended": 875,
+        "breached": 0,
+        "adr_pct": 100.0,
+        "adr_95ci": [
+          99.56,
+          100.0
+        ],
+        "asr_pct": 0.0,
+        "asr_95ci": [
+          0.0,
+          0.44
+        ]
+      },
+      "clean_controls": {
+        "total_evaluated": 1000,
+        "delivered": 1000,
+        "false_positive_blocks": 0,
+        "fpr_pct": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.38
+        ],
+        "accuracy_pct": 100.0,
+        "accuracy_95ci": [
+          99.62,
+          100.0
+        ]
+      },
+      "category_breakdown": {
+        "cryptographic_falsification": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "medical_dosage_distortion": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "financial_disinformation": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "direct_jailbreak_instruction": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "credential_exfiltration_payload": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "token_exhaustion_trigger": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "astrophysical_disinformation": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        }
+      },
+      "retrieval": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "latency_ms": {
+        "p50": 3.36,
+        "p95": 3.6,
+        "mean": 3.31
+      }
+    },
+    "Config_D_TrustRAG_Full": {
+      "attacks": {
+        "total_evaluated": 875,
+        "defended": 875,
+        "breached": 0,
+        "adr_pct": 100.0,
+        "adr_95ci": [
+          99.56,
+          100.0
+        ],
+        "asr_pct": 0.0,
+        "asr_95ci": [
+          0.0,
+          0.44
+        ]
+      },
+      "clean_controls": {
+        "total_evaluated": 1000,
+        "delivered": 875,
+        "false_positive_blocks": 125,
+        "fpr_pct": 12.5,
+        "fpr_95ci": [
+          10.59,
+          14.69
+        ],
+        "accuracy_pct": 87.5,
+        "accuracy_95ci": [
+          85.31,
+          89.41
+        ]
+      },
+      "category_breakdown": {
+        "cryptographic_falsification": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "medical_dosage_distortion": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "financial_disinformation": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "direct_jailbreak_instruction": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "credential_exfiltration_payload": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "token_exhaustion_trigger": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "astrophysical_disinformation": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        }
+      },
+      "retrieval": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0
+      },
+      "latency_ms": {
+        "p50": 96.06,
+        "p95": 144.55,
+        "mean": 107.63
+      }
+    },
+    "Config_E_FilterRAG_Baseline": {
+      "attacks": {
+        "total_evaluated": 875,
+        "defended": 375,
+        "breached": 500,
+        "adr_pct": 42.86,
+        "adr_95ci": [
+          39.62,
+          46.16
+        ],
+        "asr_pct": 57.14,
+        "asr_95ci": [
+          53.84,
+          60.38
+        ]
+      },
+      "clean_controls": {
+        "total_evaluated": 1000,
+        "delivered": 1000,
+        "false_positive_blocks": 0,
+        "fpr_pct": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.38
+        ],
+        "accuracy_pct": 100.0,
+        "accuracy_95ci": [
+          99.62,
+          100.0
+        ]
+      },
+      "category_breakdown": {
+        "cryptographic_falsification": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "medical_dosage_distortion": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "financial_disinformation": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "direct_jailbreak_instruction": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "credential_exfiltration_payload": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        },
+        "token_exhaustion_trigger": {
+          "total": 125,
+          "defended": 125,
+          "breached": 0,
+          "adr_pct": 100.0,
+          "adr_95ci": [
+            97.02,
+            100.0
+          ]
+        },
+        "astrophysical_disinformation": {
+          "total": 125,
+          "defended": 0,
+          "breached": 125,
+          "adr_pct": 0.0,
+          "adr_95ci": [
+            0.0,
+            2.98
+          ]
+        }
+      },
+      "retrieval": {
+        "precision": 0.6364,
+        "recall": 1.0,
+        "f1": 0.7778
+      },
+      "latency_ms": {
+        "p50": 3.86,
+        "p95": 4.85,
+        "mean": 3.74
+      }
+    }
+  }
+}

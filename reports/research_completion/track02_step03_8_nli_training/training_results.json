@@ -1,0 +1,425 @@
+{
+  "status": "COMPLETED",
+  "total_steps": 1000,
+  "initial_metrics": {
+    "total_samples": 2662,
+    "loss": 1.089782240357639,
+    "accuracy": 0.24192336589030805,
+    "balanced_accuracy": 0.3333333333333333,
+    "macro_f1": 0.12986489211534583,
+    "weighted_f1": 0.09425205543457857,
+    "per_class": {
+      "ENTAILMENT": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1662
+      },
+      "CONTRADICTION": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 356
+      },
+      "NEUTRAL": {
+        "precision": 0.24192336589030805,
+        "recall": 1.0,
+        "f1": 0.3895946763460375,
+        "support": 644
+      }
+    },
+    "confusion_matrix": [
+      [
+        0,
+        0,
+        1662
+      ],
+      [
+        0,
+        0,
+        356
+      ],
+      [
+        0,
+        0,
+        644
+      ]
+    ],
+    "brier_score": 0.663883203334469,
+    "ece_10bins": 0.15243197896935545
+  },
+  "final_metrics": {
+    "total_samples": 2662,
+    "loss": 2.4506738467224554,
+    "accuracy": 0.24117205108940645,
+    "balanced_accuracy": 0.360771861260381,
+    "macro_f1": 0.19203511928454584,
+    "weighted_f1": 0.11962334853998768,
+    "per_class": {
+      "ENTAILMENT": {
+        "precision": 0.0,
+        "recall": 0.0,
+        "f1": 0.0,
+        "support": 1662
+      },
+      "CONTRADICTION": {
+        "precision": 0.17480719794344474,
+        "recall": 0.19101123595505617,
+        "f1": 0.1825503355704698,
+        "support": 356
+      },
+      "NEUTRAL": {
+        "precision": 0.25252969643642764,
+        "recall": 0.8913043478260869,
+        "f1": 0.3935550222831677,
+        "support": 644
+      }
+    },
+    "confusion_matrix": [
+      [
+        0,
+        251,
+        1411
+      ],
+      [
+        0,
+        68,
+        288
+      ],
+      [
+        0,
+        70,
+        574
+      ]
+    ],
+    "brier_score": 1.1490729362112035,
+    "ece_10bins": 0.5179944473782666
+  },
+  "checkpoint_path": "/home/aditya/rags/models/trained/deberta-v3-small-nli-pilot1000",
+  "initial_train_loss": 1.1087450981140137,
+  "final_train_loss": 1.2852816581726074,
+  "avg_train_loss": 1.2871245133294724,
+  "peak_rss_mb": 2442.640625,
+  "telemetry_log": [
+    {
+      "step": 50,
+      "loss": 0.9895573258399963,
+      "rolling_loss": 1.136444571018219,
+      "lr": 9.800000000000001e-06,
+      "telemetry": {
+        "rss_mb": 2401.7578125,
+        "available_ram_mb": 3745.17578125,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3647.63671875,
+        "swap_free_mb": 2352.359375,
+        "elapsed_seconds": 771.4603618409892,
+        "peak_rss_mb": 2431.76171875,
+        "swap_growth_mb": 449.3046875
+      }
+    },
+    {
+      "step": 100,
+      "loss": 0.7557719349861145,
+      "rolling_loss": 1.0892343890666962,
+      "lr": 1.98e-05,
+      "telemetry": {
+        "rss_mb": 2402.13671875,
+        "available_ram_mb": 4582.234375,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3643.171875,
+        "swap_free_mb": 2356.82421875,
+        "elapsed_seconds": 859.529444757005,
+        "peak_rss_mb": 2432.13671875,
+        "swap_growth_mb": 444.83984375
+      }
+    },
+    {
+      "step": 150,
+      "loss": 1.373741626739502,
+      "rolling_loss": 1.1019567251205444,
+      "lr": 1.8911111111111115e-05,
+      "telemetry": {
+        "rss_mb": 2318.5078125,
+        "available_ram_mb": 4327.6171875,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3641.67578125,
+        "swap_free_mb": 2358.3203125,
+        "elapsed_seconds": 949.6942056129919,
+        "peak_rss_mb": 2432.13671875,
+        "swap_growth_mb": 443.34375
+      }
+    },
+    {
+      "step": 200,
+      "loss": 1.4336128234863281,
+      "rolling_loss": 1.1804510939121247,
+      "lr": 1.7800000000000002e-05,
+      "telemetry": {
+        "rss_mb": 2408.88671875,
+        "available_ram_mb": 4198.5625,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3639.6953125,
+        "swap_free_mb": 2360.30078125,
+        "elapsed_seconds": 1034.8454081850068,
+        "peak_rss_mb": 2432.13671875,
+        "swap_growth_mb": 441.36328125
+      }
+    },
+    {
+      "step": 250,
+      "loss": 0.4238903224468231,
+      "rolling_loss": 0.9993285357952117,
+      "lr": 1.668888888888889e-05,
+      "telemetry": {
+        "rss_mb": 2392.38671875,
+        "available_ram_mb": 4238.78515625,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3639.20703125,
+        "swap_free_mb": 2360.7890625,
+        "elapsed_seconds": 1118.805054736993,
+        "peak_rss_mb": 2432.13671875,
+        "swap_growth_mb": 440.875
+      }
+    },
+    {
+      "step": 300,
+      "loss": 0.044586263597011566,
+      "rolling_loss": 1.116097191721201,
+      "lr": 1.5577777777777777e-05,
+      "telemetry": {
+        "rss_mb": 2381.88671875,
+        "available_ram_mb": 4242.328125,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3638.5625,
+        "swap_free_mb": 2361.43359375,
+        "elapsed_seconds": 1202.6215500230028,
+        "peak_rss_mb": 2433.6328125,
+        "swap_growth_mb": 440.23046875
+      }
+    },
+    {
+      "step": 350,
+      "loss": 0.16342757642269135,
+      "rolling_loss": 1.708480029143393,
+      "lr": 1.4466666666666668e-05,
+      "telemetry": {
+        "rss_mb": 2406.63671875,
+        "available_ram_mb": 4650.91796875,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3636.51953125,
+        "swap_free_mb": 2363.4765625,
+        "elapsed_seconds": 1287.2798886620149,
+        "peak_rss_mb": 2433.6328125,
+        "swap_growth_mb": 438.1875
+      }
+    },
+    {
+      "step": 400,
+      "loss": 3.893366813659668,
+      "rolling_loss": 1.4246090906113387,
+      "lr": 1.3355555555555557e-05,
+      "telemetry": {
+        "rss_mb": 2414.88671875,
+        "available_ram_mb": 4730.140625,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3630.11328125,
+        "swap_free_mb": 2369.8828125,
+        "elapsed_seconds": 1370.6181486679998,
+        "peak_rss_mb": 2433.6328125,
+        "swap_growth_mb": 431.78125
+      }
+    },
+    {
+      "step": 450,
+      "loss": 1.401071548461914,
+      "rolling_loss": 1.0805535580404102,
+      "lr": 1.2244444444444445e-05,
+      "telemetry": {
+        "rss_mb": 2425.38671875,
+        "available_ram_mb": 4673.8671875,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3608.37890625,
+        "swap_free_mb": 2391.6171875,
+        "elapsed_seconds": 1453.625584858004,
+        "peak_rss_mb": 2433.6328125,
+        "swap_growth_mb": 410.046875
+      }
+    },
+    {
+      "step": 500,
+      "loss": 0.010242754593491554,
+      "rolling_loss": 1.7153523835539817,
+      "lr": 1.1133333333333334e-05,
+      "telemetry": {
+        "rss_mb": 2415.63671875,
+        "available_ram_mb": 4682.15234375,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3608.1015625,
+        "swap_free_mb": 2391.89453125,
+        "elapsed_seconds": 1537.2238269110094,
+        "peak_rss_mb": 2433.6328125,
+        "swap_growth_mb": 409.76953125
+      }
+    },
+    {
+      "step": 550,
+      "loss": 0.9203367829322815,
+      "rolling_loss": 1.505718772560358,
+      "lr": 1.0022222222222222e-05,
+      "telemetry": {
+        "rss_mb": 2375.8828125,
+        "available_ram_mb": 4685.93359375,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3607.7109375,
+        "swap_free_mb": 2392.28515625,
+        "elapsed_seconds": 1620.4206600759935,
+        "peak_rss_mb": 2433.6328125,
+        "swap_growth_mb": 409.37890625
+      }
+    },
+    {
+      "step": 600,
+      "loss": 0.015576604753732681,
+      "rolling_loss": 1.5035885565169156,
+      "lr": 8.911111111111112e-06,
+      "telemetry": {
+        "rss_mb": 2390.140625,
+        "available_ram_mb": 4702.44921875,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3607.03515625,
+        "swap_free_mb": 2392.9609375,
+        "elapsed_seconds": 1703.9029900490132,
+        "peak_rss_mb": 2435.140625,
+        "swap_growth_mb": 408.703125
+      }
+    },
+    {
+      "step": 650,
+      "loss": 1.3091039657592773,
+      "rolling_loss": 1.096093070488423,
+      "lr": 7.800000000000002e-06,
+      "telemetry": {
+        "rss_mb": 2367.640625,
+        "available_ram_mb": 4704.9921875,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3606.98046875,
+        "swap_free_mb": 2393.015625,
+        "elapsed_seconds": 1786.0614497819915,
+        "peak_rss_mb": 2435.140625,
+        "swap_growth_mb": 408.6484375
+      }
+    },
+    {
+      "step": 700,
+      "loss": 1.1715325117111206,
+      "rolling_loss": 1.5495391427073628,
+      "lr": 6.688888888888889e-06,
+      "telemetry": {
+        "rss_mb": 2394.640625,
+        "available_ram_mb": 4502.41015625,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3595.30078125,
+        "swap_free_mb": 2404.6953125,
+        "elapsed_seconds": 1871.3198873680085,
+        "peak_rss_mb": 2435.140625,
+        "swap_growth_mb": 396.96875
+      }
+    },
+    {
+      "step": 750,
+      "loss": 3.391652822494507,
+      "rolling_loss": 2.03888557780534,
+      "lr": 5.577777777777777e-06,
+      "telemetry": {
+        "rss_mb": 2395.01171875,
+        "available_ram_mb": 4385.30078125,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3587.91015625,
+        "swap_free_mb": 2412.0859375,
+        "elapsed_seconds": 1958.2156153639953,
+        "peak_rss_mb": 2435.140625,
+        "swap_growth_mb": 389.578125
+      }
+    },
+    {
+      "step": 800,
+      "loss": 1.452614188194275,
+      "rolling_loss": 1.566196590065956,
+      "lr": 4.466666666666668e-06,
+      "telemetry": {
+        "rss_mb": 2407.765625,
+        "available_ram_mb": 4319.453125,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3584.6640625,
+        "swap_free_mb": 2415.33203125,
+        "elapsed_seconds": 2052.957822316006,
+        "peak_rss_mb": 2435.140625,
+        "swap_growth_mb": 386.33203125
+      }
+    },
+    {
+      "step": 850,
+      "loss": 1.260219693183899,
+      "rolling_loss": 0.8828305852413177,
+      "lr": 3.355555555555556e-06,
+      "telemetry": {
+        "rss_mb": 2409.26171875,
+        "available_ram_mb": 4319.57421875,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3579.91796875,
+        "swap_free_mb": 2420.078125,
+        "elapsed_seconds": 2146.9723147329933,
+        "peak_rss_mb": 2435.140625,
+        "swap_growth_mb": 381.5859375
+      }
+    },
+    {
+      "step": 900,
+      "loss": 0.3483980596065521,
+      "rolling_loss": 0.7760772305727005,
+      "lr": 2.2444444444444445e-06,
+      "telemetry": {
+        "rss_mb": 2406.640625,
+        "available_ram_mb": 4280.1875,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3579.6796875,
+        "swap_free_mb": 2420.31640625,
+        "elapsed_seconds": 2240.870907973993,
+        "peak_rss_mb": 2435.140625,
+        "swap_growth_mb": 381.34765625
+      }
+    },
+    {
+      "step": 950,
+      "loss": 1.8829103708267212,
+      "rolling_loss": 0.6954837909340859,
+      "lr": 1.133333333333333e-06,
+      "telemetry": {
+        "rss_mb": 2399.890625,
+        "available_ram_mb": 4417.3046875,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3579.6171875,
+        "swap_free_mb": 2420.37890625,
+        "elapsed_seconds": 2330.5273514360015,
+        "peak_rss_mb": 2435.140625,
+        "swap_growth_mb": 381.28515625
+      }
+    },
+    {
+      "step": 1000,
+      "loss": 1.2852816581726074,
+      "rolling_loss": 1.5755693817138672,
+      "lr": 2.2222222222221258e-08,
+      "telemetry": {
+        "rss_mb": 2406.640625,
+        "available_ram_mb": 4532.5546875,
+        "swap_total_mb": 5999.99609375,
+        "swap_used_mb": 3579.54296875,
+        "swap_free_mb": 2420.453125,
+        "elapsed_seconds": 2414.22140705699,
+        "peak_rss_mb": 2442.640625,
+        "swap_growth_mb": 381.2109375
+      }
+    }
+  ]
+}

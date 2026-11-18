@@ -1,0 +1,105 @@
+{
+  "metadata": {
+    "plan_id": "TRUSTRAG-TRACK02-STEP03-4-PLAN",
+    "task": "Track 2, Step 3.4: Binary Classification Training Plan & Preflight",
+    "version": "1.0.0",
+    "timestamp": "2026-11-14T04:36:00+05:30",
+    "auditor": "Senior ML Infrastructure Engineer and Experimental Auditor",
+    "target_repo": "/home/aditya/rags/TrustRag-phase11",
+    "target_branch": "phase-11",
+    "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "protected_repo": "/home/aditya/rags/TrustRag",
+    "protected_branch": "phase-10",
+    "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168"
+  },
+  "verdict": "READY_FOR_EXPLICIT_TRAINING_AUTHORIZATION",
+  "training_scope": {
+    "objective": "binary_sequence_classification",
+    "architecture": "DebertaV2ForSequenceClassification",
+    "base_checkpoint": "/home/aditya/rags/models/pretrained/deberta-v3-small",
+    "upstream_commit": "a36c739020e01763fe789b4b85e2df55d6180012",
+    "runtime_dtype": "torch.float32",
+    "total_parameters": 141896450,
+    "trainable_parameters": 141896450,
+    "backbone_parameters": 141304320,
+    "classification_head_parameters": 592130,
+    "seed": 42,
+    "offline_enforced": true
+  },
+  "dataset_configuration": {
+    "dataset_root": "data/processed/sft_v2/binary",
+    "train_file": "train.jsonl",
+    "validation_file": "validation.jsonl",
+    "label_mapping": {
+      "FACTUAL": 0,
+      "HALLUCINATED": 1
+    },
+    "max_training_samples": 1000,
+    "max_validation_samples": 200,
+    "training_sample_distribution": {
+      "total": 1000,
+      "FACTUAL": 500,
+      "HALLUCINATED": 500,
+      "source": "halueval"
+    },
+    "validation_sample_distribution": {
+      "total": 200,
+      "FACTUAL": 100,
+      "HALLUCINATED": 100,
+      "source": "halueval"
+    },
+    "input_format": {
+      "premise": "question_or_claim + ' ' + context_or_evidence",
+      "hypothesis": "candidate_response",
+      "max_sequence_length": 128,
+      "padding": "max_length",
+      "truncation": true
+    },
+    "test_set_access": "STRICTLY_PROHIBITED"
+  },
+  "hyperparameters": {
+    "batch_size": 1,
+    "gradient_accumulation_steps": 1,
+    "total_optimizer_steps": 1000,
+    "epochs": 1,
+    "learning_rate": 2e-05,
+    "optimizer": "AdamW",
+    "weight_decay": 0.01,
+    "adam_beta1": 0.9,
+    "adam_beta2": 0.999,
+    "adam_epsilon": 1e-08,
+    "lr_scheduler": "linear_with_warmup",
+    "warmup_steps": 100
+  },
+  "evaluation_metrics": [
+    "training_loss",
+    "validation_loss",
+    "accuracy",
+    "balanced_accuracy",
+    "precision_macro",
+    "recall_macro",
+    "f1_macro",
+    "per_class_precision",
+    "per_class_recall",
+    "per_class_f1",
+    "confusion_matrix_2x2"
+  ],
+  "resource_safeguards": {
+    "ram_abort_threshold_mb": 700.0,
+    "swap_growth_abort_mb": 500.0,
+    "max_training_duration_seconds": 1800,
+    "max_training_duration_minutes": 30.0,
+    "cpu_threads": 4,
+    "automatic_retry": false,
+    "telemetry_interval_steps": 1,
+    "checkpoint_saving": "AT_COMPLETION_OUTSIDE_REPO"
+  },
+  "expected_timing": {
+    "steady_state_step_ms": 1145.43,
+    "estimated_training_time_seconds": 1145.4,
+    "estimated_training_time_minutes": 19.09,
+    "estimated_validation_time_seconds": 35.5,
+    "total_estimated_minutes": 19.68
+  },
+  "proposed_execution_command": "/home/aditya/rags/.venv-train/bin/python /home/aditya/rags/TrustRag-phase11/tools/training/train_binary_classifier.py --config configs/training/track02_binary_bounded_pilot.json"
+}

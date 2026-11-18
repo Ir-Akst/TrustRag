@@ -1,0 +1,46 @@
+{
+  "status": "PASS",
+  "task": "Track 1, Step 2.2: Benchmark Metric Corrections and Strict Baseline Re-evaluation",
+  "timestamp": "2026-11-13T23:14:00+05:30",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-11",
+  "head_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+  "protected_baseline": {
+    "path": "/home/aditya/rags/TrustRag",
+    "branch": "phase-10",
+    "head_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "status": "UNTOUCHED"
+  },
+  "acceptance_criteria": {
+    "all_5700_g3_records_accounted": true,
+    "all_five_verdict_outcomes_reported": true,
+    "strict_and_partial_inclusive_safety_reported": true,
+    "no_unsupported_config_fields_silently_discarded": true,
+    "default_and_strict_configs_demonstrably_distinct": true,
+    "all_three_modes_use_identical_records": true,
+    "no_test_set_tuning": true,
+    "regression_gates_pass": true,
+    "reproducibility_rerun_matches": true,
+    "previous_reports_untouched": true
+  },
+  "benchmarks_re_evaluated": {
+    "ragtruth": {
+      "records": 2700,
+      "split": "test",
+      "default_strict_fsr": 0.0,
+      "strict_strict_fsr": 0.0,
+      "default_fcr": 0.6261,
+      "strict_fcr": 0.6403,
+      "status": "COMPLETED"
+    },
+    "halueval": {
+      "records": 3000,
+      "split": "test",
+      "default_strict_fsr": 0.1593,
+      "strict_strict_fsr": 0.0907,
+      "default_fcr": 0.0087,
+      "strict_fcr": 0.0087,
+      "status": "COMPLETED"
+    }
+  }
+}

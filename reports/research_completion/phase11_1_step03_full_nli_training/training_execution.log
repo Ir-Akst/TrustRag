@@ -1,0 +1,578 @@
+[transformers] The tokenizer you are loading from '/home/aditya/rags/models/pretrained/deberta-v3-small' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+/home/aditya/rags/.venv-train/lib/python3.10/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+================================================================================
+TRUSTRAG BOUNDED 3-WAY NLI TRAINING EXPERIMENT
+================================================================================
+Pretrained Base:       /home/aditya/rags/models/pretrained/deberta-v3-small
+Output Checkpoint:     /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
+Training Samples/Epoch:10815 (sequential)
+Validation Samples:    2662 (original imbalanced validation split)
+Learning Rate:         2e-05 (warmup=100, decay=linear)
+CPU Threads:           10
+Memory Safeguards:     RAM >= 700.0MB | Swap Growth <= NoneMB | Free Swap >= 1000.0MB
+Wall-Clock Limit:      86400.0s (24.00 hours)
+
+[Preflight Telemetry] Available RAM: 6935.2 MB | RSS: 219.9 MB | Free Swap: 6000.0 MB
+[PASS] Loaded 10815 train records (strategy=sequential) and 2662 val records in 0.39s
+Loading weights:   0%|          | 0/102 [00:00<?, ?it/s]Loading weights: 100%|██████████| 102/102 [00:00<00:00, 14539.80it/s]
+[transformers] [1mDebertaV2ForSequenceClassification LOAD REPORT[0m from: /home/aditya/rags/models/pretrained/deberta-v3-small
+Key                                     | Status     | 
+----------------------------------------+------------+-
+mask_predictions.LayerNorm.bias         | UNEXPECTED | 
+lm_predictions.lm_head.dense.weight     | UNEXPECTED | 
+mask_predictions.classifier.bias        | UNEXPECTED | 
+mask_predictions.dense.weight           | UNEXPECTED | 
+lm_predictions.lm_head.LayerNorm.weight | UNEXPECTED | 
+lm_predictions.lm_head.LayerNorm.bias   | UNEXPECTED | 
+mask_predictions.LayerNorm.weight       | UNEXPECTED | 
+lm_predictions.lm_head.bias             | UNEXPECTED | 
+mask_predictions.classifier.weight      | UNEXPECTED | 
+lm_predictions.lm_head.dense.bias       | UNEXPECTED | 
+mask_predictions.dense.bias             | UNEXPECTED | 
+pooler.dense.bias                       | MISSING    | 
+classifier.bias                         | MISSING    | 
+classifier.weight                       | MISSING    | 
+pooler.dense.weight                     | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+[PASS] Initialized DeBERTa-v3-small 3-class NLI model (141,897,219 params in FP32)
+[Loss Configuration] Class-Weighted Cross-Entropy: [1.0, 3.5, 1.5] (Order: ENTAILMENT=0, CONTRADICTION=1, NEUTRAL=2)
+Epochs:                3
+Samples per Epoch:     10815
+Total Samples:         32445
+Effective Batch Size:  4 (Accumulation Steps=4)
+Steps per Epoch:       2704
+Total Optimizer Steps: 8112
+
+--- Running Step 0 Pre-Training Baseline Validation ---
+  [Pre-Training Baseline] Evaluated 500/2662 samples...
+  [Pre-Training Baseline] Evaluated 1000/2662 samples...
+  [Pre-Training Baseline] Evaluated 1500/2662 samples...
+  [Pre-Training Baseline] Evaluated 2000/2662 samples...
+  [Pre-Training Baseline] Evaluated 2500/2662 samples...
+  [Pre-Training Baseline] Evaluated 2662/2662 samples...
+[Step 0 Baseline] Loss: 1.0883 | Acc: 0.2419 | Bal Acc: 0.3333 | Macro F1: 0.1299
+
+--- Starting Multi-Epoch Training Loop (3 epochs, 8112 optimizer steps) ---
+[Training Loop Telemetry Baseline] Available RAM: 5192.9 MB | RSS: 1246.8 MB | Swap Used: 8.4 MB | Free Swap: 5991.6 MB
+
+--- Epoch 1/3 Starting ---
+Epoch 1/3 | Step   50/8112 | Loss: 0.9976 (Rolling: 1.0886) | LR: 9.80e-06 | RSS: 2777.0 MB | Avail RAM: 4288.4 MB | Elapsed: 1753.3s
+Epoch 1/3 | Step  100/8112 | Loss: 1.0580 (Rolling: 1.0575) | LR: 1.98e-05 | RSS: 2766.5 MB | Avail RAM: 4998.5 MB | Elapsed: 2125.1s
+Epoch 1/3 | Step  150/8112 | Loss: 0.3849 (Rolling: 1.0768) | LR: 1.99e-05 | RSS: 2725.4 MB | Avail RAM: 5109.0 MB | Elapsed: 2476.3s
+Epoch 1/3 | Step  200/8112 | Loss: 0.6770 (Rolling: 1.0012) | LR: 1.98e-05 | RSS: 2821.1 MB | Avail RAM: 4969.7 MB | Elapsed: 2827.0s
+Epoch 1/3 | Step  250/8112 | Loss: 1.2305 (Rolling: 1.0809) | LR: 1.96e-05 | RSS: 2824.1 MB | Avail RAM: 4406.9 MB | Elapsed: 3212.5s
+Epoch 1/3 | Step  300/8112 | Loss: 1.5990 (Rolling: 0.9132) | LR: 1.95e-05 | RSS: 2823.1 MB | Avail RAM: 4899.2 MB | Elapsed: 3574.0s
+Epoch 1/3 | Step  350/8112 | Loss: 0.1529 (Rolling: 0.8721) | LR: 1.94e-05 | RSS: 2854.0 MB | Avail RAM: 4298.3 MB | Elapsed: 3921.3s
+Epoch 1/3 | Step  400/8112 | Loss: 0.0993 (Rolling: 0.7679) | LR: 1.93e-05 | RSS: 2767.9 MB | Avail RAM: 4071.4 MB | Elapsed: 4312.8s
+Epoch 1/3 | Step  450/8112 | Loss: 2.4641 (Rolling: 0.5449) | LR: 1.91e-05 | RSS: 2662.2 MB | Avail RAM: 3187.6 MB | Elapsed: 4706.5s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 500 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_000500
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:01<00:00,  1.23s/it]Writing model shards: 100%|██████████| 1/1 [00:01<00:00,  1.23s/it]
+Epoch 1/3 | Step  500/8112 | Loss: 1.6839 (Rolling: 0.8531) | LR: 1.90e-05 | RSS: 2481.0 MB | Avail RAM: 3197.2 MB | Elapsed: 5127.3s
+Epoch 1/3 | Step  550/8112 | Loss: 0.0842 (Rolling: 0.6041) | LR: 1.89e-05 | RSS: 2399.6 MB | Avail RAM: 3682.5 MB | Elapsed: 5555.3s
+Epoch 1/3 | Step  600/8112 | Loss: 1.8907 (Rolling: 1.1825) | LR: 1.88e-05 | RSS: 2341.3 MB | Avail RAM: 5088.6 MB | Elapsed: 6002.3s
+Epoch 1/3 | Step  650/8112 | Loss: 1.1601 (Rolling: 0.8258) | LR: 1.86e-05 | RSS: 2400.4 MB | Avail RAM: 5229.3 MB | Elapsed: 6382.8s
+Epoch 1/3 | Step  700/8112 | Loss: 3.3630 (Rolling: 0.8631) | LR: 1.85e-05 | RSS: 2404.5 MB | Avail RAM: 5211.5 MB | Elapsed: 6759.5s
+Epoch 1/3 | Step  750/8112 | Loss: 0.0717 (Rolling: 0.5650) | LR: 1.84e-05 | RSS: 2353.9 MB | Avail RAM: 5249.3 MB | Elapsed: 7134.8s
+Epoch 1/3 | Step  800/8112 | Loss: 0.7820 (Rolling: 0.7933) | LR: 1.83e-05 | RSS: 2365.4 MB | Avail RAM: 5138.4 MB | Elapsed: 7513.4s
+Epoch 1/3 | Step  850/8112 | Loss: 0.7209 (Rolling: 0.5694) | LR: 1.81e-05 | RSS: 2394.8 MB | Avail RAM: 5073.6 MB | Elapsed: 7891.9s
+Epoch 1/3 | Step  900/8112 | Loss: 2.9059 (Rolling: 0.5727) | LR: 1.80e-05 | RSS: 2419.4 MB | Avail RAM: 5012.6 MB | Elapsed: 8264.2s
+Epoch 1/3 | Step  950/8112 | Loss: 0.0815 (Rolling: 0.6578) | LR: 1.79e-05 | RSS: 2439.3 MB | Avail RAM: 4796.8 MB | Elapsed: 8635.6s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 1000 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_001000
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  3.51it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  3.49it/s]
+================================================================================
+TRUSTRAG BOUNDED 3-WAY NLI TRAINING EXPERIMENT
+================================================================================
+Pretrained Base:       /home/aditya/rags/models/pretrained/deberta-v3-small
+Output Checkpoint:     /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
+Training Samples/Epoch:10815 (sequential)
+Validation Samples:    2662 (original imbalanced validation split)
+Learning Rate:         2e-05 (warmup=100, decay=linear)
+CPU Threads:           10
+Memory Safeguards:     RAM >= 700.0MB | Swap Growth <= NoneMB | Free Swap >= 1000.0MB
+Wall-Clock Limit:      86400.0s (24.00 hours)
+
+[Preflight Telemetry] Available RAM: 6845.9 MB | RSS: 221.4 MB | Free Swap: 6000.0 MB
+[PASS] Loaded 10815 train records (strategy=sequential) and 2662 val records in 0.15s
+[transformers] The tokenizer you are loading from '/home/aditya/rags/models/pretrained/deberta-v3-small' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+/home/aditya/rags/.venv-train/lib/python3.10/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+Loading weights:   0%|          | 0/102 [00:00<?, ?it/s]Loading weights: 100%|██████████| 102/102 [00:00<00:00, 40451.87it/s]
+[transformers] [1mDebertaV2ForSequenceClassification LOAD REPORT[0m from: /home/aditya/rags/models/pretrained/deberta-v3-small
+Key                                     | Status     | 
+----------------------------------------+------------+-
+mask_predictions.classifier.bias        | UNEXPECTED | 
+mask_predictions.LayerNorm.bias         | UNEXPECTED | 
+lm_predictions.lm_head.dense.bias       | UNEXPECTED | 
+mask_predictions.classifier.weight      | UNEXPECTED | 
+lm_predictions.lm_head.dense.weight     | UNEXPECTED | 
+mask_predictions.dense.bias             | UNEXPECTED | 
+mask_predictions.LayerNorm.weight       | UNEXPECTED | 
+mask_predictions.dense.weight           | UNEXPECTED | 
+lm_predictions.lm_head.LayerNorm.weight | UNEXPECTED | 
+lm_predictions.lm_head.bias             | UNEXPECTED | 
+lm_predictions.lm_head.LayerNorm.bias   | UNEXPECTED | 
+pooler.dense.bias                       | MISSING    | 
+pooler.dense.weight                     | MISSING    | 
+classifier.bias                         | MISSING    | 
+classifier.weight                       | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+[PASS] Initialized DeBERTa-v3-small 3-class NLI model (141,897,219 params in FP32)
+[Loss Configuration] Class-Weighted Cross-Entropy: [1.0, 3.5, 1.5] (Order: ENTAILMENT=0, CONTRADICTION=1, NEUTRAL=2)
+Epochs:                3
+Samples per Epoch:     10815
+Total Samples:         32445
+Effective Batch Size:  4 (Accumulation Steps=4)
+Steps per Epoch:       2704
+Total Optimizer Steps: 8112
+
+[CHECKPOINT RESUME] Restoring training state from: /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_001000
+[CHECKPOINT RESUME] Restored to Epoch 1, Step 1000, Sample Index 4000/10815 (Accum: 0)
+[Step 0 Baseline (Restored)] Loss: 1.0883 | Acc: 0.2419 | Bal Acc: 0.3333 | Macro F1: 0.1299
+
+--- Starting Multi-Epoch Training Loop (3 epochs, 8112 optimizer steps) ---
+[Training Loop Telemetry Baseline] Available RAM: 5255.1 MB | RSS: 2201.3 MB | Swap Used: 9.6 MB | Free Swap: 5990.4 MB
+
+--- Epoch 1/3 Starting ---
+Epoch 1/3 | Step 1050/8112 | Loss: 0.1551 (Rolling: 0.8702) | LR: 1.76e-05 | RSS: 3109.7 MB | Avail RAM: 3540.6 MB | Elapsed: 259.7s
+Epoch 1/3 | Step 1100/8112 | Loss: 0.7272 (Rolling: 0.6046) | LR: 1.75e-05 | RSS: 3146.3 MB | Avail RAM: 3341.4 MB | Elapsed: 498.2s
+Epoch 1/3 | Step 1150/8112 | Loss: 0.7308 (Rolling: 1.0103) | LR: 1.74e-05 | RSS: 3155.7 MB | Avail RAM: 4671.4 MB | Elapsed: 729.0s
+Epoch 1/3 | Step 1200/8112 | Loss: 3.5931 (Rolling: 0.7099) | LR: 1.73e-05 | RSS: 3155.9 MB | Avail RAM: 4678.7 MB | Elapsed: 963.6s
+Epoch 1/3 | Step 1250/8112 | Loss: 3.2834 (Rolling: 0.8380) | LR: 1.71e-05 | RSS: 3237.1 MB | Avail RAM: 4601.5 MB | Elapsed: 1211.4s
+Epoch 1/3 | Step 1300/8112 | Loss: 0.4174 (Rolling: 0.5394) | LR: 1.70e-05 | RSS: 3237.0 MB | Avail RAM: 4682.4 MB | Elapsed: 1458.6s
+Epoch 1/3 | Step 1350/8112 | Loss: 2.4694 (Rolling: 0.8838) | LR: 1.69e-05 | RSS: 3201.2 MB | Avail RAM: 4332.0 MB | Elapsed: 1713.3s
+Epoch 1/3 | Step 1400/8112 | Loss: 0.3402 (Rolling: 0.8761) | LR: 1.68e-05 | RSS: 3228.1 MB | Avail RAM: 4387.7 MB | Elapsed: 1948.2s
+Epoch 1/3 | Step 1450/8112 | Loss: 0.4146 (Rolling: 0.8476) | LR: 1.66e-05 | RSS: 3219.3 MB | Avail RAM: 4567.6 MB | Elapsed: 2179.6s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 1500 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_001500
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  6.47it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  6.46it/s]
+Epoch 1/3 | Step 1500/8112 | Loss: 2.1521 (Rolling: 0.8764) | LR: 1.65e-05 | RSS: 3228.2 MB | Avail RAM: 4551.6 MB | Elapsed: 2413.0s
+Epoch 1/3 | Step 1550/8112 | Loss: 0.2689 (Rolling: 0.8730) | LR: 1.64e-05 | RSS: 3195.7 MB | Avail RAM: 4361.0 MB | Elapsed: 2663.5s
+Epoch 1/3 | Step 1600/8112 | Loss: 0.2865 (Rolling: 0.8340) | LR: 1.63e-05 | RSS: 3195.7 MB | Avail RAM: 4462.2 MB | Elapsed: 2917.7s
+Epoch 1/3 | Step 1650/8112 | Loss: 0.3383 (Rolling: 0.8818) | LR: 1.61e-05 | RSS: 3186.6 MB | Avail RAM: 5000.0 MB | Elapsed: 3213.6s
+Epoch 1/3 | Step 1700/8112 | Loss: 0.4498 (Rolling: 0.7326) | LR: 1.60e-05 | RSS: 3195.8 MB | Avail RAM: 3745.0 MB | Elapsed: 3485.4s
+Epoch 1/3 | Step 1750/8112 | Loss: 0.3160 (Rolling: 0.6465) | LR: 1.59e-05 | RSS: 3195.9 MB | Avail RAM: 4053.6 MB | Elapsed: 3733.2s
+Epoch 1/3 | Step 1800/8112 | Loss: 0.2966 (Rolling: 0.8184) | LR: 1.58e-05 | RSS: 3194.2 MB | Avail RAM: 3535.8 MB | Elapsed: 3977.5s
+Epoch 1/3 | Step 1850/8112 | Loss: 0.3102 (Rolling: 0.5630) | LR: 1.56e-05 | RSS: 3192.8 MB | Avail RAM: 3227.6 MB | Elapsed: 4227.6s
+Epoch 1/3 | Step 1900/8112 | Loss: 0.2382 (Rolling: 0.9809) | LR: 1.55e-05 | RSS: 2785.0 MB | Avail RAM: 3055.3 MB | Elapsed: 4496.5s
+Epoch 1/3 | Step 1950/8112 | Loss: 0.2916 (Rolling: 0.5956) | LR: 1.54e-05 | RSS: 2500.7 MB | Avail RAM: 2875.7 MB | Elapsed: 4784.0s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 2000 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_002000
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  7.43it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  7.39it/s]
+Epoch 1/3 | Step 2000/8112 | Loss: 0.3142 (Rolling: 0.9768) | LR: 1.53e-05 | RSS: 2442.1 MB | Avail RAM: 2952.0 MB | Elapsed: 5070.2s
+Epoch 1/3 | Step 2050/8112 | Loss: 0.2441 (Rolling: 0.9335) | LR: 1.51e-05 | RSS: 2485.5 MB | Avail RAM: 2904.1 MB | Elapsed: 5350.2s
+Epoch 1/3 | Step 2100/8112 | Loss: 0.3498 (Rolling: 0.9238) | LR: 1.50e-05 | RSS: 2493.8 MB | Avail RAM: 2903.5 MB | Elapsed: 5631.3s
+
+[EMERGENCY CHECKPOINT] Saving state at step 2113 (Reason: SUSTAINED_MEMORY_PRESSURE) -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_emergency
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  2.53it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  2.52it/s]
+[EMERGENCY CHECKPOINT] Successfully serialized to /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_emergency
+Traceback (most recent call last):
+  File "/home/aditya/rags/TrustRag-phase11/tools/training/train_nli_classifier.py", line 1641, in <module>
+    results = execute_training(cfg, report_dir=args.report_dir)
+  File "/home/aditya/rags/TrustRag-phase11/tools/training/train_nli_classifier.py", line 1307, in execute_training
+    step_telemetry = watchdog.check(step=opt_step)
+  File "/home/aditya/rags/TrustRag-phase11/tools/training/train_nli_classifier.py", line 250, in check
+    raise ResourceAbortError(
+ResourceAbortError: [WATCHDOG ABORT] Step 2113: Free swap dropped to 186.7 MB (Minimum requirement: 1000.0 MB)!
+================================================================================
+TRUSTRAG BOUNDED 3-WAY NLI TRAINING EXPERIMENT
+================================================================================
+Pretrained Base:       /home/aditya/rags/models/pretrained/deberta-v3-small
+Output Checkpoint:     /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
+Training Samples/Epoch:10815 (sequential)
+Validation Samples:    2662 (original imbalanced validation split)
+Learning Rate:         2e-05 (warmup=100, decay=linear)
+CPU Threads:           10
+Memory Safeguards:     RAM >= 700.0MB | Swap Growth <= NoneMB | Free Swap >= 1000.0MB
+Wall-Clock Limit:      86400.0s (24.00 hours)
+
+[Preflight Telemetry] Available RAM: 7581.0 MB | RSS: 221.7 MB | Free Swap: 3189.0 MB
+[PASS] Loaded 10815 train records (strategy=sequential) and 2662 val records in 0.17s
+[transformers] The tokenizer you are loading from '/home/aditya/rags/models/pretrained/deberta-v3-small' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+/home/aditya/rags/.venv-train/lib/python3.10/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+Loading weights:   0%|          | 0/102 [00:00<?, ?it/s]Loading weights: 100%|██████████| 102/102 [00:00<00:00, 22216.29it/s]
+[transformers] [1mDebertaV2ForSequenceClassification LOAD REPORT[0m from: /home/aditya/rags/models/pretrained/deberta-v3-small
+Key                                     | Status     | 
+----------------------------------------+------------+-
+mask_predictions.LayerNorm.weight       | UNEXPECTED | 
+lm_predictions.lm_head.LayerNorm.bias   | UNEXPECTED | 
+mask_predictions.classifier.weight      | UNEXPECTED | 
+lm_predictions.lm_head.dense.bias       | UNEXPECTED | 
+mask_predictions.classifier.bias        | UNEXPECTED | 
+mask_predictions.dense.bias             | UNEXPECTED | 
+mask_predictions.dense.weight           | UNEXPECTED | 
+lm_predictions.lm_head.dense.weight     | UNEXPECTED | 
+lm_predictions.lm_head.bias             | UNEXPECTED | 
+mask_predictions.LayerNorm.bias         | UNEXPECTED | 
+lm_predictions.lm_head.LayerNorm.weight | UNEXPECTED | 
+classifier.weight                       | MISSING    | 
+classifier.bias                         | MISSING    | 
+pooler.dense.bias                       | MISSING    | 
+pooler.dense.weight                     | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+[PASS] Initialized DeBERTa-v3-small 3-class NLI model (141,897,219 params in FP32)
+[Loss Configuration] Class-Weighted Cross-Entropy: [1.0, 3.5, 1.5] (Order: ENTAILMENT=0, CONTRADICTION=1, NEUTRAL=2)
+Epochs:                3
+Samples per Epoch:     10815
+Total Samples:         32445
+Effective Batch Size:  4 (Accumulation Steps=4)
+Steps per Epoch:       2704
+Total Optimizer Steps: 8112
+
+[CHECKPOINT RESUME] Restoring training state from: /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_emergency
+[CHECKPOINT RESUME] Restored to Epoch 1, Step 2113, Sample Index 8452/10815 (Accum: 0)
+[Step 0 Baseline (Restored)] Loss: 1.0883 | Acc: 0.2419 | Bal Acc: 0.3333 | Macro F1: 0.1299
+
+--- Starting Multi-Epoch Training Loop (3 epochs, 8112 optimizer steps) ---
+[Training Loop Telemetry Baseline] Available RAM: 5635.4 MB | RSS: 2202.7 MB | Swap Used: 2810.9 MB | Free Swap: 3189.1 MB
+
+--- Epoch 1/3 Starting ---
+Epoch 1/3 | Step 2150/8112 | Loss: 1.2666 (Rolling: 1.0467) | LR: 1.49e-05 | RSS: 2876.2 MB | Avail RAM: 5086.1 MB | Elapsed: 201.9s
+Epoch 1/3 | Step 2200/8112 | Loss: 0.5210 (Rolling: 0.7702) | LR: 1.48e-05 | RSS: 2930.4 MB | Avail RAM: 4880.6 MB | Elapsed: 464.1s
+Epoch 1/3 | Step 2250/8112 | Loss: 0.3926 (Rolling: 0.8923) | LR: 1.46e-05 | RSS: 2941.8 MB | Avail RAM: 4875.6 MB | Elapsed: 733.4s
+Epoch 1/3 | Step 2300/8112 | Loss: 0.3144 (Rolling: 0.8954) | LR: 1.45e-05 | RSS: 2912.5 MB | Avail RAM: 4718.4 MB | Elapsed: 1003.2s
+Epoch 1/3 | Step 2350/8112 | Loss: 0.9851 (Rolling: 0.8663) | LR: 1.44e-05 | RSS: 2898.0 MB | Avail RAM: 3712.3 MB | Elapsed: 1316.1s
+Epoch 1/3 | Step 2400/8112 | Loss: 0.7784 (Rolling: 0.8859) | LR: 1.43e-05 | RSS: 2874.5 MB | Avail RAM: 3992.3 MB | Elapsed: 1630.9s
+Epoch 1/3 | Step 2450/8112 | Loss: 0.7836 (Rolling: 0.8573) | LR: 1.41e-05 | RSS: 2924.0 MB | Avail RAM: 3723.9 MB | Elapsed: 1946.2s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 2500 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_002500
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  6.17it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  6.16it/s]
+Epoch 1/3 | Step 2500/8112 | Loss: 2.0606 (Rolling: 0.9925) | LR: 1.40e-05 | RSS: 2919.7 MB | Avail RAM: 5186.3 MB | Elapsed: 2232.0s
+Epoch 1/3 | Step 2550/8112 | Loss: 0.4300 (Rolling: 0.8800) | LR: 1.39e-05 | RSS: 2859.6 MB | Avail RAM: 5224.4 MB | Elapsed: 2497.0s
+Epoch 1/3 | Step 2600/8112 | Loss: 1.3293 (Rolling: 0.9100) | LR: 1.38e-05 | RSS: 2868.6 MB | Avail RAM: 5128.4 MB | Elapsed: 2759.6s
+Epoch 1/3 | Step 2650/8112 | Loss: 0.7287 (Rolling: 0.9821) | LR: 1.36e-05 | RSS: 2857.4 MB | Avail RAM: 5153.6 MB | Elapsed: 3014.4s
+Epoch 1/3 | Step 2700/8112 | Loss: 0.7972 (Rolling: 0.9172) | LR: 1.35e-05 | RSS: 2814.7 MB | Avail RAM: 5208.0 MB | Elapsed: 3276.8s
+
+--- Running End-of-Epoch 1 Validation ---
+  [Epoch 1 Validation] Evaluated 500/2662 samples...
+  [Epoch 1 Validation] Evaluated 1000/2662 samples...
+  [Epoch 1 Validation] Evaluated 1500/2662 samples...
+  [Epoch 1 Validation] Evaluated 2000/2662 samples...
+  [Epoch 1 Validation] Evaluated 2500/2662 samples...
+  [Epoch 1 Validation] Evaluated 2662/2662 samples...
+[Epoch 1 Validation] Loss: 0.8041 | Acc: 0.6912 | Bal Acc: 0.4755 | Macro F1: 0.4937 | Con Recall: 0.1657
+  >>> Best Model Selected at Epoch 1 (Macro F1: 0.4937, Loss: 0.8041)
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  4.58it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  4.58it/s]
+  [Interim Checkpoint] Saved best checkpoint to /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
+
+--- Epoch 2/3 Starting ---
+Epoch 2/3 | Step 2750/8112 | Loss: 0.7087 (Rolling: 0.8954) | LR: 1.34e-05 | RSS: 3335.5 MB | Avail RAM: 4231.0 MB | Elapsed: 4337.6s
+Epoch 2/3 | Step 2800/8112 | Loss: 0.7256 (Rolling: 1.1631) | LR: 1.33e-05 | RSS: 3362.6 MB | Avail RAM: 4303.1 MB | Elapsed: 4587.0s
+Epoch 2/3 | Step 2850/8112 | Loss: 0.6564 (Rolling: 0.9626) | LR: 1.31e-05 | RSS: 3340.1 MB | Avail RAM: 4282.9 MB | Elapsed: 4833.3s
+Epoch 2/3 | Step 2900/8112 | Loss: 0.2304 (Rolling: 0.8370) | LR: 1.30e-05 | RSS: 3358.1 MB | Avail RAM: 3872.7 MB | Elapsed: 5092.6s
+Epoch 2/3 | Step 2950/8112 | Loss: 1.5753 (Rolling: 1.0973) | LR: 1.29e-05 | RSS: 3358.1 MB | Avail RAM: 4070.6 MB | Elapsed: 5353.4s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 3000 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_003000
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  6.73it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  6.72it/s]
+Epoch 2/3 | Step 3000/8112 | Loss: 0.2915 (Rolling: 0.7184) | LR: 1.28e-05 | RSS: 3218.6 MB | Avail RAM: 4193.3 MB | Elapsed: 5599.4s
+Epoch 2/3 | Step 3050/8112 | Loss: 3.0160 (Rolling: 0.7401) | LR: 1.26e-05 | RSS: 3291.7 MB | Avail RAM: 4539.8 MB | Elapsed: 5839.8s
+Epoch 2/3 | Step 3100/8112 | Loss: 3.4947 (Rolling: 0.6225) | LR: 1.25e-05 | RSS: 3289.6 MB | Avail RAM: 4546.2 MB | Elapsed: 6076.7s
+Epoch 2/3 | Step 3150/8112 | Loss: 0.1707 (Rolling: 0.6088) | LR: 1.24e-05 | RSS: 3332.6 MB | Avail RAM: 4376.3 MB | Elapsed: 6317.3s
+Epoch 2/3 | Step 3200/8112 | Loss: 2.3157 (Rolling: 0.9269) | LR: 1.23e-05 | RSS: 3337.1 MB | Avail RAM: 4446.5 MB | Elapsed: 6555.2s
+Epoch 2/3 | Step 3250/8112 | Loss: 0.1758 (Rolling: 0.6291) | LR: 1.21e-05 | RSS: 3238.3 MB | Avail RAM: 4524.6 MB | Elapsed: 6793.3s
+Epoch 2/3 | Step 3300/8112 | Loss: 0.0706 (Rolling: 0.8349) | LR: 1.20e-05 | RSS: 3302.8 MB | Avail RAM: 4461.6 MB | Elapsed: 7033.2s
+Epoch 2/3 | Step 3350/8112 | Loss: 0.1457 (Rolling: 0.8056) | LR: 1.19e-05 | RSS: 3338.9 MB | Avail RAM: 4430.9 MB | Elapsed: 7273.7s
+Epoch 2/3 | Step 3400/8112 | Loss: 0.0477 (Rolling: 0.5594) | LR: 1.18e-05 | RSS: 3339.0 MB | Avail RAM: 4270.7 MB | Elapsed: 7516.7s
+Epoch 2/3 | Step 3450/8112 | Loss: 0.4373 (Rolling: 0.8799) | LR: 1.16e-05 | RSS: 3294.1 MB | Avail RAM: 4354.5 MB | Elapsed: 7753.9s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 3500 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_003500
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  7.97it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  7.96it/s]
+Epoch 2/3 | Step 3500/8112 | Loss: 0.7539 (Rolling: 0.7168) | LR: 1.15e-05 | RSS: 3321.2 MB | Avail RAM: 4492.4 MB | Elapsed: 7995.6s
+Epoch 2/3 | Step 3550/8112 | Loss: 0.0732 (Rolling: 0.5221) | LR: 1.14e-05 | RSS: 3321.4 MB | Avail RAM: 4688.1 MB | Elapsed: 8235.3s
+Epoch 2/3 | Step 3600/8112 | Loss: 0.6213 (Rolling: 0.4786) | LR: 1.13e-05 | RSS: 3240.5 MB | Avail RAM: 4223.1 MB | Elapsed: 8630.3s
+Epoch 2/3 | Step 3650/8112 | Loss: 0.0592 (Rolling: 0.4972) | LR: 1.11e-05 | RSS: 3321.6 MB | Avail RAM: 4149.2 MB | Elapsed: 8867.0s
+Epoch 2/3 | Step 3700/8112 | Loss: 0.2432 (Rolling: 0.6194) | LR: 1.10e-05 | RSS: 3258.5 MB | Avail RAM: 4124.1 MB | Elapsed: 9110.1s
+Epoch 2/3 | Step 3750/8112 | Loss: 0.0805 (Rolling: 0.7850) | LR: 1.09e-05 | RSS: 2427.5 MB | Avail RAM: 3902.4 MB | Elapsed: 9369.6s
+Epoch 2/3 | Step 3800/8112 | Loss: 0.0687 (Rolling: 0.4836) | LR: 1.08e-05 | RSS: 2502.4 MB | Avail RAM: 4677.1 MB | Elapsed: 9612.6s
+Epoch 2/3 | Step 3850/8112 | Loss: 0.1295 (Rolling: 0.6857) | LR: 1.06e-05 | RSS: 2440.0 MB | Avail RAM: 4696.8 MB | Elapsed: 9904.4s
+================================================================================
+TRUSTRAG BOUNDED 3-WAY NLI TRAINING EXPERIMENT
+================================================================================
+Pretrained Base:       /home/aditya/rags/models/pretrained/deberta-v3-small
+Output Checkpoint:     /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
+Training Samples/Epoch:10815 (sequential)
+Validation Samples:    2662 (original imbalanced validation split)
+Learning Rate:         2e-05 (warmup=100, decay=linear)
+CPU Threads:           10
+Memory Safeguards:     RAM >= 700.0MB | Swap Growth <= NoneMB | Free Swap >= 1000.0MB
+Wall-Clock Limit:      86400.0s (24.00 hours)
+
+[Preflight Telemetry] Available RAM: 7193.7 MB | RSS: 219.2 MB | Free Swap: 4493.0 MB
+[PASS] Loaded 10815 train records (strategy=sequential) and 2662 val records in 0.15s
+[transformers] The tokenizer you are loading from '/home/aditya/rags/models/pretrained/deberta-v3-small' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+/home/aditya/rags/.venv-train/lib/python3.10/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+Loading weights:   0%|          | 0/102 [00:00<?, ?it/s]Loading weights: 100%|██████████| 102/102 [00:00<00:00, 22436.49it/s]
+[transformers] [1mDebertaV2ForSequenceClassification LOAD REPORT[0m from: /home/aditya/rags/models/pretrained/deberta-v3-small
+Key                                     | Status     | 
+----------------------------------------+------------+-
+lm_predictions.lm_head.LayerNorm.weight | UNEXPECTED | 
+lm_predictions.lm_head.dense.bias       | UNEXPECTED | 
+lm_predictions.lm_head.dense.weight     | UNEXPECTED | 
+mask_predictions.LayerNorm.bias         | UNEXPECTED | 
+mask_predictions.dense.bias             | UNEXPECTED | 
+mask_predictions.classifier.weight      | UNEXPECTED | 
+lm_predictions.lm_head.bias             | UNEXPECTED | 
+mask_predictions.classifier.bias        | UNEXPECTED | 
+lm_predictions.lm_head.LayerNorm.bias   | UNEXPECTED | 
+mask_predictions.dense.weight           | UNEXPECTED | 
+mask_predictions.LayerNorm.weight       | UNEXPECTED | 
+classifier.bias                         | MISSING    | 
+pooler.dense.weight                     | MISSING    | 
+classifier.weight                       | MISSING    | 
+pooler.dense.bias                       | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+[PASS] Initialized DeBERTa-v3-small 3-class NLI model (141,897,219 params in FP32)
+[Loss Configuration] Class-Weighted Cross-Entropy: [1.0, 3.5, 1.5] (Order: ENTAILMENT=0, CONTRADICTION=1, NEUTRAL=2)
+Epochs:                3
+Samples per Epoch:     10815
+Total Samples:         32445
+Effective Batch Size:  4 (Accumulation Steps=4)
+Steps per Epoch:       2704
+Total Optimizer Steps: 8112
+
+[CHECKPOINT RESUME] Restoring training state from: /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_003500
+[CHECKPOINT RESUME] Restored to Epoch 2, Step 3500, Sample Index 3184/10815 (Accum: 0)
+[Step 0 Baseline (Restored)] Loss: 1.0883 | Acc: 0.2419 | Bal Acc: 0.3333 | Macro F1: 0.1299
+
+--- Starting Multi-Epoch Training Loop (3 epochs, 8112 optimizer steps) ---
+[Training Loop Telemetry Baseline] Available RAM: 5424.0 MB | RSS: 2200.6 MB | Swap Used: 1516.9 MB | Free Swap: 4483.1 MB
+
+--- Epoch 2/3 Starting ---
+Epoch 2/3 | Step 3550/8112 | Loss: 0.0732 (Rolling: 0.5221) | LR: 1.14e-05 | RSS: 3034.4 MB | Avail RAM: 4526.2 MB | Elapsed: 248.5s
+Epoch 2/3 | Step 3600/8112 | Loss: 0.6213 (Rolling: 0.4786) | LR: 1.13e-05 | RSS: 2938.8 MB | Avail RAM: 4404.8 MB | Elapsed: 503.4s
+Epoch 2/3 | Step 3650/8112 | Loss: 0.0592 (Rolling: 0.4972) | LR: 1.11e-05 | RSS: 2881.7 MB | Avail RAM: 4623.6 MB | Elapsed: 763.2s
+Epoch 2/3 | Step 3700/8112 | Loss: 0.2432 (Rolling: 0.6194) | LR: 1.10e-05 | RSS: 2885.3 MB | Avail RAM: 4379.8 MB | Elapsed: 1013.8s
+Epoch 2/3 | Step 3750/8112 | Loss: 0.0805 (Rolling: 0.7850) | LR: 1.09e-05 | RSS: 2952.0 MB | Avail RAM: 4059.3 MB | Elapsed: 1264.6s
+Epoch 2/3 | Step 3800/8112 | Loss: 0.0687 (Rolling: 0.4836) | LR: 1.08e-05 | RSS: 2882.6 MB | Avail RAM: 4064.9 MB | Elapsed: 1505.8s
+Epoch 2/3 | Step 3850/8112 | Loss: 0.1295 (Rolling: 0.6857) | LR: 1.06e-05 | RSS: 2892.4 MB | Avail RAM: 3795.3 MB | Elapsed: 1735.4s
+Epoch 2/3 | Step 3900/8112 | Loss: 0.8221 (Rolling: 0.4430) | LR: 1.05e-05 | RSS: 2947.5 MB | Avail RAM: 3532.5 MB | Elapsed: 1976.5s
+Epoch 2/3 | Step 3950/8112 | Loss: 0.7726 (Rolling: 0.6617) | LR: 1.04e-05 | RSS: 2949.3 MB | Avail RAM: 3427.8 MB | Elapsed: 2227.5s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 4000 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_004000
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  2.74it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  2.73it/s]
+Epoch 2/3 | Step 4000/8112 | Loss: 0.0699 (Rolling: 0.6383) | LR: 1.03e-05 | RSS: 2897.0 MB | Avail RAM: 3879.4 MB | Elapsed: 2475.1s
+Epoch 2/3 | Step 4050/8112 | Loss: 0.0468 (Rolling: 1.0228) | LR: 1.01e-05 | RSS: 2890.5 MB | Avail RAM: 4396.7 MB | Elapsed: 2714.0s
+Epoch 2/3 | Step 4100/8112 | Loss: 2.6743 (Rolling: 0.7848) | LR: 1.00e-05 | RSS: 2892.7 MB | Avail RAM: 4432.8 MB | Elapsed: 2954.3s
+Epoch 2/3 | Step 4150/8112 | Loss: 0.6836 (Rolling: 0.8299) | LR: 9.89e-06 | RSS: 2868.0 MB | Avail RAM: 4175.9 MB | Elapsed: 3226.2s
+Epoch 2/3 | Step 4200/8112 | Loss: 0.2859 (Rolling: 0.8172) | LR: 9.77e-06 | RSS: 2834.3 MB | Avail RAM: 4194.8 MB | Elapsed: 3514.7s
+Epoch 2/3 | Step 4250/8112 | Loss: 1.8074 (Rolling: 0.7357) | LR: 9.64e-06 | RSS: 2881.1 MB | Avail RAM: 3684.2 MB | Elapsed: 3760.2s
+Epoch 2/3 | Step 4300/8112 | Loss: 1.7617 (Rolling: 0.8437) | LR: 9.52e-06 | RSS: 2766.1 MB | Avail RAM: 3473.9 MB | Elapsed: 4009.0s
+Epoch 2/3 | Step 4350/8112 | Loss: 0.3661 (Rolling: 0.7966) | LR: 9.39e-06 | RSS: 2759.1 MB | Avail RAM: 3497.2 MB | Elapsed: 4245.2s
+Epoch 2/3 | Step 4400/8112 | Loss: 0.2702 (Rolling: 0.7728) | LR: 9.27e-06 | RSS: 2761.3 MB | Avail RAM: 3523.0 MB | Elapsed: 4479.9s
+Epoch 2/3 | Step 4450/8112 | Loss: 0.2896 (Rolling: 0.7812) | LR: 9.14e-06 | RSS: 2745.1 MB | Avail RAM: 3541.2 MB | Elapsed: 4711.0s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 4500 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_004500
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  8.24it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  8.23it/s]
+Epoch 2/3 | Step 4500/8112 | Loss: 0.2186 (Rolling: 0.7404) | LR: 9.02e-06 | RSS: 2737.4 MB | Avail RAM: 3565.2 MB | Elapsed: 4949.0s
+Epoch 2/3 | Step 4550/8112 | Loss: 0.2981 (Rolling: 0.7113) | LR: 8.89e-06 | RSS: 2599.6 MB | Avail RAM: 4630.4 MB | Elapsed: 5187.5s
+Epoch 2/3 | Step 4600/8112 | Loss: 2.3990 (Rolling: 0.8692) | LR: 8.77e-06 | RSS: 2583.6 MB | Avail RAM: 4323.5 MB | Elapsed: 5436.3s
+Epoch 2/3 | Step 4650/8112 | Loss: 0.1881 (Rolling: 0.5658) | LR: 8.64e-06 | RSS: 2603.3 MB | Avail RAM: 4356.2 MB | Elapsed: 5673.1s
+Epoch 2/3 | Step 4700/8112 | Loss: 0.9537 (Rolling: 0.7835) | LR: 8.52e-06 | RSS: 2596.0 MB | Avail RAM: 4445.1 MB | Elapsed: 5906.6s
+Epoch 2/3 | Step 4750/8112 | Loss: 0.0949 (Rolling: 0.9061) | LR: 8.39e-06 | RSS: 2597.4 MB | Avail RAM: 4370.4 MB | Elapsed: 6140.3s
+Epoch 2/3 | Step 4800/8112 | Loss: 3.0060 (Rolling: 0.7975) | LR: 8.27e-06 | RSS: 2608.1 MB | Avail RAM: 4216.1 MB | Elapsed: 6392.1s
+Epoch 2/3 | Step 4850/8112 | Loss: 1.8133 (Rolling: 0.9698) | LR: 8.15e-06 | RSS: 2591.8 MB | Avail RAM: 4446.8 MB | Elapsed: 6628.9s
+Epoch 2/3 | Step 4900/8112 | Loss: 0.1650 (Rolling: 0.7095) | LR: 8.02e-06 | RSS: 2566.2 MB | Avail RAM: 4202.3 MB | Elapsed: 6870.6s
+Epoch 2/3 | Step 4950/8112 | Loss: 0.1846 (Rolling: 0.8113) | LR: 7.90e-06 | RSS: 2612.6 MB | Avail RAM: 4407.7 MB | Elapsed: 7118.5s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 5000 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_005000
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  8.75it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  8.73it/s]
+Epoch 2/3 | Step 5000/8112 | Loss: 0.1469 (Rolling: 0.9191) | LR: 7.77e-06 | RSS: 2613.7 MB | Avail RAM: 4193.9 MB | Elapsed: 7373.4s
+Epoch 2/3 | Step 5050/8112 | Loss: 2.1732 (Rolling: 0.7802) | LR: 7.65e-06 | RSS: 2624.9 MB | Avail RAM: 4227.6 MB | Elapsed: 7631.2s
+Epoch 2/3 | Step 5100/8112 | Loss: 0.6751 (Rolling: 0.7003) | LR: 7.52e-06 | RSS: 2599.1 MB | Avail RAM: 4221.9 MB | Elapsed: 7874.0s
+Epoch 2/3 | Step 5150/8112 | Loss: 0.1005 (Rolling: 0.9743) | LR: 7.40e-06 | RSS: 2506.3 MB | Avail RAM: 4493.6 MB | Elapsed: 8115.6s
+Epoch 2/3 | Step 5200/8112 | Loss: 2.1145 (Rolling: 0.9275) | LR: 7.27e-06 | RSS: 2562.0 MB | Avail RAM: 4275.7 MB | Elapsed: 8346.0s
+Epoch 2/3 | Step 5250/8112 | Loss: 2.3848 (Rolling: 0.9029) | LR: 7.15e-06 | RSS: 2558.0 MB | Avail RAM: 4016.8 MB | Elapsed: 8582.8s
+Epoch 2/3 | Step 5300/8112 | Loss: 0.2298 (Rolling: 0.9295) | LR: 7.02e-06 | RSS: 2553.4 MB | Avail RAM: 4053.1 MB | Elapsed: 8817.3s
+Epoch 2/3 | Step 5350/8112 | Loss: 0.1936 (Rolling: 0.8440) | LR: 6.90e-06 | RSS: 2584.4 MB | Avail RAM: 3928.7 MB | Elapsed: 9049.9s
+Epoch 2/3 | Step 5400/8112 | Loss: 0.3409 (Rolling: 0.9634) | LR: 6.77e-06 | RSS: 2559.9 MB | Avail RAM: 3941.4 MB | Elapsed: 9296.8s
+
+--- Running End-of-Epoch 2 Validation ---
+  [Epoch 2 Validation] Evaluated 500/2662 samples...
+  [Epoch 2 Validation] Evaluated 1000/2662 samples...
+  [Epoch 2 Validation] Evaluated 1500/2662 samples...
+  [Epoch 2 Validation] Evaluated 2000/2662 samples...
+  [Epoch 2 Validation] Evaluated 2500/2662 samples...
+  [Epoch 2 Validation] Evaluated 2662/2662 samples...
+[Epoch 2 Validation] Loss: 0.8131 | Acc: 0.6991 | Bal Acc: 0.4950 | Macro F1: 0.5188 | Con Recall: 0.2360
+  >>> Best Model Selected at Epoch 2 (Macro F1: 0.5188, Loss: 0.8131)
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  5.81it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  5.80it/s]
+  [Interim Checkpoint] Saved best checkpoint to /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
+
+--- Epoch 3/3 Starting ---
+Epoch 3/3 | Step 5450/8112 | Loss: 2.0753 (Rolling: 0.8684) | LR: 6.65e-06 | RSS: 3063.9 MB | Avail RAM: 4090.8 MB | Elapsed: 10322.8s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 5500 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_005500
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  6.90it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  6.89it/s]
+Epoch 3/3 | Step 5500/8112 | Loss: 2.6480 (Rolling: 1.1066) | LR: 6.52e-06 | RSS: 3092.3 MB | Avail RAM: 3966.1 MB | Elapsed: 10567.2s
+Epoch 3/3 | Step 5550/8112 | Loss: 0.2053 (Rolling: 0.8679) | LR: 6.40e-06 | RSS: 3126.7 MB | Avail RAM: 4038.8 MB | Elapsed: 10821.2s
+Epoch 3/3 | Step 5600/8112 | Loss: 1.5775 (Rolling: 0.8622) | LR: 6.27e-06 | RSS: 3119.0 MB | Avail RAM: 3716.2 MB | Elapsed: 11075.6s
+Epoch 3/3 | Step 5650/8112 | Loss: 0.1114 (Rolling: 0.9370) | LR: 6.15e-06 | RSS: 3102.1 MB | Avail RAM: 4144.9 MB | Elapsed: 11336.7s
+Epoch 3/3 | Step 5700/8112 | Loss: 0.1300 (Rolling: 0.8295) | LR: 6.02e-06 | RSS: 3112.3 MB | Avail RAM: 4152.5 MB | Elapsed: 11597.0s
+Epoch 3/3 | Step 5750/8112 | Loss: 0.1232 (Rolling: 0.6325) | LR: 5.90e-06 | RSS: 3080.9 MB | Avail RAM: 4203.0 MB | Elapsed: 11843.4s
+Epoch 3/3 | Step 5800/8112 | Loss: 1.0194 (Rolling: 0.4134) | LR: 5.77e-06 | RSS: 3126.6 MB | Avail RAM: 4105.7 MB | Elapsed: 12082.7s
+Epoch 3/3 | Step 5850/8112 | Loss: 2.2493 (Rolling: 0.5469) | LR: 5.65e-06 | RSS: 3137.6 MB | Avail RAM: 3966.8 MB | Elapsed: 12359.9s
+Epoch 3/3 | Step 5900/8112 | Loss: 2.9955 (Rolling: 1.3381) | LR: 5.52e-06 | RSS: 3164.7 MB | Avail RAM: 3987.2 MB | Elapsed: 12677.4s
+Epoch 3/3 | Step 5950/8112 | Loss: 0.0617 (Rolling: 0.5098) | LR: 5.40e-06 | RSS: 3168.9 MB | Avail RAM: 3952.9 MB | Elapsed: 12908.5s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 6000 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_006000
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  8.43it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  8.42it/s]
+Epoch 3/3 | Step 6000/8112 | Loss: 0.0197 (Rolling: 0.4834) | LR: 5.27e-06 | RSS: 3188.0 MB | Avail RAM: 3821.3 MB | Elapsed: 13137.6s
+Epoch 3/3 | Step 6050/8112 | Loss: 0.1710 (Rolling: 0.6232) | LR: 5.15e-06 | RSS: 3189.2 MB | Avail RAM: 4058.2 MB | Elapsed: 13380.8s
+Epoch 3/3 | Step 6100/8112 | Loss: 0.0282 (Rolling: 0.5364) | LR: 5.02e-06 | RSS: 3091.3 MB | Avail RAM: 4047.3 MB | Elapsed: 13611.4s
+Epoch 3/3 | Step 6150/8112 | Loss: 0.0333 (Rolling: 0.9041) | LR: 4.90e-06 | RSS: 3182.4 MB | Avail RAM: 3704.3 MB | Elapsed: 13844.7s
+Epoch 3/3 | Step 6200/8112 | Loss: 1.6035 (Rolling: 0.6862) | LR: 4.78e-06 | RSS: 3183.5 MB | Avail RAM: 3808.0 MB | Elapsed: 14087.1s
+Epoch 3/3 | Step 6250/8112 | Loss: 1.3488 (Rolling: 0.4972) | LR: 4.65e-06 | RSS: 3175.7 MB | Avail RAM: 4059.5 MB | Elapsed: 14345.5s
+Epoch 3/3 | Step 6300/8112 | Loss: 0.0593 (Rolling: 0.6417) | LR: 4.53e-06 | RSS: 3204.1 MB | Avail RAM: 3654.8 MB | Elapsed: 14603.7s
+Epoch 3/3 | Step 6350/8112 | Loss: 0.0820 (Rolling: 0.5733) | LR: 4.40e-06 | RSS: 3194.8 MB | Avail RAM: 3853.7 MB | Elapsed: 14860.0s
+Epoch 3/3 | Step 6400/8112 | Loss: 0.0261 (Rolling: 0.8650) | LR: 4.28e-06 | RSS: 3132.9 MB | Avail RAM: 3803.5 MB | Elapsed: 15105.1s
+Epoch 3/3 | Step 6450/8112 | Loss: 0.0229 (Rolling: 0.4685) | LR: 4.15e-06 | RSS: 3178.8 MB | Avail RAM: 3639.2 MB | Elapsed: 15349.8s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 6500 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_006500
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  8.88it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  8.87it/s]
+Epoch 3/3 | Step 6500/8112 | Loss: 0.0346 (Rolling: 0.4041) | LR: 4.03e-06 | RSS: 3107.8 MB | Avail RAM: 3919.6 MB | Elapsed: 15600.7s
+================================================================================
+TRUSTRAG BOUNDED 3-WAY NLI TRAINING EXPERIMENT
+================================================================================
+Pretrained Base:       /home/aditya/rags/models/pretrained/deberta-v3-small
+Output Checkpoint:     /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
+Training Samples/Epoch:10815 (sequential)
+Validation Samples:    2662 (original imbalanced validation split)
+Learning Rate:         2e-05 (warmup=100, decay=linear)
+CPU Threads:           10
+Memory Safeguards:     RAM >= 700.0MB | Swap Growth <= NoneMB | Free Swap >= 1000.0MB
+Wall-Clock Limit:      86400.0s (24.00 hours)
+
+[Preflight Telemetry] Available RAM: 6919.9 MB | RSS: 219.2 MB | Free Swap: 2937.6 MB
+[PASS] Loaded 10815 train records (strategy=sequential) and 2662 val records in 0.15s
+[transformers] The tokenizer you are loading from '/home/aditya/rags/models/pretrained/deberta-v3-small' with an incorrect regex pattern: https://huggingface.co/mistralai/Mistral-Small-3.1-24B-Instruct-2503/discussions/84#69121093e8b480e709447d5e. This will lead to incorrect tokenization. You should set the `fix_mistral_regex=True` flag when loading this tokenizer to fix this issue.
+/home/aditya/rags/.venv-train/lib/python3.10/site-packages/torch/jit/_script.py:1491: FutureWarning: `torch.jit.script` is deprecated. Please switch to `torch.compile` or `torch.export`.
+  warnings.warn(
+Loading weights:   0%|          | 0/102 [00:00<?, ?it/s]Loading weights: 100%|██████████| 102/102 [00:00<00:00, 38653.69it/s]
+[transformers] [1mDebertaV2ForSequenceClassification LOAD REPORT[0m from: /home/aditya/rags/models/pretrained/deberta-v3-small
+Key                                     | Status     | 
+----------------------------------------+------------+-
+lm_predictions.lm_head.LayerNorm.weight | UNEXPECTED | 
+mask_predictions.classifier.weight      | UNEXPECTED | 
+lm_predictions.lm_head.bias             | UNEXPECTED | 
+mask_predictions.classifier.bias        | UNEXPECTED | 
+mask_predictions.LayerNorm.bias         | UNEXPECTED | 
+mask_predictions.LayerNorm.weight       | UNEXPECTED | 
+lm_predictions.lm_head.dense.bias       | UNEXPECTED | 
+lm_predictions.lm_head.LayerNorm.bias   | UNEXPECTED | 
+lm_predictions.lm_head.dense.weight     | UNEXPECTED | 
+mask_predictions.dense.weight           | UNEXPECTED | 
+mask_predictions.dense.bias             | UNEXPECTED | 
+classifier.weight                       | MISSING    | 
+classifier.bias                         | MISSING    | 
+pooler.dense.weight                     | MISSING    | 
+pooler.dense.bias                       | MISSING    | 
+
+Notes:
+- UNEXPECTED:	can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+- MISSING:	those params were newly initialized because missing from the checkpoint. Consider training on your downstream task.
+[PASS] Initialized DeBERTa-v3-small 3-class NLI model (141,897,219 params in FP32)
+[Loss Configuration] Class-Weighted Cross-Entropy: [1.0, 3.5, 1.5] (Order: ENTAILMENT=0, CONTRADICTION=1, NEUTRAL=2)
+Epochs:                3
+Samples per Epoch:     10815
+Total Samples:         32445
+Effective Batch Size:  4 (Accumulation Steps=4)
+Steps per Epoch:       2704
+Total Optimizer Steps: 8112
+
+[CHECKPOINT RESUME] Restoring training state from: /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_006500
+[CHECKPOINT RESUME] Restored to Epoch 3, Step 6500, Sample Index 4368/10815 (Accum: 0)
+[Step 0 Baseline (Restored)] Loss: 1.0883 | Acc: 0.2419 | Bal Acc: 0.3333 | Macro F1: 0.1299
+
+--- Starting Multi-Epoch Training Loop (3 epochs, 8112 optimizer steps) ---
+[Training Loop Telemetry Baseline] Available RAM: 5004.6 MB | RSS: 2200.4 MB | Swap Used: 3062.4 MB | Free Swap: 2937.6 MB
+
+--- Epoch 3/3 Starting ---
+Epoch 3/3 | Step 6550/8112 | Loss: 0.0173 (Rolling: 0.6722) | LR: 3.90e-06 | RSS: 3036.1 MB | Avail RAM: 4262.1 MB | Elapsed: 207.2s
+Epoch 3/3 | Step 6600/8112 | Loss: 0.1238 (Rolling: 0.4283) | LR: 3.78e-06 | RSS: 3133.6 MB | Avail RAM: 4144.3 MB | Elapsed: 423.2s
+Epoch 3/3 | Step 6650/8112 | Loss: 0.0121 (Rolling: 0.6528) | LR: 3.65e-06 | RSS: 3178.7 MB | Avail RAM: 4254.5 MB | Elapsed: 658.3s
+Epoch 3/3 | Step 6700/8112 | Loss: 0.0588 (Rolling: 0.4803) | LR: 3.53e-06 | RSS: 3124.9 MB | Avail RAM: 4193.9 MB | Elapsed: 892.4s
+Epoch 3/3 | Step 6750/8112 | Loss: 0.0409 (Rolling: 1.2058) | LR: 3.40e-06 | RSS: 3178.9 MB | Avail RAM: 4225.0 MB | Elapsed: 1130.5s
+Epoch 3/3 | Step 6800/8112 | Loss: 0.1294 (Rolling: 0.6606) | LR: 3.28e-06 | RSS: 3178.9 MB | Avail RAM: 4139.1 MB | Elapsed: 1381.0s
+Epoch 3/3 | Step 6850/8112 | Loss: 0.6096 (Rolling: 0.8839) | LR: 3.15e-06 | RSS: 3116.1 MB | Avail RAM: 4231.5 MB | Elapsed: 1632.1s
+Epoch 3/3 | Step 6900/8112 | Loss: 0.0434 (Rolling: 0.7767) | LR: 3.03e-06 | RSS: 3179.0 MB | Avail RAM: 4182.6 MB | Elapsed: 1885.9s
+Epoch 3/3 | Step 6950/8112 | Loss: 1.1088 (Rolling: 0.7304) | LR: 2.90e-06 | RSS: 3179.0 MB | Avail RAM: 4769.3 MB | Elapsed: 2141.7s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 7000 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_007000
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  6.57it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  6.56it/s]
+Epoch 3/3 | Step 7000/8112 | Loss: 0.3110 (Rolling: 0.8765) | LR: 2.78e-06 | RSS: 3116.7 MB | Avail RAM: 4390.6 MB | Elapsed: 2418.6s
+Epoch 3/3 | Step 7050/8112 | Loss: 2.5842 (Rolling: 0.8256) | LR: 2.65e-06 | RSS: 3109.2 MB | Avail RAM: 3050.5 MB | Elapsed: 2676.9s
+Epoch 3/3 | Step 7100/8112 | Loss: 1.1255 (Rolling: 0.7467) | LR: 2.53e-06 | RSS: 3127.3 MB | Avail RAM: 3311.8 MB | Elapsed: 2937.2s
+Epoch 3/3 | Step 7150/8112 | Loss: 0.0713 (Rolling: 1.0050) | LR: 2.40e-06 | RSS: 3047.2 MB | Avail RAM: 3105.6 MB | Elapsed: 3202.3s
+Epoch 3/3 | Step 7200/8112 | Loss: 0.0952 (Rolling: 0.6631) | LR: 2.28e-06 | RSS: 2577.2 MB | Avail RAM: 2732.8 MB | Elapsed: 3477.6s
+Epoch 3/3 | Step 7250/8112 | Loss: 0.1233 (Rolling: 0.7104) | LR: 2.15e-06 | RSS: 2593.0 MB | Avail RAM: 3992.3 MB | Elapsed: 3741.0s
+Epoch 3/3 | Step 7300/8112 | Loss: 1.6697 (Rolling: 0.7686) | LR: 2.03e-06 | RSS: 2509.6 MB | Avail RAM: 3806.7 MB | Elapsed: 4064.0s
+Epoch 3/3 | Step 7350/8112 | Loss: 0.1039 (Rolling: 0.6007) | LR: 1.90e-06 | RSS: 2515.0 MB | Avail RAM: 5442.1 MB | Elapsed: 4327.1s
+Epoch 3/3 | Step 7400/8112 | Loss: 1.7942 (Rolling: 0.6064) | LR: 1.78e-06 | RSS: 2550.6 MB | Avail RAM: 5127.2 MB | Elapsed: 4582.1s
+Epoch 3/3 | Step 7450/8112 | Loss: 3.6065 (Rolling: 0.8077) | LR: 1.66e-06 | RSS: 2556.6 MB | Avail RAM: 4926.4 MB | Elapsed: 4838.4s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 7500 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_007500
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  7.27it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  7.23it/s]
+Epoch 3/3 | Step 7500/8112 | Loss: 0.1344 (Rolling: 0.6703) | LR: 1.53e-06 | RSS: 2562.9 MB | Avail RAM: 4828.5 MB | Elapsed: 5091.9s
+Epoch 3/3 | Step 7550/8112 | Loss: 1.1318 (Rolling: 0.6706) | LR: 1.41e-06 | RSS: 2579.0 MB | Avail RAM: 5100.8 MB | Elapsed: 5338.3s
+Epoch 3/3 | Step 7600/8112 | Loss: 0.0878 (Rolling: 0.6628) | LR: 1.28e-06 | RSS: 2692.0 MB | Avail RAM: 5057.7 MB | Elapsed: 5581.0s
+Epoch 3/3 | Step 7650/8112 | Loss: 0.1688 (Rolling: 0.9258) | LR: 1.16e-06 | RSS: 2685.3 MB | Avail RAM: 4986.1 MB | Elapsed: 5825.2s
+Epoch 3/3 | Step 7700/8112 | Loss: 0.2325 (Rolling: 1.0724) | LR: 1.03e-06 | RSS: 2696.0 MB | Avail RAM: 4827.9 MB | Elapsed: 6079.3s
+Epoch 3/3 | Step 7750/8112 | Loss: 0.1910 (Rolling: 0.8660) | LR: 9.06e-07 | RSS: 2692.4 MB | Avail RAM: 4883.1 MB | Elapsed: 6340.9s
+Epoch 3/3 | Step 7800/8112 | Loss: 1.8996 (Rolling: 0.7608) | LR: 7.81e-07 | RSS: 2704.2 MB | Avail RAM: 4848.1 MB | Elapsed: 6593.5s
+Epoch 3/3 | Step 7850/8112 | Loss: 0.4954 (Rolling: 1.0668) | LR: 6.57e-07 | RSS: 2688.4 MB | Avail RAM: 4752.5 MB | Elapsed: 6841.4s
+Epoch 3/3 | Step 7900/8112 | Loss: 1.7566 (Rolling: 0.7037) | LR: 5.32e-07 | RSS: 2734.6 MB | Avail RAM: 4647.8 MB | Elapsed: 7097.7s
+Epoch 3/3 | Step 7950/8112 | Loss: 0.3557 (Rolling: 0.7414) | LR: 4.07e-07 | RSS: 2736.2 MB | Avail RAM: 4602.0 MB | Elapsed: 7338.5s
+
+[Sub-Epoch Checkpoint] Saving periodic checkpoint at Step 8000 -> /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch/checkpoint_step_008000
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  6.02it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  6.01it/s]
+Epoch 3/3 | Step 8000/8112 | Loss: 0.1259 (Rolling: 1.0610) | LR: 2.82e-07 | RSS: 2737.7 MB | Avail RAM: 4511.6 MB | Elapsed: 7580.4s
+Epoch 3/3 | Step 8050/8112 | Loss: 0.1238 (Rolling: 0.7713) | LR: 1.57e-07 | RSS: 2737.9 MB | Avail RAM: 5229.6 MB | Elapsed: 7826.2s
+Epoch 3/3 | Step 8100/8112 | Loss: 0.3187 (Rolling: 0.9328) | LR: 3.25e-08 | RSS: 2739.2 MB | Avail RAM: 5064.1 MB | Elapsed: 8089.4s
+Epoch 3/3 | Step 8112/8112 | Loss: 2.1703 (Rolling: 0.8555) | LR: 2.50e-09 | RSS: 2739.5 MB | Avail RAM: 5017.0 MB | Elapsed: 8165.0s
+
+--- Running End-of-Epoch 3 Validation ---
+  [Epoch 3 Validation] Evaluated 500/2662 samples...
+  [Epoch 3 Validation] Evaluated 1000/2662 samples...
+  [Epoch 3 Validation] Evaluated 1500/2662 samples...
+  [Epoch 3 Validation] Evaluated 2000/2662 samples...
+  [Epoch 3 Validation] Evaluated 2500/2662 samples...
+  [Epoch 3 Validation] Evaluated 2662/2662 samples...
+[Epoch 3 Validation] Loss: 0.8838 | Acc: 0.7040 | Bal Acc: 0.5258 | Macro F1: 0.5504 | Con Recall: 0.2528
+  >>> Best Model Selected at Epoch 3 (Macro F1: 0.5504, Loss: 0.8838)
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  5.62it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  5.62it/s]
+  [Interim Checkpoint] Saved best checkpoint to /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
+
+[Model Selection] Restored best model weights from Epoch 3 (Macro F1: 0.5504)
+
+--- Running Final Validation on Selected Model ---
+  [Best Model Final Validation] Evaluated 500/2662 samples...
+  [Best Model Final Validation] Evaluated 1000/2662 samples...
+  [Best Model Final Validation] Evaluated 1500/2662 samples...
+  [Best Model Final Validation] Evaluated 2000/2662 samples...
+  [Best Model Final Validation] Evaluated 2500/2662 samples...
+  [Best Model Final Validation] Evaluated 2662/2662 samples...
+[PASS] Persisted 2662 validation predictions to: /home/aditya/rags/TrustRag-phase11/reports/research_completion/phase11_1_step03_full_nli_training/predictions_val.jsonl
+[Final Validation] Loss: 0.8838 | Acc: 0.7040 | Bal Acc: 0.5258 | Macro F1: 0.5504 | Con Recall: 0.2528
+
+--- Serializing Final Atomic Checkpoint to /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch ---
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  8.01it/s]Writing model shards: 100%|██████████| 1/1 [00:00<00:00,  8.00it/s]
+[PASS] Successfully saved atomic checkpoint to: /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
+[PASS] Successfully wrote training results to /home/aditya/rags/TrustRag-phase11/reports/research_completion/phase11_1_step03_full_nli_training/training_results.json
+[PASS] Successfully wrote training metadata to /home/aditya/rags/TrustRag-phase11/reports/research_completion/phase11_1_step03_full_nli_training/training_meta.json
+Execution completed.

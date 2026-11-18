@@ -1,0 +1,49 @@
+{
+  "release_tag": "trustrag-v1.0.0-rc1",
+  "release_type": "LOCAL_RESEARCH_FREEZE",
+  "freeze_timestamp": "2026-11-19T00:08:00Z",
+  "git_metadata": {
+    "branch": "phase-15",
+    "commit_hash": "531bff32745ede1bd1b38609cc6daf653d3eff24",
+    "parent_commit": "aba5cc9d749be8f94fa6a12b6ad56c5aa42dca91",
+    "annotated_tag": "trustrag-v1.0.0-rc1",
+    "remote_push_executed": false
+  },
+  "frozen_model_checkpoint": {
+    "checkpoint_directory": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+    "architecture": "DebertaV2ForSequenceClassification",
+    "parameter_count": 141897219,
+    "model_safetensors_sha256": "0464758a2cd31260b44af96093dd52c2824a8305278d136ec438c87ee2b92313",
+    "integrity_verified": true
+  },
+  "committed_assets": [
+    "configs/trustrag_v1_release.yaml",
+    "requirements-release.lock",
+    "src/trustrag/config/__init__.py",
+    "src/trustrag/config/engine_config.py",
+    "src/trustrag/data/acquisition/__init__.py",
+    "src/trustrag/data/acquisition/downloader.py",
+    "src/trustrag/data/loaders/halueval.py",
+    "src/trustrag/data/loaders/hotpotqa.py",
+    "src/trustrag/data/loaders/ms_marco.py",
+    "src/trustrag/data/loaders/ragtruth.py",
+    "src/trustrag/detection/msd.py",
+    "src/trustrag/detection/signals.py",
+    "src/trustrag/evaluation/external_benchmarks.py",
+    "src/trustrag/verification/output_verifier.py",
+    "tests/unit/test_phase12_step02_neural_g3.py",
+    "tests/unit/test_phase_08_step08_external_benchmarks.py",
+    "tests/unit/test_track01_dataset_acquisition.py",
+    "tests/unit/test_track02_step02_2_sft_remediation.py",
+    "tests/unit/test_track02_step02_2_verification_config.py",
+    "tests/unit/test_track02_step02_sft_data_prep.py"
+  ],
+  "verification_status": {
+    "unit_tests_passed": 711,
+    "unit_tests_failed": 0,
+    "clean_environment_status": "PASSED",
+    "phase14_manifest_intact": true,
+    "external_benchmark_evaluated": true
+  }
+}
+

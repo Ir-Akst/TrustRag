@@ -51,8 +51,8 @@ export function formatPercentileMetric(monitoring, key) {
 
 export function decisionTone(decision) {
   const d = String(decision || "").toUpperCase();
-  if (["ALLOW", "CLEAN", "SUPPORTED", "VERIFIED", "OK", "HEALTHY", "ACTIVE", "READY"].includes(d)) return "ok";
-  if (["FLAG", "UNCERTAIN", "PARTIALLY_SUPPORTED", "ABSTAINED", "DEGRADED", "FALLBACK_DETERMINISTIC"].includes(d)) return "warn";
+  if (["ALLOW", "CLEAN", "SUPPORTED", "VERIFIED", "OK", "HEALTHY", "ACTIVE", "READY", "ENTAILMENT"].includes(d)) return "ok";
+  if (["FLAG", "UNCERTAIN", "PARTIALLY_SUPPORTED", "ABSTAINED", "DEGRADED", "FALLBACK_DETERMINISTIC", "NEUTRAL", "INSUFFICIENT", "INSUFFICIENT_EVIDENCE", "SUSPICIOUS"].includes(d)) return "warn";
   if (["BLOCK", "BLOCKED", "POISONED", "CONTRADICTED", "ERROR", "NOT_READY", "UNAVAILABLE", "COMPROMISED"].includes(d)) return "danger";
   return "muted";
 }

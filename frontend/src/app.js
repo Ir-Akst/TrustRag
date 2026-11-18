@@ -2,6 +2,7 @@ import { TrustRAGApiClient } from "./api.js";
 import {
   renderAuditView,
   renderConfigView,
+  renderEvidenceView,
   renderG1View,
   renderG2View,
   renderG3View,
@@ -32,6 +33,14 @@ const state = {
   auditLogs: null,
   auditRecent: null,
   pipelineResult: null,
+  verifyResult: null,
+  isVerifying: false,
+  evidenceResult: null,
+  isIngesting: false,
+  lastVerifyQuery: "At what temperature does water boil?",
+  lastVerifyEvidence: "",
+  lastVerifyAnswer: "",
+  enableNeural: true,
   g1Result: null,
   g2Result: null,
   g3Result: null,
@@ -113,6 +122,62 @@ const actions = {
       setBanner(err.message || "Failed to connect to TrustRAG backend API.", "error");
     }
     render();
+  },
+
+  async runVerify(query, { evidence, answer, enableNeural = true, topK = 5 } = {}) {
+    state.isVerifying = true;
+    state.lastVerifyQuery = query;
+    state.lastVerifyEvidence = evidence ? evidence.join("\n") : "";
+    state.lastVerifyAnswer = answer || "";
+    state.enableNeural = enableNeural;
+    setBanner("Executing TrustRAG verification pipeline...", "info");
+    render();
+    try {
+      const res = await api.verify({
+        query,
+        evidence: evidence && evidence.length ? evidence : null,
+        answer: answer && answer.trim() ? answer : null,
+        enable_neural: enableNeural,
+        top_k: topK,
+      });
+      state.verifyResult = res;
+      setBanner("");
+      await actions.refreshAll();
+    } catch (err) {
+      setBanner(err.message || "Verification request failed", "error");
+    } finally {
+      state.isVerifying = false;
+      render();
+    }
+  },
+
+  async ingestEvidence(documents) {
+    state.isIngesting = true;
+    setBanner("Ingesting evidence into corpus...", "info");
+    render();
+    try {
+      const res = await api.ingestEvidence(documents);
+      state.evidenceResult = res;
+      setBanner(`Successfully ingested ${res.ingested_count} document(s). Total corpus: ${res.total_corpus_size}`, "info");
+      await actions.refreshAll();
+    } catch (err) {
+      setBanner(err.message || "Evidence ingestion failed", "error");
+    } finally {
+      state.isIngesting = false;
+      render();
+    }
+  },
+
+  async scanSecurity(query, documents = null) {
+    setBanner("Running G1+G2 security pre-screen...", "info");
+    try {
+      const res = await api.securityScan(query, documents);
+      setBanner(`Security scan complete: G1 blocked=${res.g1_blocked}, G2 candidate count=${res.g2_candidates?.length || 0}`, "info");
+      return res;
+    } catch (err) {
+      setBanner(err.message || "Security scan failed", "error");
+      throw err;
+    }
   },
 
   async runPipeline(query, topK) {
@@ -223,6 +288,7 @@ function render() {
   root.replaceChildren();
   const builders = {
     overview: () => renderOverviewView(state, actions),
+    evidence: () => renderEvidenceView(state, actions),
     g1: () => renderG1View(state, actions),
     g2: () => renderG2View(state, actions),
     g3: () => renderG3View(state, actions),

@@ -1,0 +1,93 @@
+{
+  "metadata": {
+    "task": "TrustRAG Track 2, Step 3.1.1: Independent CPU Environment Acceptance Audit",
+    "date": "2026-11-14T03:45:00+05:30",
+    "auditor": "Independent ML Infrastructure & Dataset Integrity Auditor",
+    "target_repo": "/home/aditya/rags/TrustRag-phase11",
+    "target_branch": "phase-11",
+    "target_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "protected_repo": "/home/aditya/rags/TrustRag",
+    "protected_branch": "phase-10",
+    "protected_commit": "e65bcc80aac634900d1f8e343880fddf66cec168"
+  },
+  "final_audit_verdict": "CONDITIONALLY_READY",
+  "environment_infrastructure_verdict": "ENVIRONMENT_READY",
+  "pilot_classification": "GENERIC_CPU_RUNTIME_SMOKE_TEST",
+  "pilot_validity_audit": {
+    "q1_actual_architecture_loaded": false,
+    "q2_pretrained_weights_loaded": false,
+    "q3_substitute_model_used": true,
+    "q4_real_records_consumed": "PARTIALLY (metadata only; text ignored)",
+    "q5_actual_tokenizer_executed": false,
+    "q6_reported_rss_includes_target": false,
+    "q7_reported_throughput_usable_for_deberta": false,
+    "parameter_comparison": {
+      "pilot_substitute_model_params": 475522,
+      "canonical_deberta_v3_small_params": 141894914,
+      "parameter_ratio": 298.4
+    }
+  },
+  "objective_readiness": {
+    "objective_a_binary_classification": {
+      "verdict": "CONDITIONALLY_READY",
+      "dataset_status": "READY",
+      "runtime_status": "READY",
+      "weights_status": "PENDING_STAGING",
+      "prerequisites": [
+        "Stage microsoft/deberta-v3-small weights in models/pretrained/"
+      ]
+    },
+    "objective_b_3way_nli": {
+      "verdict": "CONDITIONALLY_READY",
+      "dataset_status": "READY",
+      "runtime_status": "READY",
+      "weights_status": "PENDING_STAGING",
+      "prerequisites": [
+        "Stage microsoft/deberta-v3-small weights in models/pretrained/"
+      ]
+    },
+    "objective_c_span_extraction": {
+      "verdict": "CONDITIONALLY_READY",
+      "dataset_status": "READY",
+      "runtime_status": "READY",
+      "weights_status": "PENDING_STAGING",
+      "prerequisites": [
+        "Stage microsoft/deberta-v3-base weights in models/pretrained/",
+        "Implement token classification sliding window collator"
+      ]
+    },
+    "objective_d_g3_5outcome": {
+      "verdict": "BLOCKED",
+      "dataset_status": "BLOCKED",
+      "runtime_status": "READY",
+      "weights_status": "BLOCKED",
+      "prerequisites": [
+        "Supervision gap resolution via teacher LLM distillation"
+      ]
+    },
+    "objective_e_generative_structured_srm": {
+      "verdict": "BLOCKED",
+      "dataset_status": "BLOCKED",
+      "runtime_status": "NOT_SUPPORTED",
+      "weights_status": "BLOCKED",
+      "prerequisites": [
+        "GPU hardware accelerator with >= 16 GB VRAM",
+        "Reasoning trace synthesis"
+      ]
+    }
+  },
+  "dataset_integrity_verification": {
+    "total_files_verified": 18,
+    "matched_files": 18,
+    "status": "ALL_MATCH"
+  },
+  "environment_verification": {
+    "virtualenv": "/home/aditya/rags/.venv-train",
+    "python_version": "3.10.22",
+    "torch_version": "2.14.1+cpu",
+    "transformers_version": "5.20.2",
+    "cuda_available": false,
+    "orig_virtualenv_untouched": true,
+    "phase10_baseline_untouched": true
+  }
+}

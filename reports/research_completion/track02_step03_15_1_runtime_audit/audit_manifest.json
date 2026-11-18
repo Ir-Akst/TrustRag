@@ -1,0 +1,129 @@
+{
+  "audit_step": "track02_step03_15_1_runtime_audit",
+  "audit_role": "Independent ML Infrastructure Auditor and Adversarial Training Safety Reviewer",
+  "audit_timestamp_utc": "2026-11-14T14:35:44Z",
+  "resolves": "Step 3.15 Limitation L1 (watchdog timeout too short)",
+  "repository": {
+    "path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "phase10_head": "e65bcc80aac634900d1f8e343880fddf66cec168",
+    "phase10_path": "/home/aditya/rags/TrustRag"
+  },
+  "protected_assets_verified": {
+    "binary_pilot_sha256": "472ea687cae7b9d3caf1feb97adb35bef6acd31260b7b2ab7564a48eaf3fdb1b",
+    "binary_pilot_status": "UNCHANGED",
+    "nli_pilot_sha256": "500832fa1b9b7c67c2c08d9e1f4d4c76d235d15fa9960d76e1e6e81c220a2f8a",
+    "nli_pilot_status": "UNCHANGED",
+    "pretrained_model_checksums": "ALL_OK"
+  },
+  "l1_root_cause": {
+    "finding": "watchdog.check() not called inside evaluate(); timer starts before model load",
+    "first_check_elapsed_estimate_s": 5416,
+    "current_limit_s": 3600,
+    "first_check_exceeds_limit": true,
+    "effect": "TimeoutAbortError at training step 1; zero optimizer updates; no checkpoint written"
+  },
+  "timeout_remediation": {
+    "step315_suggested": 21600,
+    "step315_sufficient": false,
+    "step315_deficit_conservative_s": 554,
+    "recommended_s": 36000,
+    "recommended_h": 10,
+    "derivation": "conservative_total_22154s * 1.5 = 33231s, rounded up to 10h",
+    "cli_flag": "--max-duration-seconds 36000",
+    "source_modification_required": false
+  },
+  "pipeline_timing_estimates": {
+    "note": "ESTIMATES \u2014 not measured; model not loaded during audit",
+    "model_load_s": {
+      "nominal": 45,
+      "conservative": 90
+    },
+    "data_load_s": {
+      "measured": 0.1,
+      "conservative": 2
+    },
+    "pre_eval_s": {
+      "nominal": 5324,
+      "conservative": 7986
+    },
+    "training_s": {
+      "nominal": 4500,
+      "conservative": 6000
+    },
+    "post_eval_s": {
+      "nominal": 5324,
+      "conservative": 7986
+    },
+    "checkpoint_s": {
+      "nominal": 3,
+      "conservative": 30
+    },
+    "overhead_s": 60,
+    "total_s": {
+      "nominal": 15330,
+      "conservative": 22154
+    },
+    "total_h": {
+      "nominal": 4.26,
+      "conservative": 6.15
+    }
+  },
+  "watchdog_audit": {
+    "global_timeout_covers_entire_pipeline": true,
+    "eval_has_timeout_guard": false,
+    "per_step_timeout": false,
+    "atomic_checkpoint_safe_on_timeout": true,
+    "no_checkpoint_on_step1_abort": true,
+    "resume_support": false
+  },
+  "evaluation_symmetry": {
+    "pre_post_eval_identical_protocol": true,
+    "val_samples": 2662,
+    "tokenization_strategy": "evidence_preserving_384",
+    "metrics": [
+      "accuracy",
+      "balanced_accuracy",
+      "macro_f1",
+      "weighted_f1",
+      "per_class_prf",
+      "confusion_matrix",
+      "brier_score",
+      "ece_10bin",
+      "val_loss"
+    ]
+  },
+  "test_results": {
+    "targeted_run": {
+      "command": "pytest -k 'watchdog or timeout or checkpoint or evaluate or training_authorization'",
+      "exit_code": 0,
+      "passed": 6,
+      "deselected": 30
+    },
+    "full_run": {
+      "exit_code": 0,
+      "total": 47,
+      "passed": 46,
+      "skipped": 1,
+      "failed": 0
+    }
+  },
+  "final_verdict": "CONDITIONALLY_READY_WITH_LIMITATIONS",
+  "verdict_note": "L1 resolved by --max-duration-seconds 36000. Zero blocking limitations remain.",
+  "verdict_does_not_authorize_training": true,
+  "step316_invocation_draft": "HF_HUB_OFFLINE=1 TRANSFORMERS_OFFLINE=1 /home/aditya/rags/.venv-train/bin/python /home/aditya/rags/TrustRag-phase11/tools/training/train_nli_classifier.py --authorize-nli-training --output-dir /home/aditya/rags/models/trained/deberta-v3-small-nli-remediated --report-dir /home/aditya/rags/TrustRag-phase11/reports/training_runs/step03_16 --max-seq-len 384 --max-train-samples 1000 --max-val-samples 2662 --learning-rate 2e-5 --warmup-steps 100 --seed 42 --swap-growth-abort-mb 1000 --max-duration-seconds 36000",
+  "deliverables": [
+    "00_EXECUTIVE_RUNTIME_AUDIT.md",
+    "01_RUNTIME_BREAKDOWN.md",
+    "02_WATCHDOG_AUDIT.md",
+    "03_TIMEOUT_REMEDIATION_PLAN.md",
+    "04_EVALUATION_PROTOCOL.md",
+    "05_CHECKPOINT_AND_ASSET_INTEGRITY.md",
+    "06_TEST_RESULTS.md",
+    "07_REMAINING_LIMITATIONS.md",
+    "CONSOLIDATED_RUNTIME_AUDIT.md",
+    "audit_manifest.json",
+    "checksums.sha256"
+  ]
+}

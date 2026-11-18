@@ -1,0 +1,124 @@
+{
+  "audit_metadata": {
+    "task": "Track 1, Step 2.3: Independent Corrected Baseline Acceptance Audit",
+    "date": "2026-11-14T00:44:00+05:30",
+    "auditor": "Senior Software Architect, Security Auditor & ML Research Evaluator",
+    "final_verdict": "INDEPENDENTLY_VERIFIED",
+    "target_repository": {
+      "path": "/home/aditya/rags/TrustRag-phase11",
+      "branch": "phase-11",
+      "head_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+      "status": "clean"
+    },
+    "protected_baseline_repository": {
+      "path": "/home/aditya/rags/TrustRag",
+      "branch": "phase-10",
+      "head_commit": "e65bcc80aac634900d1f8e343880fddf66cec168",
+      "status": "clean_untouched"
+    }
+  },
+  "audited_prediction_inventory": [
+    {
+      "filename": "predictions_ragtruth_no_verification.jsonl",
+      "records": 2700,
+      "unique_ids": 2700,
+      "duplicates": 0,
+      "missing": 0
+    },
+    {
+      "filename": "predictions_ragtruth_default.jsonl",
+      "records": 2700,
+      "unique_ids": 2700,
+      "duplicates": 0,
+      "missing": 0
+    },
+    {
+      "filename": "predictions_ragtruth_strict.jsonl",
+      "records": 2700,
+      "unique_ids": 2700,
+      "duplicates": 0,
+      "missing": 0
+    },
+    {
+      "filename": "predictions_halueval_no_verification.jsonl",
+      "records": 3000,
+      "unique_ids": 3000,
+      "duplicates": 0,
+      "missing": 0
+    },
+    {
+      "filename": "predictions_halueval_default.jsonl",
+      "records": 3000,
+      "unique_ids": 3000,
+      "duplicates": 0,
+      "missing": 0
+    },
+    {
+      "filename": "predictions_halueval_strict.jsonl",
+      "records": 3000,
+      "unique_ids": 3000,
+      "duplicates": 0,
+      "missing": 0
+    },
+    {
+      "filename": "predictions_hotpotqa_retrieval.jsonl",
+      "records": 7405,
+      "unique_ids": 7405,
+      "duplicates": 0,
+      "missing": 0
+    },
+    {
+      "filename": "predictions_msmarco_retrieval.jsonl",
+      "records": 9706,
+      "unique_ids": 9706,
+      "duplicates": 0,
+      "missing": 0,
+      "skipped": 341
+    }
+  ],
+  "audit_deliverables": [
+    "00_EXECUTIVE_VERDICT.md",
+    "01_PREDICTION_CENSUS.md",
+    "02_INDEPENDENT_METRIC_RECALCULATION.md",
+    "03_CONFIGURATION_VERIFICATION.md",
+    "04_REPRODUCIBILITY_AUDIT.md",
+    "05_BASELINE_FAIRNESS.md",
+    "06_INTEGRITY_AND_REGRESSION.md",
+    "independent_metrics.json",
+    "audit_manifest.json",
+    "checksums.sha256"
+  ],
+  "regression_verification_results": {
+    "pytest_unit": {
+      "passed": 685,
+      "failed": 0,
+      "status": "PASS"
+    },
+    "mypy_static_typing": {
+      "files": 112,
+      "errors": 0,
+      "status": "PASS"
+    },
+    "ruff_linter": {
+      "status": "PASS"
+    },
+    "spec_validation": {
+      "gates_passing": "13/13",
+      "status": "PASS"
+    }
+  },
+  "prior_deliverables_integrity": {
+    "track02_baseline_evaluation": {
+      "files_checked": 22,
+      "status": "OK (100%)"
+    },
+    "track02_step02_1_metric_integrity_audit": {
+      "files_checked": 10,
+      "status": "OK (100%)"
+    },
+    "track02_step02_2_corrected_baselines": {
+      "files_checked": 21,
+      "status": "OK (100%)"
+    }
+  }
+}

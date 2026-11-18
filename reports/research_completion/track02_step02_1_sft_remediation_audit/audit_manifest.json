@@ -1,0 +1,52 @@
+{
+  "manifest_version": "1.0.0",
+  "track": "Track 2",
+  "step": "Step 2.2.1",
+  "title": "Independent SFT Remediation Acceptance Audit",
+  "generated_at_iso": "2026-11-14T02:50:00Z",
+  "overall_verdict": "INDEPENDENTLY_VERIFIED",
+  "repository": {
+    "target_path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "baseline_head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+  },
+  "deliverables": [
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_remediation_audit/00_EXECUTIVE_ACCEPTANCE_VERDICT.md",
+      "description": "Executive acceptance verdict, objective matrix, and reconciliation summary"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_remediation_audit/01_BINARY_DATASET_INDEPENDENT_AUDIT.md",
+      "description": "Independent verification of binary dataset (32,038 records) and zero-leakage partitions"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_remediation_audit/02_NLI_SEMANTIC_INDEPENDENT_AUDIT.md",
+      "description": "Verification of 3-way NLI semantic mapping (13,477 records) and 18,613 exclusions"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_remediation_audit/03_RAGTRUTH_SPAN_COUNT_RECONCILIATION.md",
+      "description": "Mathematical proof reconciling the 1,533 test spans discrepancy between Step 2.1 and Step 2.2"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_remediation_audit/04_SPAN_OFFSET_AND_PROVENANCE_AUDIT.md",
+      "description": "100.00% exact character offset verification for all 12,756 spans in sft_v2/spans"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_remediation_audit/05_SPLIT_AND_LEAKAGE_INDEPENDENT_AUDIT.md",
+      "description": "Independent proof of zero document leakage across all splits and retrieval quarantine"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_remediation_audit/06_GENERATIVE_TARGET_READINESS.md",
+      "description": "Capability assessment across 5 generative tasks; distinction between JSON and reasoning"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_remediation_audit/07_G3_SUPERVISION_GAP_REVERIFICATION.md",
+      "description": "Verification of zero fabricated G3 records and evaluation of human annotation protocol"
+    },
+    {
+      "path": "reports/research_completion/track02_step02_1_sft_remediation_audit/audit_matrix.json",
+      "description": "Machine-readable acceptance matrix and audit checklist"
+    }
+  ]
+}
+

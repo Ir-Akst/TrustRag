@@ -1,0 +1,80 @@
+{
+  "phase": "11.1",
+  "step": "2.1",
+  "task": "authorized_full_dataset_nli_training",
+  "verdict": "TRAINING_FAILED",
+  "timestamp": "2026-11-15T10:30:00Z",
+  "repository": {
+    "path": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-11",
+    "head_commit": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61"
+  },
+  "dataset": {
+    "train_file": "data/processed/sft_v2/nli/train.jsonl",
+    "train_samples": 10815,
+    "train_sha256": "b1777c7ac608d6d79171dbc4deaeb7bf5c4ba87acf83adbe53d63020524474ad",
+    "val_file": "data/processed/sft_v2/nli/validation.jsonl",
+    "val_samples": 2662,
+    "val_sha256": "7601dd266edde160c51e1032150ea42c031131cb6be89c601637ad464121615c"
+  },
+  "hyperparameters": {
+    "architecture": "DeBERTa-v3-small",
+    "parameters": 141897219,
+    "precision": "FP32",
+    "epochs": 3,
+    "batch_size": 1,
+    "gradient_accumulation_steps": 4,
+    "effective_batch_size": 4,
+    "steps_per_epoch": 2704,
+    "total_optimizer_steps": 8112,
+    "learning_rate": 2e-5,
+    "warmup_steps": 500,
+    "weight_decay": 0.01,
+    "max_seq_len": 384,
+    "min_premise_tokens": 64,
+    "sampler_strategy": "sequential",
+    "class_weights": [1.0, 3.5, 1.5],
+    "seed": 42
+  },
+  "executions": [
+    {
+      "task_id": "task-9745",
+      "status": "TERMINATED_HOST_REBOOT",
+      "steps_completed": 1750,
+      "total_planned_steps": 8112,
+      "elapsed_seconds": 13838.0,
+      "final_rolling_loss": 0.6531,
+      "termination_reason": "Involuntary host system reboot"
+    },
+    {
+      "task_id": "task-9774",
+      "status": "ABORTED_WATCHDOG_RESOURCE_LIMIT",
+      "steps_completed": 325,
+      "total_planned_steps": 8112,
+      "elapsed_seconds": 3800.0,
+      "final_rolling_loss": 0.9465,
+      "termination_reason": "ResourceAbortError: Swap usage grew by 1038.4 MB from baseline (Threshold: 1000.0 MB)"
+    }
+  ],
+  "step0_baseline_metrics": {
+    "total_samples": 2662,
+    "loss": 1.0883402,
+    "accuracy": 0.241923,
+    "balanced_accuracy": 0.333333,
+    "macro_f1": 0.129865,
+    "brier_score": 0.662933,
+    "ece_10bins": 0.151797,
+    "per_class": {
+      "ENTAILMENT": {"precision": 0.0, "recall": 0.0, "f1": 0.0, "support": 1662},
+      "CONTRADICTION": {"precision": 0.0, "recall": 0.0, "f1": 0.0, "support": 356},
+      "NEUTRAL": {"precision": 0.241923, "recall": 1.0, "f1": 0.389595, "support": 644}
+    }
+  },
+  "protected_checkpoint_hashes": {
+    "pretrained_deberta_v3_small": "d4b0ebcc7799a2c2dde1a39199cb0ed709f2c6b63a48b8c05133b77955f271a9",
+    "binary_pilot1000": "472ea687cae7b9d3caf1feb97adb35bef6acd31260b7b2ab7564a48eaf3fdb1b",
+    "nli_pilot1000": "500832fa1b9b7c67c2c08d9e1f4d4c76d235d15fa9960d76e1e6e81c220a2f8a",
+    "nli_remediated": "bb4c26bab4a147c2ad6bdae7ec8a1ecc56841ea56fc89922fd377fb5d70fe113"
+  }
+}
+
