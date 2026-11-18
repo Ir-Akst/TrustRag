@@ -75,6 +75,18 @@ class HaluEvalAdapter(BaseAdapter):
             yield from LocalFileImporter.read_records(self.local_path, limit=self.limit)
             return
 
+        # Check local processed split or raw QA file
+        candidates = [
+            Path("data/processed/halueval") / f"{self.split}.jsonl",
+            self.cache_dir / f"{self.split}.jsonl",
+            self.cache_dir / "qa_data.json",
+            Path("data/raw/halueval") / "qa_data.json",
+        ]
+        for c in candidates:
+            if c.exists():
+                yield from LocalFileImporter.read_records(c, limit=self.limit)
+                return
+
         yield from HFAcquisitionHelper.load_hf_records(
             self.metadata.source_uri,
             split=self.split,

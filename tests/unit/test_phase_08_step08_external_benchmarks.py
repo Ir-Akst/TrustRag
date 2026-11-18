@@ -13,8 +13,15 @@ from trustrag.evaluation.external_benchmarks import (
 )
 
 
-def test_offline_suite_audits_all_seven_benchmarks_honestly() -> None:
-    report = run_all_external_benchmarks()
+def test_offline_suite_audits_all_seven_benchmarks_honestly(tmp_path: Path) -> None:
+    raw_dir = tmp_path / "raw"
+    proc_dir = tmp_path / "processed"
+    rag_dir = raw_dir / "ragtruth"
+    rag_dir.mkdir(parents=True)
+    fixture_src = Path("data/raw/ragtruth/test.jsonl")
+    if fixture_src.exists():
+        (rag_dir / "test.jsonl").write_bytes(fixture_src.read_bytes())
+    report = run_all_external_benchmarks(raw_base_dir=raw_dir, processed_base_dir=proc_dir)
     names = [r.dataset_name for r in report.results]
     assert tuple(names) == EXTERNAL_RESEARCH_BENCHMARKS
     by_name = {r.dataset_name: r for r in report.results}

@@ -63,6 +63,15 @@ class HotpotQAAdapter(BaseAdapter):
             yield from LocalFileImporter.read_records(self.local_path, limit=self.limit)
             return
 
+        candidates = [
+            Path("data/processed/hotpotqa") / f"{self.split}.jsonl",
+            self.cache_dir / f"{self.split}.jsonl",
+        ]
+        for c in candidates:
+            if c.exists():
+                yield from LocalFileImporter.read_records(c, limit=self.limit)
+                return
+
         yield from HFAcquisitionHelper.load_hf_records(
             self.metadata.source_uri,
             split=self.split,

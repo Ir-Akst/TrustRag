@@ -314,6 +314,8 @@ class GenerationConfig(_ValidatedConfigModel):
 class VerificationConfig(_ValidatedConfigModel):
     """Configuration for G3 Output Evidence Verification."""
 
+    model_config = {"extra": "forbid"}
+
     enabled: bool = Field(default=True, description="Whether G3 output evidence verification is active")
     min_support_coverage: float = Field(
         default=0.65,
@@ -365,6 +367,35 @@ class VerificationConfig(_ValidatedConfigModel):
         default=5.0,
         gt=0.0,
         description="Maximum total retry budget (seconds) for controlled re-answering",
+    )
+    # Neural NLI Extension (Phase 12)
+    nli_backend: str = Field(
+        default="heuristic",
+        description="G3 verification backend: 'heuristic', 'neural_nli', or 'hybrid'",
+    )
+    nli_model_path: Optional[str] = Field(
+        default="/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+        description="Path to staged/trained DeBERTa-v3-small NLI checkpoint",
+    )
+    nli_contradiction_threshold: float = Field(
+        default=0.20,
+        ge=0.0,
+        le=1.0,
+        description="Contradiction probability threshold for classifying a claim as CONTRADICTED",
+    )
+    nli_entailment_threshold: float = Field(
+        default=0.50,
+        ge=0.0,
+        le=1.0,
+        description="Entailment probability threshold for classifying a claim as SUPPORTED",
+    )
+    nli_neutral_policy: str = Field(
+        default="insufficient",
+        description="Policy for neutral evidence handling: 'insufficient' or 'uncertain'",
+    )
+    nli_device: str = Field(
+        default="cpu",
+        description="Execution device for neural NLI ('cpu')",
     )
 
 

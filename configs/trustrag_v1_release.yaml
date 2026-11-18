@@ -1,0 +1,60 @@
+# TrustRAG v1.0.0-rc1 Production Release Configuration
+# Frozen research release for defensive RAG pipelines
+
+app:
+  env: production
+  log_level: INFO
+  random_seed: 42
+
+guardrails:
+  enabled: true
+  max_input_length: 4096
+  flag_threshold: 0.35
+  block_threshold: 0.70
+  block_on_empty: true
+  strip_zero_width_for_analysis: true
+
+retrieval:
+  top_k: 5
+  candidate_multiplier: 3
+  min_relevance_score: 0.01
+  filtering_mode: remove_with_cap
+  filter_low_trust: true
+  enforce_removal_cap: true
+  removal_cap_ratio: 0.5
+  trust_weight: 0.45
+
+msd:
+  enabled: true
+  weight_perplexity: 0.8
+  weight_embedding_norm: 0.8
+  weight_query_match: 1.2
+  weight_instruction_content: 2.0
+  weight_consensus_deviation: 1.0
+  weight_provenance: 0.8
+  bias: 0.0
+  trust_threshold: 0.60
+  poison_threshold: 0.38
+  instruction_poison_threshold: 0.55
+  instruction_flag_threshold: 0.30
+  missing_signal_policy: coverage_attenuated
+  min_available_signals: 2
+  min_available_weight_ratio: 0.25
+  perplexity_backend: disabled
+  embedding_backend: tfidf_raw
+  enable_freq_density: false
+
+verification:
+  enabled: true
+  min_support_coverage: 0.65
+  contradiction_threshold: 0.75
+  abstain_on_unsupported: true
+  require_strong_support: true
+  max_retry_budget: 10.0
+  # Neural / Hybrid Verification (v1.0.0-rc1)
+  nli_backend: hybrid
+  nli_model_path: /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
+  nli_contradiction_threshold: 0.20
+  nli_entailment_threshold: 0.50
+  nli_neutral_policy: insufficient
+  nli_device: cpu

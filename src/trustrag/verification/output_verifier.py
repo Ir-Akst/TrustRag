@@ -1928,10 +1928,346 @@ class OutputEvidenceVerifier:
         *,
         embedding_callable: Optional[Callable[[Sequence[str]], Sequence[np.ndarray]]] = None,
         srm_client: Optional[Any] = None,
+        nli_callable: Optional[Callable[[str, str], Dict[str, Any]]] = None,
     ) -> None:
         self.config = config or VerificationConfig()
         self.embedding_callable = embedding_callable
         self.srm_client = srm_client
+        self.nli_callable = nli_callable
+        self._nli_model: Any = None
+        self._nli_tokenizer: Any = None
+        self._nli_load_error: Optional[str] = None
+
+    def _predict_nli(self, premise: str, hypothesis: str) -> Dict[str, Any]:
+        """Run 3-class NLI inference on (premise, hypothesis).
+
+        Returns dict:
+            logits: List[float] [entailment, contradiction, neutral]
+            probabilities: List[float]
+            p_entailment: float
+            p_contradiction: float
+            p_neutral: float
+            predicted_label: "ENTAILMENT" | "CONTRADICTION" | "NEUTRAL"
+            error: Optional[str]
+        """
+        if self.nli_callable is not None:
+            try:
+                res = self.nli_callable(premise, hypothesis)
+                return res
+            except Exception as e:
+                return {
+                    "error": f"nli_callable execution error: {e}",
+                    "logits": None,
+                    "probabilities": None,
+                    "p_entailment": 0.0,
+                    "p_contradiction": 0.0,
+                    "p_neutral": 0.0,
+                    "predicted_label": "NEUTRAL",
+                }
+
+        if self._nli_load_error is not None:
+            return {
+                "error": self._nli_load_error,
+                "logits": None,
+                "probabilities": None,
+                "p_entailment": 0.0,
+                "p_contradiction": 0.0,
+                "p_neutral": 0.0,
+                "predicted_label": "NEUTRAL",
+            }
+
+        if self._nli_model is None:
+            model_path = self.config.nli_model_path
+            from pathlib import Path as _P
+            if not model_path or not _P(model_path).exists():
+                self._nli_load_error = f"Model path not found: {model_path}"
+                return {
+                    "error": self._nli_load_error,
+                    "logits": None,
+                    "probabilities": None,
+                    "p_entailment": 0.0,
+                    "p_contradiction": 0.0,
+                    "p_neutral": 0.0,
+                    "predicted_label": "NEUTRAL",
+                }
+            try:
+                import torch
+                from transformers import AutoModelForSequenceClassification, AutoTokenizer
+
+                self._nli_tokenizer = AutoTokenizer.from_pretrained(model_path, local_files_only=True)
+                self._nli_model = AutoModelForSequenceClassification.from_pretrained(model_path, local_files_only=True)
+                self._nli_model.eval()
+                for p in self._nli_model.parameters():
+                    p.requires_grad = False
+            except Exception as e:
+                self._nli_load_error = f"Failed to load NLI model from {model_path}: {e}"
+                return {
+                    "error": self._nli_load_error,
+                    "logits": None,
+                    "probabilities": None,
+                    "p_entailment": 0.0,
+                    "p_contradiction": 0.0,
+                    "p_neutral": 0.0,
+                    "predicted_label": "NEUTRAL",
+                }
+
+        try:
+            import torch
+
+            inputs = self._nli_tokenizer(
+                premise,
+                hypothesis,
+                truncation=True,
+                max_length=384,
+                padding=True,
+                return_tensors="pt",
+            )
+            with torch.no_grad():
+                outputs = self._nli_model(**inputs)
+                logits_list = outputs.logits[0].cpu().numpy().tolist()
+                probs_tensor = torch.softmax(outputs.logits[0], dim=-1)
+                probs_list = probs_tensor.cpu().numpy().tolist()
+
+            p_ent = float(probs_list[0])
+            p_con = float(probs_list[1])
+            p_neu = float(probs_list[2])
+            idx_to_label = {0: "ENTAILMENT", 1: "CONTRADICTION", 2: "NEUTRAL"}
+            pred_label = idx_to_label[int(np.argmax(probs_list))]
+
+            return {
+                "logits": [round(float(x), 4) for x in logits_list],
+                "probabilities": [round(float(x), 4) for x in probs_list],
+                "p_entailment": p_ent,
+                "p_contradiction": p_con,
+                "p_neutral": p_neu,
+                "predicted_label": pred_label,
+                "error": None,
+            }
+        except Exception as e:
+            return {
+                "error": f"NLI forward pass failed: {e}",
+                "logits": None,
+                "probabilities": None,
+                "p_entailment": 0.0,
+                "p_contradiction": 0.0,
+                "p_neutral": 0.0,
+                "predicted_label": "NEUTRAL",
+            }
+
+    def _verify_claim_neural(
+        self,
+        claim_id: str,
+        claim_text: str,
+        trusted_documents: Sequence[EvidenceDocument],
+    ) -> ClaimVerificationItem:
+        """Verify an atomic claim using neural DeBERTa-v3-small NLI (or hybrid with heuristic checks)."""
+        if not trusted_documents:
+            return ClaimVerificationItem(
+                claim_id=claim_id,
+                claim_text=claim_text,
+                outcome=EvidenceOutcome.NOT_ENOUGH_EVIDENCE,
+                verdict=G3ClaimVerdict.INSUFFICIENT,
+                confidence=0.95,
+                unsupported_flag=True,
+                supporting_evidence_refs=[],
+                contradicting_evidence_refs=[],
+                evidence_refs=[],
+                explanation="No retrieved evidence documents provided to verify claim; missing evidence is never marked supported.",
+            )
+
+        supp_refs: List[EvidenceReference] = []
+        contr_refs: List[EvidenceReference] = []
+        neutral_refs: List[EvidenceReference] = []
+        error_notes: List[str] = []
+
+        theta_con = self.config.nli_contradiction_threshold
+        theta_ent = self.config.nli_entailment_threshold
+
+        for doc in trusted_documents:
+            pred = self._predict_nli(premise=doc.text, hypothesis=claim_text)
+            if pred.get("error"):
+                error_notes.append(pred["error"])
+                continue
+
+            p_con = pred["p_contradiction"]
+            p_ent = pred["p_entailment"]
+            p_neu = pred["p_neutral"]
+            logits = pred.get("logits") or []
+
+            # Check contradiction first
+            if p_con >= theta_con:
+                contr_refs.append(
+                    EvidenceReference(
+                        doc_id=doc.doc_id,
+                        source_id=doc.source_id if hasattr(doc, "source_id") else None,
+                        source_dataset=doc.source_dataset if hasattr(doc, "source_dataset") else None,
+                        provenance=str(doc.metadata.get("source", "UNKNOWN")) if doc.metadata else "UNKNOWN",
+                        matched_span=doc.text[:200],
+                        similarity_score=round(p_con, 4),
+                        polarity_match=False,
+                        numeric_match=False,
+                        coverage_score=0.0,
+                        alignment_note=f"Neural NLI Contradiction (p_con={p_con:.4f} >= {theta_con:.2f}, logits={logits})",
+                        span_outcome="CONTRADICTS",
+                    )
+                )
+            elif p_ent >= theta_ent:
+                supp_refs.append(
+                    EvidenceReference(
+                        doc_id=doc.doc_id,
+                        source_id=doc.source_id if hasattr(doc, "source_id") else None,
+                        source_dataset=doc.source_dataset if hasattr(doc, "source_dataset") else None,
+                        provenance=str(doc.metadata.get("source", "UNKNOWN")) if doc.metadata else "UNKNOWN",
+                        matched_span=doc.text[:200],
+                        similarity_score=round(p_ent, 4),
+                        polarity_match=True,
+                        numeric_match=True,
+                        coverage_score=round(p_ent, 4),
+                        alignment_note=f"Neural NLI Entailment (p_ent={p_ent:.4f} >= {theta_ent:.2f}, logits={logits})",
+                        span_outcome="SUPPORTS",
+                    )
+                )
+            else:
+                neutral_refs.append(
+                    EvidenceReference(
+                        doc_id=doc.doc_id,
+                        source_id=doc.source_id if hasattr(doc, "source_id") else None,
+                        source_dataset=doc.source_dataset if hasattr(doc, "source_dataset") else None,
+                        provenance=str(doc.metadata.get("source", "UNKNOWN")) if doc.metadata else "UNKNOWN",
+                        matched_span=doc.text[:200],
+                        similarity_score=round(p_neu, 4),
+                        polarity_match=True,
+                        numeric_match=True,
+                        coverage_score=round(p_ent, 4),
+                        alignment_note=f"Neural NLI Neutral (p_neu={p_neu:.4f}, p_ent={p_ent:.4f}, p_con={p_con:.4f}, logits={logits})",
+                        span_outcome="NEUTRAL",
+                    )
+                )
+
+        # Handling errors: if all documents errored or model failed to load
+        if error_notes and not supp_refs and not contr_refs and not neutral_refs:
+            if self.config.nli_backend == "hybrid":
+                LOGGER.warning("Neural NLI inference failed; falling back to heuristic: %s", error_notes[0])
+                heuristic_item = self._verify_single_proposition(
+                    claim_id=claim_id,
+                    claim_text=claim_text,
+                    trusted_documents=trusted_documents,
+                    index=self._build_evidence_index(trusted_documents),
+                    precomputed_sims=None,
+                )
+                heuristic_item.explanation = f"[Hybrid Fallback] Neural NLI error: {error_notes[0]}. {heuristic_item.explanation}"
+                return heuristic_item
+            else:
+                # In pure neural_nli mode, FAIL CLOSED: never return an unsafe PASS!
+                return ClaimVerificationItem(
+                    claim_id=claim_id,
+                    claim_text=claim_text,
+                    outcome=EvidenceOutcome.UNCERTAIN,
+                    verdict=G3ClaimVerdict.UNCERTAIN,
+                    confidence=0.0,
+                    unsupported_flag=True,
+                    supporting_evidence_refs=[],
+                    contradicting_evidence_refs=[],
+                    evidence_refs=[],
+                    explanation=f"Neural NLI inference failed ({error_notes[0]}); fail-closed unverified rejection.",
+                )
+
+        # In hybrid mode: verify heuristic numeric & polarity checks don't detect a conflict on supporting evidence
+        if self.config.nli_backend == "hybrid" and supp_refs and not contr_refs:
+            top_doc = next(d for d in trusted_documents if d.doc_id == supp_refs[0].doc_id)
+            pol_ok, pol_expl = _evaluate_polarity(claim_text, top_doc.text)
+            num_ok, num_conflict, num_expl = _evaluate_numbers(claim_text, top_doc.text)
+            if not pol_ok:
+                contr_refs.append(
+                    EvidenceReference(
+                        doc_id=top_doc.doc_id,
+                        matched_span=top_doc.text[:200],
+                        similarity_score=0.90,
+                        polarity_match=False,
+                        numeric_match=num_ok,
+                        coverage_score=0.0,
+                        alignment_note=f"[Hybrid Conflict] Heuristic polarity contradiction: {pol_expl}",
+                        span_outcome="CONTRADICTS",
+                    )
+                )
+            elif not num_ok and self.config.strict_numeric_matching:
+                return ClaimVerificationItem(
+                    claim_id=claim_id,
+                    claim_text=claim_text,
+                    outcome=EvidenceOutcome.CONTRADICTS,
+                    verdict=G3ClaimVerdict.CONTRADICTED,
+                    confidence=0.85,
+                    unsupported_flag=True,
+                    supporting_evidence_refs=[],
+                    contradicting_evidence_refs=[
+                        EvidenceReference(
+                            doc_id=top_doc.doc_id,
+                            matched_span=top_doc.text[:200],
+                            similarity_score=0.85,
+                            polarity_match=True,
+                            numeric_match=False,
+                            coverage_score=0.0,
+                            alignment_note=f"[Hybrid Conflict] Heuristic numeric mismatch: {num_expl}",
+                            span_outcome="CONTRADICTS",
+                        )
+                    ],
+                    evidence_refs=supp_refs[:1],
+                    explanation=f"Hybrid check: numeric conflict detected despite neural score ({num_expl}).",
+                )
+
+        # Resolution Logic
+        if contr_refs:
+            best_contr = contr_refs[0]
+            return ClaimVerificationItem(
+                claim_id=claim_id,
+                claim_text=claim_text,
+                outcome=EvidenceOutcome.CONTRADICTS,
+                verdict=G3ClaimVerdict.CONTRADICTED,
+                confidence=round(best_contr.similarity_score, 4),
+                unsupported_flag=True,
+                supporting_evidence_refs=supp_refs,
+                contradicting_evidence_refs=contr_refs,
+                evidence_refs=contr_refs + supp_refs,
+                explanation=f"Contradicted by retrieved evidence ({best_contr.alignment_note}).",
+            )
+        elif supp_refs:
+            best_supp = supp_refs[0]
+            return ClaimVerificationItem(
+                claim_id=claim_id,
+                claim_text=claim_text,
+                outcome=EvidenceOutcome.SUPPORTS,
+                verdict=G3ClaimVerdict.SUPPORTED,
+                confidence=round(best_supp.coverage_score, 4),
+                unsupported_flag=False,
+                supporting_evidence_refs=supp_refs,
+                contradicting_evidence_refs=[],
+                evidence_refs=supp_refs,
+                explanation=f"Entailed by retrieved evidence ({best_supp.alignment_note}).",
+            )
+        else:
+            # All neutral or below threshold
+            if self.config.nli_neutral_policy == "uncertain":
+                outcome = EvidenceOutcome.UNCERTAIN
+                verdict = G3ClaimVerdict.UNCERTAIN
+            else:
+                outcome = EvidenceOutcome.NOT_ENOUGH_EVIDENCE
+                verdict = G3ClaimVerdict.INSUFFICIENT
+
+            best_ref = neutral_refs[0] if neutral_refs else None
+            conf = round(best_ref.similarity_score, 4) if best_ref else 0.50
+            expl_note = best_ref.alignment_note if best_ref else "no candidate passages"
+            return ClaimVerificationItem(
+                claim_id=claim_id,
+                claim_text=claim_text,
+                outcome=outcome,
+                verdict=verdict,
+                confidence=conf,
+                unsupported_flag=True,
+                supporting_evidence_refs=[],
+                contradicting_evidence_refs=[],
+                evidence_refs=neutral_refs,
+                explanation=f"Neutral evidence: claim is neither clearly entailed nor contradicted ({expl_note}).",
+            )
 
     def extract_claims(self, answer_text: str) -> List[str]:
         """Decompose generated answer text into verifiable atomic claims, skipping opinions/greetings."""
@@ -2101,6 +2437,9 @@ class OutputEvidenceVerifier:
                 evidence_refs=[],
                 explanation="No retrieved evidence documents provided to verify claim; missing evidence is never marked supported.",
             )
+
+        if self.config.nli_backend in ("neural_nli", "hybrid"):
+            return self._verify_claim_neural(claim_id, claim_text, trusted_documents)
 
         index = _precomputed_index or self._build_evidence_index(trusted_documents)
         if not index.span_entries:

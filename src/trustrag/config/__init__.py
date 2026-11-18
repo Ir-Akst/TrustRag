@@ -13,7 +13,11 @@ from .engine_config import (
     SRMConfig,
     VerificationConfig,
 )
-from .settings import Settings, load_config
+try:
+    from .settings import Settings, load_config
+except ImportError:
+    Settings = None  # type: ignore
+    load_config = None  # type: ignore
 
 __all__ = [
     "Settings",
