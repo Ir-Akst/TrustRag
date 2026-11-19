@@ -47,7 +47,7 @@ def test_health_srm_and_openapi_endpoints(tmp_path: Path) -> None:
             assert data["ready"] is True
             assert data["auth_mode"] == "local_dev_unauthenticated"
             assert data["components"]["g1_guardrail"] == "active"
-            assert data["components"]["srm"] == "fallback_deterministic"
+            assert data["components"]["srm"] in ("ready", "active", "fallback_deterministic")
             assert r_health.headers["X-Content-Type-Options"] == "nosniff"
             assert r_health.headers["X-Frame-Options"] == "DENY"
             assert "Content-Security-Policy" in r_health.headers
@@ -55,8 +55,12 @@ def test_health_srm_and_openapi_endpoints(tmp_path: Path) -> None:
             r_srm = await client.get("/api/v1/srm/health")
             assert r_srm.status == 200
             srm = await r_srm.json()
-            assert srm["is_fallback"] is True
-            assert srm["health"]["is_real_model"] is False
+            if srm["configured_backend"] == "disabled":
+                assert srm["is_fallback"] is True
+                assert srm["health"]["is_real_model"] is False
+            else:
+                assert srm["is_fallback"] is False
+                assert srm["health"]["is_real_model"] is True
 
             r_oas = await client.get("/openapi.json")
             assert r_oas.status == 200

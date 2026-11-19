@@ -65,7 +65,7 @@ class G1AnalyzeResponse(BaseModel):
 
 class CandidateDocInput(BaseModel):
     doc_id: str = Field(min_length=1, max_length=128)
-    text: str = Field(min_length=1, max_length=16384)
+    text: str = Field(default="", max_length=16384)
     score: float = Field(default=0.75, ge=0.0, le=1.0)
     source_id: str = Field(default="", max_length=256)
     provenance: str = Field(default="unknown", max_length=256)
@@ -114,6 +114,8 @@ class G2DocumentView(BaseModel):
 class G2AnalyzeResponse(BaseModel):
     request_id: str
     query: str
+    status: str = Field(default="ASSESSMENT_SUCCESS")
+    status_reason: str = Field(default="")
     candidate_count: int = Field(ge=0)
     retained_doc_ids: list[str] = Field(default_factory=list)
     filtered_doc_ids: list[str] = Field(default_factory=list)
@@ -327,6 +329,8 @@ class SecurityScanApiResponse(BaseModel):
     g1_decision: str
     g1_risk_score: float
     g1_reasons: list[str]
+    g2_status: str = Field(default="ASSESSMENT_SUCCESS")
+    g2_status_reason: str = Field(default="")
     g2_evaluated_count: int
     g2_retained_count: int
     g2_mean_trust: float
@@ -357,6 +361,12 @@ class StatusApiResponse(BaseModel):
     components: dict[str, str]
     corpus_documents: int
     timestamp: str
+    srm_backend_configured: str = "disabled"
+    srm_health: SRMBackendHealth | None = None
+    neural_inference_available: bool = False
+    checkpoint_sha256_verified: bool = False
+    calibration_active: bool = False
+    calibration_version: str | None = None
 
 
 def generate_openapi_spec() -> dict[str, Any]:

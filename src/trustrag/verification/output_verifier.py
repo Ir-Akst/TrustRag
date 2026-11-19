@@ -2054,6 +2054,40 @@ class OutputEvidenceVerifier:
                 "predicted_label": "NEUTRAL",
             }
 
+    def run_inference_probe(
+        self,
+        premise: str = "At standard atmospheric pressure, pure water boils at 100 degrees Celsius.",
+        hypothesis: str = "Water boils at 100 degrees Celsius at sea level.",
+    ) -> Dict[str, Any]:
+        """Perform an actual forward pass with the neural model and return full telemetry."""
+        t0 = time.perf_counter()
+        pred = self._predict_nli(premise, hypothesis)
+        lat_ms = round((time.perf_counter() - t0) * 1000.0, 3)
+        has_err = bool(pred.get("error"))
+        probs = pred.get("probabilities")
+        probs_valid = False
+        if probs and len(probs) == 3:
+            s = sum(probs)
+            probs_valid = all(0.0 <= p <= 1.0 for p in probs) and (0.98 <= s <= 1.02)
+        from datetime import datetime, timezone
+        return {
+            "model_identifier": str(self.config.nli_model_path),
+            "model_loaded": self._nli_model is not None,
+            "device": str(getattr(self.config, "nli_device", "cpu")),
+            "dtype": str(next(self._nli_model.parameters()).dtype) if self._nli_model is not None else "unavailable",
+            "last_successful_inference": datetime.now(timezone.utc).isoformat() if not has_err else None,
+            "inference_success": not has_err,
+            "inference_latency_ms": lat_ms,
+            "probabilities": {
+                "p_entailment": pred.get("p_entailment"),
+                "p_contradiction": pred.get("p_contradiction"),
+                "p_neutral": pred.get("p_neutral"),
+                "sum": round(sum(probs), 4) if probs else None,
+            } if probs else None,
+            "probabilities_valid": probs_valid,
+            "error": pred.get("error"),
+        }
+
     def _verify_claim_neural(
         self,
         claim_id: str,
@@ -2111,7 +2145,7 @@ class OutputEvidenceVerifier:
                         span_outcome="CONTRADICTS",
                     )
                 )
-            elif p_ent >= theta_ent:
+            elif p_ent >= theta_ent or (pred.get("predicted_label") == "ENTAILMENT" and p_ent >= 0.45):
                 supp_refs.append(
                     EvidenceReference(
                         doc_id=doc.doc_id,
@@ -2176,27 +2210,42 @@ class OutputEvidenceVerifier:
         if self.config.nli_backend == "hybrid" and not contr_refs:
             candidate_docs = [d for d in trusted_documents if any(ref.doc_id == d.doc_id for ref in (supp_refs + neutral_refs))]
             for top_doc in candidate_docs:
-                pol_ok, pol_expl = _evaluate_polarity(claim_text, top_doc.text)
-                num_ok, num_conflict, num_expl = _evaluate_numbers(claim_text, top_doc.text)
-                if not pol_ok:
+                doc_sentences = [s.strip() for s in re.split(r"(?<=[.!?])\s+", top_doc.text) if len(s.strip()) > 5]
+                if not doc_sentences:
+                    doc_sentences = [top_doc.text]
+                claim_words = set(tokenize_content_words(claim_text))
+                matching_sentences = [
+                    s for s in doc_sentences
+                    if len(set(tokenize_content_words(s)) & claim_words) >= 2
+                ] or doc_sentences
+
+                pol_results = [_evaluate_polarity(claim_text, s) for s in matching_sentences]
+                any_pol_ok = any(ok for ok, _ in pol_results)
+                num_results = [_evaluate_numbers(claim_text, s) for s in matching_sentences]
+                any_num_conflict = any(conflict for _, conflict, _ in num_results)
+                any_num_ok = any(ok for ok, _, _ in num_results)
+
+                if not any_pol_ok and self.config.strict_negation_check:
+                    _, first_err = next(((ok, err) for ok, err in pol_results if not ok), (False, "Polarity mismatch"))
                     contr_refs.append(
                         EvidenceReference(
                             doc_id=top_doc.doc_id,
-                            matched_span=top_doc.text[:200],
+                            matched_span=matching_sentences[0][:200],
                             similarity_score=0.90,
                             polarity_match=False,
-                            numeric_match=num_ok,
+                            numeric_match=any_num_ok,
                             coverage_score=0.0,
-                            alignment_note=f"[Hybrid Conflict] Heuristic polarity contradiction: {pol_expl}",
+                            alignment_note=f"[Hybrid Conflict] Heuristic polarity contradiction: {first_err}",
                             span_outcome="CONTRADICTS",
                         )
                     )
                     break
-                elif num_conflict and self.config.strict_numeric_matching:
+                elif any_num_conflict and self.config.strict_numeric_matching:
+                    _, _, num_expl = next((r for r in num_results if r[1]), (False, True, "Numeric conflict"))
                     contr_refs.append(
                         EvidenceReference(
                             doc_id=top_doc.doc_id,
-                            matched_span=top_doc.text[:200],
+                            matched_span=matching_sentences[0][:200],
                             similarity_score=0.85,
                             polarity_match=True,
                             numeric_match=False,
@@ -2206,6 +2255,21 @@ class OutputEvidenceVerifier:
                         )
                     )
                     break
+                elif not any_num_ok and self.config.strict_numeric_matching:
+                    _, _, num_expl = num_results[0]
+                    supp_refs = [r for r in supp_refs if r.doc_id != top_doc.doc_id]
+                    neutral_refs.append(
+                        EvidenceReference(
+                            doc_id=top_doc.doc_id,
+                            matched_span=matching_sentences[0][:200],
+                            similarity_score=0.50,
+                            polarity_match=True,
+                            numeric_match=False,
+                            coverage_score=0.0,
+                            alignment_note=f"[Hybrid Numeric] Unverified numeric value: {num_expl}",
+                            span_outcome="NEUTRAL",
+                        )
+                    )
 
         # Resolution Logic
         if contr_refs:

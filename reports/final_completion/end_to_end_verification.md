@@ -245,3 +245,4 @@ Based on rigorous, source-level and execution-level evidence:
 - The frozen DeBERTa-v3-small NLI model operates with complete integrity.
 - All 31 automated tests passed with zero failures.
 - **Verdict: ACCEPTED FOR RELEASE (v1.0.0-rc1 / application-integration).**
+

@@ -8,6 +8,7 @@ from .backends import (
 )
 from .client import SRMClient
 from .hf_local import HuggingFaceLocalSRMBackend
+from .neural_nli import NeuralNLISRMBackend
 from .registry import BackendBuilder, SRMBackendRegistry
 
 __all__ = [
@@ -16,6 +17,7 @@ __all__ = [
     "DeterministicFallbackBackend",
     "HuggingFaceLocalSRMBackend",
     "LocalOllamaBackend",
+    "NeuralNLISRMBackend",
     "OpenAICompatibleAPIBackend",
     "SRMBackendRegistry",
     "SRMClient",

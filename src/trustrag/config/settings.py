@@ -85,10 +85,14 @@ class Settings(BaseSettings):
 
     @classmethod
     def _load_yaml(cls) -> Dict[str, Any]:
-        config_path = Path(__file__).resolve().parents[3] / "configs" / "base.yaml"
-        if not config_path.is_file():
-            # Try alternate lookup
-            config_path = Path(__file__).resolve().parents[2] / "configs" / "base.yaml"
+        env_cfg = os.environ.get("TRUSTRAG_CONFIG") or os.environ.get("TRUSTRAG_CONFIG_FILE")
+        if env_cfg and Path(env_cfg).is_file():
+            config_path = Path(env_cfg)
+        else:
+            config_path = Path(__file__).resolve().parents[3] / "configs" / "base.yaml"
+            if not config_path.is_file():
+                # Try alternate lookup
+                config_path = Path(__file__).resolve().parents[2] / "configs" / "base.yaml"
         data: Dict[str, Any] = {}
         if config_path.is_file():
             with config_path.open("r", encoding="utf-8") as f:

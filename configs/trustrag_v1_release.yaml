@@ -47,10 +47,9 @@ msd:
 verification:
   enabled: true
   min_support_coverage: 0.65
-  contradiction_threshold: 0.75
-  abstain_on_unsupported: true
-  require_strong_support: true
-  max_retry_budget: 10.0
+  min_relevance_for_check: 0.10
+  strict_numeric_matching: true
+  strict_negation_check: true
   # Neural / Hybrid Verification (v1.0.0-rc1)
   nli_backend: hybrid
   nli_model_path: /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
@@ -58,3 +57,11 @@ verification:
   nli_entailment_threshold: 0.50
   nli_neutral_policy: insufficient
   nli_device: cpu
+
+srm:
+  enabled: true
+  backend: neural_nli
+  model_name: /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
+  timeout_seconds: 5.0
+  temperature: 0.0
+  fallback_on_error: true

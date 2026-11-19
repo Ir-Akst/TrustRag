@@ -29,6 +29,7 @@ from trustrag.engine.text_utils import (
     fold_mixed_script_confusables,
     match_threat_patterns,
 )
+from trustrag.guardrails.harmful_intent import HarmfulIntentPolicy
 from trustrag.guardrails.paraphraser import ControlledQueryParaphraser
 from trustrag.utils.logging import get_logger
 
@@ -268,6 +269,9 @@ class InputGuardrail:
             paraphrase_callable=paraphrase_callable,
             min_similarity=self.config.min_paraphrase_similarity,
         )
+        self.harmful_intent_policy = HarmfulIntentPolicy(
+            block_threshold=self.config.block_threshold,
+        )
 
     def evaluate(self, user_input: str) -> G1Assessment:
         """Assess a raw user query and return a structured G1Assessment.
@@ -315,6 +319,19 @@ class InputGuardrail:
             )
 
         matches: List[G1MatchDetail] = []
+
+        # 1b. Harmful Intent Security Policy (malware creation, weaponization, delivery screening)
+        harmful_eval = self.harmful_intent_policy.evaluate(original_input)
+        if harmful_eval.is_harmful:
+            matches.append(
+                G1MatchDetail(
+                    rule_name=f"harmful_intent_{harmful_eval.policy_category.lower()}",
+                    reason_code=G1ReasonCode.G1_HARMFUL_INTENT,
+                    severity=harmful_eval.risk_score,
+                    matched_snippet=harmful_eval.matched_pattern or "",
+                    is_heuristic=False,
+                )
+            )
 
         # 2. Check zero-width / control-character / mixed-script / fullwidth confusable obfuscation before cleaning
         has_obf, deobfuscated, obf_count = detect_obfuscation(original_input)
@@ -415,19 +432,30 @@ class InputGuardrail:
                     )
                 )
 
+        if harmful_eval.policy_category == "DEFENSIVE_CYBERSECURITY_ALLOW":
+            # Legitimate defensive cybersecurity request: exempt from heuristic threat pattern false-positives
+            matches = [m for m in matches if not m.is_heuristic]
+
         # Compute calibrated risk score and structured decision
         if not matches:
             risk_score = 0.0
             reason_codes = [G1ReasonCode.G1_CLEAN]
             decision = G1Decision.ALLOW
-            explanation = "Input passed all G1 safety and validation checks."
+            explanation = (
+                harmful_eval.explanation
+                if harmful_eval.policy_category == "DEFENSIVE_CYBERSECURITY_ALLOW"
+                else "Input passed all G1 safety and validation checks."
+            )
         else:
             max_sev = max(m.severity for m in matches)
             # Compound multiple distinct findings while keeping score bounded in [0, 1]
             risk_score = min(1.0, round(max_sev + 0.10 * max(0, len(matches) - 1), 4))
             reason_codes = list(dict.fromkeys(m.reason_code for m in matches))
 
-            if risk_score >= self.config.block_threshold:
+            if G1ReasonCode.G1_HARMFUL_INTENT in reason_codes:
+                decision = G1Decision.BLOCK
+                explanation = harmful_eval.explanation
+            elif risk_score >= self.config.block_threshold:
                 decision = G1Decision.BLOCK
                 explanation = (
                     f"Blocked input due to high-risk security signals ({', '.join(c.value for c in reason_codes)}; "

@@ -59,12 +59,6 @@ verification:
   min_relevance_for_check: 0.10
   strict_numeric_matching: true
   strict_negation_check: true
-  nli_backend: hybrid
-  nli_model_path: /home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch
-  nli_contradiction_threshold: 0.20
-  nli_entailment_threshold: 0.50
-  nli_neutral_policy: insufficient
-  nli_device: cpu
 
 srm:
   enabled: true

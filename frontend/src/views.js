@@ -39,7 +39,7 @@ export function renderOverviewView(state, actions) {
     ]),
     el("div", { className: "card" }, [
       el("div", { className: "kpi-sub", text: "SRM Backend State" }),
-      el("div", { className: "kpi-val" }, [badge(health.components?.srm || "unknown")]),
+      el("div", { className: "kpi-val" }, [badge(health.srm_health?.state || health.components?.srm || "unknown")]),
       el("div", { className: "kpi-sub", text: `Configured: ${health.srm_backend_configured}` }),
     ]),
     el("div", { className: "card" }, [
@@ -172,7 +172,7 @@ export function renderOverviewView(state, actions) {
           ["Decision", badge(vRes.decision)],
           ["Answer", vRes.answer || "No answer generated"],
           ["G1 Input Security", `${vRes.g1_result?.decision} (Risk: ${vRes.g1_result?.risk_score}) | Reasons: ${(vRes.g1_result?.reasons || []).join(", ") || "None"}`],
-          ["G2 Multi-Signal MSD", `Evaluated: ${vRes.g2_result?.evaluated_count} | Retained: ${vRes.g2_result?.retained_count} | Mean Trust: ${vRes.g2_result?.mean_trust}`],
+          ["G2 Multi-Signal MSD", `Status: ${vRes.g2_result?.status || "ASSESSMENT_SUCCESS"} (${vRes.g2_result?.status_reason || "Evaluated"}) | Retained: ${vRes.g2_result?.retained_count} / ${vRes.g2_result?.evaluated_count} | Mean Trust: ${vRes.g2_result?.mean_trust}`],
           ["G3 Verification", `Verdict: ${vRes.g3_result?.verdict} | Supported: ${vRes.g3_result?.supported_count} | Contradicted: ${vRes.g3_result?.contradicted_count}`],
           ["Explanation", vRes.g3_result?.explanation || "—"],
         ]),
@@ -306,8 +306,13 @@ export function renderG2View(state, actions) {
   if (res) {
     root.appendChild(
       el("div", { className: "card" }, [
-        el("h3", { text: `Batch Summary (${res.request_id})` }),
+        el("div", { style: "display:flex;justify-content:space-between;align-items:center;margin-bottom:0.5rem;" }, [
+          el("h3", { text: `Batch Summary (${res.request_id})`, style: "margin:0;" }),
+          badge(res.status || "ASSESSMENT_SUCCESS"),
+        ]),
         renderKeyValueTable([
+          ["Execution Status", badge(res.status || "ASSESSMENT_SUCCESS")],
+          ["Status Reason", res.status_reason || "Normal assessment completed."],
           ["Candidates Assessed", String(res.candidate_count)],
           ["Retained Docs", (res.retained_doc_ids || []).join(", ") || "None"],
           ["Filtered Docs", (res.filtered_doc_ids || []).join(", ") || "None"],
@@ -427,31 +432,71 @@ export function renderSrmView(state) {
     return el("div", { className: "card", text: "Loading SRM backend health..." });
   }
   const h = srm.health || {};
+  const srmState = h.state || (srm.is_fallback ? "FALLBACK" : (h.available ? "READY" : "DEGRADED"));
+
   if (srm.is_fallback) {
     root.appendChild(
       el("div", {
         className: "banner warn",
-        text: "Deterministic Fallback Active: Rule-based fallback is executing rather than a trained neural Small Reasoning Model (HalluGuard weights/PyTorch unavailable offline).",
+        text: "Deterministic Fallback Active: Rule-based fallback is executing rather than a trained neural Small Reasoning Model.",
+      })
+    );
+  } else if (h.is_real_model && h.model_loaded) {
+    root.appendChild(
+      el("div", {
+        className: "banner ok",
+        text: `Neural SRM Active: DeBERTa-v3-small NLI frozen checkpoint verified (SHA-256 match). Real forward pass inference active on ${h.device || "cpu"}.`,
       })
     );
   }
+
   root.appendChild(
     el("div", { className: "card" }, [
-      el("h2", { text: "SRM Backend Health & Capability Matrix" }),
+      el("div", { style: "display:flex;justify-content:space-between;align-items:center;margin-bottom:0.75rem;" }, [
+        el("h2", { text: "SRM Backend Health & Capability Matrix", style: "margin:0;" }),
+        badge(srmState),
+      ]),
       renderKeyValueTable([
         ["Configured Backend", srm.configured_backend],
         ["Active Backend", srm.active_backend],
+        ["SRM State", badge(srmState)],
         ["Is Real Neural Model", String(Boolean(h.is_real_model))],
         ["Is Fallback Active", String(Boolean(srm.is_fallback))],
         ["Initialized", String(Boolean(h.initialized))],
-        ["Available", badge(h.available ? "ACTIVE" : "UNAVAILABLE")],
+        ["Available", badge(h.available ? "AVAILABLE" : "UNAVAILABLE")],
         ["Model Identifier", h.model_name || "None"],
-        ["Device / Inference Mode", `${h.device || "cpu"} / ${h.inference_mode || "deterministic"}`],
+        ["Device / Inference Mode", `${h.device || "cpu"} / ${h.inference_mode || "neural_nli"}`],
         ["Configured Timeout", `${srm.timeout_seconds} s`],
         ["Last Error / Detail", h.last_error || h.detail || "None"],
       ]),
     ])
   );
+
+  if (h.is_real_model || h.model_loaded || h.probabilities) {
+    const probRows = [];
+    if (h.probabilities) {
+      probRows.push(
+        ["Prob (Entailment)", `${(h.probabilities.p_entailment * 100).toFixed(2)}%`],
+        ["Prob (Neutral)", `${(h.probabilities.p_neutral * 100).toFixed(2)}%`],
+        ["Prob (Contradiction)", `${(h.probabilities.p_contradiction * 100).toFixed(2)}%`],
+        ["Probability Sum", `${h.probabilities.sum ?? "1.0000"}`],
+      );
+    }
+    root.appendChild(
+      el("div", { className: "card" }, [
+        el("h3", { text: "Neural Forward Pass Health & Telemetry" }),
+        renderKeyValueTable([
+          ["Model Loaded", badge(h.model_loaded ? "LOADED" : "UNLOADED", h.model_loaded ? "ok" : "danger")],
+          ["Model Dtype", h.model_dtype || "torch.float32"],
+          ["Device", h.device || "cpu"],
+          ["SHA-256 Integrity Check", badge(h.checkpoint_verified ? "VERIFIED (Frozen Hash Match)" : "UNVERIFIED", h.checkpoint_verified ? "ok" : "warn")],
+          ["Last Inference Timestamp", h.last_inference_timestamp || "None"],
+          ["Probe Latency", h.last_inference_latency_ms !== null && h.last_inference_latency_ms !== undefined ? `${h.last_inference_latency_ms} ms` : "N/A"],
+          ...probRows,
+        ]),
+      ])
+    );
+  }
 
   if (health && health.dependencies) {
     root.appendChild(

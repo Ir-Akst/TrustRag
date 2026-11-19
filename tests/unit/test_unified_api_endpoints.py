@@ -206,3 +206,4 @@ def test_input_validation_and_error_handling(tmp_path: Path) -> None:
             await client.close()
 
     asyncio.run(_run())
+

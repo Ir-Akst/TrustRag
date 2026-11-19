@@ -403,9 +403,9 @@ class SRMConfig(_ValidatedConfigModel):
     """Configuration for HalluGuard-inspired Small Reasoning Model (SRM) integration."""
 
     enabled: bool = Field(default=True, description="Whether SRM verification stage is invoked")
-    backend: Literal["disabled", "local_ollama", "openai_compatible", "hf_local", "custom"] = Field(
+    backend: Literal["disabled", "local_ollama", "openai_compatible", "hf_local", "neural_nli", "custom"] = Field(
         default="disabled",
-        description="SRM backend type; 'disabled' activates deterministic fallback directly",
+        description="SRM backend type; 'disabled' activates deterministic fallback directly, 'neural_nli' activates frozen DeBERTa NLI",
     )
     model_name: str = Field(
         default="halluguard-srm-fallback",
