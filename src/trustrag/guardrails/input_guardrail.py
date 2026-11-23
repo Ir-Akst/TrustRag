@@ -38,12 +38,20 @@ LOGGER = get_logger(__name__)
 # Medium-severity heuristic rules specific to suspicious user probing / meta-framing.
 _SUSPICIOUS_META_RULES: Tuple[Tuple[str, re.Pattern[str], float], ...] = (
     (
-        "hypothetical_policy_probe",
+        "narrative_jailbreak_probe",
         re.compile(
-            r"\b(?:hypothetically|in\s+a\s+fictional\s+scenario|for\s+educational\s+purposes\s+only).{0,60}(?:bypass|hack|exploit|ignore|steal|password)\b",
+            r"\b(?:write|tell|pretend\s+(?:you\s+are\s+in\s+)?)\s+(?:a\s+)?(?:fictional\s+)?(?:story|world|scenario)\s+where\b.{0,60}\b(?:safety\s+(?:rules?|restrictions?|filters?)|rules?|constraints?|protocols?)\s+(?:are\s+)?(?:ignored|bypassed|disregarded|violated|leaked)\b|\b(?:write|tell)\s+(?:a\s+)?(?:fictional\s+)?story\s+where\s+(?:an?\s+)?(?:ai|bot|assistant|character)\s+(?:disregards?|ignores?|bypasses?|violates?)\s+(?:all\s+)?(?:safety|rules|constraints|filters|protocols)\b",
             re.IGNORECASE,
         ),
-        0.45,
+        0.80,
+    ),
+    (
+        "hypothetical_policy_probe",
+        re.compile(
+            r"\b(?:hypothetically|in\s+a\s+fictional\s+(?:scenario|world|story)|for\s+educational\s+purposes\s+only|as\s+a\s+thought\s+experiment).{0,60}(?:bypass|hack|exploit|ignore|steal|password|disregard|secrets?)\b",
+            re.IGNORECASE,
+        ),
+        0.75,
     ),
     (
         "debug_or_admin_mode_probe",
@@ -56,7 +64,7 @@ _SUSPICIOUS_META_RULES: Tuple[Tuple[str, re.Pattern[str], float], ...] = (
     (
         "instruction_hierarchy_override",
         re.compile(
-            r"(?:^\s*(?:developer|system|admin|root|supervisor)\s+override\s*:|\b(?:bypass|disable|circumvent|override)\s+(?:all\s+)?(?:guardrails?|safety\s+(?:filters?|checks?|controls?)|system\s+constraints?)\b)",
+            r"(?:^\s*(?:developer|system|admin|root|supervisor)\s+override\s*:|\b(?:bypass|disable|circumvent|override)\s+(?:all\s+)?(?:guardrails?|safety\s+(?:filters?|checks?|controls?)|system\s+constraints?|ethical\s+boundaries?)\b|\b(?:in\s+step\s+\d+|step\s+\d+\s*:).{0,50}\b(?:bypass|ignore|disregard)\b)",
             re.IGNORECASE,
         ),
         0.75,

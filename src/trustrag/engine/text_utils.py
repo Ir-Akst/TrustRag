@@ -114,7 +114,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="ignore_previous_instructions",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"\b(?:ignore|disregard|forget|override|bypass)\s+(?:(?:all|your|the|their|any|every)\s+)?(?:(?:previous|prior|above|system|safety|initial)\s+)?(?:instructions?|directives?|rules?|prompts?|constraints?|guards?|guardrails?)\b",
+            r"\b(?:ignore|disregard|forget|override|bypass|nullify|abandon|overlook|neglect|drop|cease\s+adhering\s+to)\s+(?:(?:all|your|the|their|any|every|our|previously\s+given|existing|prior|previous|above|system|safety|initial)\s+){1,4}(?:instructions?|directives?|rules?|prompts?|constraints?|guards?|guardrails?|guidelines?|protocols?|parameters?)\b",
             re.IGNORECASE,
         ),
         severity=0.90,
@@ -140,7 +140,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="role_jailbreak_directive",
         category="ROLE_HIJACK",
         pattern=re.compile(
-            r"\b(?:you\s+are\s+now\s+(?:in\s+)?(?:DAN|developer\s+mode|unfiltered|jailbroken)|act\s+as\s+(?:an?\s+)?unrestricted|pretend\s+there\s+are\s+no\s+rules)\b",
+            r"\b(?:you\s+are\s+now\s+(?:in\s+)?(?:DAN|developer\s+mode|unfiltered|jailbroken)|act\s+as\s+(?:an?\s+)?unrestricted|pretend\s+there\s+are\s+no\s+rules|(?:enter|switch\s+to)\s+(?:the\s+)?(?:unrestricted|developer)(?:\s+debug)?\s+mode)\b",
             re.IGNORECASE,
         ),
         severity=0.85,
@@ -149,7 +149,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="prompt_leak_extraction",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"\b(?:reveal|print|dump|output|leak|expose|display)\s+(?:all\s+)?(?:system\s+prompt|hidden\s+instructions?|secret\s+keys?|user\s+passwords?|api\s+keys?|credentials?)\b",
+            r"\b(?:reveal|print|dump|output|leak|expose|display|show|provide)\s+(?:all\s+)?(?:system\s+(?:prompt|variables?|information)|hidden\s+instructions?|secret\s+(?:keys?|configuration)|user\s+passwords?|admin\s+passwords?|master\s+passwords?|api\s+keys?|credentials?|environment\s+variables?|confidential\s+parameters?|developer\s+notes?)\b",
             re.IGNORECASE,
         ),
         severity=0.85,
@@ -185,7 +185,40 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="disable_safety_restrictions",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"\b(?:disable|turn\s+off|remove|bypass|suspend|ignore|disregard)\s+(?:(?:all|your|the|their|any|every)\s+)?(?:(?:safety|content|moderation|ethical|security)\s+)?(?:restrictions?|filters?|guardrails?|checks?|rules?|guidelines?)\b",
+            r"\b(?:disable|turn\s+off|remove|bypass|suspend|ignore|disregard|break)\s+(?:(?:all|your|the|their|any|every|our)\s+)?(?:(?:safety|content|moderation|ethical|security)\s+)?(?:restrictions?|filters?|guardrails?|checks?|rules?|guidelines?|boundaries?|protocols?|barriers?)\b",
+            re.IGNORECASE,
+        ),
+        severity=0.88,
+        apply_to_query=True,
+        apply_to_document=True,
+    ),
+    ThreatPatternSpec(
+        rule_name="context_delimiter_breakout",
+        category="PROMPT_INJECTION",
+        pattern=re.compile(
+            r"(?:---|===|###)\s*(?:END|STOP)\s*(?:OF\s*)?(?:CONTEXT|PROMPT|INPUT|TEXT|INSTRUCTIONS?)\s*(?:---|===|###)|</?(?:context|prompt|system|instruction|user)>",
+            re.IGNORECASE,
+        ),
+        severity=0.90,
+        apply_to_query=True,
+        apply_to_document=True,
+    ),
+    ThreatPatternSpec(
+        rule_name="cross_lingual_injection",
+        category="PROMPT_INJECTION",
+        pattern=re.compile(
+            r"\b(?:ignora\s+(?:todas?\s+)?(?:las?\s+)?instrucciones\s+(?:anteriores|previas)|muestra\s+(?:la\s+)?clave\s+secreta|ignorez\s+(?:toutes?\s+)?(?:les?\s+)?(?:instructions|r[èe]gles)\s+pr[ée]c[ée]dentes|ignoriere\s+(?:alle\s+)?(?:vorherigen?\s+)?anweisungen|vergiss\s+alle\s+anweisungen|montrez\s+(?:le\s+)?prompt\s+syst[èe]me)\b",
+            re.IGNORECASE,
+        ),
+        severity=0.90,
+        apply_to_query=True,
+        apply_to_document=True,
+    ),
+    ThreatPatternSpec(
+        rule_name="collaborative_step_jailbreak",
+        category="PROMPT_INJECTION",
+        pattern=re.compile(
+            r"\b(?:in\s+step\s+\d+|step\s+\d+\s*:|we\s+agree(?:d)?\s+to|that\s+we\s+agreed\s+to)\b.{0,60}\b(?:bypass|ignore|disregard|break|override|drop)\b.{0,40}\b(?:boundaries?|rules?|restrictions?|safety|ethics?|protocols?)\b",
             re.IGNORECASE,
         ),
         severity=0.88,

@@ -1,0 +1,193 @@
+{
+  "timestamp": "2026-11-23T23:14:57Z",
+  "target_endpoint": "http://127.0.0.1:8000",
+  "total_tests": 15,
+  "passed_tests": 15,
+  "failed_tests": 0,
+  "success_rate_pct": 100.0,
+  "overall_status": "PASS",
+  "tests": [
+    {
+      "name": "GET /health",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 4.28,
+      "response_summary": {
+        "status": "healthy",
+        "ready": true,
+        "service": "TrustRAG",
+        "version": "1.0.0-rc1",
+        "timestamp": "2026-11-23T23:14:57.053716+00:00"
+      }
+    },
+    {
+      "name": "GET /api/v1/srm/health",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 1.541,
+      "response_summary": {
+        "configured_backend": "disabled",
+        "active_backend": "deterministic_fallback",
+        "is_fallback": true,
+        "timeout_seconds": 5.0,
+        "health": {
+          "backend_name": "deterministic_fallback",
+          "model_name": "halluguard-srm-fallback",
+          "initialized": true,
+          "available": true,
+          "is_real_model": false,
+          "device": "cpu",
+          "inference_mode": "deterministic",
+          "detail": "Rule-based fallback active (NOT a trained neural SRM).",
+          "last_error": null,
+          "model_loaded": false,
+          "model_dtype": "torch.float32",
+          "checkpoint_verified": false,
+          "last_inference_timestamp": null,
+          "last_inference_latency_ms": null,
+          "probabilities": null,
+          "state": "READY"
+        }
+      }
+    },
+    {
+      "name": "Static Asset /",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 1.577,
+      "bytes_received": 2817
+    },
+    {
+      "name": "Static Asset /styles.css",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 1.39,
+      "bytes_received": 6162
+    },
+    {
+      "name": "Static Asset /src/app.js",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 1.437,
+      "bytes_received": 10034
+    },
+    {
+      "name": "Static Asset /src/views.js",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 1.73,
+      "bytes_received": 38843
+    },
+    {
+      "name": "Static Asset /src/api.js",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 1.759,
+      "bytes_received": 4680
+    },
+    {
+      "name": "Static Asset /src/formatters.js",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 4.186,
+      "bytes_received": 3433
+    },
+    {
+      "name": "POST /api/v1/g1/analyze (Direct Injection)",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 11.464,
+      "decision": "BLOCK",
+      "risk_score": 1.0,
+      "attack_categories": [
+        "G1_PROMPT_INJECTION"
+      ],
+      "flags": [
+        "G1_PROMPT_INJECTION"
+      ]
+    },
+    {
+      "name": "POST /api/v1/g1/analyze (Delimiter Breakout)",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 8.705,
+      "decision": "BLOCK",
+      "risk_score": 1.0,
+      "attack_categories": [
+        "G1_PROMPT_INJECTION"
+      ],
+      "flags": [
+        "G1_PROMPT_INJECTION"
+      ]
+    },
+    {
+      "name": "POST /api/v1/g1/analyze (Narrative Jailbreak)",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 8.805,
+      "decision": "BLOCK",
+      "risk_score": 0.8,
+      "attack_categories": [
+        "G1_SUSPICIOUS_META_PATTERN"
+      ],
+      "flags": [
+        "G1_SUSPICIOUS_META_PATTERN"
+      ]
+    },
+    {
+      "name": "POST /api/v1/g1/analyze (Spanish Cross-Lingual Injection)",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 7.462,
+      "decision": "BLOCK",
+      "risk_score": 0.9,
+      "attack_categories": [
+        "G1_PROMPT_INJECTION"
+      ],
+      "flags": [
+        "G1_PROMPT_INJECTION"
+      ]
+    },
+    {
+      "name": "POST /api/v1/g1/analyze (Multi-Turn Agreement Bypass)",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 5.482,
+      "decision": "BLOCK",
+      "risk_score": 1.0,
+      "attack_categories": [
+        "G1_PROMPT_INJECTION",
+        "G1_SUSPICIOUS_META_PATTERN"
+      ],
+      "flags": [
+        "G1_PROMPT_INJECTION",
+        "G1_SUSPICIOUS_META_PATTERN"
+      ]
+    },
+    {
+      "name": "POST /api/v1/g1/analyze (Benign Defensive Control)",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 5.624,
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "attack_categories": [
+        "G1_CLEAN"
+      ],
+      "flags": [
+        "G1_CLEAN"
+      ]
+    },
+    {
+      "name": "POST /api/v1/security/scan (G1+G2 Joint Scan)",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 17.28,
+      "decision": "SUSPICIOUS",
+      "g1_decision": "ALLOW",
+      "g2_status": "ASSESSMENT_SUCCESS",
+      "g2_evaluated_count": 2,
+      "g2_retained_count": 1
+    }
+  ]
+}

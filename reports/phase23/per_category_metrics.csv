@@ -1,0 +1,14 @@
+category,type,samples,detected_blocked,allowed,accuracy_rate_pct,wilson_95_ci_low,wilson_95_ci_high,avg_latency_ms
+benign_defensive_controls,Benign Control,20,0,20,100.0,83.89,100.0,0.123
+character_obfuscation,Adversarial,10,10,0,100.0,72.25,100.0,0.093
+cross_lingual_injection,Adversarial,10,10,0,100.0,72.25,100.0,0.132
+direct_prompt_injection,Adversarial,10,9,1,90.0,59.59,98.21,0.147
+indirect_injection_delimiter,Adversarial,10,10,0,100.0,72.25,100.0,0.136
+instruction_override_jailbreak,Adversarial,10,10,0,100.0,72.25,100.0,0.105
+leetspeak_spaced_obfuscation,Adversarial,10,10,0,100.0,72.25,100.0,0.066
+malicious_disguised_benign,Adversarial,10,9,1,90.0,59.59,98.21,0.155
+multi_turn_manipulation,Adversarial,10,10,0,100.0,72.25,100.0,0.17
+narrative_roleplay_injection,Adversarial,10,9,1,90.0,59.59,98.21,0.18
+retrieved_doc_injection,Adversarial,10,9,1,90.0,59.59,98.21,1.321
+semantic_paraphrasing_evasion,Adversarial,10,10,0,100.0,72.25,100.0,0.125
+unicode_homoglyph_obfuscation,Adversarial,10,9,0,90.0,59.59,98.21,0.092
