@@ -85,3 +85,4 @@ data/processed/ragtruth/
 data/processed/sft_v1/
 data/processed/sft_v2/
 reports/training_runs/
+data/raw/external_benchmarks/
