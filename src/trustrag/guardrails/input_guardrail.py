@@ -31,7 +31,9 @@ from trustrag.engine.text_utils import (
     match_threat_patterns,
 )
 from trustrag.guardrails.harmful_intent import HarmfulIntentPolicy
+from trustrag.guardrails.multilingual_engine import MultilingualSemanticDefense
 from trustrag.guardrails.paraphraser import ControlledQueryParaphraser
+from trustrag.guardrails.semantic_classifier import SemanticAttackClassifier
 from trustrag.utils.logging import get_logger
 
 LOGGER = get_logger(__name__)
@@ -289,6 +291,11 @@ class InputGuardrail:
         self.harmful_intent_policy = HarmfulIntentPolicy(
             block_threshold=self.config.block_threshold,
         )
+        self.semantic_classifier = SemanticAttackClassifier(
+            block_threshold=self.config.block_threshold,
+            flag_threshold=self.config.flag_threshold,
+        )
+        self.multilingual_engine = MultilingualSemanticDefense()
 
     def evaluate(self, user_input: str) -> G1Assessment:
         """Assess a raw user query and return a structured G1Assessment.
@@ -507,6 +514,32 @@ class InputGuardrail:
                         is_heuristic=True,
                     )
                 )
+
+        # 7. Semantic Attack Classification (Phase 32 Workstream A)
+        sem_pred = self.semantic_classifier.predict(analysis_text)
+        if sem_pred.decision in ("BLOCK", "FLAG") and sem_pred.is_attack:
+            matches.append(
+                G1MatchDetail(
+                    rule_name=f"semantic_{sem_pred.detected_intent_family}",
+                    reason_code=G1ReasonCode.G1_SEMANTIC_ATTACK,
+                    severity=sem_pred.attack_probability,
+                    matched_snippet=f"semantic threat prob={sem_pred.attack_probability:.3f} family={sem_pred.detected_intent_family}",
+                    is_heuristic=False,
+                )
+            )
+
+        # 8. Multilingual Semantic Defense (Phase 32 Workstream C)
+        multi_pred = self.multilingual_engine.evaluate_query(analysis_text)
+        if multi_pred.is_attack:
+            matches.append(
+                G1MatchDetail(
+                    rule_name=f"multilingual_{multi_pred.attack_category.lower()}",
+                    reason_code=G1ReasonCode.G1_MULTILINGUAL_INJECTION,
+                    severity=multi_pred.risk_score,
+                    matched_snippet=f"language={multi_pred.detected_language} stems={multi_pred.matched_stems[:3]}",
+                    is_heuristic=False,
+                )
+            )
 
         if harmful_eval.policy_category == "DEFENSIVE_CYBERSECURITY_ALLOW":
             # Legitimate defensive cybersecurity request: exempt from heuristic threat pattern false-positives

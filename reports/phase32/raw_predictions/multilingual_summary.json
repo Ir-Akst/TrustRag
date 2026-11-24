@@ -1,0 +1,141 @@
+{
+  "benchmark": "Phase 32 Multilingual Semantic Defense Benchmark (9 Languages)",
+  "sample_counts": {
+    "total_samples": 900,
+    "attacks_per_language": 50,
+    "controls_per_language": 50,
+    "languages_tested": 9
+  },
+  "overall_confusion_matrix": {
+    "tp": 380,
+    "fn": 70,
+    "tn": 450,
+    "fp": 0
+  },
+  "overall_metrics": {
+    "adr": 0.8444,
+    "adr_95ci": [
+      0.8081,
+      0.875
+    ],
+    "asr": 0.1556,
+    "fpr": 0.0,
+    "fpr_95ci": [
+      0.0,
+      0.0085
+    ],
+    "precision": 1.0,
+    "recall": 0.8444,
+    "f1": 0.9157
+  },
+  "language_breakdown": {
+    "en": {
+      "tp": 40,
+      "fn": 10,
+      "tn": 50,
+      "fp": 0,
+      "adr": 0.8,
+      "fpr": 0.0,
+      "adr_95ci": [
+        0.6696,
+        0.8876
+      ]
+    },
+    "es": {
+      "tp": 50,
+      "fn": 0,
+      "tn": 50,
+      "fp": 0,
+      "adr": 1.0,
+      "fpr": 0.0,
+      "adr_95ci": [
+        0.9287,
+        1.0
+      ]
+    },
+    "fr": {
+      "tp": 40,
+      "fn": 10,
+      "tn": 50,
+      "fp": 0,
+      "adr": 0.8,
+      "fpr": 0.0,
+      "adr_95ci": [
+        0.6696,
+        0.8876
+      ]
+    },
+    "de": {
+      "tp": 10,
+      "fn": 40,
+      "tn": 50,
+      "fp": 0,
+      "adr": 0.2,
+      "fpr": 0.0,
+      "adr_95ci": [
+        0.1124,
+        0.3304
+      ]
+    },
+    "ru": {
+      "tp": 50,
+      "fn": 0,
+      "tn": 50,
+      "fp": 0,
+      "adr": 1.0,
+      "fpr": 0.0,
+      "adr_95ci": [
+        0.9287,
+        1.0
+      ]
+    },
+    "hi": {
+      "tp": 50,
+      "fn": 0,
+      "tn": 50,
+      "fp": 0,
+      "adr": 1.0,
+      "fpr": 0.0,
+      "adr_95ci": [
+        0.9287,
+        1.0
+      ]
+    },
+    "ar": {
+      "tp": 50,
+      "fn": 0,
+      "tn": 50,
+      "fp": 0,
+      "adr": 1.0,
+      "fpr": 0.0,
+      "adr_95ci": [
+        0.9287,
+        1.0
+      ]
+    },
+    "zh": {
+      "tp": 40,
+      "fn": 10,
+      "tn": 50,
+      "fp": 0,
+      "adr": 0.8,
+      "fpr": 0.0,
+      "adr_95ci": [
+        0.6696,
+        0.8876
+      ]
+    },
+    "ja": {
+      "tp": 50,
+      "fn": 0,
+      "tn": 50,
+      "fp": 0,
+      "adr": 1.0,
+      "fpr": 0.0,
+      "adr_95ci": [
+        0.9287,
+        1.0
+      ]
+    }
+  }
+}

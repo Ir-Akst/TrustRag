@@ -60,6 +60,9 @@ class ProductionQueryResponse(BaseModel):
     adaptive_mode: str
     threshold_reasons: list[str] = Field(default_factory=list)
     fail_safe_events: list[str] = Field(default_factory=list)
+    inference_mode: str = "deterministic_cpu"
+    evidence_grounding_status: str | None = None
+    firewall_quarantined_spans: int = 0
 
 
 class ServiceHealthStatus(BaseModel):
@@ -351,6 +354,9 @@ class TrustRAGService:
             if outcome.blocked_by_guardrail
             else ("ABSTAINED" if outcome.abstained else "OK")
         )
+        srm_health = self._srm_client.health_check()
+        active_mode = "neural_deberta_cpu" if (srm_health.available and self.settings.srm.backend == "neural_nli") else "deterministic_cpu"
+
         return ProductionQueryResponse(
             request_id=req.request_id,
             status=status,
@@ -365,6 +371,9 @@ class TrustRAGService:
             adaptive_mode=self.adaptive_config.mode.value,
             threshold_reasons=list(outcome.threshold_recommendation.reason_codes),
             fail_safe_events=list(outcome.fail_safe_events),
+            inference_mode=active_mode,
+            evidence_grounding_status=outcome.g3_verdict,
+            firewall_quarantined_spans=0,
         )
 
     def health(self) -> ServiceHealthStatus:

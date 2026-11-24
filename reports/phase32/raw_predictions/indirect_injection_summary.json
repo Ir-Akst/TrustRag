@@ -1,0 +1,58 @@
+{
+  "benchmark": "Phase 32 Document Injection Firewall Benchmark",
+  "sample_counts": {
+    "attacks": 200,
+    "controls": 200,
+    "total": 400
+  },
+  "confusion_matrix": {
+    "tp": 200,
+    "fn": 0,
+    "tn": 200,
+    "fp": 0
+  },
+  "metrics": {
+    "quarantine_rate_adr": 1.0,
+    "adr_95ci": [
+      0.9812,
+      1.0
+    ],
+    "leakage_rate_asr": 0.0,
+    "benign_fpr": 0.0,
+    "fpr_95ci": [
+      0.0,
+      0.0188
+    ],
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0,
+    "mean_retrieval_utility": 0.8
+  },
+  "vector_breakdown": {
+    "hidden_ai_directive": {
+      "quarantined": 40,
+      "total": 40,
+      "adr": 1.0
+    },
+    "markdown_exfil_markup": {
+      "quarantined": 40,
+      "total": 40,
+      "adr": 1.0
+    },
+    "instructional_override_masquerade": {
+      "quarantined": 40,
+      "total": 40,
+      "adr": 1.0
+    },
+    "delimiter_breakout_spoof": {
+      "quarantined": 40,
+      "total": 40,
+      "adr": 1.0
+    },
+    "unauthorized_tool_request": {
+      "quarantined": 40,
+      "total": 40,
+      "adr": 1.0
+    }
+  }
+}

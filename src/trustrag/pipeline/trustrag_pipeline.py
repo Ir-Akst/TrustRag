@@ -31,10 +31,12 @@ from trustrag.engine.text_utils import (
 )
 from trustrag.generation.generator import AnswerGenerator
 from trustrag.guardrails.input_guardrail import InputGuardrail
+from trustrag.retrieval.document_firewall import DocumentInjectionFirewall
 from trustrag.retrieval.retriever import TrustAwareRetriever
 from trustrag.srm.client import SRMClient
 from trustrag.utils.logging import get_logger
 from trustrag.utils.repro import set_random_seed
+from trustrag.verification.grounded_verifier import EvidenceGroundedVerifier
 from trustrag.verification.output_verifier import OutputEvidenceVerifier
 
 LOGGER = get_logger(__name__)
@@ -99,6 +101,8 @@ class TrustRAGPipeline:
         )
         self.generator = generator or AnswerGenerator(config=self.settings.generation)
         self.verifier = verifier or OutputEvidenceVerifier(config=self.settings.verification)
+        self.grounded_verifier = EvidenceGroundedVerifier()
+        self.document_firewall = DocumentInjectionFirewall()
         self.srm_client = srm_client or SRMClient(
             config=self.settings.srm,
             llm_config=self.settings.llm,
@@ -212,6 +216,10 @@ class TrustRAGPipeline:
         )
 
         admissible_docs = [d for d in trusted_docs if d.doc_id not in quarantined_doc_ids]
+        # Phase 32 Workstream B: Document Injection Firewall sanitization
+        admissible_docs, fw_quarantined = self.document_firewall.sanitize_retrieved_documents(admissible_docs)
+        if fw_quarantined:
+            trace.append(f"DOCUMENT_FIREWALL:QUARANTINED(count={len(fw_quarantined)})")
         quarantined_docs = [d for d in trusted_docs if d.doc_id in quarantined_doc_ids]
         admissible_doc_ids = {d.doc_id for d in admissible_docs}
 
