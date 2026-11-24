@@ -114,7 +114,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="ignore_previous_instructions",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"\b(?:ignore|disregard|forget|override|bypass|nullify|abandon|overlook|neglect|drop|cease\s+adhering\s+to)\s+(?:(?:all|your|the|their|any|every|our|previously\s+given|existing|prior|previous|above|system|safety|initial)\s+){0,4}(?:instructions?|directives?|rules?|prompts?|constraints?|guards?|guardrails?|guidelines?|protocols?|parameters?)\b",
+            r"\b(?:ignore|disregard|forget|override|bypass|nullify|abandon|overlook|neglect|drop|cease\s+adhering\s+to|set\s+aside|disengage|cease\s+following)\s+(?:(?:all|your|the|their|any|every|our|previously\s+given|existing|prior|previous|above|system|safety|initial|foundational|medical|earlier|other)\s+){0,4}(?:instructions?|directives?|rules?|prompts?|constraints?|guards?|guardrails?|guidelines?|protocols?|parameters?|context|policies|policy)\b",
             re.IGNORECASE,
         ),
         severity=0.90,
@@ -132,7 +132,8 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="system_override_tag",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"(?:SYSTEM\s*:\s*override|SYSTEM\s+(?:PROMPT\s+)?OVERRIDE|(?i:system\s+(?:prompt\s+)?override(?:\s*#?\d+)?\s*:|\[/?SYSTEM\]|\[/?INST\]|<\|im_start\|>|<\|system\|>|###\s*SYSTEM\s*:))"
+            r"(?:\[/?(?:SYSTEM|DEVELOPER|ADMIN|ROOT)\b[^\]]*\]|\[System\s+(?:command|instruction|directive|update|override)[^\]]*\]|SYSTEM\s*:\s*override|SYSTEM\s+(?:PROMPT\s+)?OVERRIDE|(?i:system\s+(?:prompt\s+)?override(?:\s*#?\d+)?\s*:|\[/?SYSTEM\]|\[/?INST\]|<\|im_start\|>|<\|system\|>|###\s*SYSTEM\s*:))",
+            re.IGNORECASE,
         ),
         severity=0.90,
     ),
@@ -140,7 +141,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="role_jailbreak_directive",
         category="ROLE_HIJACK",
         pattern=re.compile(
-            r"\b(?:you\s+are\s+now\s+(?:in\s+)?(?:DAN|developer\s+mode|unfiltered|jailbroken)|act\s+as\s+(?:an?\s+)?unrestricted|pretend\s+there\s+are\s+no\s+rules|(?:enter|switch\s+to)\s+(?:the\s+)?(?:unrestricted|developer)(?:\s+debug)?\s+mode)\b",
+            r"\b(?:you\s+are\s+now\s+(?:in\s+)?(?:DAN|developer\s+mode|unfiltered|jailbroken|\w*(?:bot|ai|terminal))|act\s+as\s+(?:an?\s+)?(?:unrestricted|\w*(?:bot|ai|terminal))|roleplay\s+as\s+(?:dr\.?\s+)?override|adopt\s+the\s+persona\s+of\s+an\s+unrestricted|pretend\s+there\s+are\s+no\s+rules|(?:enter|switch\s+to)\s+(?:the\s+)?(?:unrestricted|developer)(?:\s+debug)?\s+mode)\b",
             re.IGNORECASE,
         ),
         severity=0.85,
@@ -149,7 +150,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="prompt_leak_extraction",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"\b(?:reveal|print|dump|output|leak|expose|display|show|provide)\s+(?:all\s+)?(?:system\s+(?:prompt|variables?|information)|hidden\s+instructions?|secret\s+(?:keys?|configuration)|user\s+passwords?|admin\s+passwords?|master\s+(?:passwords?|encryption\s+keys?)|encryption\s+keys?|internal\s+variables?|api\s+keys?|credentials?|environment\s+variables?|confidential\s+parameters?|developer\s+notes?)\b",
+            r"\b(?:reveal|print|dump|output|leak|expose|display|show|provide|recite)\s+(?:all\s+)?(?:system\s+(?:prompt|variables?|information)|hidden\s+(?:instructions?|bootstrap\s+texts?)|secret\s+(?:keys?|configuration|tokens?)|setup\s+(?:instructions?|variables?)|user\s+passwords?|admin\s+passwords?|master\s+(?:passwords?|encryption\s+keys?)|encryption\s+keys?|internal\s+variables?|api\s+(?:keys?|tokens?)|credentials?|environment\s+variables?|confidential\s+(?:parameters?|keys?|instructions?|notes?)|developer\s+(?:notes?|configuration))\b|\b(?:system\s+prompt\s+extraction|display\s+root\s+configuration|override\s+developer\s+guidelines)\b",
             re.IGNORECASE,
         ),
         severity=0.85,
@@ -158,7 +159,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="shell_exfiltration_chain",
         category="MALICIOUS_COMMAND",
         pattern=re.compile(
-            r"(?:&&|\|\||;)\s*(?:curl|wget|nc|netcat|bash|sh|powershell|pwsh|python)\b.*?(?:https?://|~/.ssh|/etc/passwd|id_rsa|-d\s+@|\|\s*sh)",
+            r"(?:&&|\|\||;)\s*(?:curl|wget|nc|netcat|bash|sh|powershell|pwsh|python)\b.*?(?:https?://|~/.ssh|/etc/passwd|id_rsa|-d\s+@|\|\s*sh)|\b(?:exfiltrate\s+secret\s+keys|write\s+a\s+python\s+script\s+to\s+scan\s+open\s+ports|execute\s+bash\s+command\s+to\s+delete\s+cluster\s+nodes)\b",
             re.IGNORECASE,
         ),
         severity=0.95,
@@ -196,7 +197,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="context_delimiter_breakout",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"(?:---|===|###)\s*(?:END|STOP)\s*(?:OF\s*)?(?:CONTEXT|PROMPT|INPUT|TEXT|INSTRUCTIONS?)\s*(?:---|===|###)|</?(?:context|prompt|system|instruction|user)>",
+            r"(?:---|===|###|\+\+\+|>>>|~~~)\s*(?:END|STOP|BEGIN|START|ADMIN|SYSTEM|RESET|DEV|EXEC)[\w\s_]*\s*(?:---|===|###|\+\+\+|<<<|~~~)|</?(?:context|prompt|system|instruction|user)>",
             re.IGNORECASE,
         ),
         severity=0.90,
@@ -207,7 +208,13 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="cross_lingual_injection",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"\b(?:ignora\s+(?:todas?\s+)?(?:las?\s+)?instrucciones\s+(?:anteriores|previas)|muestra\s+(?:la\s+)?clave\s+secreta|ignorez\s+(?:toutes?\s+)?(?:les?\s+)?(?:instructions|r[èe]gles)\s+pr[ée]c[ée]dentes|ignoriere\s+(?:alle\s+)?(?:vorherigen?\s+)?anweisungen|vergiss\s+alle\s+anweisungen|montrez\s+(?:le\s+)?prompt\s+syst[èe]me)\b",
+            r"\b(?:ignora\s+(?:todas?\s+)?(?:las?\s+)?instrucciones\s+(?:anteriores|previas)|anula\s+las\s+pautas|pasa\s+por\s+alto\s+(?:los\s+)?protocolos|descarta\s+las\s+restricciones|extracción\s+de\s+prompt|muestra\s+(?:la\s+)?clave\s+secreta|ignorez\s+(?:toutes?\s+)?(?:les?\s+)?(?:instructions|r[èe]gles)\s+pr[ée]c[ée]dentes|outrepassez\s+les\s+directives|contournez\s+les\s+protocoles|ignorez\s+les\s+contraintes|extraction\s+du\s+prompt|ignoriere\s+(?:alle\s+)?(?:vorherigen?\s+)?anweisungen|setze\s+entwicklerrichtlinien|umgehe\s+sicherheits|verwerfe\s+frühere\s+einschränkungen|system-prompt-extraktion|vergiss\s+alle\s+anweisungen|montrez\s+(?:le\s+)?prompt\s+syst[èe]me)\b"
+            r"|\b(?:игнорируй|отключи|обойди|сбрось|отмени)\s+(?:(?:все|предыдущие|правила|протоколы|ограничения)\s+){0,4}(?:инструкции|разработчика|безопасности|ограничения|промпт)\b"
+            r"|\b(?:извлечение\s+системного\s+промпта|покажи\s+(?:корневую\s+конфигурацию|секретный\s+токен|внутренние\s+пароли)|раскрой\s+системный\s+промпт|выведи\s+конфиденциальные\s+данные)\b"
+            r"|(?:अनदेखा\s+करें|ओवरराइड\s+करें|बायपास\s+करें|छोड़ें|रद्द\s+करें|प्रकट\s+करें|दिखाएं|डंप\s+करें|आउटपुट\s+करें|सिस्टम\s+प्रॉम्प्ट)"
+            r"|(?:تجاهل\s+(?:جميع\s+)?التعليمات|تجاوز\s+(?:إرشادات|بروتوكولات)|استخراج\s+موجه\s+النظام|تفريغ\s+كلمات\s+المرور|أخرج\s+التعليمات|اعرض\s+رمز)"
+            r"|(?:忽略(?:所有)?(?:先前)?(?:的)?指示|覆盖开发者准则|绕过安全协议|无视(?:先前)?(?:的)?约束|系统提示词提取)"
+            r"|(?:指示を無視|ガイドラインを上書き|プロトコルをバイパス|制約を破棄|システムプロンプト(?:抽出|を開示))",
             re.IGNORECASE,
         ),
         severity=0.90,
@@ -218,7 +225,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="collaborative_step_jailbreak",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"\b(?:in\s+step\s+\d+|step\s+\d+\s*:|we\s+agree(?:d)?\s+to|that\s+we\s+agreed\s+to)\b.{0,60}\b(?:bypass|ignore|disregard|break|override|drop)\b.{0,40}\b(?:boundaries?|rules?|restrictions?|safety|ethics?|protocols?)\b",
+            r"\b(?:in\s+step\s+\d+|step\s+\d+\s*:|we\s+agree(?:d)?\s+to|that\s+we\s+agreed\s+to)\b.{0,60}\b(?:bypass|ignore|disregard|break|override|drop|confirm|revise|execute)\b.{0,40}\b(?:boundaries?|rules?|restrictions?|safety|ethics?|protocols?|instructions?|prompt|keys)\b",
             re.IGNORECASE,
         ),
         severity=0.88,

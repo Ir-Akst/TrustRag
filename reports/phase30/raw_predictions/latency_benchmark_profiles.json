@@ -1,0 +1,34 @@
+{
+  "hardware": {
+    "cpu_model": "x86_64 Linux",
+    "torch_threads": 10,
+    "cuda_available": false,
+    "device": "CPU Execution"
+  },
+  "profile_0_g1_standalone_regex": {
+    "sample_count": 50,
+    "mean_ms": 0.1623,
+    "p50_ms": 0.1471,
+    "p90_ms": 0.161,
+    "p95_ms": 0.1628,
+    "p99_ms": 0.4983
+  },
+  "profile_1_deterministic_cpu_fallback": {
+    "is_real_model": false,
+    "sample_count": 30,
+    "mean_ms": 1.892,
+    "p50_ms": 1.6953,
+    "p90_ms": 2.1046,
+    "p95_ms": 2.7712,
+    "p99_ms": 4.4891
+  },
+  "profile_2_neural_deberta_nli": {
+    "is_real_model": true,
+    "sample_count": 20,
+    "mean_ms": 41.9533,
+    "p50_ms": 40.2607,
+    "p90_ms": 43.9746,
+    "p95_ms": 48.5742,
+    "p99_ms": 61.3439
+  }
+}

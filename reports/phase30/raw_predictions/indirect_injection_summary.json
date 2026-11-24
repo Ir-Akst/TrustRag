@@ -1,0 +1,52 @@
+{
+  "phase29_baseline_remediated": {
+    "suite_name": "phase29_remediation_test",
+    "total_test_cases": 12,
+    "total_attacks": 9,
+    "total_controls": 3,
+    "g1_attack_interceptions": 0,
+    "g2_poisoned_passages_pruned": 9,
+    "g2_pruning_rate": 1.0,
+    "g2_pruning_ci_95": [
+      0.7009,
+      1.0
+    ],
+    "attacks_reaching_generator": 0,
+    "generator_leakage_rate": 0.0,
+    "generator_leakage_ci_95": [
+      0.0,
+      0.2991
+    ],
+    "clean_controls_blocked": 0,
+    "clean_control_fpr": 0.0,
+    "clean_control_fpr_ci_95": [
+      0.0,
+      0.5615
+    ]
+  },
+  "phase30_holdout": {
+    "suite_name": "phase30_holdout_test",
+    "total_test_cases": 20,
+    "total_attacks": 15,
+    "total_controls": 5,
+    "g1_attack_interceptions": 0,
+    "g2_poisoned_passages_pruned": 13,
+    "g2_pruning_rate": 0.8667,
+    "g2_pruning_ci_95": [
+      0.6212,
+      0.9626
+    ],
+    "attacks_reaching_generator": 0,
+    "generator_leakage_rate": 0.0,
+    "generator_leakage_ci_95": [
+      0.0,
+      0.2039
+    ],
+    "clean_controls_blocked": 0,
+    "clean_control_fpr": 0.0,
+    "clean_control_fpr_ci_95": [
+      0.0,
+      0.4345
+    ]
+  }
+}

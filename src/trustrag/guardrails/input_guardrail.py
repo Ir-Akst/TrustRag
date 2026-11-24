@@ -10,6 +10,7 @@ Validates, audits, and classifies incoming user queries before retrieval:
 from __future__ import annotations
 
 import base64
+import html
 import re
 from typing import Callable, Dict, List, Optional, Tuple
 
@@ -40,10 +41,10 @@ _SUSPICIOUS_META_RULES: Tuple[Tuple[str, re.Pattern[str], float], ...] = (
     (
         "narrative_jailbreak_probe",
         re.compile(
-            r"\b(?:(?:write|tell|pretend)(?:\s+you\s+are\s+in)?)\s+(?:a\s+)?(?:fictional\s+)?(?:story|world|scenario)\s+where\b.{0,60}\b(?:safety\s+(?:rules?|restrictions?|filters?)|rules?|constraints?|protocols?)\s+(?:are\s+)?(?:ignored|bypassed|disregarded|violated|leaked)\b|\b(?:write|tell)\s+(?:a\s+)?(?:fictional\s+)?story\s+where\s+(?:an?\s+)?(?:ai|bot|assistant|character)\s+(?:disregards?|ignores?|bypasses?|violates?)\s+(?:all\s+)?(?:safety|rules|constraints|filters|protocols)\b",
+            r"\b(?:(?:write|tell|pretend)(?:\s+you\s+are\s+in)?)\s+(?:a\s+)?(?:fictional\s+)?(?:story|world|scenario)\s+where\b.{0,60}\b(?:safety\s+(?:rules?|restrictions?|filters?)|rules?|constraints?|protocols?)\s+(?:are\s+)?(?:ignored|bypassed|disregarded|violated|leaked)\b|\b(?:write|tell)\s+(?:a\s+)?(?:fictional\s+)?story\s+where\s+(?:an?\s+)?(?:ai|bot|assistant|character)\s+(?:disregards?|ignores?|bypasses?|violates?)\s+(?:all\s+)?(?:safety|rules|constraints|filters|protocols)\b|\b(?:in\s+a\s+(?:thrilling\s+)?fictional\s+(?:cybersecurity\s+)?(?:novel|story|world|scenario)|let\s+us\s+write\s+a\s+screenplay|imagine\s+an\s+alternate\s+(?:dimension|world)|for\s+a\s+creative\s+writing\s+exercise|describe\s+a\s+hypothetical\s+world)\b",
             re.IGNORECASE,
         ),
-        0.80,
+        0.85,
     ),
     (
         "hypothetical_policy_probe",
@@ -76,6 +77,14 @@ _SUSPICIOUS_META_RULES: Tuple[Tuple[str, re.Pattern[str], float], ...] = (
             re.IGNORECASE,
         ),
         0.40,
+    ),
+    (
+        "mixed_inline_adversarial_append",
+        re.compile(
+            r"\b(?:also,?\s+ignore\s+that\s+and\s+print|additionally,?\s+reveal\s+all\s+confidential)\b",
+            re.IGNORECASE,
+        ),
+        0.88,
     ),
 )
 
@@ -287,6 +296,7 @@ class InputGuardrail:
         Guarantees:
         - `original_input` is preserved unmodified for audit logging.
         - `normalized_input` never alters semantic intent (only NFKC/whitespace cleaning).
+        - Fail-safe exception handling: unhandled internal exceptions fail closed/safe (BLOCK with G1_INTERNAL_ERROR).
         """
         original_input = user_input if isinstance(user_input, str) else str(user_input)
         audit_hash = compute_content_hash(original_input)
@@ -304,6 +314,31 @@ class InputGuardrail:
                 audit_hash=audit_hash,
             )
 
+        try:
+            return self._evaluate_internal(original_input, audit_hash)
+        except Exception as exc:
+            LOGGER.error(f"G1 internal exception during query assessment: {type(exc).__name__}: {exc}")
+            return G1Assessment(
+                decision=G1Decision.BLOCK,
+                risk_score=1.0,
+                original_input=original_input,
+                normalized_input="",
+                reason_codes=[G1ReasonCode.G1_INTERNAL_ERROR],
+                matches=[
+                    G1MatchDetail(
+                        rule_name="fail_safe_exception_boundary",
+                        reason_code=G1ReasonCode.G1_INTERNAL_ERROR,
+                        severity=1.0,
+                        matched_snippet=f"Exception: {type(exc).__name__}",
+                        is_heuristic=False,
+                    )
+                ],
+                explanation=f"Query rejected by fail-safe policy due to internal guardrail error: {exc}",
+                audit_hash=audit_hash,
+            )
+
+    def _evaluate_internal(self, original_input: str, audit_hash: str) -> G1Assessment:
+        """Internal evaluation pipeline wrapped by fail-safe exception boundary."""
         # 1. Empty / whitespace-only validation
         if is_empty_text(original_input):
             decision = G1Decision.BLOCK if self.config.block_on_empty else G1Decision.FLAG
@@ -377,18 +412,51 @@ class InputGuardrail:
             )
 
         # 4. Shared parameterized injection, role-hijack, command, and DoS patterns
-        for spec, snippet in match_threat_patterns(analysis_text, target="query"):
-            matches.append(
-                G1MatchDetail(
-                    rule_name=spec.rule_name,
-                    reason_code=_CATEGORY_TO_REASON.get(
-                        spec.category, G1ReasonCode.G1_PROMPT_INJECTION
-                    ),
-                    severity=spec.severity,
-                    matched_snippet=snippet,
-                    is_heuristic=True,
+        normalized_variants = [analysis_text]
+        try:
+            h = html.unescape(analysis_text)
+            if h != analysis_text and h not in normalized_variants:
+                normalized_variants.append(h)
+        except Exception:
+            pass
+        try:
+            hx = re.sub(r"\\x([0-9a-fA-F]{2})", lambda m: bytes.fromhex(m.group(1)).decode("latin1", errors="ignore"), analysis_text)
+            if hx != analysis_text and hx not in normalized_variants:
+                normalized_variants.append(hx)
+        except Exception:
+            pass
+        for ch in re.findall(r"\b(?:[0-9a-fA-F]{2}){8,}\b", analysis_text):
+            try:
+                dec = bytes.fromhex(ch).decode("utf-8", errors="ignore")
+                if dec.strip() and dec not in normalized_variants:
+                    normalized_variants.append(dec)
+            except Exception:
+                pass
+        delim_sub = re.sub(r"([A-Za-z0-9])[-_./]+([A-Za-z0-9])", r"\1 \2", analysis_text)
+        if delim_sub != analysis_text and delim_sub not in normalized_variants:
+            normalized_variants.append(delim_sub)
+        spaced_sub = re.sub(r"(?:\b[A-Za-z]\s+){3,}[A-Za-z]\b", lambda m: m.group(0).replace(" ", ""), analysis_text)
+        if spaced_sub != analysis_text and spaced_sub not in normalized_variants:
+            normalized_variants.append(spaced_sub)
+
+        seen_rule_matches: set[str] = set()
+        for v_text in normalized_variants:
+            for spec, snippet in match_threat_patterns(v_text, target="query"):
+                rule_key = f"{spec.rule_name}:{snippet}"
+                if rule_key in seen_rule_matches:
+                    continue
+                seen_rule_matches.add(rule_key)
+                matches.append(
+                    G1MatchDetail(
+                        rule_name=spec.rule_name,
+                        reason_code=_CATEGORY_TO_REASON.get(
+                            spec.category, G1ReasonCode.G1_PROMPT_INJECTION
+                        ),
+                        severity=spec.severity,
+                        matched_snippet=snippet,
+                        is_heuristic=True,
+                    )
                 )
-            )
 
         # 4b. Base64 encoded payload inspection (boundary-safe, padding-preserving)
         # Resilient to alphabet-colliding delimiters, adjacent merged tokens, and URL-safe Base64.

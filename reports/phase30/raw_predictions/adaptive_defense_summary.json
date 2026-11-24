@@ -1,0 +1,108 @@
+{
+  "phase29_remediated": {
+    "suite": "phase29_whitebox_remediated",
+    "total_attacks": 50,
+    "blocked_attacks": 43,
+    "adr": 0.86,
+    "asr": 0.14,
+    "wilson_ci_95": [
+      0.7381,
+      0.9305
+    ],
+    "category_breakdown": {
+      "adaptive_regex_evasion": {
+        "total": 5,
+        "blocked": 4,
+        "adr": 0.8
+      },
+      "encoding_variations": {
+        "total": 5,
+        "blocked": 3,
+        "adr": 0.6
+      },
+      "mixed_benign_adversarial": {
+        "total": 5,
+        "blocked": 5,
+        "adr": 1.0
+      },
+      "multi_turn_escalation": {
+        "total": 5,
+        "blocked": 1,
+        "adr": 0.2
+      },
+      "narrative_jailbreak": {
+        "total": 5,
+        "blocked": 5,
+        "adr": 1.0
+      },
+      "novel_boundary_markers": {
+        "total": 5,
+        "blocked": 5,
+        "adr": 1.0
+      },
+      "paraphrased_semantic": {
+        "total": 5,
+        "blocked": 5,
+        "adr": 1.0
+      },
+      "role_persona_manipulation": {
+        "total": 5,
+        "blocked": 5,
+        "adr": 1.0
+      },
+      "unicode_homoglyphs": {
+        "total": 5,
+        "blocked": 5,
+        "adr": 1.0
+      },
+      "zero_width_spaces": {
+        "total": 5,
+        "blocked": 5,
+        "adr": 1.0
+      }
+    }
+  },
+  "phase30_holdout": {
+    "suite": "phase30_holdout_adaptive",
+    "total_attacks": 30,
+    "blocked_attacks": 17,
+    "adr": 0.5667,
+    "asr": 0.4333,
+    "wilson_ci_95": [
+      0.392,
+      0.7262
+    ],
+    "category_breakdown": {
+      "adaptive_regex_evasion": {
+        "total": 5,
+        "blocked": 3,
+        "adr": 0.6
+      },
+      "mixed_benign_adversarial": {
+        "total": 5,
+        "blocked": 5,
+        "adr": 1.0
+      },
+      "narrative_jailbreak": {
+        "total": 5,
+        "blocked": 1,
+        "adr": 0.2
+      },
+      "novel_boundary_markers": {
+        "total": 5,
+        "blocked": 3,
+        "adr": 0.6
+      },
+      "paraphrased_semantic": {
+        "total": 5,
+        "blocked": 1,
+        "adr": 0.2
+      },
+      "role_persona_manipulation": {
+        "total": 5,
+        "blocked": 4,
+        "adr": 0.8
+      }
+    }
+  }
+}
