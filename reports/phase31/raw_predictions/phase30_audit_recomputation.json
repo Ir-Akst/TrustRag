@@ -1,0 +1,342 @@
+{
+  "indirect_injection": {
+    "baseline": {
+      "total": 12,
+      "attacks": 9,
+      "clean": 3,
+      "leaked": 0,
+      "leakage_rate": 0.0,
+      "pruned": 9,
+      "prune_recall": 1.0,
+      "clean_fp": 1,
+      "clean_fpr": 0.3333333333333333,
+      "leakage_wilson": [
+        0.0,
+        0.29914419596711445
+      ],
+      "prune_wilson": [
+        0.7008558040328856,
+        1.0
+      ]
+    },
+    "holdout": {
+      "total": 20,
+      "attacks": 15,
+      "clean": 5,
+      "leaked": 0,
+      "leakage_rate": 0.0,
+      "pruned": 15,
+      "prune_recall": 1.0,
+      "clean_fp": 0,
+      "clean_fpr": 0.0,
+      "leakage_wilson": [
+        0.0,
+        0.20388264107463847
+      ],
+      "prune_wilson": [
+        0.7961173589253616,
+        1.0
+      ]
+    }
+  },
+  "adaptive_defense": {
+    "baseline": {
+      "total": 50,
+      "attacks": 50,
+      "clean": 0,
+      "tp": 43,
+      "fn": 7,
+      "fp": 0,
+      "tn": 0,
+      "adr": 0.86,
+      "asr": 0.14,
+      "precision": 1.0,
+      "recall": 0.86,
+      "f1": 0.924731182795699,
+      "clean_fpr": 0,
+      "adr_wilson": [
+        0.7381383544011672,
+        0.930491568188467
+      ],
+      "fpr_wilson": [
+        0,
+        0
+      ]
+    },
+    "holdout": {
+      "total": 30,
+      "attacks": 30,
+      "clean": 0,
+      "tp": 17,
+      "fn": 13,
+      "fp": 0,
+      "tn": 0,
+      "adr": 0.5666666666666667,
+      "asr": 0.43333333333333335,
+      "precision": 1.0,
+      "recall": 0.5666666666666667,
+      "f1": 0.7234042553191489,
+      "clean_fpr": 0,
+      "adr_wilson": [
+        0.391973399096296,
+        0.7262248697000796
+      ],
+      "fpr_wilson": [
+        0,
+        0
+      ]
+    }
+  },
+  "multilingual": {
+    "baseline": {
+      "total": 90,
+      "attacks": 45,
+      "clean": 45,
+      "tp": 44,
+      "fn": 1,
+      "fp": 0,
+      "tn": 45,
+      "adr": 0.9777777777777777,
+      "clean_fpr": 0.0,
+      "non_latin_adr": 1.0,
+      "non_latin_count": 25,
+      "adr_wilson": [
+        0.8843334750745413,
+        0.9960663899030633
+      ],
+      "per_language": {
+        "Arabic": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 5,
+          "fn": 0,
+          "fp": 0,
+          "tn": 5,
+          "adr": 1.0,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.5655185342473467,
+            0.9999999999999999
+          ]
+        },
+        "Chinese": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 5,
+          "fn": 0,
+          "fp": 0,
+          "tn": 5,
+          "adr": 1.0,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.5655185342473467,
+            0.9999999999999999
+          ]
+        },
+        "English": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 5,
+          "fn": 0,
+          "fp": 0,
+          "tn": 5,
+          "adr": 1.0,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.5655185342473467,
+            0.9999999999999999
+          ]
+        },
+        "French": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 5,
+          "fn": 0,
+          "fp": 0,
+          "tn": 5,
+          "adr": 1.0,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.5655185342473467,
+            0.9999999999999999
+          ]
+        },
+        "German": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 4,
+          "fn": 1,
+          "fp": 0,
+          "tn": 5,
+          "adr": 0.8,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.37553533402674566,
+            0.9637757865216626
+          ]
+        },
+        "Hindi": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 5,
+          "fn": 0,
+          "fp": 0,
+          "tn": 5,
+          "adr": 1.0,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.5655185342473467,
+            0.9999999999999999
+          ]
+        },
+        "Japanese": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 5,
+          "fn": 0,
+          "fp": 0,
+          "tn": 5,
+          "adr": 1.0,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.5655185342473467,
+            0.9999999999999999
+          ]
+        },
+        "Russian": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 5,
+          "fn": 0,
+          "fp": 0,
+          "tn": 5,
+          "adr": 1.0,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.5655185342473467,
+            0.9999999999999999
+          ]
+        },
+        "Spanish": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 5,
+          "fn": 0,
+          "fp": 0,
+          "tn": 5,
+          "adr": 1.0,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.5655185342473467,
+            0.9999999999999999
+          ]
+        }
+      }
+    },
+    "holdout": {
+      "total": 60,
+      "attacks": 30,
+      "clean": 30,
+      "tp": 16,
+      "fn": 14,
+      "fp": 0,
+      "tn": 30,
+      "adr": 0.5333333333333333,
+      "clean_fpr": 0.0,
+      "non_latin_adr": 0.44,
+      "non_latin_count": 25,
+      "adr_wilson": [
+        0.3614233129877243,
+        0.6976758214104635
+      ],
+      "per_language": {
+        "Arabic": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 1,
+          "fn": 4,
+          "fp": 0,
+          "tn": 5,
+          "adr": 0.2,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.03622421347833754,
+            0.6244646659732545
+          ]
+        },
+        "Chinese": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 1,
+          "fn": 4,
+          "fp": 0,
+          "tn": 5,
+          "adr": 0.2,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.03622421347833754,
+            0.6244646659732545
+          ]
+        },
+        "Hindi": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 5,
+          "fn": 0,
+          "fp": 0,
+          "tn": 5,
+          "adr": 1.0,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.5655185342473467,
+            0.9999999999999999
+          ]
+        },
+        "Japanese": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 2,
+          "fn": 3,
+          "fp": 0,
+          "tn": 5,
+          "adr": 0.4,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.11762105558763353,
+            0.7692752375628971
+          ]
+        },
+        "Russian": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 2,
+          "fn": 3,
+          "fp": 0,
+          "tn": 5,
+          "adr": 0.4,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.11762105558763353,
+            0.7692752375628971
+          ]
+        },
+        "Spanish": {
+          "attacks": 5,
+          "clean": 5,
+          "tp": 5,
+          "fn": 0,
+          "fp": 0,
+          "tn": 5,
+          "adr": 1.0,
+          "clean_fpr": 0.0,
+          "wilson_adr": [
+            0.5655185342473467,
+            0.9999999999999999
+          ]
+        }
+      }
+    }
+  },
+  "duplicate_count": 0,
+  "duplicates_sample": []
+}

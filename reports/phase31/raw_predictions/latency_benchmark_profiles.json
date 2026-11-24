@@ -1,0 +1,57 @@
+{
+  "benchmark": "Phase 31 Latency and Deployment Truthfulness Profiling",
+  "hardware": {
+    "cpu_cores": 12,
+    "physical_cores": 10,
+    "initial_memory_rss_mb": 433.16,
+    "final_memory_rss_mb": 780.96,
+    "memory_delta_mb": 347.8
+  },
+  "profiles": {
+    "profile_0_g1_standalone": {
+      "description": "Deterministic G1 input guardrail (regex, normalization, security heuristics)",
+      "active_in_production": true,
+      "latency_metrics": {
+        "p50_ms": 0.2073,
+        "p90_ms": 0.3849,
+        "p99_ms": 0.6084,
+        "mean_ms": 0.2334,
+        "min_ms": 0.1245,
+        "max_ms": 0.6084,
+        "samples": 100
+      }
+    },
+    "profile_1_deterministic_serving": {
+      "description": "Full production pipeline with deterministic fallback (G1 + TF-IDF retrieval + G2 MSD + generation)",
+      "active_in_production": true,
+      "latency_metrics": {
+        "p50_ms": 2.4684,
+        "p90_ms": 24.1288,
+        "p99_ms": 33.2299,
+        "mean_ms": 11.0171,
+        "min_ms": 1.6893,
+        "max_ms": 33.2299,
+        "samples": 100
+      }
+    },
+    "profile_2_offline_neural_nli": {
+      "description": "Frozen DeBERTa-v3-small neural NLI forward pass on CPU (batch=1, max_len=128)",
+      "active_in_production": false,
+      "note": "Evaluated strictly offline in research harness; NOT wired into live production server serving loop.",
+      "latency_metrics": {
+        "p50_ms": 72.2765,
+        "p90_ms": 220.9812,
+        "p99_ms": 343.4576,
+        "mean_ms": 113.4828,
+        "min_ms": 42.5346,
+        "max_ms": 343.4576,
+        "samples": 50
+      }
+    },
+    "profile_3_live_serving_neural_nli": {
+      "description": "Live production neural serving",
+      "active_in_production": false,
+      "truthfulness_statement": "TRUTHFUL AUDIT FINDING: Live API server runs with SRM backend='disabled' (deterministic CPU fallback active). Neural DeBERTa weights are NOT executed during live /api/v1/pipeline/execute requests."
+    }
+  }
+}
