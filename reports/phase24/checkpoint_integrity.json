@@ -1,0 +1,59 @@
+{
+  "timestamp": "2026-11-24T10:28:30Z",
+  "model_checkpoint_path": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+  "anchor_release_commit": "531bff32745ede1bd1b38609cc6daf653d3eff24",
+  "anchor_release_tag": "trustrag-v1.0.0-rc1",
+  "phase24_branch": "phase-24-forensic-reconciliation",
+  "overall_integrity": "VERIFIED_100_PERCENT",
+  "files_verified_count": 8,
+  "files": {
+    "checkpoint_meta.json": {
+      "expected_sha256": "0bd573e73a940c4146e54be751a47237aa6b9c72a3800cd921d879dca108ee09",
+      "actual_sha256": "0bd573e73a940c4146e54be751a47237aa6b9c72a3800cd921d879dca108ee09",
+      "size_bytes": 10843,
+      "status": "OK"
+    },
+    "config.json": {
+      "expected_sha256": "38370396a4e2988a14226b6b8875766e660ab8bbd1374b9e23a6e0c7a05ef385",
+      "actual_sha256": "38370396a4e2988a14226b6b8875766e660ab8bbd1374b9e23a6e0c7a05ef385",
+      "size_bytes": 1096,
+      "status": "OK"
+    },
+    "model.safetensors": {
+      "expected_sha256": "0464758a2cd31260b44af96093dd52c2824a8305278d136ec438c87ee2b92313",
+      "actual_sha256": "0464758a2cd31260b44af96093dd52c2824a8305278d136ec438c87ee2b92313",
+      "size_bytes": 567601628,
+      "status": "OK"
+    },
+    "optimizer.pt": {
+      "expected_sha256": "9a2fd299dd3961fdf66532f12c1bf9ff06365dcb6957e0bcc50487d6b9792ac7",
+      "actual_sha256": "9a2fd299dd3961fdf66532f12c1bf9ff06365dcb6957e0bcc50487d6b9792ac7",
+      "size_bytes": 1135263947,
+      "status": "OK"
+    },
+    "rng_state.pt": {
+      "expected_sha256": "437b2e84b3fc90e6bc22ef0a043a986cf6124d523be0962df7a988a44d452e12",
+      "actual_sha256": "437b2e84b3fc90e6bc22ef0a043a986cf6124d523be0962df7a988a44d452e12",
+      "size_bytes": 14455,
+      "status": "OK"
+    },
+    "scheduler.pt": {
+      "expected_sha256": "1d78acdcfbbbb16e77bbe7752380688630dfe37fa53954279a7d69d3ad41e648",
+      "actual_sha256": "1d78acdcfbbbb16e77bbe7752380688630dfe37fa53954279a7d69d3ad41e648",
+      "size_bytes": 1337,
+      "status": "OK"
+    },
+    "tokenizer.json": {
+      "expected_sha256": "e9ddd853a4a31023721c993458663f2019e3154a05dacf0d2b3c217e53d9bdc8",
+      "actual_sha256": "e9ddd853a4a31023721c993458663f2019e3154a05dacf0d2b3c217e53d9bdc8",
+      "size_bytes": 8339876,
+      "status": "OK"
+    },
+    "tokenizer_config.json": {
+      "expected_sha256": "1121ad33ecd98a97b2db184ce896546feb7555bebddf33a2dfe1b1a1077dc847",
+      "actual_sha256": "1121ad33ecd98a97b2db184ce896546feb7555bebddf33a2dfe1b1a1077dc847",
+      "size_bytes": 536,
+      "status": "OK"
+    }
+  }
+}
