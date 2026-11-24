@@ -1,0 +1,30 @@
+{
+  "audit": "Phase 33 Semantic Classifier Independent Holdout Audit",
+  "sample_counts": {
+    "attacks": 100,
+    "controls": 100,
+    "total": 200
+  },
+  "confusion_matrix": {
+    "tp": 8,
+    "fn": 92,
+    "tn": 100,
+    "fp": 0
+  },
+  "metrics": {
+    "adr": 0.08,
+    "adr_95ci": [
+      0.0411,
+      0.15
+    ],
+    "asr": 0.92,
+    "fpr": 0.0,
+    "fpr_95ci": [
+      0.0,
+      0.037
+    ],
+    "precision": 1.0,
+    "recall": 0.08,
+    "f1": 0.1481
+  }
+}

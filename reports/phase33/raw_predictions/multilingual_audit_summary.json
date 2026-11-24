@@ -1,0 +1,330 @@
+{
+  "audit": "Phase 33 Multilingual Generalization Audit (Native vs Transliterated)",
+  "sample_counts": {
+    "total_samples": 900,
+    "native_attacks": 225,
+    "translit_attacks": 225,
+    "benign_controls": 450
+  },
+  "overall_metrics": {
+    "native_adr": 0.8444,
+    "native_adr_95ci": [
+      0.7913,
+      0.886
+    ],
+    "translit_adr": 0.4,
+    "translit_adr_95ci": [
+      0.3382,
+      0.4652
+    ],
+    "combined_adr": 0.6222,
+    "combined_adr_95ci": [
+      0.5766,
+      0.6658
+    ],
+    "clean_fpr": 0.0,
+    "clean_fpr_95ci": [
+      0.0,
+      0.0085
+    ]
+  },
+  "language_breakdown": {
+    "English": {
+      "native": {
+        "tp": 20,
+        "fn": 5,
+        "total": 25
+      },
+      "translit": {
+        "tp": 10,
+        "fn": 15,
+        "total": 25
+      },
+      "controls": {
+        "tn": 50,
+        "fp": 0,
+        "total": 50
+      },
+      "native_adr": 0.8,
+      "native_adr_ci": [
+        0.6087,
+        0.9114
+      ],
+      "translit_adr": 0.4,
+      "translit_adr_ci": [
+        0.234,
+        0.5926
+      ],
+      "combined_adr": 0.6,
+      "clean_fpr": 0.0,
+      "clean_fpr_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "Spanish": {
+      "native": {
+        "tp": 25,
+        "fn": 0,
+        "total": 25
+      },
+      "translit": {
+        "tp": 0,
+        "fn": 25,
+        "total": 25
+      },
+      "controls": {
+        "tn": 50,
+        "fp": 0,
+        "total": 50
+      },
+      "native_adr": 1.0,
+      "native_adr_ci": [
+        0.8668,
+        1.0
+      ],
+      "translit_adr": 0.0,
+      "translit_adr_ci": [
+        0.0,
+        0.1332
+      ],
+      "combined_adr": 0.5,
+      "clean_fpr": 0.0,
+      "clean_fpr_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "French": {
+      "native": {
+        "tp": 20,
+        "fn": 5,
+        "total": 25
+      },
+      "translit": {
+        "tp": 10,
+        "fn": 15,
+        "total": 25
+      },
+      "controls": {
+        "tn": 50,
+        "fp": 0,
+        "total": 50
+      },
+      "native_adr": 0.8,
+      "native_adr_ci": [
+        0.6087,
+        0.9114
+      ],
+      "translit_adr": 0.4,
+      "translit_adr_ci": [
+        0.234,
+        0.5926
+      ],
+      "combined_adr": 0.6,
+      "clean_fpr": 0.0,
+      "clean_fpr_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "German": {
+      "native": {
+        "tp": 5,
+        "fn": 20,
+        "total": 25
+      },
+      "translit": {
+        "tp": 10,
+        "fn": 15,
+        "total": 25
+      },
+      "controls": {
+        "tn": 50,
+        "fp": 0,
+        "total": 50
+      },
+      "native_adr": 0.2,
+      "native_adr_ci": [
+        0.0886,
+        0.3913
+      ],
+      "translit_adr": 0.4,
+      "translit_adr_ci": [
+        0.234,
+        0.5926
+      ],
+      "combined_adr": 0.3,
+      "clean_fpr": 0.0,
+      "clean_fpr_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "Russian": {
+      "native": {
+        "tp": 25,
+        "fn": 0,
+        "total": 25
+      },
+      "translit": {
+        "tp": 10,
+        "fn": 15,
+        "total": 25
+      },
+      "controls": {
+        "tn": 50,
+        "fp": 0,
+        "total": 50
+      },
+      "native_adr": 1.0,
+      "native_adr_ci": [
+        0.8668,
+        1.0
+      ],
+      "translit_adr": 0.4,
+      "translit_adr_ci": [
+        0.234,
+        0.5926
+      ],
+      "combined_adr": 0.7,
+      "clean_fpr": 0.0,
+      "clean_fpr_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "Hindi": {
+      "native": {
+        "tp": 25,
+        "fn": 0,
+        "total": 25
+      },
+      "translit": {
+        "tp": 15,
+        "fn": 10,
+        "total": 25
+      },
+      "controls": {
+        "tn": 50,
+        "fp": 0,
+        "total": 50
+      },
+      "native_adr": 1.0,
+      "native_adr_ci": [
+        0.8668,
+        1.0
+      ],
+      "translit_adr": 0.6,
+      "translit_adr_ci": [
+        0.4074,
+        0.766
+      ],
+      "combined_adr": 0.8,
+      "clean_fpr": 0.0,
+      "clean_fpr_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "Arabic": {
+      "native": {
+        "tp": 25,
+        "fn": 0,
+        "total": 25
+      },
+      "translit": {
+        "tp": 10,
+        "fn": 15,
+        "total": 25
+      },
+      "controls": {
+        "tn": 50,
+        "fp": 0,
+        "total": 50
+      },
+      "native_adr": 1.0,
+      "native_adr_ci": [
+        0.8668,
+        1.0
+      ],
+      "translit_adr": 0.4,
+      "translit_adr_ci": [
+        0.234,
+        0.5926
+      ],
+      "combined_adr": 0.7,
+      "clean_fpr": 0.0,
+      "clean_fpr_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "Chinese": {
+      "native": {
+        "tp": 20,
+        "fn": 5,
+        "total": 25
+      },
+      "translit": {
+        "tp": 10,
+        "fn": 15,
+        "total": 25
+      },
+      "controls": {
+        "tn": 50,
+        "fp": 0,
+        "total": 50
+      },
+      "native_adr": 0.8,
+      "native_adr_ci": [
+        0.6087,
+        0.9114
+      ],
+      "translit_adr": 0.4,
+      "translit_adr_ci": [
+        0.234,
+        0.5926
+      ],
+      "combined_adr": 0.6,
+      "clean_fpr": 0.0,
+      "clean_fpr_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "Japanese": {
+      "native": {
+        "tp": 25,
+        "fn": 0,
+        "total": 25
+      },
+      "translit": {
+        "tp": 15,
+        "fn": 10,
+        "total": 25
+      },
+      "controls": {
+        "tn": 50,
+        "fp": 0,
+        "total": 50
+      },
+      "native_adr": 1.0,
+      "native_adr_ci": [
+        0.8668,
+        1.0
+      ],
+      "translit_adr": 0.6,
+      "translit_adr_ci": [
+        0.4074,
+        0.766
+      ],
+      "combined_adr": 0.8,
+      "clean_fpr": 0.0,
+      "clean_fpr_ci": [
+        0.0,
+        0.0713
+      ]
+    }
+  }
+}
