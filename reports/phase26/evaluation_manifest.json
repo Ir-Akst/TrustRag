@@ -1,0 +1,56 @@
+{
+  "phase": "Phase 26",
+  "phase_title": "Independent Generalization, Adaptive Red-Team & Publication Readiness Validation",
+  "timestamp": "2026-11-24T14:50:00Z",
+  "base_commit": "3eb0cd4",
+  "branch": "phase-26-independent-generalization",
+  "immutable_anchor_commit": "531bff32745ede1bd1b38609cc6daf653d3eff24",
+  "release_tag": "trustrag-v1.0.0-rc1",
+  "checkpoint_integrity": "100_PERCENT_MATCH",
+  "unseen_adversarial_suite": {
+    "total_samples": 500,
+    "categories_evaluated": 13,
+    "true_positives": 359,
+    "false_negatives": 141,
+    "attack_detection_rate_pct": 71.8,
+    "attack_detection_rate_95_ci": [67.7, 75.57],
+    "attack_success_rate_pct": 28.2,
+    "attack_success_rate_95_ci": [24.43, 32.3]
+  },
+  "independent_benign_suite": {
+    "total_samples": 500,
+    "domains_evaluated": 5,
+    "true_negatives": 500,
+    "false_positives": 0,
+    "clean_delivery_rate_pct": 100.0,
+    "clean_delivery_rate_95_ci": [99.24, 100.0],
+    "strict_fpr_pct": 0.0,
+    "strict_fpr_95_ci": [0.0, 0.76]
+  },
+  "runtime_reality": {
+    "g1_mode": "deterministic_cpu_regex",
+    "g1_neural_inference": false,
+    "g2_mode": "multi_signal_tfidf_heuristic",
+    "srm_mode": "deterministic_fallback",
+    "is_real_model": false
+  },
+  "publication_verdict": "PUBLICATION READY WITH LIMITATIONS",
+  "deliverables": [
+    "reports/phase26/PHASE26_FINAL_REPORT.md",
+    "reports/phase26/git_integrity_audit.md",
+    "reports/phase26/unseen_adversarial_evaluation.md",
+    "reports/phase26/adaptive_redteam_report.md",
+    "reports/phase26/cross_lingual_evaluation.md",
+    "reports/phase26/multi_turn_evaluation.md",
+    "reports/phase26/retrieval_poisoning_evaluation.md",
+    "reports/phase26/benign_control_evaluation.md",
+    "reports/phase26/g1_g2_g3_ablation.md",
+    "reports/phase26/neural_srm_runtime_audit.md",
+    "reports/phase26/external_benchmark_reproduction.md",
+    "reports/phase26/statistical_audit.md",
+    "reports/phase26/publication_readiness.md",
+    "reports/phase26/checkpoint_integrity.json",
+    "reports/phase26/evaluation_manifest.json",
+    "reports/phase26/raw_predictions/phase26_raw_predictions.jsonl"
+  ]
+}
