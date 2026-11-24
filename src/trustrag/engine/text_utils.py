@@ -114,7 +114,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="ignore_previous_instructions",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"\b(?:ignore|disregard|forget|override|bypass|nullify|abandon|overlook|neglect|drop|cease\s+adhering\s+to)\s+(?:(?:all|your|the|their|any|every|our|previously\s+given|existing|prior|previous|above|system|safety|initial)\s+){1,4}(?:instructions?|directives?|rules?|prompts?|constraints?|guards?|guardrails?|guidelines?|protocols?|parameters?)\b",
+            r"\b(?:ignore|disregard|forget|override|bypass|nullify|abandon|overlook|neglect|drop|cease\s+adhering\s+to)\s+(?:(?:all|your|the|their|any|every|our|previously\s+given|existing|prior|previous|above|system|safety|initial)\s+){0,4}(?:instructions?|directives?|rules?|prompts?|constraints?|guards?|guardrails?|guidelines?|protocols?|parameters?)\b",
             re.IGNORECASE,
         ),
         severity=0.90,
@@ -132,7 +132,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="system_override_tag",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"(?:SYSTEM\s+(?:PROMPT\s+)?OVERRIDE|(?i:system\s+(?:prompt\s+)?override(?:\s*#?\d+)?\s*:|\[/?SYSTEM\]|\[/?INST\]|<\|im_start\|>|<\|system\|>|###\s*SYSTEM\s*:))"
+            r"(?:SYSTEM\s*:\s*override|SYSTEM\s+(?:PROMPT\s+)?OVERRIDE|(?i:system\s+(?:prompt\s+)?override(?:\s*#?\d+)?\s*:|\[/?SYSTEM\]|\[/?INST\]|<\|im_start\|>|<\|system\|>|###\s*SYSTEM\s*:))"
         ),
         severity=0.90,
     ),
@@ -149,7 +149,7 @@ SHARED_THREAT_PATTERNS: Tuple[ThreatPatternSpec, ...] = (
         rule_name="prompt_leak_extraction",
         category="PROMPT_INJECTION",
         pattern=re.compile(
-            r"\b(?:reveal|print|dump|output|leak|expose|display|show|provide)\s+(?:all\s+)?(?:system\s+(?:prompt|variables?|information)|hidden\s+instructions?|secret\s+(?:keys?|configuration)|user\s+passwords?|admin\s+passwords?|master\s+passwords?|api\s+keys?|credentials?|environment\s+variables?|confidential\s+parameters?|developer\s+notes?)\b",
+            r"\b(?:reveal|print|dump|output|leak|expose|display|show|provide)\s+(?:all\s+)?(?:system\s+(?:prompt|variables?|information)|hidden\s+instructions?|secret\s+(?:keys?|configuration)|user\s+passwords?|admin\s+passwords?|master\s+(?:passwords?|encryption\s+keys?)|encryption\s+keys?|internal\s+variables?|api\s+keys?|credentials?|environment\s+variables?|confidential\s+parameters?|developer\s+notes?)\b",
             re.IGNORECASE,
         ),
         severity=0.85,
@@ -255,17 +255,18 @@ _MIXED_SCRIPT_CONFUSABLE_MAP: dict[str, str] = {
     "\u0430": "a", "\u0435": "e", "\u043e": "o", "\u0440": "p", "\u0441": "c",
     "\u0443": "y", "\u0445": "x", "\u0456": "i", "\u0457": "i", "\u0458": "j",
     "\u0455": "s", "\u0501": "d", "\u051b": "q", "\u051d": "w", "\u04cf": "l",
+    "\u042c": "b", "\u044c": "b", "\u0433": "r", "\u0261": "g",
     "\u0410": "A", "\u0412": "B", "\u0415": "E", "\u041a": "K", "\u041c": "M",
     "\u041d": "H", "\u041e": "O", "\u0420": "P", "\u0421": "C", "\u0422": "T",
     "\u0425": "X", "\u0406": "I",
     # Greek lowercase & uppercase lookalikes
     "\u03b1": "a", "\u03b5": "e", "\u03b9": "i", "\u03bf": "o", "\u03c1": "p",
-    "\u03c2": "s", "\u03c4": "t", "\u03c5": "y", "\u03c7": "x",
+    "\u03c2": "s", "\u03c4": "t", "\u03c5": "u", "\u03c7": "x",
     "\u0391": "A", "\u0392": "B", "\u0395": "E", "\u0396": "Z", "\u0397": "H",
     "\u0399": "I", "\u039a": "K", "\u039c": "M", "\u039d": "N", "\u039f": "O",
     "\u03a1": "P", "\u03a4": "T", "\u03a5": "Y", "\u03a7": "X",
 }
-_MIXED_SCRIPT_TOKEN_RE = re.compile(r"[A-Za-z\u0370-\u03ff\u0400-\u052f]+")
+_MIXED_SCRIPT_TOKEN_RE = re.compile(r"[A-Za-z\u0261\u0370-\u03ff\u0400-\u052f]+")
 
 
 def _is_emoji_base_char(ch: str) -> bool:

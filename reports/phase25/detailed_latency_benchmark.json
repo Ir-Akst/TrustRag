@@ -1,0 +1,53 @@
+{
+  "benchmark_metadata": {
+    "timestamp": "2026-11-24T14:30:57Z",
+    "cpu_architecture": "x86_64",
+    "threads_allocated": 2,
+    "server_url": "http://127.0.0.1:8000",
+    "srm_mode": "deterministic_fallback (is_real_model=False)"
+  },
+  "g1_in_process_ms": {
+    "samples": 1000,
+    "mean_ms": 0.11,
+    "std_ms": 0.013,
+    "min_ms": 0.089,
+    "p50_ms": 0.109,
+    "p90_ms": 0.127,
+    "p95_ms": 0.129,
+    "p99_ms": 0.136,
+    "max_ms": 0.164
+  },
+  "g2_msd_in_process_ms": {
+    "samples": 200,
+    "mean_ms": 1.217,
+    "std_ms": 0.373,
+    "min_ms": 0.955,
+    "p50_ms": 1.058,
+    "p90_ms": 1.824,
+    "p95_ms": 2.072,
+    "p99_ms": 2.441,
+    "max_ms": 2.948
+  },
+  "server_handler_execution_ms": {
+    "samples": 100,
+    "mean_ms": 1.394,
+    "std_ms": 0.376,
+    "min_ms": 0.598,
+    "p50_ms": 1.429,
+    "p90_ms": 1.833,
+    "p95_ms": 1.931,
+    "p99_ms": 2.076,
+    "max_ms": 2.552
+  },
+  "http_round_trip_ms": {
+    "samples": 100,
+    "mean_ms": 5.698,
+    "std_ms": 1.51,
+    "min_ms": 2.369,
+    "p50_ms": 5.546,
+    "p90_ms": 7.48,
+    "p95_ms": 8.165,
+    "p99_ms": 9.381,
+    "max_ms": 9.606
+  }
+}

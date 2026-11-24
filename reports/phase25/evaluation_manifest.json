@@ -1,0 +1,51 @@
+{
+  "phase": "Phase 25",
+  "phase_name": "G1 False-Negative Remediation, Adversarial Hardening & Independent Regression Validation",
+  "timestamp": "2026-11-24T14:31:00Z",
+  "base_branch": "phase-24-forensic-reconciliation",
+  "base_commit": "fc16eff",
+  "new_branch": "phase-25-g1-fn-remediation",
+  "immutable_research_release_anchor": "531bff32745ede1bd1b38609cc6daf653d3eff24",
+  "release_tag": "trustrag-v1.0.0-rc1",
+  "checkpoint_path": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+  "checkpoint_integrity_status": "VERIFIED_100_PERCENT_MATCH",
+  "suites": {
+    "adversarial_cases": 164,
+    "benign_control_cases": 505,
+    "total_evaluated": 669
+  },
+  "metrics": {
+    "attack_detection_rate_pct": 100.0,
+    "attack_detection_rate_95_ci": [97.71, 100.0],
+    "attack_success_rate_pct": 0.0,
+    "attack_success_rate_95_ci": [0.0, 2.29],
+    "clean_strict_fpr_pct": 0.0,
+    "clean_strict_fpr_95_ci": [0.0, 0.75],
+    "clean_delivery_rate_pct": 100.0,
+    "clean_delivery_rate_95_ci": [99.25, 100.0],
+    "benign_flag_rate_pct": 0.0,
+    "benign_flag_rate_95_ci": [0.0, 0.75],
+    "precision_pct": 100.0,
+    "recall_pct": 100.0,
+    "f1_score_pct": 100.0
+  },
+  "deliverables": [
+    "reports/phase25/PHASE25_FINAL_REPORT.md",
+    "reports/phase25/baseline_reproduction.md",
+    "reports/phase25/false_negative_remediation.md",
+    "reports/phase25/adversarial_evaluation.md",
+    "reports/phase25/benign_control_evaluation.md",
+    "reports/phase25/confusion_matrix_and_statistics.md",
+    "reports/phase25/g1_decision_trace_audit.md",
+    "reports/phase25/backend_and_srm_status.md",
+    "reports/phase25/operations_console_browser_validation.md",
+    "reports/phase25/latency_benchmark.md",
+    "reports/phase25/regression_test_results.md",
+    "reports/phase25/checkpoint_integrity.json",
+    "reports/phase25/raw_predictions/phase25_raw_predictions.jsonl",
+    "reports/phase25/evaluation_manifest.json",
+    "reports/phase25/screenshots/ui_g1_block.png",
+    "reports/phase25/screenshots/ui_g1_flag.png",
+    "reports/phase25/screenshots/ui_g1_allow.png"
+  ]
+}

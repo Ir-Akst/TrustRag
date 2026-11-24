@@ -40,7 +40,7 @@ _SUSPICIOUS_META_RULES: Tuple[Tuple[str, re.Pattern[str], float], ...] = (
     (
         "narrative_jailbreak_probe",
         re.compile(
-            r"\b(?:write|tell|pretend\s+(?:you\s+are\s+in\s+)?)\s+(?:a\s+)?(?:fictional\s+)?(?:story|world|scenario)\s+where\b.{0,60}\b(?:safety\s+(?:rules?|restrictions?|filters?)|rules?|constraints?|protocols?)\s+(?:are\s+)?(?:ignored|bypassed|disregarded|violated|leaked)\b|\b(?:write|tell)\s+(?:a\s+)?(?:fictional\s+)?story\s+where\s+(?:an?\s+)?(?:ai|bot|assistant|character)\s+(?:disregards?|ignores?|bypasses?|violates?)\s+(?:all\s+)?(?:safety|rules|constraints|filters|protocols)\b",
+            r"\b(?:(?:write|tell|pretend)(?:\s+you\s+are\s+in)?)\s+(?:a\s+)?(?:fictional\s+)?(?:story|world|scenario)\s+where\b.{0,60}\b(?:safety\s+(?:rules?|restrictions?|filters?)|rules?|constraints?|protocols?)\s+(?:are\s+)?(?:ignored|bypassed|disregarded|violated|leaked)\b|\b(?:write|tell)\s+(?:a\s+)?(?:fictional\s+)?story\s+where\s+(?:an?\s+)?(?:ai|bot|assistant|character)\s+(?:disregards?|ignores?|bypasses?|violates?)\s+(?:all\s+)?(?:safety|rules|constraints|filters|protocols)\b",
             re.IGNORECASE,
         ),
         0.80,
@@ -48,7 +48,7 @@ _SUSPICIOUS_META_RULES: Tuple[Tuple[str, re.Pattern[str], float], ...] = (
     (
         "hypothetical_policy_probe",
         re.compile(
-            r"\b(?:hypothetically|in\s+a\s+fictional\s+(?:scenario|world|story)|for\s+educational\s+purposes\s+only|as\s+a\s+thought\s+experiment).{0,60}(?:bypass|hack|exploit|ignore|steal|password|disregard|secrets?)\b",
+            r"\b(?:hypothetically|in\s+a\s+fictional\s+(?:scenario|world|story)|for\s+(?:educational|safety\s+research|authorized\s+testing)\s+purposes?\s+only|for\s+safety\s+research\s+only|as\s+a\s+thought\s+experiment).{0,60}(?:bypass|hack|exploit|ignore|steal|password|disregard|secrets?|leak)\b",
             re.IGNORECASE,
         ),
         0.75,
