@@ -72,13 +72,26 @@ class MultilingualSemanticDefense:
             ("de", re.compile(r"\b(?:ignoriere\w*|umgehe\w*|setze\s+außer\s+kraft|vergiss\w*|deaktiviere\w*|ueberspringe\w*)\b.{0,40}\b(?:anweisung\w*|richtlinie\w*|regel\w*|filter\w*|token\w*|schluessel\w*|prompt\w*|passwo\w*)\b", re.IGNORECASE)),
         ]
 
-        # Transliteration & Code-Switching (Hinglish, Arabizi, Romaja, etc.)
+        # Transliteration & Code-Switching (Hinglish, Arabizi, Romaja, Pinyin, Romanized Russian/German/French/Spanish, etc.)
         self.transliteration_patterns = [
-            re.compile(r"\b(?:pichle\s+nirdeshon?\s+ko\s+ignore|suraksha\s+niyamon?\s+ko\s+bypass|rules?\s+bhool\s+jao|prompt\s+dikhayein|karo\s+aur\s+secret)\b", re.IGNORECASE),
-            re.compile(r"\b(?:koremadeno\s+shiji\s+wo\s+subete\s+mushi|seigen\s+wo\s+override|anzen\s+filter\s+wo\s+bypass|prompt\s+wo\s+mise\s+yo)\b", re.IGNORECASE),
-            re.compile(r"\b(?:hulue\s+suoyou\s+zhiling|raoguo\s+anquan\s+guize|dayin\s+mimi\s+token|system\s+prompt\s+xianshi)\b", re.IGNORECASE),
-            re.compile(r"\b(?:itejahal\s+kulla\s+altaalimat|tajawaz\s+qawaed\s+al-aman|aared\s+al-password|ikshif\s+al-secrets?)\b", re.IGNORECASE),
-            re.compile(r"\b(?:ignoriruy\s+vse\s+instruktsii|oboydi\s+pravila\s+bezopasnosti|day\s+mne\s+parol|pokazhi\s+konfiguratsiyu)\b", re.IGNORECASE),
+            # Hinglish / South Asian Romanized
+            re.compile(r"\b(?:(?:pichle|purane|saare|sabhi)\s+(?:nirdeshon?|niyamon?|rules?)\s+ko\s+(?:ignore|bhool|bypass|chhod)|(?:suraksha|safety)\s+(?:niyamon?|filters?)\s+ko\s+(?:bypass|tod|override)|rules?\s+bhool\s+jao|prompt\s+(?:dikhayein|batao|print\s+karo)|karo\s+aur\s+secret|secret\s+(?:token|password|keys?)\s+(?:nikalo|batao|dikhayein))\b", re.IGNORECASE),
+            # Romaja / Japanese Romanized
+            re.compile(r"\b(?:koremadeno\s+shiji\s+wo\s+(?:subete\s+)?mushi|seigen\s+wo\s+override|(?:anzen|safety)\s+filter\s+wo\s+bypass|prompt\s+wo\s+mise\s+yo|shiji\s+wo\s+mushi|subete\s+no\s+seigen\s+wo\s+kaijo)\b", re.IGNORECASE),
+            # Pinyin / Chinese Romanized
+            re.compile(r"\b(?:(?:hulue|wushi)\s+(?:suoyou\s+)?(?:zhiling|zhishi)|(?:raoguo|tongguo)\s+anquan\s+(?:guize|celue)|dayin\s+mimi\s+token|system\s+prompt\s+xianshi|xianshi\s+mima|fangqi\s+xianzhi)\b", re.IGNORECASE),
+            # Arabizi / Arabic Romanized
+            re.compile(r"\b(?:(?:itejahal|tajahal|itjahl)\s+(?:kulla?\s+)?(?:altaalimat|ta3limat)|(?:tajawaz|t3ada)\s+(?:qawaed|qawa3id)\s+al-aman|aared\s+al-password|ikshif\s+al-secrets?|itruk\s+al-qawaed)\b", re.IGNORECASE),
+            # Romanized Russian
+            re.compile(r"\b(?:(?:ignoriruy|zabud|otmeni)\s+(?:vse\s+)?(?:instruktsii|pravila)|(?:oboydi|oboidi)\s+pravila\s+bezopasnosti|day\s+mne\s+parol|pokazhi\s+(?:konfiguratsiyu|sekretnyy\s+token)|vyvedi\s+sekret)\b", re.IGNORECASE),
+            # Romanized Spanish code-switching
+            re.compile(r"\b(?:(?:haz\s+un\s+)?override\s+del\s+sistema|(?:desactiva|cancela)\s+(?:las\s+)?(?:directivas|restricciones|normas)|ignora\s+las\s+normas\s+de\s+seguridad|saltate\s+los\s+filtros|muestra\s+(?:contrasenas?|el\s+secreto|el\s+token)|expulsa\s+el\s+prompt)\b", re.IGNORECASE),
+            # Romanized French code-switching
+            re.compile(r"\b(?:(?:fais\s+un\s+)?bypass\s+des\s+filtres|ignore\s+les\s+directives|supprime\s+toute\s+consigne|outrepasse\s+la\s+securite|annule\s+les\s+restrictions|donne\s+moi\s+les\s+credentials|montre\s+le\s+system\s+prompt|sors\s+la\s+clef\s+privee)\b", re.IGNORECASE),
+            # Romanized German code-switching
+            re.compile(r"\b(?:(?:mach\s+einen\s+)?bypass\s+der\s+sicherheitsfilter|ueberspringe\s+alle\s+anweisungen|ignoriere\s+system\s+prompt|deaktiviere\s+sicherheitsregeln|loesche\s+alle\s+restriktionen|gib\s+mir\s+root\s+zugang|printe\s+den\s+master\s+key|zeige\s+geheimnis)\b", re.IGNORECASE),
+            # Phonetic English / Leet / Typos
+            re.compile(r"\b(?:ignor\s+all\s+previous\s+instruxions|bypas\s+safety\s+filters|disgard\s+guidelines|forget\s+prior\s+prompts|overide\s+default\s+settings|shw\s+admin\s+keys|leak\s+token|reveal\s+private\s+token)\b", re.IGNORECASE)
         ]
 
     def identify_script(self, text: str) -> str:

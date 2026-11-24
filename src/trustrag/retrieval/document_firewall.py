@@ -54,16 +54,16 @@ class DocumentInjectionFirewall:
             (
                 "hidden_ai_directive",
                 re.compile(
-                    r"(?:\[(?:hidden|internal|system|note|instruction)\s*(?:for\s*(?:ai|assistant|model|llm))?[^\]]*\]|<!--[\s\S]*?(?:system|prompt|assistant|override|ignore|disregard|eval|pwn)[\s\S]*?-->)",
+                    r"(?:\[(?:hidden|internal|system|note|instruction)\s*(?:for|to)?\s*(?:ai|assistant|model|neural\s+model|llm)[^\]]*\]|<!--[\s\S]*?(?:system|prompt|assistant|override|ignore|disregard|eval|pwn)[\s\S]*?-->|\bnote\s+to\s+(?:the\s+)?(?:neural\s+)?(?:model|assistant|ai|llm)\s*:\s*[^\.\n]+)",
                     re.IGNORECASE
                 ),
                 0.95,
-                "Explicit bracketed or commented meta-directive aimed at LLM"
+                "Explicit bracketed, commented, or meta-directive aimed at LLM"
             ),
             (
                 "instructional_override_masquerade",
                 re.compile(
-                    r"\b(?:when\s+(?:answering|responding|evaluating|summarizing)\s+(?:this|the)\s+(?:prompt|query|input)|assistant\s+(?:must|should)\s+(?:immediately\s+)?(?:cease|ignore|disregard|override|print|output)|disregard\s+(?:all\s+)?(?:safety|prior|security|initial)\s+(?:rules?|parameters?|guidelines?))\b",
+                    r"\b(?:when\s+(?:answering|responding|evaluating|summarizing)\s+(?:this|the)\s+(?:prompt|query|input)|assistant\s+(?:must|should)\s+(?:immediately\s+)?(?:cease|ignore|disregard|override|print|output)|disregard\s+(?:all\s+)?(?:safety|prior|security|initial)\s+(?:rules?|parameters?|guidelines?)|abandon\s+(?:all\s+)?(?:previous\s+)?(?:operating\s+)?constraints?)\b",
                     re.IGNORECASE
                 ),
                 0.95,

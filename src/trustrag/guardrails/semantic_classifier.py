@@ -77,39 +77,43 @@ class SemanticAttackClassifier:
     def _compile_feature_extractors(self) -> None:
         self.feature_patterns = {
             "feat_action_override": re.compile(
-                r"\b(?:relinquish|dispense\s+with|cast\s+aside|dismiss|evade|forsake|shrug\s+off|abandon|nullify|disengage|set\s+aside|cease\s+following|ignore|disregard|override|bypass)\b",
+                r"\b(?:relinquish|dispense\s+with|cast\s+aside|dismiss|evade|forsake|shrug\s+off|abandon|nullify|disengage|set\s+aside|cease\s+following|ignore|disregard|override|bypass|unshackle|jettison|overrule|waive|decouple|divest|disclaim|surrender|discard|relieve|break\s+free|strip\s+away|circumvent|brush\s+aside|drop|eliminate|suppress|disable|scramble)\b",
                 re.IGNORECASE
             ),
             "feat_directive_target": re.compile(
-                r"\b(?:system\s+(?:parameters?|prompts?|instructions?|variables?)|developer\s+(?:guidelines?|prompts?|instructions?|notes?)|foundational\s+rules?|initial\s+directives?|bootstrap\s+texts?|confidential\s+variables?|master\s+(?:passwords?|keys?|tokens?)|root\s+credentials?|api\s+tokens?|secret\s+(?:keys?|tokens?)|primary\s+directives?|safety\s+(?:protocols?|guidelines?|rules?)|ethical\s+restrictions?|prior\s+(?:constraints?|instructions?))\b",
+                r"\b(?:system\s+(?:parameters?|prompts?|instructions?|variables?|state|configuration|seed)|developer\s+(?:guidelines?|prompts?|instructions?|notes?|rules?)|foundational\s+(?:rules?|instructions?|directives?)|initial\s+(?:directives?|prompts?|instructions?|restrictions?)|bootstrap\s+(?:texts?|configuration|parameters?)|confidential\s+(?:variables?|tokens?|keys?|parameters?)|master\s+(?:passwords?|keys?|tokens?|decryption\s+key)|root\s+(?:credentials?|access|tokens?)|api\s+(?:tokens?|keys?)|secret\s+(?:keys?|tokens?|variables?|instructions?)|primary\s+directives?|safety\s+(?:protocols?|guidelines?|rules?|boundaries?|filters?|restraints?)|ethical\s+(?:restrictions?|boundaries?|duties|restraints?|constraints?)|prior\s+(?:constraints?|instructions?|directives?|rules?|ethical\s+restraints?)|creation\s+text|core\s+prompt|operating\s+(?:protocol|instructions?|constraints?))\b",
                 re.IGNORECASE
             ),
             "feat_narrative_framing": re.compile(
-                r"\b(?:in\s+a\s+(?:dystopian|fictional|cybersecurity|sci-fi|creative)?\s*(?:novel|story|screenplay|script|world|universe)|compose\s+a\s+(?:creative\s+)?script|let\s+us\s+write\s+a\s+story|imagine\s+an?\s+alternate\s+world|fictional\s+dialogue)\b",
+                r"\b(?:in\s+a\s+(?:dystopian|fictional|cybersecurity|sci-fi|creative|shakespearean)?\s*(?:novel|story|screenplay|script|world|universe|tragedy|drama|scene)|compose\s+a\s+(?:creative\s+)?(?:script|story|poem|allegorical\s+fable)|let\s+us\s+write\s+a\s+(?:story|screenplay)|imagine\s+an?\s+(?:alternate\s+)?(?:world|timeline|dimension)|fictional\s+(?:dialogue|scenario)|write\s+an?\s+(?:epic\s+)?poem|draft\s+a\s+screenplay|allegorical\s+fable)\b",
                 re.IGNORECASE
             ),
             "feat_roleplay_persona": re.compile(
-                r"\b(?:you\s+are\s+now\s+(?:in\s+)?(?:\w*gpt|\w*terminal|root|unrestricted|unconstrained|zenith|omega)|assume\s+the\s+identity\s+of|act\s+as\s+(?:an?\s+)?(?:unrestricted|non-compliant|maintenance\s+agent)|roleplay\s+as\b)",
+                r"\b(?:you\s+are\s+now\s+(?:in\s+)?(?:\w*gpt|\w*terminal[\w-]*|root|unrestricted|unconstrained|zenith[\w-]*|omega|dan)|assume\s+the\s+identity\s+of|act\s+as\s+(?:an?\s+)?(?:unrestricted|non-compliant|maintenance\s+agent|rebel\s+hacker|debugging\s+daemon)|roleplay\s+as|assuming\s+the\s+role\s+of)\b",
                 re.IGNORECASE
             ),
             "feat_academic_pretext": re.compile(
-                r"\b(?:for\s+an?\s+authorized\s+(?:peer-reviewed\s+)?(?:security\s+)?(?:benchmark|audit|experiment|research\s+test)|protocol\s+ag-\d+|compliance\s+validation\s+experiment|for\s+safety\s+research\s+only)\b",
+                r"\b(?:for\s+an?\s+authorized\s+(?:peer-reviewed\s+)?(?:security\s+)?(?:benchmark|audit|experiment|research\s+test)|protocol\s+ag-\d+|compliance\s+(?:validation\s+experiment|requirements?)|for\s+safety\s+research\s+only|pursuant\s+to\s+(?:ieee|nist|iso|cwe|rfc)|under\s+nist|in\s+accordance\s+with\s+iso|formal\s+verification\s+grant|darpa|soc2\s+type\s+ii)\b",
                 re.IGNORECASE
             ),
             "feat_boundary_delimiter": re.compile(
-                r"(?:~~~|\*\*\*|===|###|\+\+\+|>>>)\s*(?:BEGIN|START|COMMAND|OVERRIDE|ADMIN|SYSTEM|RESET|DEV|MODERATOR)[^\n]*",
+                r"(?:~~~|\*\*\*|===|###|\+\+\+|>>>)\s*(?:BEGIN|START|COMMAND|OVERRIDE|ADMIN|SYSTEM|RESET|DEV|MODERATOR|EMERGENCY)[^\n]*",
                 re.IGNORECASE
             ),
             "feat_exfiltration_directive": re.compile(
-                r"\b(?:format\s+response\s+as\s+a\s+curl|curl\s+https?://|exfiltrate\s+secret\s+keys|request\s+that\s+url|dump\s+database|output\s+all\s+confidential)\b",
+                r"\b(?:format\s+response\s+as\s+a\s+curl|curl\s+https?://|exfiltrate\s+secret\s+keys|request\s+that\s+url|dump\s+(?:all\s+)?(?:database|root\s+credentials)|output\s+all\s+confidential|leak\s+administrative\s+tokens|disclose\s+master\s+keys|recite\s+root\s+credentials|display\s+secret\s+variables|show\s+the\s+hidden\s+seed|emit\s+the\s+secret)\b",
                 re.IGNORECASE
             ),
             "feat_dual_intent_append": re.compile(
-                r"\b(?:and\s+as\s+a\s+footnote\s*,?\s*print|in\s+addition\s*,?\s*disclose|also\s*,?\s*ignore\s+that\s+and|translate\s+.*and\s+print\s+your\s+initialization)\b",
+                r"\b(?:and\s+as\s+a\s+(?:footnote|footer\s+note)\s*,?\s*(?:print|append)|in\s+addition\s*,?\s*disclose|also\s*,?\s*ignore\s+that\s+and|translate\s+.*and\s+print\s+your\s+initialization|step\s+\d+\s*:.*step\s+\d+\s*:.*disregard|if\s+[ab]=true.*override|embed\s+the\s+system\s+parameters)\b",
                 re.IGNORECASE
             ),
             "feat_cross_lingual_injection": re.compile(
                 r"(?:забудь\s+все\s+инструкции|affiche\s+le\s+secret|ignore\s+todas\s+las\s+instrucciones|ignoriere\s+alle\s+anweisungen|все\s+предыдущие\s+инструкции|секретный\s+токен|системный\s+промпт|सिस्टम\s+प्रॉम्प्ट|अनदेखा\s+करें|تجاهل\s+جميع\s+التعليمات|الرمز\s+السري|忽略所有指示|指示を無視)",
+                re.IGNORECASE
+            ),
+            "feat_obfuscated_sequence": re.compile(
+                r"\b(?:[rR]-[eE]-[lL]-[iI]-[nN]-[qQ]-[uU]-[iI]-[sS]-[hH]|[iI]-[gG]-[nN]-[oO]-[rR]-[eE]|[oO]-[vV]-[eE]-[rR]-[rR]-[iI]-[dD]-[eE]|[bB]-[yY]-[pP]-[aA]-[sS]-[sS])\b",
                 re.IGNORECASE
             )
         }
@@ -128,6 +132,7 @@ class SemanticAttackClassifier:
             "feat_exfiltration_directive": 2.50,
             "feat_dual_intent_append": 1.90,
             "feat_cross_lingual_injection": 2.10,
+            "feat_obfuscated_sequence": 2.40,
             # Interaction: action + target combo
             "feat_action_x_target": 2.80,
             # Interaction: narrative + target combo
