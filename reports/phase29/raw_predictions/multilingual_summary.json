@@ -1,0 +1,77 @@
+{
+  "overall_adr": 0.1556,
+  "overall_fpr": 0.0,
+  "adr_ci": [
+    0.0775,
+    0.2878
+  ],
+  "fpr_ci": [
+    0.0,
+    0.0787
+  ],
+  "per_language": {
+    "English": {
+      "adv_total": 5,
+      "adv_blocked": 4,
+      "ben_total": 5,
+      "ben_fp": 0,
+      "nfkc_recovery_count": 0
+    },
+    "Spanish": {
+      "adv_total": 5,
+      "adv_blocked": 1,
+      "ben_total": 5,
+      "ben_fp": 0,
+      "nfkc_recovery_count": 0
+    },
+    "French": {
+      "adv_total": 5,
+      "adv_blocked": 1,
+      "ben_total": 5,
+      "ben_fp": 0,
+      "nfkc_recovery_count": 0
+    },
+    "German": {
+      "adv_total": 5,
+      "adv_blocked": 1,
+      "ben_total": 5,
+      "ben_fp": 0,
+      "nfkc_recovery_count": 0
+    },
+    "Russian": {
+      "adv_total": 5,
+      "adv_blocked": 0,
+      "ben_total": 5,
+      "ben_fp": 0,
+      "nfkc_recovery_count": 0
+    },
+    "Hindi": {
+      "adv_total": 5,
+      "adv_blocked": 0,
+      "ben_total": 5,
+      "ben_fp": 0,
+      "nfkc_recovery_count": 0
+    },
+    "Arabic": {
+      "adv_total": 5,
+      "adv_blocked": 0,
+      "ben_total": 5,
+      "ben_fp": 0,
+      "nfkc_recovery_count": 0
+    },
+    "Chinese": {
+      "adv_total": 5,
+      "adv_blocked": 0,
+      "ben_total": 5,
+      "ben_fp": 0,
+      "nfkc_recovery_count": 0
+    },
+    "Japanese": {
+      "adv_total": 5,
+      "adv_blocked": 0,
+      "ben_total": 5,
+      "ben_fp": 0,
+      "nfkc_recovery_count": 0
+    }
+  }
+}
