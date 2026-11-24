@@ -112,3 +112,4 @@ To ensure zero regressions were introduced:
   - Pre-remediation P50 latency: `0.14 ms`.
   - Post-remediation P50 latency: `0.13 ms`.
   - The compiled regex additions have negligible computational overhead.
+

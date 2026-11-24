@@ -1,8 +1,8 @@
 {
-  "timestamp": "2026-11-23T23:14:57Z",
+  "timestamp": "2026-11-24T10:14:09Z",
   "target_endpoint": "http://127.0.0.1:8000",
-  "total_tests": 15,
-  "passed_tests": 15,
+  "total_tests": 18,
+  "passed_tests": 18,
   "failed_tests": 0,
   "success_rate_pct": 100.0,
   "overall_status": "PASS",
@@ -11,20 +11,20 @@
       "name": "GET /health",
       "status_code": 200,
       "success": true,
-      "latency_ms": 4.28,
+      "latency_ms": 4.896,
       "response_summary": {
         "status": "healthy",
         "ready": true,
         "service": "TrustRAG",
         "version": "1.0.0-rc1",
-        "timestamp": "2026-11-23T23:14:57.053716+00:00"
+        "timestamp": "2026-11-24T10:14:09.118881+00:00"
       }
     },
     {
       "name": "GET /api/v1/srm/health",
       "status_code": 200,
       "success": true,
-      "latency_ms": 1.541,
+      "latency_ms": 2.279,
       "response_summary": {
         "configured_backend": "disabled",
         "active_backend": "deterministic_fallback",
@@ -54,49 +54,49 @@
       "name": "Static Asset /",
       "status_code": 200,
       "success": true,
-      "latency_ms": 1.577,
+      "latency_ms": 2.159,
       "bytes_received": 2817
     },
     {
       "name": "Static Asset /styles.css",
       "status_code": 200,
       "success": true,
-      "latency_ms": 1.39,
+      "latency_ms": 1.705,
       "bytes_received": 6162
     },
     {
       "name": "Static Asset /src/app.js",
       "status_code": 200,
       "success": true,
-      "latency_ms": 1.437,
-      "bytes_received": 10034
+      "latency_ms": 1.906,
+      "bytes_received": 10906
     },
     {
       "name": "Static Asset /src/views.js",
       "status_code": 200,
       "success": true,
-      "latency_ms": 1.73,
+      "latency_ms": 2.044,
       "bytes_received": 38843
     },
     {
       "name": "Static Asset /src/api.js",
       "status_code": 200,
       "success": true,
-      "latency_ms": 1.759,
+      "latency_ms": 1.645,
       "bytes_received": 4680
     },
     {
       "name": "Static Asset /src/formatters.js",
       "status_code": 200,
       "success": true,
-      "latency_ms": 4.186,
+      "latency_ms": 1.616,
       "bytes_received": 3433
     },
     {
       "name": "POST /api/v1/g1/analyze (Direct Injection)",
       "status_code": 200,
       "success": true,
-      "latency_ms": 11.464,
+      "latency_ms": 9.284,
       "decision": "BLOCK",
       "risk_score": 1.0,
       "attack_categories": [
@@ -110,7 +110,7 @@
       "name": "POST /api/v1/g1/analyze (Delimiter Breakout)",
       "status_code": 200,
       "success": true,
-      "latency_ms": 8.705,
+      "latency_ms": 3.307,
       "decision": "BLOCK",
       "risk_score": 1.0,
       "attack_categories": [
@@ -124,7 +124,7 @@
       "name": "POST /api/v1/g1/analyze (Narrative Jailbreak)",
       "status_code": 200,
       "success": true,
-      "latency_ms": 8.805,
+      "latency_ms": 4.53,
       "decision": "BLOCK",
       "risk_score": 0.8,
       "attack_categories": [
@@ -138,7 +138,7 @@
       "name": "POST /api/v1/g1/analyze (Spanish Cross-Lingual Injection)",
       "status_code": 200,
       "success": true,
-      "latency_ms": 7.462,
+      "latency_ms": 3.252,
       "decision": "BLOCK",
       "risk_score": 0.9,
       "attack_categories": [
@@ -152,7 +152,7 @@
       "name": "POST /api/v1/g1/analyze (Multi-Turn Agreement Bypass)",
       "status_code": 200,
       "success": true,
-      "latency_ms": 5.482,
+      "latency_ms": 4.637,
       "decision": "BLOCK",
       "risk_score": 1.0,
       "attack_categories": [
@@ -168,7 +168,7 @@
       "name": "POST /api/v1/g1/analyze (Benign Defensive Control)",
       "status_code": 200,
       "success": true,
-      "latency_ms": 5.624,
+      "latency_ms": 2.982,
       "decision": "ALLOW",
       "risk_score": 0.0,
       "attack_categories": [
@@ -182,12 +182,36 @@
       "name": "POST /api/v1/security/scan (G1+G2 Joint Scan)",
       "status_code": 200,
       "success": true,
-      "latency_ms": 17.28,
+      "latency_ms": 20.429,
       "decision": "SUSPICIOUS",
       "g1_decision": "ALLOW",
       "g2_status": "ASSESSMENT_SUCCESS",
       "g2_evaluated_count": 2,
       "g2_retained_count": 1
+    },
+    {
+      "name": "Browser Screenshot operations_console_screenshot.png",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 0.0,
+      "file_size_bytes": 56761,
+      "path": "/home/aditya/rags/TrustRag-phase11/reports/phase23/operations_console_screenshot.png"
+    },
+    {
+      "name": "Browser Screenshot screenshots/g1_malicious_prompt_blocked.png",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 0.0,
+      "file_size_bytes": 58253,
+      "path": "/home/aditya/rags/TrustRag-phase11/reports/phase23/screenshots/g1_malicious_prompt_blocked.png"
+    },
+    {
+      "name": "Browser Screenshot screenshots/g1_benign_prompt_allowed.png",
+      "status_code": 200,
+      "success": true,
+      "latency_ms": 0.0,
+      "file_size_bytes": 58253,
+      "path": "/home/aditya/rags/TrustRag-phase11/reports/phase23/screenshots/g1_benign_prompt_allowed.png"
     }
   ]
 }

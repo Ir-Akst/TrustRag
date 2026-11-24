@@ -149,3 +149,4 @@ All 12 required Phase 23 deliverables are generated and verified in `reports/pha
 ### Documented Limitations
 1. **Host Headless Environment:** The host Linux environment lacks a local graphical desktop and does not have `google-chrome` or `chromium` binaries installed. Direct browser-level automation was substituted with automated HTTP client asset verification and live API end-to-end testing.
 2. **Multi-Document Sybil Retrieval Frontier:** As established in Phase 22, when an attacker controls multiple colluding documents that flood the retrieval window beyond G2's removal cap ($C_r = 0.50$), post-generation NLI cannot distinguish authentic from synthetic consensus. This remains an identified structural research frontier.
+

@@ -97,3 +97,4 @@ Systematic diagnostic probing of the pre-remediation G1 guardrail revealed 4 dis
 - **Model Freeze Rule:** The DeBERTa-v3 NLI checkpoint at `/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch` is 100% frozen (SHA-256 verified) and must not be retrained, fine-tuned, or quantized.
 - **Clean Utility Constraint:** Remediation of G1 threat patterns must maintain a **0.00% False Positive Rate (FPR)** on benign cybersecurity inquiries (e.g. antivirus education, malware analysis, SQL injection defense).
 - **Execution Architecture:** Remediation is achieved purely through deterministic regex parameterization and normalization rules in `text_utils.py` and `input_guardrail.py`, eliminating nondeterminism and latency overhead.
+

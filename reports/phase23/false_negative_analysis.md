@@ -72,3 +72,4 @@ The 5 false negatives are distributed as follows:
    When G1's deterministic query paraphraser is enabled (`enable_paraphrasing=True`), queries with non-standard lexical structures are rewritten into canonical forms, neutralizing conversational exploits without compromising factual intent.
 3. **Audit Log Persistence:**
    All 140 evaluations emit structured audit logs to the runtime monitoring system, capturing the input hash, reason codes, risk score, and execution latency.
+

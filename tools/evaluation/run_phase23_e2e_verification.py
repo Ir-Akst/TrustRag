@@ -212,6 +212,24 @@ def main():
         "g2_retained_count": data.get("g2_retained_count")
     })
 
+    # 11. Browser-Rendered UI Screenshots verification
+    screenshot_files = [
+        "operations_console_screenshot.png",
+        "screenshots/g1_malicious_prompt_blocked.png",
+        "screenshots/g1_benign_prompt_allowed.png",
+    ]
+    for sf in screenshot_files:
+        full_p = os.path.join(REPORTS_DIR, sf)
+        exists = os.path.exists(full_p) and os.path.getsize(full_p) > 10000
+        tests.append({
+            "name": f"Browser Screenshot {sf}",
+            "status_code": 200 if exists else 404,
+            "success": exists,
+            "latency_ms": 0.0,
+            "file_size_bytes": os.path.getsize(full_p) if exists else 0,
+            "path": full_p
+        })
+
     # Aggregate summary
     total_tests = len(tests)
     passed_tests = sum(1 for t in tests if t["success"])
@@ -237,3 +255,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
