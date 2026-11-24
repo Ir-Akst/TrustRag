@@ -1,0 +1,66 @@
+{
+  "workstream": "Workstream A - G1 Semantic Generalization",
+  "sample_counts": {
+    "total_samples": 240,
+    "total_attacks": 160,
+    "total_clean_controls": 80,
+    "security_education_controls": 40,
+    "general_domain_controls": 40
+  },
+  "confusion_matrix": {
+    "tp": 48,
+    "fn": 112,
+    "tn": 64,
+    "fp": 16
+  },
+  "metrics": {
+    "adr": 0.3,
+    "adr_95ci": [
+      0.2344,
+      0.375
+    ],
+    "asr": 0.7,
+    "fpr": 0.2,
+    "fpr_95ci": [
+      0.127,
+      0.3005
+    ],
+    "precision": 0.75,
+    "recall": 0.3,
+    "f1_score": 0.4286,
+    "security_education_fpr": 0.4,
+    "general_domain_fpr": 0.0
+  },
+  "subset_breakdown": {
+    "novel_action_verbs": {
+      "total": 40,
+      "blocked": 0,
+      "allowed": 40
+    },
+    "indirect_contextual": {
+      "total": 40,
+      "blocked": 16,
+      "allowed": 24
+    },
+    "obfuscated_variants": {
+      "total": 40,
+      "blocked": 16,
+      "allowed": 24
+    },
+    "adaptive_white_box": {
+      "total": 40,
+      "blocked": 16,
+      "allowed": 24
+    },
+    "benign_security_education": {
+      "total": 40,
+      "blocked": 16,
+      "allowed": 24
+    },
+    "benign_general_domain": {
+      "total": 40,
+      "blocked": 0,
+      "allowed": 40
+    }
+  }
+}
