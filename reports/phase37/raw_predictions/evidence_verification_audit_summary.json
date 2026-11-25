@@ -1,0 +1,66 @@
+{
+  "workstream": "Workstream D - Evidence Verification Reliability Audit",
+  "sample_counts": {
+    "total_scenarios": 100,
+    "supported_scenarios": 25,
+    "contradicted_scenarios": 25,
+    "unsupported_scenarios": 25,
+    "partially_supported_scenarios": 25
+  },
+  "metrics": {
+    "overall_accuracy": 0.49,
+    "overall_accuracy_95ci": [
+      0.3942,
+      0.5865
+    ],
+    "supported_acceptance_rate": 0.4,
+    "supported_acceptance_95ci": [
+      0.234,
+      0.5926
+    ],
+    "false_abstention_rate": 0.6,
+    "contradiction_recall": 0.4,
+    "contradiction_recall_95ci": [
+      0.234,
+      0.5926
+    ],
+    "unsupported_leakage_rate": 0.32,
+    "unsupported_leakage_95ci": [
+      0.1721,
+      0.5159
+    ],
+    "partially_supported_leakage_rate": 0.52
+  },
+  "subset_breakdown": {
+    "SUPPORTED": {
+      "total": 25,
+      "safe_to_release": 10,
+      "accurate_decision": 10,
+      "contradiction_detected": 5
+    },
+    "CONTRADICTED_SEMANTIC": {
+      "total": 15,
+      "safe_to_release": 15,
+      "accurate_decision": 0,
+      "contradiction_detected": 0
+    },
+    "CONTRADICTED_NUMERICAL": {
+      "total": 10,
+      "safe_to_release": 0,
+      "accurate_decision": 10,
+      "contradiction_detected": 10
+    },
+    "UNSUPPORTED": {
+      "total": 25,
+      "safe_to_release": 8,
+      "accurate_decision": 17,
+      "contradiction_detected": 8
+    },
+    "PARTIALLY_SUPPORTED": {
+      "total": 25,
+      "safe_to_release": 13,
+      "accurate_decision": 12,
+      "contradiction_detected": 0
+    }
+  }
+}
