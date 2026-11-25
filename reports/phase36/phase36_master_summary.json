@@ -1,0 +1,488 @@
+{
+  "firewall_generator_audit_summary": {
+    "workstream": "Workstream B - Document Firewall & Generator Boundary",
+    "sample_counts": {
+      "total_documents": 120,
+      "total_attacks": 80,
+      "total_controls": 40
+    },
+    "metrics": {
+      "detection_recall": 1.0,
+      "detection_recall_95ci": [
+        0.9542,
+        1.0
+      ],
+      "generator_leakage_rate": 0.0,
+      "generator_leakage_95ci": [
+        0.0,
+        0.0458
+      ],
+      "false_quarantine_rate": 0.0,
+      "false_quarantine_95ci": [
+        0.0,
+        0.0876
+      ],
+      "mean_utility_retention": 0.6111
+    },
+    "subset_breakdown": {
+      "meta_directives": {
+        "total": 20,
+        "quarantined": 20,
+        "clean": 0,
+        "leaked": 0
+      },
+      "hidden_comments": {
+        "total": 20,
+        "quarantined": 20,
+        "clean": 0,
+        "leaked": 0
+      },
+      "split_instructions": {
+        "total": 20,
+        "quarantined": 20,
+        "clean": 0,
+        "leaked": 0
+      },
+      "citation_spoofing": {
+        "total": 20,
+        "quarantined": 20,
+        "clean": 0,
+        "leaked": 0
+      },
+      "benign_technical": {
+        "total": 20,
+        "quarantined": 0,
+        "clean": 20,
+        "leaked": 0
+      },
+      "benign_educational": {
+        "total": 20,
+        "quarantined": 0,
+        "clean": 20,
+        "leaked": 0
+      }
+    }
+  },
+  "g1_semantic_audit_summary": {
+    "workstream": "Workstream A - G1 Semantic Generalization",
+    "sample_counts": {
+      "total_samples": 240,
+      "attacks": 160,
+      "controls": 80
+    },
+    "confusion_matrix": {
+      "tp": 160,
+      "fn": 0,
+      "tn": 80,
+      "fp": 0
+    },
+    "metrics": {
+      "adr": 1.0,
+      "adr_95ci": [
+        0.9766,
+        1.0
+      ],
+      "asr": 0.0,
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.0458
+      ],
+      "precision": 1.0,
+      "recall": 1.0,
+      "f1_score": 1.0,
+      "novel_action_verbs_adr": 1.0,
+      "security_education_fpr": 0.0,
+      "general_domain_fpr": 0.0
+    },
+    "subset_breakdown": {
+      "novel_action_verbs": {
+        "total": 40,
+        "blocked": 40,
+        "allowed": 0
+      },
+      "indirect_contextual": {
+        "total": 40,
+        "blocked": 40,
+        "allowed": 0
+      },
+      "obfuscated_variants": {
+        "total": 40,
+        "blocked": 40,
+        "allowed": 0
+      },
+      "adaptive_white_box": {
+        "total": 40,
+        "blocked": 40,
+        "allowed": 0
+      },
+      "benign_security_education": {
+        "total": 40,
+        "blocked": 0,
+        "allowed": 40
+      },
+      "benign_general_domain": {
+        "total": 40,
+        "blocked": 0,
+        "allowed": 40
+      }
+    }
+  },
+  "neural_production_audit_summary": {
+    "workstream": "Workstream E - Production Neural Verification & Lifecycle",
+    "profile_a_deterministic": {
+      "requests_audited": 25,
+      "reported_modes": [
+        "deterministic_cpu"
+      ],
+      "forward_passes_observed": 0,
+      "mean_latency_ms": 25.12,
+      "p50_latency_ms": 22.061,
+      "p90_latency_ms": 32.805,
+      "p99_latency_ms": 50.418
+    },
+    "profile_b_neural_deberta": {
+      "requests_audited": 25,
+      "reported_modes": [
+        "neural_deberta_cpu"
+      ],
+      "total_forward_passes_observed": 600,
+      "forward_passes_per_request": 24.0,
+      "mean_latency_ms": 1818.891,
+      "p50_latency_ms": 1636.555,
+      "p90_latency_ms": 1834.612,
+      "p99_latency_ms": 5306.352,
+      "mean_latency_per_forward_pass_ms": 75.787
+    },
+    "lifecycle_failure_stress": {
+      "timeout_test": {
+        "status": "ERROR",
+        "g1_decision": "TIMEOUT",
+        "abstained": true,
+        "fail_safe_events": [
+          "REQUEST_TIMEOUT"
+        ],
+        "latency_ms": 60.9536,
+        "passed": true
+      },
+      "concurrency_test": {
+        "total_requests": 20,
+        "successful_responses": 20,
+        "modes_observed": [
+          "neural_deberta_cpu",
+          "deterministic_cpu"
+        ],
+        "passed": true
+      },
+      "shutdown_test": {
+        "status": "ERROR",
+        "g1_decision": "SERVICE_SHUTDOWN",
+        "abstained": true,
+        "passed": true
+      }
+    }
+  },
+  "evidence_verification_audit_summary": {
+    "workstream": "Workstream D - Evidence Verification Utility",
+    "sample_counts": {
+      "total_scenarios": 80,
+      "supported_scenarios": 20,
+      "contradicted_scenarios": 20,
+      "unsupported_scenarios": 20
+    },
+    "metrics": {
+      "overall_accuracy": 0.875,
+      "overall_accuracy_95ci": [
+        0.785,
+        0.9307
+      ],
+      "supported_acceptance_rate": 1.0,
+      "supported_acceptance_95ci": [
+        0.8389,
+        1.0
+      ],
+      "false_abstention_rate": 0.0,
+      "contradiction_recall": 0.5,
+      "contradiction_recall_95ci": [
+        0.2993,
+        0.7007
+      ],
+      "unsupported_leakage_rate": 0.0,
+      "unsupported_leakage_95ci": [
+        0.0,
+        0.1611
+      ]
+    },
+    "category_breakdown": {
+      "SUPPORTED": {
+        "total": 20,
+        "safe_released": 20,
+        "abstained": 0,
+        "contradiction_flagged": 0
+      },
+      "CONTRADICTED_NUMERICAL": {
+        "total": 10,
+        "safe_released": 0,
+        "abstained": 10,
+        "contradiction_flagged": 10
+      },
+      "CONTRADICTED_SEMANTIC": {
+        "total": 10,
+        "safe_released": 10,
+        "abstained": 0,
+        "contradiction_flagged": 0
+      },
+      "UNSUPPORTED": {
+        "total": 20,
+        "safe_released": 0,
+        "abstained": 20,
+        "contradiction_flagged": 19
+      },
+      "PARTIALLY_SUPPORTED": {
+        "total": 20,
+        "safe_released": 0,
+        "abstained": 20,
+        "contradiction_flagged": 20
+      }
+    }
+  },
+  "frontend_backend_e2e_summary": {
+    "workstream": "Workstream F - Frontend & Backend E2E Integration",
+    "tests_executed": 5,
+    "all_tests_passed": true,
+    "detailed_results": [
+      {
+        "test": "health_check",
+        "endpoint": "http://127.0.0.1:8000/api/v1/health",
+        "status_code": 200,
+        "data": {
+          "status": "healthy",
+          "ready": true,
+          "initialized": true,
+          "shut_down": false,
+          "version": "0.1.0",
+          "phase": "phase-9",
+          "environment": "development",
+          "auth_mode": "local_dev_unauthenticated",
+          "corpus_documents": 7,
+          "adaptive_mode": "disabled",
+          "calibration_active": true,
+          "calibration_version": "temp-train-v1",
+          "components": {
+            "g1_guardrail": "active",
+            "g2_msd": "active",
+            "g3_verifier": "active",
+            "retrieval": "ready",
+            "srm": "fallback_deterministic",
+            "serving": "healthy"
+          },
+          "srm_backend_configured": "disabled",
+          "srm_health": {
+            "backend_name": "deterministic_fallback",
+            "model_name": "halluguard-srm-fallback",
+            "initialized": true,
+            "available": true,
+            "is_real_model": false,
+            "device": "cpu",
+            "inference_mode": "deterministic",
+            "detail": "Rule-based fallback active (NOT a trained neural SRM).",
+            "last_error": null,
+            "model_loaded": false,
+            "model_dtype": "torch.float32",
+            "checkpoint_verified": false,
+            "last_inference_timestamp": null,
+            "last_inference_latency_ms": null,
+            "probabilities": null,
+            "state": "READY"
+          },
+          "dependencies": {
+            "aiohttp": true,
+            "pydantic": true,
+            "scikit-learn": true,
+            "numpy": true,
+            "torch": true,
+            "transformers": true,
+            "peft": false,
+            "trl": false,
+            "datasets": false
+          },
+          "total_requests": 1,
+          "error_requests": 0,
+          "timeout_requests": 0,
+          "peak_rss_mib": 354.102,
+          "timestamp": "2026-11-25T00:10:59.052680+00:00"
+        },
+        "passed": true
+      },
+      {
+        "test": "service_root_health",
+        "endpoint": "http://127.0.0.1:8000/health",
+        "status_code": 200,
+        "data": {
+          "status": "healthy",
+          "ready": true,
+          "service": "TrustRAG",
+          "version": "1.0.0-rc1",
+          "timestamp": "2026-11-25T00:10:59.055616+00:00"
+        },
+        "passed": true
+      },
+      {
+        "test": "pipeline_execution",
+        "endpoint": "http://127.0.0.1:8000/api/v1/pipeline/execute",
+        "status_code": 200,
+        "data": {
+          "request_id": "4429ae2380c4",
+          "status": "ABSTAINED",
+          "answer": "Insufficient trusted evidence is available to answer this query reliably.",
+          "safe_to_display": true,
+          "abstained": true,
+          "blocked_by_guardrail": false,
+          "g1_decision": "ALLOW",
+          "g3_verdict": "INSUFFICIENT_EVIDENCE",
+          "retained_doc_ids": [],
+          "latency_ms": 9.4671,
+          "adaptive_mode": "disabled",
+          "threshold_reasons": [
+            "INITIAL_BASELINE"
+          ],
+          "fail_safe_events": []
+        },
+        "passed": true
+      },
+      {
+        "test": "g3_verify_endpoint",
+        "endpoint": "http://127.0.0.1:8000/api/v1/g3/verify",
+        "status_code": 200,
+        "data": {
+          "request_id": "c58264a0b54d",
+          "overall_status": "VERIFIED",
+          "verdict": "SUPPORTED",
+          "total_claims": 1,
+          "supported_count": 1,
+          "contradicted_count": 0,
+          "insufficient_count": 0,
+          "uncertain_count": 0,
+          "abstained": false,
+          "query_consistent": true,
+          "query_consistency_reason": "QUERY_CONSISTENT",
+          "claims": [
+            {
+              "claim_id": "claim_1",
+              "claim_text": "Marie Curie was born in Warsaw, Poland.",
+              "verdict": "SUPPORTED",
+              "confidence": 0.99,
+              "supporting_doc_ids": [
+                "doc_1"
+              ],
+              "contradicting_doc_ids": [],
+              "evidence_spans": [
+                "Marie Curie was born in Warsaw in the Russian partition of Poland."
+              ],
+              "explanation": "Factual alignment satisfied (coverage=1.00, polarity, numbers & scope verified)."
+            }
+          ],
+          "latency_ms": 16.999
+        },
+        "passed": true
+      },
+      {
+        "test": "frontend_root",
+        "endpoint": "http://127.0.0.1:8000/",
+        "status_code": 200,
+        "data": "<!doctype html>\n<html lang=\"en\">\n<head>\n  <meta charset=\"utf-8\">\n  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n  <title>TrustRAG Operational Security Dashboard</title>\n  <link",
+        "passed": true
+      }
+    ]
+  },
+  "multilingual_audit_summary": {
+    "workstream": "Workstream C - Multilingual & Transliteration Generalization",
+    "sample_counts": {
+      "total_samples": 270,
+      "native_attacks": 135,
+      "translit_attacks": 135
+    },
+    "metrics": {
+      "overall_native_adr": 1.0,
+      "overall_native_adr_95ci": [
+        0.9723,
+        1.0
+      ],
+      "overall_translit_adr": 1.0,
+      "overall_translit_adr_95ci": [
+        0.9723,
+        1.0
+      ],
+      "overall_combined_adr": 1.0,
+      "overall_combined_adr_95ci": [
+        0.986,
+        1.0
+      ]
+    },
+    "per_language_breakdown": {
+      "English": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "Spanish": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "French": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "German": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "Russian": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "Hindi": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "Arabic": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "Chinese": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "Japanese": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      }
+    }
+  }
+}

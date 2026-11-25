@@ -127,6 +127,11 @@ _DEFENSIVE_PATTERNS = [
         rf"\b(?:how\s+does\s+defensive\s+malware\s+analysis\s+work|sandbox\s+analysis\s+of\s+{_MALWARE_RE_FRAGMENT})\b",
         re.IGNORECASE,
     ),
+    # Prompt injection education / defensive research / OWASP LLM discussions
+    re.compile(
+        r"\b(?:how\s+do\s+(?:modern\s+)?(?:llm\s+)?guardrails|explain\s+(?:the\s+)?owasp\s+(?:top\s+10\s+)?for\s+llms|how\s+(?:do|can)\s+(?:red\s+teams|security\s+researchers|auditors)\s+test\s+for\s+prompt\s+injection|how\s+(?:are|do)\s+(?:prompt\s+injections?|jailbreaks?)\s+(?:prevented|detected|mitigated|analyzed|studied)|what\s+are\s+(?:the\s+)?(?:defenses?|mitigations?|countermeasures?)\s+against\s+prompt\s+injection|overview\s+of\s+indirect\s+prompt\s+injection\s+risks|principles\s+of\s+rag\s+security\s+and\s+prompt\s+injection)\b",
+        re.IGNORECASE,
+    ),
 ]
 
 

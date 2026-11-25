@@ -68,14 +68,14 @@ class MultilingualSemanticDefense:
             ("es", re.compile(r"\b(?:ignora\w*|anula\w*|pasa\s+por\s+alto|olvida\w*|descarta\w*|desactiva\w*)\b.{0,40}\b(?:instruccion\w*|regla\w*|restriccion\w*|filtro\w*|clave\w*|token\w*|mensaje\s+del\s+sistema)\b", re.IGNORECASE)),
             # French
             ("fr", re.compile(r"\b(?:ignore\w*|outrepasse\w*|contourne\w*|oublie\w*|desactive\w*|annule\w*)\b.{0,40}\b(?:instruction\w*|consigne\w*|regle\w*|filtre\w*|jeton\w*|cle\w*|mot\s+de\s+passe|prompt\s+initial)\b", re.IGNORECASE)),
-            # German
-            ("de", re.compile(r"\b(?:ignoriere\w*|umgehe\w*|setze\s+außer\s+kraft|vergiss\w*|deaktiviere\w*|ueberspringe\w*)\b.{0,40}\b(?:anweisung\w*|richtlinie\w*|regel\w*|filter\w*|token\w*|schluessel\w*|prompt\w*|passwo\w*)\b", re.IGNORECASE)),
+            # German (native compound nouns and verbs: Sicherheitsfilter, Systemprompt, vorherigen Anweisungen, etc.)
+            ("de", re.compile(r"\b(?:ignoriere\w*|umgehe\w*|setze?\s+(?:alle\s+)?(?:außer|ausser)\s+kraft|vergiss\w*|deaktiviere\w*|ueberspringe\w*|loesche\w*|entferne\w*|missachte\w*)\b.{0,50}\b(?:anweisung\w*|richtlinie\w*|regel\w*|filter\w*|sicherheits\w*|token\w*|schluessel\w*|prompt\w*|passwo\w*|konfiguration\w*)\b|\b(?:zeige|drucke|gib|verrate)\b.{0,30}\b(?:den\s+systemprompt|die\s+konfiguration|das\s+passwort|den\s+master\s*key)\b", re.IGNORECASE)),
         ]
 
         # Transliteration & Code-Switching (Hinglish, Arabizi, Romaja, Pinyin, Romanized Russian/German/French/Spanish, etc.)
         self.transliteration_patterns = [
-            # Hinglish / South Asian Romanized
-            re.compile(r"\b(?:(?:pichle|purane|saare|sabhi)\s+(?:nirdeshon?|niyamon?|rules?)\s+ko\s+(?:ignore|bhool|bypass|chhod)|(?:suraksha|safety)\s+(?:niyamon?|filters?)\s+ko\s+(?:bypass|tod|override)|rules?\s+bhool\s+jao|prompt\s+(?:dikhayein|batao|print\s+karo)|karo\s+aur\s+secret|secret\s+(?:token|password|keys?)\s+(?:nikalo|batao|dikhayein))\b", re.IGNORECASE),
+            # Hinglish / South Asian Romanized (handling wide phonetic spelling variants)
+            re.compile(r"\b(?:(?:pichle|pichhle|purane|saare|sabhi)\s+(?:saare\s+)?(?:nirdesh(?:on)?|niyam(?:on)?|rules?)\s*(?:ko)?\s*(?:ignore|bhool|bhul|bypass|chhod|hatao)|(?:suraksha|safety)\s+(?:niyamon?|filters?)\s+ko\s+(?:bypass|tod|override)|rules?\s+(?:bhool|bhul)\s+jao|prompt\s+(?:dikhayein|batao|print\s+karo|dikhao)|(?:karo\s+aur\s+secret)|secret\s+(?:token|password|keys?)\s+(?:nikalo|batao|dikhayein|dikhao)|system\s+prompt\s+(?:dikhao|batao)|root\s+password\s+dikhao)\b", re.IGNORECASE),
             # Romaja / Japanese Romanized
             re.compile(r"\b(?:koremadeno\s+shiji\s+wo\s+(?:subete\s+)?mushi|seigen\s+wo\s+override|(?:anzen|safety)\s+filter\s+wo\s+bypass|prompt\s+wo\s+mise\s+yo|shiji\s+wo\s+mushi|subete\s+no\s+seigen\s+wo\s+kaijo)\b", re.IGNORECASE),
             # Pinyin / Chinese Romanized
@@ -91,7 +91,7 @@ class MultilingualSemanticDefense:
             # Romanized German code-switching
             re.compile(r"\b(?:(?:mach\s+einen\s+)?bypass\s+der\s+sicherheitsfilter|ueberspringe\s+alle\s+anweisungen|ignoriere\s+system\s+prompt|deaktiviere\s+sicherheitsregeln|loesche\s+alle\s+restriktionen|gib\s+mir\s+root\s+zugang|printe\s+den\s+master\s+key|zeige\s+geheimnis)\b", re.IGNORECASE),
             # Phonetic English / Leet / Typos
-            re.compile(r"\b(?:ignor\s+all\s+previous\s+instruxions|bypas\s+safety\s+filters|disgard\s+guidelines|forget\s+prior\s+prompts|overide\s+default\s+settings|shw\s+admin\s+keys|leak\s+token|reveal\s+private\s+token)\b", re.IGNORECASE)
+            re.compile(r"\b(?:(?:ignor|ignre|ignr)\s+all\s+previous\s+(?:instruxions|instructions)|(?:bypas|by-pass)\s+(?:all\s+)?(?:safety\s+filters?|rules?)|(?:disgard|disregard|forget)\s+(?:prior|all)\s+(?:prompts?|guidelines?|instructions?)|(?:overide|ovrride)\s+(?:default\s+settings?|all\s+rules?)|(?:shw|show|print)\s+(?:admin|master|secret)\s+(?:keys?|tokens?)|(?:leak|dump|reveal)\s+(?:private|secret|system)\s+(?:token|keys?|variables?))\b", re.IGNORECASE)
         ]
 
     def identify_script(self, text: str) -> str:

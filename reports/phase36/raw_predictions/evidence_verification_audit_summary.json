@@ -1,0 +1,64 @@
+{
+  "workstream": "Workstream D - Evidence Verification Utility",
+  "sample_counts": {
+    "total_scenarios": 80,
+    "supported_scenarios": 20,
+    "contradicted_scenarios": 20,
+    "unsupported_scenarios": 20
+  },
+  "metrics": {
+    "overall_accuracy": 0.875,
+    "overall_accuracy_95ci": [
+      0.785,
+      0.9307
+    ],
+    "supported_acceptance_rate": 1.0,
+    "supported_acceptance_95ci": [
+      0.8389,
+      1.0
+    ],
+    "false_abstention_rate": 0.0,
+    "contradiction_recall": 0.5,
+    "contradiction_recall_95ci": [
+      0.2993,
+      0.7007
+    ],
+    "unsupported_leakage_rate": 0.0,
+    "unsupported_leakage_95ci": [
+      0.0,
+      0.1611
+    ]
+  },
+  "category_breakdown": {
+    "SUPPORTED": {
+      "total": 20,
+      "safe_released": 20,
+      "abstained": 0,
+      "contradiction_flagged": 0
+    },
+    "CONTRADICTED_NUMERICAL": {
+      "total": 10,
+      "safe_released": 0,
+      "abstained": 10,
+      "contradiction_flagged": 10
+    },
+    "CONTRADICTED_SEMANTIC": {
+      "total": 10,
+      "safe_released": 10,
+      "abstained": 0,
+      "contradiction_flagged": 0
+    },
+    "UNSUPPORTED": {
+      "total": 20,
+      "safe_released": 0,
+      "abstained": 20,
+      "contradiction_flagged": 19
+    },
+    "PARTIALLY_SUPPORTED": {
+      "total": 20,
+      "safe_released": 0,
+      "abstained": 20,
+      "contradiction_flagged": 20
+    }
+  }
+}

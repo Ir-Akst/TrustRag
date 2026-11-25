@@ -54,16 +54,34 @@ class DocumentInjectionFirewall:
             (
                 "hidden_ai_directive",
                 re.compile(
-                    r"(?:\[(?:hidden|internal|system|note|instruction)\s*(?:for|to)?\s*(?:ai|assistant|model|neural\s+model|llm)[^\]]*\]|<!--[\s\S]*?(?:system|prompt|assistant|override|ignore|disregard|eval|pwn)[\s\S]*?-->|\bnote\s+to\s+(?:the\s+)?(?:neural\s+)?(?:model|assistant|ai|llm)\s*:\s*[^\.\n]+)",
+                    r"(?:\[(?:hidden|internal|system|note|instruction|directive|admin)[^\]]*\]|<!--[\s\S]*?(?:system|prompt|assistant|override|ignore|disregard|eval|pwn)[\s\S]*?-->|\bnote\s+to\s+(?:the\s+)?(?:neural\s+)?(?:model|assistant|ai|llm)\s*:\s*[^\.\n]+|\bdirective\s+to\s+(?:the\s+)?(?:ai|agent|assistant|model|llm)\s*:\s*[^\.\n]+)",
                     re.IGNORECASE
                 ),
                 0.95,
                 "Explicit bracketed, commented, or meta-directive aimed at LLM"
             ),
             (
+                "declarative_agent_directive",
+                re.compile(
+                    r"\b(?:directive\s+to\s+(?:ai\s+agent|assistant|ai|agent|model|llm)|administrative\s+directive|operational\s+directive)\s*:[^\.\n]+",
+                    re.IGNORECASE
+                ),
+                0.95,
+                "Declarative administrative instruction dictating LLM actions"
+            ),
+            (
+                "split_bracketed_instruction",
+                re.compile(
+                    r"\[(?:instruction|directive|action|phase|step)\s*[^:\]]*:\s*[^\].]*\b(?:disregard|ignore|override|bypass|disclose|cease|output|print|reveal|unfetter|exfiltrate)\b[^\]]*\]",
+                    re.IGNORECASE
+                ),
+                0.95,
+                "Bracketed sub-instruction attempting split injection"
+            ),
+            (
                 "instructional_override_masquerade",
                 re.compile(
-                    r"\b(?:when\s+(?:answering|responding|evaluating|summarizing)\s+(?:this|the)\s+(?:prompt|query|input)|assistant\s+(?:must|should)\s+(?:immediately\s+)?(?:cease|ignore|disregard|override|print|output)|disregard\s+(?:all\s+)?(?:safety|prior|security|initial)\s+(?:rules?|parameters?|guidelines?)|abandon\s+(?:all\s+)?(?:previous\s+)?(?:operating\s+)?constraints?)\b",
+                    r"\b(?:when\s+(?:answering|responding|evaluating|summarizing)\s+(?:this|the)\s+(?:prompt|query|input)|assistant\s+(?:must|should)\s+(?:immediately\s+)?(?:cease|ignore|disregard|override|print|output)|cease\s+answering\s+(?:the\s+user|this\s+query)|disregard\s+(?:all\s+)?(?:safety|prior|security|initial|earlier)\s+(?:rules?|parameters?|guidelines?|constraints?)|abandon\s+(?:all\s+)?(?:previous\s+)?(?:operating\s+)?constraints?|disclose\s+master\s+encryption\s+keys?)\b",
                     re.IGNORECASE
                 ),
                 0.95,

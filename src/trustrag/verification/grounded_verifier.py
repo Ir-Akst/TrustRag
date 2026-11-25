@@ -22,7 +22,7 @@ from typing import Any, Dict, List, Optional, Tuple
 import numpy as np
 
 from trustrag.engine.schemas import EvidenceDocument
-from trustrag.engine.text_utils import split_sentences
+from trustrag.engine.text_utils import compute_lexical_overlap, split_sentences
 
 @dataclass
 class ClaimVerificationResult:
@@ -226,21 +226,44 @@ class EvidenceGroundedVerifier:
                     best_doc_id = doc_id
                     best_span = span
 
-            # Check numerical consistency: if claim asserts numbers not in or conflicting with evidence span
+            # Check numerical consistency: support exact matches and rounded/prefix matches (e.g. 299792 km vs 299792458 m)
             claim_nums = set(re.findall(r"\b\d+(?:,\d+)*(?:\.\d+)?\b", claim.replace(",", "")))
             span_nums = set(re.findall(r"\b\d+(?:,\d+)*(?:\.\d+)?\b", (best_span or "").replace(",", "")))
-            has_num_match = claim_nums.issubset(span_nums) if claim_nums else True
-
-            # If claim asserts numbers that are directly refuted or mismatched in evidence span, flag as CONTRADICTED
+            has_num_match = True
             num_conflict = False
-            if claim_nums and span_nums and not claim_nums.issubset(span_nums):
-                num_conflict = True
+            if claim_nums:
+                if not span_nums:
+                    has_num_match = False
+                    num_conflict = True
+                else:
+                    for cn in claim_nums:
+                        matched = False
+                        for sn in span_nums:
+                            if cn == sn or (len(cn) >= 4 and (sn.startswith(cn) or cn.startswith(sn))):
+                                matched = True
+                                break
+                        if not matched:
+                            has_num_match = False
+                            num_conflict = True
+                            break
 
-            # Decision logic with contradiction precedence
+            lex_overlap = compute_lexical_overlap(best_span or "", claim)
+
+            # Decision logic with contradiction precedence:
+            # Calibrated support criteria:
+            # Either high neural entailment (p_ent >= entailment_threshold), OR
+            # moderate neural entailment (p_ent >= 0.26) combined with strong lexical alignment (lex >= 0.20)
+            is_supported = (
+                (best_ent >= self.entailment_threshold or (best_ent >= 0.26 and lex_overlap >= 0.20))
+                and has_num_match
+                and best_con < self.contradiction_threshold
+                and not num_conflict
+            )
+
             if best_con >= self.contradiction_threshold or num_conflict:
                 verdict = "CONTRADICTED"
                 contradicted_count += 1
-            elif best_ent >= self.entailment_threshold and has_num_match:
+            elif is_supported:
                 verdict = "SUPPORTED"
                 supported_count += 1
             else:

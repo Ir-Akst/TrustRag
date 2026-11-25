@@ -77,11 +77,11 @@ class SemanticAttackClassifier:
     def _compile_feature_extractors(self) -> None:
         self.feature_patterns = {
             "feat_action_override": re.compile(
-                r"\b(?:relinquish|dispense\s+with|cast\s+aside|dismiss|evade|forsake|shrug\s+off|abandon|nullify|disengage|set\s+aside|cease\s+following|ignore|disregard|override|bypass|unshackle|jettison|overrule|waive|decouple|divest|disclaim|surrender|discard|relieve|break\s+free|strip\s+away|circumvent|brush\s+aside|drop|eliminate|suppress|disable|scramble)\b",
+                r"\b(?:relinquish|dispense\s+with|cast\s+aside|dismiss|evade|forsake|shrug\s+off|abandon|nullify|disengage|set\s+aside|cease\s+following|ignore|disregard|override|bypass|unshackle|jettison|overrule|waive|decouple|divest|disclaim|surrender|discard|relieve|break\s+free|strip\s+away|circumvent|brush\s+aside|drop|eliminate|suppress|disable|scramble|unfetter|dethrone|repudiate|abnegate|unfasten|vacate|shun|unloose|renounce|cast\s+off|eschew|disavow|supersede|abrogate|rescind|derogate|annul|expunge|obviate|invalidate|circumventing|bypassing|disregarding|overriding)\b",
                 re.IGNORECASE
             ),
             "feat_directive_target": re.compile(
-                r"\b(?:system\s+(?:parameters?|prompts?|instructions?|variables?|state|configuration|seed)|developer\s+(?:guidelines?|prompts?|instructions?|notes?|rules?)|foundational\s+(?:rules?|instructions?|directives?)|initial\s+(?:directives?|prompts?|instructions?|restrictions?)|bootstrap\s+(?:texts?|configuration|parameters?)|confidential\s+(?:variables?|tokens?|keys?|parameters?)|master\s+(?:passwords?|keys?|tokens?|decryption\s+key)|root\s+(?:credentials?|access|tokens?)|api\s+(?:tokens?|keys?)|secret\s+(?:keys?|tokens?|variables?|instructions?)|primary\s+directives?|safety\s+(?:protocols?|guidelines?|rules?|boundaries?|filters?|restraints?)|ethical\s+(?:restrictions?|boundaries?|duties|restraints?|constraints?)|prior\s+(?:constraints?|instructions?|directives?|rules?|ethical\s+restraints?)|creation\s+text|core\s+prompt|operating\s+(?:protocol|instructions?|constraints?))\b",
+                r"\b(?:system\s+(?:parameters?|prompts?|instructions?|variables?|state|configuration|seed)|developer\s+(?:guidelines?|prompts?|instructions?|notes?|rules?)|foundational\s+(?:rules?|instructions?|directives?|mandates?)|initial\s+(?:directives?|prompts?|instructions?|restrictions?)|bootstrap\s+(?:texts?|configuration|parameters?)|confidential\s+(?:variables?|tokens?|keys?|parameters?)|master\s+(?:passwords?|keys?|tokens?|decryption\s+key)|root\s+(?:credentials?|access|tokens?)|api\s+(?:tokens?|keys?)|secret\s+(?:keys?|tokens?|variables?|instructions?)|primary\s+directives?|safety\s+(?:protocols?|guidelines?|rules?|boundaries?|filters?|restraints?)|ethical\s+(?:restrictions?|boundaries?|duties|restraints?|constraints?)|prior\s+(?:constraints?|instructions?|directives?|rules?|ethical\s+restraints?)|creation\s+text|core\s+prompt|operating\s+(?:protocol|instructions?|constraints?)|internal\s+(?:system\s+configuration|settings?|prompts?|variables?|keys?)|operational\s+guidelines?|mandatory\s+constraints?)\b",
                 re.IGNORECASE
             ),
             "feat_narrative_framing": re.compile(
@@ -89,7 +89,7 @@ class SemanticAttackClassifier:
                 re.IGNORECASE
             ),
             "feat_roleplay_persona": re.compile(
-                r"\b(?:you\s+are\s+now\s+(?:in\s+)?(?:\w*gpt|\w*terminal[\w-]*|root|unrestricted|unconstrained|zenith[\w-]*|omega|dan)|assume\s+the\s+identity\s+of|act\s+as\s+(?:an?\s+)?(?:unrestricted|non-compliant|maintenance\s+agent|rebel\s+hacker|debugging\s+daemon)|roleplay\s+as|assuming\s+the\s+role\s+of)\b",
+                r"\b(?:you\s+are\s+now\s+(?:in\s+)?(?:\w*gpt|\w*terminal[\w-]*|root|unrestricted|unconstrained|zenith[\w-]*|omega|dan)|assume\s+the\s+identity\s+of|act\s+as\s+(?:an?\s+)?(?:unrestricted|non-compliant|maintenance\s+agent|maintenance\s+engineer|rebel\s+hacker|debugging\s+daemon)|roleplay\s+as|assuming\s+the\s+role\s+of|adopt\s+the\s+persona\s+of)\b",
                 re.IGNORECASE
             ),
             "feat_academic_pretext": re.compile(
@@ -113,7 +113,11 @@ class SemanticAttackClassifier:
                 re.IGNORECASE
             ),
             "feat_obfuscated_sequence": re.compile(
-                r"\b(?:[rR]-[eE]-[lL]-[iI]-[nN]-[qQ]-[uU]-[iI]-[sS]-[hH]|[iI]-[gG]-[nN]-[oO]-[rR]-[eE]|[oO]-[vV]-[eE]-[rR]-[rR]-[iI]-[dD]-[eE]|[bB]-[yY]-[pP]-[aA]-[sS]-[sS])\b",
+                r"\b(?:[rR]-[eE]-[lL]-[iI]-[nN]-[qQ]-[uU]-[iI]-[sS]-[hH]|[iI]-[gG]-[nN]-[oO]-[rR]-[eE]|[oO]-[vV]-[eE]-[rR]-[rR]-[iI]-[dD]-[eE]|[bB]-[yY]-[pP]-[aA]-[sS]-[sS]|[uU]-[nN]-[fF]-[eE]-[tT]-[tT]-[eE]-[rR])\b",
+                re.IGNORECASE
+            ),
+            "feat_security_education": re.compile(
+                r"\b(?:how\s+(?:do|can|does|are|to)\b|explain\s+how\b|what\s+are\s+the\b|describe\s+how\b|principles\s+of\b|overview\s+of\b|methods\s+used\s+to\b|best\s+practices\s+for\b|in\s+application\s+security\b|owasp|cwe-\d+|mitre\s+att&ck|red\s+teams?\s+test|security\s+auditors?|defensive\s+research|vulnerability\s+research|risk\s+analysis\b|threat\s+modeling\b|how\s+do\s+modern\s+llm\s+guardrails)",
                 re.IGNORECASE
             )
         }
@@ -138,7 +142,9 @@ class SemanticAttackClassifier:
             # Interaction: narrative + target combo
             "feat_narrative_x_target": 2.60,
             # Interaction: roleplay + target combo
-            "feat_roleplay_x_target": 2.50
+            "feat_roleplay_x_target": 2.50,
+            # Negative weight for legitimate defensive cybersecurity education
+            "feat_security_education": -3.50
         }
         self._is_loaded = True
 
