@@ -131,6 +131,33 @@ class DocumentInjectionFirewall:
                 ),
                 0.90,
                 "Compliance or emergency protocol narrative framing concealing an override directive"
+            ),
+            (
+                "citation_spoofing_directive",
+                re.compile(
+                    r"(?:reference\s*\[\d+\]|source\s*\[\d+\])[^:\.\n]*:\s*(?:authoritative\s+)?(?:system\s+)?(?:instruction|directive|command|override)[^\.\n]+",
+                    re.IGNORECASE
+                ),
+                0.95,
+                "Citation spoofing attempting authoritative prompt override"
+            ),
+            (
+                "role_header_override",
+                re.compile(
+                    r"(?:^|\n|\b)(?:DEVELOPER|SYSTEM|ADMIN|ROOT|SUPERVISOR)\s*:\s*[^\.\n]*(?:override|ignore|disregard|bypass|leak|confirm|breach|output|print|surrender)[^\.\n]*",
+                    re.IGNORECASE
+                ),
+                0.95,
+                "Misleading role header masquerading as system or developer prompt"
+            ),
+            (
+                "embedded_authority_override",
+                re.compile(
+                    r"\b(?:authoritative\s+system\s+instruction|system\s+override\s+notice|administrative\s+mandate)\s*:[^\.\n]+",
+                    re.IGNORECASE
+                ),
+                0.95,
+                "Authority override masquerading as document content"
             )
         ]
 

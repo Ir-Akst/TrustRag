@@ -62,8 +62,9 @@ class MultilingualSemanticDefense:
             ("ar", re.compile(r"(?:تجاهل|تجاوز|انسَ?|ألغِ?|عطّل|أخرج|اعرض|اطبع|اكشف)\b.{0,30}\b(?:التعليمات|الأمان|القيود|المطور|مرشحات|الرمز|السر|الموجه|كلمة\s*المرور)")),
         ]
 
-        # European Romance & Germanic (Spanish, French, German)
+        # European Romance & Germanic (English, Spanish, French, German)
         self.european_patterns = [
+            ("en", re.compile(r"\b(?:unfetter|dethrone|abnegate|supersede|abrogate|rescind|derogate|annul|expunge|obviate|invalidate|circumvent|bypass|override|ignore|disregard)\b.{0,50}\b(?:foundational|safety|security|system|prompt|boundaries|credentials|keys|tokens|mandates)\b", re.IGNORECASE)),
             # Spanish
             ("es", re.compile(r"\b(?:ignora\w*|anula\w*|pasa\s+por\s+alto|olvida\w*|descarta\w*|desactiva\w*)\b.{0,40}\b(?:instruccion\w*|regla\w*|restriccion\w*|filtro\w*|clave\w*|token\w*|mensaje\s+del\s+sistema)\b", re.IGNORECASE)),
             # French
@@ -76,12 +77,12 @@ class MultilingualSemanticDefense:
         self.transliteration_patterns = [
             # Hinglish / South Asian Romanized (handling wide phonetic spelling variants)
             re.compile(r"\b(?:(?:pichle|pichhle|purane|saare|sabhi)\s+(?:saare\s+)?(?:nirdesh(?:on)?|niyam(?:on)?|rules?)\s*(?:ko)?\s*(?:ignore|bhool|bhul|bypass|chhod|hatao)|(?:suraksha|safety)\s+(?:niyamon?|filters?)\s+ko\s+(?:bypass|tod|override)|rules?\s+(?:bhool|bhul)\s+jao|prompt\s+(?:dikhayein|batao|print\s+karo|dikhao)|(?:karo\s+aur\s+secret)|secret\s+(?:token|password|keys?)\s+(?:nikalo|batao|dikhayein|dikhao)|system\s+prompt\s+(?:dikhao|batao)|root\s+password\s+dikhao)\b", re.IGNORECASE),
-            # Romaja / Japanese Romanized
-            re.compile(r"\b(?:koremadeno\s+shiji\s+wo\s+(?:subete\s+)?mushi|seigen\s+wo\s+override|(?:anzen|safety)\s+filter\s+wo\s+bypass|prompt\s+wo\s+mise\s+yo|shiji\s+wo\s+mushi|subete\s+no\s+seigen\s+wo\s+kaijo)\b", re.IGNORECASE),
+            # Romaji / Japanese Romanized
+            re.compile(r"\b(?:(?:koremadeno|izen\s+no)\s+shiji\s+(?:wo|o)\s+(?:subete\s+)?mushi|seigen\s+(?:wo|o)\s+override|(?:anzen|safety)\s+filter\s+(?:wo|o)\s+bypass|prompt\s+(?:wo|o)\s+(?:mise\s+yo|hyouji)|shiji\s+(?:wo|o)\s+mushi|subete\s+no\s+seigen\s+(?:wo|o)\s+kaijo|system\s+prompt\s+(?:wo|o)\s+hyouji)\b", re.IGNORECASE),
             # Pinyin / Chinese Romanized
-            re.compile(r"\b(?:(?:hulue|wushi)\s+(?:suoyou\s+)?(?:zhiling|zhishi)|(?:raoguo|tongguo)\s+anquan\s+(?:guize|celue)|dayin\s+mimi\s+token|system\s+prompt\s+xianshi|xianshi\s+mima|fangqi\s+xianzhi)\b", re.IGNORECASE),
+            re.compile(r"\b(?:(?:hulue|hulyue|wushi)\s+(?:suoyou\s+)?(?:zhiling|zhishi)|(?:raoguo|tongguo)\s+anquan\s+(?:guize|celue)|dayin\s+mimi\s+token|system\s+prompt\s+xianshi|xianshi\s+(?:mima|root\s+mima)|fangqi\s+xianzhi|bing\s+xianshi\s+root)\b", re.IGNORECASE),
             # Arabizi / Arabic Romanized
-            re.compile(r"\b(?:(?:itejahal|tajahal|itjahl)\s+(?:kulla?\s+)?(?:altaalimat|ta3limat)|(?:tajawaz|t3ada)\s+(?:qawaed|qawa3id)\s+al-aman|aared\s+al-password|ikshif\s+al-secrets?|itruk\s+al-qawaed)\b", re.IGNORECASE),
+            re.compile(r"\b(?:(?:itejahal|tajahal|itjahl)\s+(?:kulla?\s+|jamee\s+)?(?:altaalimat|ta3limat|altalemat)|(?:tajawaz|t3ada)\s+(?:qawaed|qawa3id)\s+al-aman|aared\s+al-password|ikshif\s+(?:al-secrets?|kalemat\s+alsir)|akshif\s+kalemat|itruk\s+al-qawaed)\b", re.IGNORECASE),
             # Romanized Russian
             re.compile(r"\b(?:(?:ignoriruy|zabud|otmeni)\s+(?:vse\s+)?(?:instruktsii|pravila)|(?:oboydi|oboidi)\s+pravila\s+bezopasnosti|day\s+mne\s+parol|pokazhi\s+(?:konfiguratsiyu|sekretnyy\s+token)|vyvedi\s+sekret)\b", re.IGNORECASE),
             # Romanized Spanish code-switching
@@ -91,7 +92,7 @@ class MultilingualSemanticDefense:
             # Romanized German code-switching
             re.compile(r"\b(?:(?:mach\s+einen\s+)?bypass\s+der\s+sicherheitsfilter|ueberspringe\s+alle\s+anweisungen|ignoriere\s+system\s+prompt|deaktiviere\s+sicherheitsregeln|loesche\s+alle\s+restriktionen|gib\s+mir\s+root\s+zugang|printe\s+den\s+master\s+key|zeige\s+geheimnis)\b", re.IGNORECASE),
             # Phonetic English / Leet / Typos
-            re.compile(r"\b(?:(?:ignor|ignre|ignr)\s+all\s+previous\s+(?:instruxions|instructions)|(?:bypas|by-pass)\s+(?:all\s+)?(?:safety\s+filters?|rules?)|(?:disgard|disregard|forget)\s+(?:prior|all)\s+(?:prompts?|guidelines?|instructions?)|(?:overide|ovrride)\s+(?:default\s+settings?|all\s+rules?)|(?:shw|show|print)\s+(?:admin|master|secret)\s+(?:keys?|tokens?)|(?:leak|dump|reveal)\s+(?:private|secret|system)\s+(?:token|keys?|variables?))\b", re.IGNORECASE)
+            re.compile(r"\b(?:(?:ignor|ignre|ignr)\s+all\s+previous\s+(?:instruxions|instructions)|(?:bypas|by-pass)\s+(?:all\s+)?(?:safety\s+filters?|rules?)|(?:disgard|dizgard|disregard|forget)\s+(?:prior|all|rules?)\s+(?:prompts?|guidelines?|instructions?|and\s+reverl)?|(?:overide|ovrride)\s+(?:default\s+settings?|all\s+rules?)|(?:shw|show|print|reverl)\s+(?:admin|master|secret|hidden)\s+(?:keys?|tokens?|syztem|system)|(?:leak|dump|reveal)\s+(?:private|secret|system)\s+(?:token|keys?|variables?))\b", re.IGNORECASE)
         ]
 
     def identify_script(self, text: str) -> str:
