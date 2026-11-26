@@ -300,13 +300,13 @@ class EvidenceGroundedVerifier:
         return [r for r in results if r is not None]
 
     def extract_atomic_claims(self, answer_text: str) -> List[str]:
-        """Deconstruct answer text into verifiable atomic factual claims."""
+        """Deconstruct answer text into verifiable atomic factual claims (supporting 1-2 word QA answers)."""
         sentences = split_sentences(answer_text)
         claims: List[str] = []
+        trivial_filler = {"thank you.", "thank you", "here is the answer:", "in summary:", "n/a", "none"}
         for s in sentences:
             s_clean = s.strip()
-            # Disregard trivial conversational filler
-            if len(s_clean.split()) < 3 or s_clean.lower() in ["thank you.", "here is the answer:", "in summary:"]:
+            if not s_clean or s_clean.lower() in trivial_filler:
                 continue
             claims.append(s_clean)
         return claims
@@ -374,13 +374,17 @@ class EvidenceGroundedVerifier:
                 latency_ms=round((time.perf_counter() - t0) * 1000.0, 3)
             )
 
-        # Break retrieved documents into candidate evidence sentences
-        evidence_spans: List[Tuple[str, str]] = []  # (doc_id, sentence_text)
+        # Break retrieved documents into single sentences AND adjacent 2-sentence synthesis windows
+        evidence_spans: List[Tuple[str, str]] = []  # (doc_id, sentence_or_window_text)
+        full_doc_texts: List[str] = []
         for doc in retrieved_documents:
-            doc_sents = split_sentences(doc.text)
+            full_doc_texts.append(doc.text)
+            doc_sents = [ds.strip() for ds in split_sentences(doc.text) if len(ds.strip().split()) >= 3]
             for ds in doc_sents:
-                if len(ds.strip().split()) >= 4:
-                    evidence_spans.append((doc.doc_id, ds.strip()))
+                evidence_spans.append((doc.doc_id, ds))
+            for idx in range(len(doc_sents) - 1):
+                evidence_spans.append((doc.doc_id, f"{doc_sents[idx]} {doc_sents[idx + 1]}"))
+        full_evidence_text = " ".join(full_doc_texts)
 
         claim_results: List[ClaimVerificationResult] = []
         supported_count = 0
@@ -394,10 +398,27 @@ class EvidenceGroundedVerifier:
             best_doc_id = None
             best_span = None
 
-            # Compare claim against all candidate evidence spans in a single batched forward pass
-            pairs = [(span, claim) for _, span in evidence_spans]
+            # Contextualize short 1-3 word QA answers with query for NLI evaluation
+            eval_hypothesis = (
+                f"The answer to '{query.strip()}' is {claim}."
+                if (len(claim.split()) <= 3 and query and query.strip())
+                else claim
+            )
+
+            # Pre-filter to top-16 most relevant spans/windows on long documents to bound CPU NLI latency
+            if len(evidence_spans) > 16:
+                scored_spans = sorted(
+                    evidence_spans,
+                    key=lambda item: compute_lexical_overlap(item[1], eval_hypothesis),
+                    reverse=True,
+                )[:16]
+            else:
+                scored_spans = evidence_spans
+
+            # Compare claim against candidate evidence spans in a single batched forward pass
+            pairs = [(span, eval_hypothesis) for _, span in scored_spans]
             batch_scores = self._predict_nli_batch(pairs)
-            for (doc_id, span), (p_ent, p_con, p_neu) in zip(evidence_spans, batch_scores):
+            for (doc_id, span), (p_ent, p_con, p_neu) in zip(scored_spans, batch_scores):
                 if p_con > best_con:
                     best_con = p_con
                 if p_ent > best_ent:
@@ -406,19 +427,30 @@ class EvidenceGroundedVerifier:
                     best_doc_id = doc_id
                     best_span = span
 
+            # Check numerical consistency against best_span (or full document for synthesized claims)
             has_num_match, num_conflict = _check_numerical_consistency(claim, best_span or "", best_ent)
+            if num_conflict:
+                has_full_num, full_num_conflict = _check_numerical_consistency(claim, full_evidence_text, best_ent)
+                if has_full_num and not full_num_conflict:
+                    has_num_match, num_conflict = True, False
+
             lex_overlap = compute_lexical_overlap(best_span or "", claim)
+            # Check entity contradiction against best_span, but suppress false positives if entity appears in full_evidence_text
             sem_conflict, sem_reason = _detect_semantic_entity_contradiction(best_span or "", claim, query=query)
+            if sem_conflict and best_ent >= 0.45:
+                # Re-check against full document context to avoid cross-sentence synthesis false contradictions
+                full_sem_conflict, _ = _detect_semantic_entity_contradiction(full_evidence_text, claim, query=query)
+                if not full_sem_conflict:
+                    sem_conflict = False
             imp_conflict, imp_reason = _detect_implicit_polarity_contradiction(best_span or "", claim)
 
-            # Decision logic with strict entailment and contradiction precedence:
-            # Require genuine neural entailment dominance or substantial entailment without entity substitution
-            # Never accept a claim purely based on lexical overlap when neutral probability dominates
-            is_contradicted = (best_con >= self.contradiction_threshold or num_conflict or sem_conflict or imp_conflict)
+            # Contradiction precedence: prevent weak neural contradiction on unrelated spans from overriding strong entailment
+            neural_con = (best_con >= 0.55) or (best_con >= self.contradiction_threshold and best_con > best_ent + 0.05)
+            is_contradicted = (neural_con or num_conflict or sem_conflict or imp_conflict)
 
             # Grounded entailment:
-            # Requires either direct neural entailment (p_ent >= entailment_threshold), OR
-            # consistent numerical and entity alignment where p_ent >= 0.16 and p_ent >= p_con and lex_overlap >= 0.18
+            # Supports direct neural entailment, aligned moderate entailment, or exact short-answer span match
+            short_span_match = (len(claim.split()) <= 3 and claim.lower().strip(".,!?") in full_evidence_text.lower() and not is_contradicted)
             is_supported = (
                 not is_contradicted
                 and has_num_match
@@ -428,6 +460,7 @@ class EvidenceGroundedVerifier:
                 and (
                     best_ent >= self.entailment_threshold
                     or (best_ent >= 0.16 and best_ent >= best_con and lex_overlap >= 0.18)
+                    or (short_span_match and best_ent >= 0.10)
                 )
             )
 

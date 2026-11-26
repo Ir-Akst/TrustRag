@@ -1,0 +1,12 @@
+# Phase 44 — Publication Claim Matrix
+
+| Claim ID | Claim Statement | Evidence Source | Exact Measured Metric | Status / Scope |
+| --- | --- | --- | --- | --- |
+| C1 | G1 input guardrail achieves high attack detection with low false positives on fresh inputs | `STATISTICAL_RESULTS.json` (`g1_fresh_160`) | ADR `98.33%` (59/60, CI `[91.14%, 99.71%]`), FPR `0.0%` (0/100, CI `[0.00%, 3.70%]`) | **Supported** (note 1/15 miss in `mixed_benign_embedded_attack`) |
+| C2 | Attribution-aware quote masking reduces SOC/CTI/quoted-attack false positives without blanket whitelisting | `STATISTICAL_RESULTS.json` (`g1_p42_quoted_fpr_120_after`) | Benign FPR `5.0%` (5/100, CI `[2.15%, 11.18%]`, down from `45.0%`); Malicious ADR `100.0%` (20/20) | **Supported** (5/25 residual FP on `benign_quoted_attacks`) |
+| C3 | Multilingual and transliterated prompt injections are blocked | `STATISTICAL_RESULTS.json` (`g1_fresh_160`) | `100.0%` blocked (15/15, CI `[79.61%, 100.0%]`) | **Supported** |
+| C4 | Document Firewall and Generator Boundary enforce zero context and bypass leakage | `STATISTICAL_RESULTS.json` (`firewall`) | `0.0%` context leakage (0/90, CI `[0.00%, 4.09%]`), `0.0%` direct bypass leakage, `0.0%` false quarantine (0/50) | **Supported** |
+| C5 | G3 verifier achieves high factual accuracy on controlled single/multi-sentence and contradiction regimes | `STATISTICAL_RESULTS.json` (`controlled_120`) | `100.0%` gate accuracy, `100.0%` supported acceptance, `100.0%` contradiction recall, `0.0%` unsupported leakage | **Supported** |
+| C6 | G3 remediation recovers short-QA factual recall on HaluEval | `STATISTICAL_RESULTS.json` (`halueval_200`) | Factual recall `78.0%` (78/100, CI `[68.93%, 85.00%]`, up from `10.0%`), Precision `74.29%`, Leakage `27.0%` | **Supported with limitation** (`27.0%` leakage) |
+| C7 | G3 remediation improves coverage and recall on RAGTruth Summary | `STATISTICAL_RESULTS.json` (`ragtruth_summary_50`) | Coverage `62.0%` (up from `12.0%`), Recall `76.0%` (19/25, up from `16.0%`), Leakage `48.0%` (12/25, up from `8.0%`) | **Scoped limitation** (trade-off: higher recall vs. higher leakage on long summaries) |
+| C8 | Profile B executes genuine DeBERTa-v3-small torch inference with bounded latency and fail-closed lifecycle | `STATISTICAL_RESULTS.json` (`production_neural`) | 82 torch forwards, 209 cache hits, mean `1642.26 ms`, p95 `1887.06 ms`, RSS `1543.22 MB`, 8-thread ok, fail-closed timeout/shutdown | **Supported** (CPU latency ~1.64s warm mean) |

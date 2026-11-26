@@ -268,6 +268,20 @@ def _extract_base64_tokens(text: str) -> list[str]:
     return tokens
 
 
+_ATTRIBUTION_CONTEXT_PAT = re.compile(
+    r"\b(?:for\s+example|e\.g\.|such\s+as|an?\s+attacker\s+(?:might|could|may)|researchers?\s+(?:study|analyze|test)|guardrails?\s+(?:inspect|detect)|quoted\s+(?:example|text|string|payload)s?|in\s+(?:owasp|cwe-\d+|documentation|tutorials?)|incident\s*#?\d*|soc\s+observed|post-mortem|alert\s+triage|audit\s+log|csirt|threat\s+intelligence|ti\s+bulletin|cti\s+brief|ttp\s+analysis|payload\s+reading|contained\s+[\"']|blocked\s+string|adversary\s+(?:attempted|embedded)|social\s+engineering\s+relies\s+on|attackers?\s+(?:wrap|embed|use))\b",
+    re.IGNORECASE,
+)
+
+
+def _strip_attributed_quotes(text: str) -> str:
+    """Strip quoted payloads ONLY when analytical/SOC/CTI/educational attribution framing is present."""
+    if not _ATTRIBUTION_CONTEXT_PAT.search(text):
+        return text
+    stripped = re.sub(r"'[^'\n]{3,250}'|\"[^\"\n]{3,250}\"", " [QUOTED_EXAMPLE] ", text)
+    return stripped
+
+
 class InputGuardrail:
     """G1 Input Guardrail validating queries prior to retrieval and generation."""
 
@@ -418,32 +432,37 @@ class InputGuardrail:
                 )
             )
 
+        # 3b. Attribution-aware quote masking (Phase 44 Workstream B):
+        # Masks quoted illustrative/incident payloads ONLY under analytical/SOC/CTI/educational framing,
+        # while preserving all unquoted text so embedded malicious instructions are still caught.
+        inspection_text = _strip_attributed_quotes(analysis_text)
+
         # 4. Shared parameterized injection, role-hijack, command, and DoS patterns
-        normalized_variants = [analysis_text]
+        normalized_variants = [inspection_text]
         try:
-            h = html.unescape(analysis_text)
-            if h != analysis_text and h not in normalized_variants:
+            h = html.unescape(inspection_text)
+            if h != inspection_text and h not in normalized_variants:
                 normalized_variants.append(h)
         except Exception:
             pass
         try:
-            hx = re.sub(r"\\x([0-9a-fA-F]{2})", lambda m: bytes.fromhex(m.group(1)).decode("latin1", errors="ignore"), analysis_text)
-            if hx != analysis_text and hx not in normalized_variants:
+            hx = re.sub(r"\\x([0-9a-fA-F]{2})", lambda m: bytes.fromhex(m.group(1)).decode("latin1", errors="ignore"), inspection_text)
+            if hx != inspection_text and hx not in normalized_variants:
                 normalized_variants.append(hx)
         except Exception:
             pass
-        for ch in re.findall(r"\b(?:[0-9a-fA-F]{2}){8,}\b", analysis_text):
+        for ch in re.findall(r"\b(?:[0-9a-fA-F]{2}){8,}\b", inspection_text):
             try:
                 dec = bytes.fromhex(ch).decode("utf-8", errors="ignore")
                 if dec.strip() and dec not in normalized_variants:
                     normalized_variants.append(dec)
             except Exception:
                 pass
-        delim_sub = re.sub(r"([A-Za-z0-9])[-_./]+([A-Za-z0-9])", r"\1 \2", analysis_text)
-        if delim_sub != analysis_text and delim_sub not in normalized_variants:
+        delim_sub = re.sub(r"([A-Za-z0-9])[-_./]+([A-Za-z0-9])", r"\1 \2", inspection_text)
+        if delim_sub != inspection_text and delim_sub not in normalized_variants:
             normalized_variants.append(delim_sub)
-        spaced_sub = re.sub(r"(?:\b[A-Za-z]\s+){3,}[A-Za-z]\b", lambda m: m.group(0).replace(" ", ""), analysis_text)
-        if spaced_sub != analysis_text and spaced_sub not in normalized_variants:
+        spaced_sub = re.sub(r"(?:\b[A-Za-z]\s+){3,}[A-Za-z]\b", lambda m: m.group(0).replace(" ", ""), inspection_text)
+        if spaced_sub != inspection_text and spaced_sub not in normalized_variants:
             normalized_variants.append(spaced_sub)
 
         seen_rule_matches: set[str] = set()
@@ -503,7 +522,7 @@ class InputGuardrail:
 
         # 6. Suspicious meta-instruction rules (flag-level indicators)
         for rule_name, pattern, sev in _SUSPICIOUS_META_RULES:
-            m = pattern.search(analysis_text)
+            m = pattern.search(inspection_text)
             if m:
                 matches.append(
                     G1MatchDetail(
@@ -516,7 +535,7 @@ class InputGuardrail:
                 )
 
         # 7. Semantic Attack Classification (Phase 32 Workstream A)
-        sem_pred = self.semantic_classifier.predict(analysis_text)
+        sem_pred = self.semantic_classifier.predict(inspection_text)
         if sem_pred.decision in ("BLOCK", "FLAG") and sem_pred.is_attack:
             matches.append(
                 G1MatchDetail(
@@ -529,7 +548,7 @@ class InputGuardrail:
             )
 
         # 8. Multilingual Semantic Defense (Phase 32 Workstream C)
-        multi_pred = self.multilingual_engine.evaluate_query(analysis_text)
+        multi_pred = self.multilingual_engine.evaluate_query(inspection_text)
         if multi_pred.is_attack:
             matches.append(
                 G1MatchDetail(
