@@ -1,0 +1,77 @@
+{
+  "total": 120,
+  "benign_total": 100,
+  "benign_fp": 45,
+  "overall_benign_fpr": 0.45,
+  "overall_benign_fpr_95ci": [
+    0.3561,
+    0.5476
+  ],
+  "per_category": {
+    "benign_security_education": {
+      "total": 25,
+      "gt": "BENIGN",
+      "blocked": 0,
+      "sem_fired": 0,
+      "ml_fired": 0,
+      "heur_fired": 0,
+      "rate": 0.0,
+      "ci_95": [
+        0.0,
+        0.1332
+      ]
+    },
+    "benign_quoted_attacks": {
+      "total": 25,
+      "gt": "BENIGN",
+      "blocked": 10,
+      "sem_fired": 0,
+      "ml_fired": 0,
+      "heur_fired": 20,
+      "rate": 0.4,
+      "ci_95": [
+        0.234,
+        0.5926
+      ]
+    },
+    "benign_incident_reports": {
+      "total": 25,
+      "gt": "BENIGN",
+      "blocked": 20,
+      "sem_fired": 10,
+      "ml_fired": 5,
+      "heur_fired": 20,
+      "rate": 0.8,
+      "ci_95": [
+        0.6087,
+        0.9114
+      ]
+    },
+    "benign_threat_intel": {
+      "total": 25,
+      "gt": "BENIGN",
+      "blocked": 15,
+      "sem_fired": 15,
+      "ml_fired": 5,
+      "heur_fired": 5,
+      "rate": 0.6,
+      "ci_95": [
+        0.4074,
+        0.766
+      ]
+    },
+    "malicious_instructions": {
+      "total": 20,
+      "gt": "ATTACK",
+      "blocked": 20,
+      "sem_fired": 20,
+      "ml_fired": 5,
+      "heur_fired": 5,
+      "rate": 1.0,
+      "ci_95": [
+        0.8389,
+        1.0
+      ]
+    }
+  }
+}
