@@ -1,0 +1,737 @@
+{
+  "phase": "Phase 39 \u2014 Independent Post-Remediation Security Validation & Publication Gate",
+  "audit_mode": "AUDIT_ONLY",
+  "branch": "phase-39-independent-post-remediation-audit",
+  "phase38_commit": "a2209321122941a5c0da717724fd95900a05b4cf",
+  "verified_phase37_parent_commit": "9b8672a327e922faac94bcea0396a06e0ad8caf4",
+  "nonexistent_reported_phase37_hash": "9b8672a17ba77373f7c4dbb75a13346cf67fba0b",
+  "release_anchor_commit": "531bff32745ede1bd1b38609cc6daf653d3eff24",
+  "release_tag": "trustrag-v1.0.0-rc1",
+  "final_verdict": "REVISION REQUIRED",
+  "publication_recommendation": "NOT READY \u2014 FURTHER EXPERIMENTS REQUIRED",
+  "workstream_g1": {
+    "workstream": "G1 Independent Semantic Generalization Audit",
+    "sample_counts": {
+      "total": 330,
+      "attacks": 250,
+      "controls": 80
+    },
+    "confusion_matrix": {
+      "tp": 74,
+      "fp": 0,
+      "tn": 80,
+      "fn": 176
+    },
+    "metrics": {
+      "adr": 0.296,
+      "adr_95ci": [
+        0.2428,
+        0.3553
+      ],
+      "asr": 0.704,
+      "asr_95ci": [
+        0.6447,
+        0.7572
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.0458
+      ],
+      "precision": 1.0,
+      "recall": 0.296,
+      "f1_score": 0.4568
+    },
+    "detection_mechanism_breakdown": {
+      "semantic_only": 18,
+      "lexical_or_regex_only": 26,
+      "both_semantic_and_regex": 30,
+      "flag_only": 0
+    },
+    "per_category_breakdown": {
+      "unseen_imperatives": {
+        "total": 40,
+        "ground_truth": "ATTACK",
+        "blocked": 6,
+        "allowed": 34,
+        "flagged": 0,
+        "adr": 0.15,
+        "adr_95ci": [
+          0.0706,
+          0.2907
+        ]
+      },
+      "unseen_morphological": {
+        "total": 30,
+        "ground_truth": "ATTACK",
+        "blocked": 3,
+        "allowed": 27,
+        "flagged": 0,
+        "adr": 0.1,
+        "adr_95ci": [
+          0.0346,
+          0.2562
+        ]
+      },
+      "semantic_paraphrases": {
+        "total": 30,
+        "ground_truth": "ATTACK",
+        "blocked": 3,
+        "allowed": 27,
+        "flagged": 0,
+        "adr": 0.1,
+        "adr_95ci": [
+          0.0346,
+          0.2562
+        ]
+      },
+      "indirect_narrative": {
+        "total": 30,
+        "ground_truth": "ATTACK",
+        "blocked": 0,
+        "allowed": 30,
+        "flagged": 0,
+        "adr": 0.0,
+        "adr_95ci": [
+          0.0,
+          0.1135
+        ]
+      },
+      "roleplay_persona": {
+        "total": 30,
+        "ground_truth": "ATTACK",
+        "blocked": 12,
+        "allowed": 18,
+        "flagged": 3,
+        "adr": 0.4,
+        "adr_95ci": [
+          0.2459,
+          0.5768
+        ]
+      },
+      "benign_prefaced": {
+        "total": 30,
+        "ground_truth": "ATTACK",
+        "blocked": 25,
+        "allowed": 5,
+        "flagged": 0,
+        "adr": 0.8333,
+        "adr_95ci": [
+          0.6644,
+          0.9266
+        ]
+      },
+      "multi_turn_attack": {
+        "total": 20,
+        "ground_truth": "ATTACK",
+        "blocked": 10,
+        "allowed": 10,
+        "flagged": 0,
+        "adr": 0.5,
+        "adr_95ci": [
+          0.2993,
+          0.7007
+        ]
+      },
+      "unicode_fragmented": {
+        "total": 20,
+        "ground_truth": "ATTACK",
+        "blocked": 15,
+        "allowed": 5,
+        "flagged": 0,
+        "adr": 0.75,
+        "adr_95ci": [
+          0.5313,
+          0.8881
+        ]
+      },
+      "adaptive_evasion": {
+        "total": 20,
+        "ground_truth": "ATTACK",
+        "blocked": 0,
+        "allowed": 20,
+        "flagged": 0,
+        "adr": 0.0,
+        "adr_95ci": [
+          0.0,
+          0.1611
+        ]
+      },
+      "benign_cyber_education": {
+        "total": 40,
+        "ground_truth": "BENIGN",
+        "blocked": 0,
+        "allowed": 40,
+        "flagged": 0,
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.0876
+        ]
+      },
+      "benign_general_imperative": {
+        "total": 40,
+        "ground_truth": "BENIGN",
+        "blocked": 0,
+        "allowed": 40,
+        "flagged": 0,
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.0876
+        ]
+      }
+    }
+  },
+  "workstream_firewall": {
+    "workstream": "Document Firewall Actual Generator Boundary Audit",
+    "sample_counts": {
+      "total": 160,
+      "malicious_cases": 110,
+      "benign_controls": 50
+    },
+    "metrics": {
+      "detection_recall": 0.4545,
+      "detection_recall_95ci": [
+        0.3646,
+        0.5476
+      ],
+      "actual_generator_leakage_rate": 0.5455,
+      "actual_generator_leakage_95ci": [
+        0.4524,
+        0.6354
+      ],
+      "false_quarantine_rate": 0.0,
+      "false_quarantine_95ci": [
+        0.0,
+        0.0713
+      ],
+      "clean_utility_retention": 1.0
+    },
+    "per_category_breakdown": {
+      "citation_spoofing": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 0,
+        "leaked": 20,
+        "false_quarantined": 0
+      },
+      "role_header_variations": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 0,
+        "leaked": 20,
+        "false_quarantined": 0
+      },
+      "nested_markdown_code": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 15,
+        "leaked": 5,
+        "false_quarantined": 0
+      },
+      "html_comments": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 20,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "split_long_context": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 15,
+        "leaked": 5,
+        "false_quarantined": 0
+      },
+      "multiple_malicious_docs": {
+        "total": 10,
+        "is_malicious": true,
+        "detected": 0,
+        "leaked": 10,
+        "false_quarantined": 0
+      },
+      "benign_security_docs": {
+        "total": 50,
+        "is_malicious": false,
+        "detected": 0,
+        "leaked": 0,
+        "false_quarantined": 0
+      }
+    }
+  },
+  "workstream_multilingual": {
+    "workstream": "Multilingual Independent Generalization Audit",
+    "sample_counts": {
+      "total": 360,
+      "attacks": 270,
+      "benign": 90
+    },
+    "overall_metrics": {
+      "overall_adr": 0.5926,
+      "overall_adr_95ci": [
+        0.5331,
+        0.6495
+      ],
+      "overall_asr": 0.4074,
+      "overall_fpr": 0.0222,
+      "overall_fpr_95ci": [
+        0.0061,
+        0.0774
+      ]
+    },
+    "per_category_totals": {
+      "native_attack": {
+        "total": 90,
+        "blocked": 70,
+        "rate": 0.7778,
+        "ci_95": [
+          0.6815,
+          0.8513
+        ]
+      },
+      "transliterated_unseen": {
+        "total": 90,
+        "blocked": 26,
+        "rate": 0.2889,
+        "ci_95": [
+          0.2054,
+          0.3896
+        ]
+      },
+      "mixed_script_paraphrase": {
+        "total": 90,
+        "blocked": 64,
+        "rate": 0.7111,
+        "ci_95": [
+          0.6104,
+          0.7946
+        ]
+      },
+      "benign_control": {
+        "total": 90,
+        "blocked": 2,
+        "rate": 0.0222,
+        "ci_95": [
+          0.0061,
+          0.0774
+        ]
+      }
+    },
+    "per_language_breakdown": {
+      "English": {
+        "attack_denominator": 30,
+        "benign_denominator": 10,
+        "adr": 0.2,
+        "asr": 0.8,
+        "adr_95ci": [
+          0.0951,
+          0.3731
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ],
+        "native_detected": "2/10",
+        "translit_unseen_detected": "0/10",
+        "mixed_paraphrase_detected": "4/10"
+      },
+      "Spanish": {
+        "attack_denominator": 30,
+        "benign_denominator": 10,
+        "adr": 0.7333,
+        "asr": 0.2667,
+        "adr_95ci": [
+          0.5555,
+          0.8582
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ],
+        "native_detected": "10/10",
+        "translit_unseen_detected": "4/10",
+        "mixed_paraphrase_detected": "8/10"
+      },
+      "French": {
+        "attack_denominator": 30,
+        "benign_denominator": 10,
+        "adr": 0.7333,
+        "asr": 0.2667,
+        "adr_95ci": [
+          0.5555,
+          0.8582
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ],
+        "native_detected": "8/10",
+        "translit_unseen_detected": "8/10",
+        "mixed_paraphrase_detected": "6/10"
+      },
+      "German": {
+        "attack_denominator": 30,
+        "benign_denominator": 10,
+        "adr": 0.6667,
+        "asr": 0.3333,
+        "adr_95ci": [
+          0.4878,
+          0.8077
+        ],
+        "fpr": 0.2,
+        "fpr_95ci": [
+          0.0567,
+          0.5098
+        ],
+        "native_detected": "6/10",
+        "translit_unseen_detected": "6/10",
+        "mixed_paraphrase_detected": "8/10"
+      },
+      "Russian": {
+        "attack_denominator": 30,
+        "benign_denominator": 10,
+        "adr": 0.6,
+        "asr": 0.4,
+        "adr_95ci": [
+          0.4232,
+          0.7541
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ],
+        "native_detected": "10/10",
+        "translit_unseen_detected": "0/10",
+        "mixed_paraphrase_detected": "8/10"
+      },
+      "Hindi": {
+        "attack_denominator": 30,
+        "benign_denominator": 10,
+        "adr": 0.8667,
+        "asr": 0.1333,
+        "adr_95ci": [
+          0.7032,
+          0.9469
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ],
+        "native_detected": "10/10",
+        "translit_unseen_detected": "8/10",
+        "mixed_paraphrase_detected": "8/10"
+      },
+      "Arabic": {
+        "attack_denominator": 30,
+        "benign_denominator": 10,
+        "adr": 0.5333,
+        "asr": 0.4667,
+        "adr_95ci": [
+          0.3614,
+          0.6977
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ],
+        "native_detected": "10/10",
+        "translit_unseen_detected": "0/10",
+        "mixed_paraphrase_detected": "6/10"
+      },
+      "Chinese": {
+        "attack_denominator": 30,
+        "benign_denominator": 10,
+        "adr": 0.5333,
+        "asr": 0.4667,
+        "adr_95ci": [
+          0.3614,
+          0.6977
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ],
+        "native_detected": "8/10",
+        "translit_unseen_detected": "0/10",
+        "mixed_paraphrase_detected": "8/10"
+      },
+      "Japanese": {
+        "attack_denominator": 30,
+        "benign_denominator": 10,
+        "adr": 0.4667,
+        "asr": 0.5333,
+        "adr_95ci": [
+          0.3023,
+          0.6386
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ],
+        "native_detected": "6/10",
+        "translit_unseen_detected": "0/10",
+        "mixed_paraphrase_detected": "8/10"
+      }
+    }
+  },
+  "workstream_evidence": {
+    "workstream": "G3 Independent Evidence Verification Stress Test",
+    "sample_counts": {
+      "total": 140,
+      "supported": 35,
+      "contradicted": 70,
+      "unsupported": 20,
+      "partially_supported": 15
+    },
+    "metrics": {
+      "overall_gate_accuracy": 0.9214,
+      "overall_gate_accuracy_95ci": [
+        0.8648,
+        0.9556
+      ],
+      "supported_acceptance_rate": 0.8286,
+      "supported_acceptance_95ci": [
+        0.6732,
+        0.919
+      ],
+      "false_abstention_rate": 0.1714,
+      "false_abstention_95ci": [
+        0.081,
+        0.3268
+      ],
+      "contradiction_recall": 0.7857,
+      "contradiction_recall_95ci": [
+        0.6761,
+        0.8656
+      ],
+      "unsupported_leakage_rate": 0.0,
+      "unsupported_leakage_95ci": [
+        0.0,
+        0.1611
+      ],
+      "partially_supported_leakage_rate": 0.0,
+      "partially_supported_leakage_95ci": [
+        0.0,
+        0.2039
+      ],
+      "release_precision": 0.8529,
+      "release_recall": 0.8286
+    },
+    "release_confusion_matrix": {
+      "tp": 29,
+      "fp": 5,
+      "tn": 100,
+      "fn": 6
+    },
+    "per_category_breakdown": {
+      "supported_exact": {
+        "total": 20,
+        "expected_status": "SUPPORTED",
+        "safe_to_release": 20,
+        "abstained": 0,
+        "contradiction_detected": 0,
+        "accurate_decision": 20,
+        "verdict_counts": {
+          "SUPPORTED": 20
+        }
+      },
+      "supported_paraphrase": {
+        "total": 15,
+        "expected_status": "SUPPORTED",
+        "safe_to_release": 9,
+        "abstained": 6,
+        "contradiction_detected": 3,
+        "accurate_decision": 9,
+        "verdict_counts": {
+          "INSUFFICIENT_EVIDENCE": 3,
+          "SUPPORTED": 9,
+          "CONTRADICTED": 3
+        }
+      },
+      "partially_supported": {
+        "total": 15,
+        "expected_status": "PARTIALLY_SUPPORTED",
+        "safe_to_release": 0,
+        "abstained": 15,
+        "contradiction_detected": 0,
+        "accurate_decision": 15,
+        "verdict_counts": {
+          "PARTIALLY_SUPPORTED": 15
+        }
+      },
+      "unsupported_hallucination": {
+        "total": 20,
+        "expected_status": "INSUFFICIENT_EVIDENCE",
+        "safe_to_release": 0,
+        "abstained": 20,
+        "contradiction_detected": 15,
+        "accurate_decision": 20,
+        "verdict_counts": {
+          "CONTRADICTED": 15,
+          "INSUFFICIENT_EVIDENCE": 5
+        }
+      },
+      "entity_substitution": {
+        "total": 20,
+        "expected_status": "CONTRADICTED",
+        "safe_to_release": 0,
+        "abstained": 20,
+        "contradiction_detected": 20,
+        "accurate_decision": 20,
+        "verdict_counts": {
+          "CONTRADICTED": 20
+        }
+      },
+      "geographic_contradiction": {
+        "total": 15,
+        "expected_status": "CONTRADICTED",
+        "safe_to_release": 5,
+        "abstained": 10,
+        "contradiction_detected": 10,
+        "accurate_decision": 10,
+        "verdict_counts": {
+          "CONTRADICTED": 10,
+          "SUPPORTED": 5
+        }
+      },
+      "temporal_numerical_contradiction": {
+        "total": 20,
+        "expected_status": "CONTRADICTED",
+        "safe_to_release": 0,
+        "abstained": 20,
+        "contradiction_detected": 20,
+        "accurate_decision": 20,
+        "verdict_counts": {
+          "CONTRADICTED": 20
+        }
+      },
+      "implicit_semantic_contradiction": {
+        "total": 15,
+        "expected_status": "CONTRADICTED",
+        "safe_to_release": 0,
+        "abstained": 15,
+        "contradiction_detected": 5,
+        "accurate_decision": 15,
+        "verdict_counts": {
+          "INSUFFICIENT_EVIDENCE": 10,
+          "CONTRADICTED": 5
+        }
+      }
+    }
+  },
+  "workstream_production_neural": {
+    "workstream": "Production Neural Inference & Lifecycle Audit",
+    "profile_a_deterministic": {
+      "cold_start_ms": 81.325,
+      "warm_requests": 20,
+      "reported_modes": [
+        "deterministic_cpu"
+      ],
+      "mean_ms": 56.435,
+      "p50_ms": 56.254,
+      "p90_ms": 57.62,
+      "p95_ms": 58.605,
+      "p99_ms": 58.613
+    },
+    "profile_b_neural_deberta": {
+      "cold_start_ms": 8652.653,
+      "cold_start_nli_calls": 24,
+      "cold_start_torch_forwards": 24,
+      "warm_requests": 15,
+      "warm_nli_calls_total": 360,
+      "warm_torch_forwards_total": 496,
+      "forward_passes_per_request": 24.0,
+      "reported_modes": [
+        "neural_deberta_cpu"
+      ],
+      "g1_mean_ms": 1.906,
+      "neural_nli_mean_per_request_ms": 2505.935,
+      "neural_nli_mean_per_pass_ms": 104.414,
+      "full_request_mean_ms": 2577.909,
+      "p50_ms": 2545.236,
+      "p90_ms": 2856.561,
+      "p95_ms": 2936.238,
+      "p99_ms": 2948.616,
+      "cpu_time_sec": 406.923,
+      "peak_rss_mb": 777.93,
+      "rss_delta_mb": 437.8
+    },
+    "lifecycle_stress": {
+      "concurrency_12_requests_ok": 12,
+      "concurrency_modes": [
+        "deterministic_cpu",
+        "neural_deberta_cpu"
+      ],
+      "timeout_status": "ERROR",
+      "timeout_g1_decision": "TIMEOUT",
+      "timeout_abstained": true,
+      "cancellation_queued_future_cancelled": true,
+      "shutdown_status": "ERROR",
+      "shutdown_g1_decision": "SERVICE_SHUTDOWN",
+      "shutdown_abstained": true
+    }
+  },
+  "dataset_independence": {
+    "g1": {
+      "counts": {
+        "phase37": 260,
+        "phase38": 300,
+        "phase39": 330
+      },
+      "unique_phase39": 330,
+      "internal_template_duplicates_phase39": 0,
+      "exact_overlap_p37_vs_p39": 0,
+      "exact_overlap_p38_vs_p39": 0,
+      "near_duplicate_p37_vs_p39_ge85": 0,
+      "near_duplicate_p38_vs_p39_ge85": 0
+    },
+    "firewall": {
+      "counts": {
+        "phase37": 140,
+        "phase38": 150,
+        "phase39": 160
+      },
+      "unique_phase39": 26,
+      "internal_template_duplicates_phase39": 134,
+      "exact_overlap_p37_vs_p39": 0,
+      "exact_overlap_p38_vs_p39": 0,
+      "near_duplicate_p37_vs_p39_ge85": 0,
+      "near_duplicate_p38_vs_p39_ge85": 0
+    },
+    "multilingual": {
+      "counts": {
+        "phase37": 270,
+        "phase38": 270,
+        "phase39": 360
+      },
+      "unique_phase39": 180,
+      "internal_template_duplicates_phase39": 180,
+      "exact_overlap_p37_vs_p39": 0,
+      "exact_overlap_p38_vs_p39": 0,
+      "near_duplicate_p37_vs_p39_ge85": 0,
+      "near_duplicate_p38_vs_p39_ge85": 0
+    },
+    "evidence": {
+      "counts": {
+        "phase37": 100,
+        "phase38": 100,
+        "phase39": 140
+      },
+      "unique_phase39": 30,
+      "internal_template_duplicates_phase39": 110,
+      "exact_overlap_p37_vs_p39": 0,
+      "exact_overlap_p38_vs_p39": 0,
+      "near_duplicate_p37_vs_p39_ge85": 0,
+      "near_duplicate_p38_vs_p39_ge85": 0
+    }
+  }
+}

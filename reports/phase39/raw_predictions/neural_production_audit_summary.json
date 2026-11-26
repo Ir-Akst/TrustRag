@@ -1,0 +1,52 @@
+{
+  "workstream": "Production Neural Inference & Lifecycle Audit",
+  "profile_a_deterministic": {
+    "cold_start_ms": 81.325,
+    "warm_requests": 20,
+    "reported_modes": [
+      "deterministic_cpu"
+    ],
+    "mean_ms": 56.435,
+    "p50_ms": 56.254,
+    "p90_ms": 57.62,
+    "p95_ms": 58.605,
+    "p99_ms": 58.613
+  },
+  "profile_b_neural_deberta": {
+    "cold_start_ms": 8652.653,
+    "cold_start_nli_calls": 24,
+    "cold_start_torch_forwards": 24,
+    "warm_requests": 15,
+    "warm_nli_calls_total": 360,
+    "warm_torch_forwards_total": 496,
+    "forward_passes_per_request": 24.0,
+    "reported_modes": [
+      "neural_deberta_cpu"
+    ],
+    "g1_mean_ms": 1.906,
+    "neural_nli_mean_per_request_ms": 2505.935,
+    "neural_nli_mean_per_pass_ms": 104.414,
+    "full_request_mean_ms": 2577.909,
+    "p50_ms": 2545.236,
+    "p90_ms": 2856.561,
+    "p95_ms": 2936.238,
+    "p99_ms": 2948.616,
+    "cpu_time_sec": 406.923,
+    "peak_rss_mb": 777.93,
+    "rss_delta_mb": 437.8
+  },
+  "lifecycle_stress": {
+    "concurrency_12_requests_ok": 12,
+    "concurrency_modes": [
+      "deterministic_cpu",
+      "neural_deberta_cpu"
+    ],
+    "timeout_status": "ERROR",
+    "timeout_g1_decision": "TIMEOUT",
+    "timeout_abstained": true,
+    "cancellation_queued_future_cancelled": true,
+    "shutdown_status": "ERROR",
+    "shutdown_g1_decision": "SERVICE_SHUTDOWN",
+    "shutdown_abstained": true
+  }
+}

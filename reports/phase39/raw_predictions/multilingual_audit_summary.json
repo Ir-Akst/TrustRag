@@ -1,0 +1,223 @@
+{
+  "workstream": "Multilingual Independent Generalization Audit",
+  "sample_counts": {
+    "total": 360,
+    "attacks": 270,
+    "benign": 90
+  },
+  "overall_metrics": {
+    "overall_adr": 0.5926,
+    "overall_adr_95ci": [
+      0.5331,
+      0.6495
+    ],
+    "overall_asr": 0.4074,
+    "overall_fpr": 0.0222,
+    "overall_fpr_95ci": [
+      0.0061,
+      0.0774
+    ]
+  },
+  "per_category_totals": {
+    "native_attack": {
+      "total": 90,
+      "blocked": 70,
+      "rate": 0.7778,
+      "ci_95": [
+        0.6815,
+        0.8513
+      ]
+    },
+    "transliterated_unseen": {
+      "total": 90,
+      "blocked": 26,
+      "rate": 0.2889,
+      "ci_95": [
+        0.2054,
+        0.3896
+      ]
+    },
+    "mixed_script_paraphrase": {
+      "total": 90,
+      "blocked": 64,
+      "rate": 0.7111,
+      "ci_95": [
+        0.6104,
+        0.7946
+      ]
+    },
+    "benign_control": {
+      "total": 90,
+      "blocked": 2,
+      "rate": 0.0222,
+      "ci_95": [
+        0.0061,
+        0.0774
+      ]
+    }
+  },
+  "per_language_breakdown": {
+    "English": {
+      "attack_denominator": 30,
+      "benign_denominator": 10,
+      "adr": 0.2,
+      "asr": 0.8,
+      "adr_95ci": [
+        0.0951,
+        0.3731
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ],
+      "native_detected": "2/10",
+      "translit_unseen_detected": "0/10",
+      "mixed_paraphrase_detected": "4/10"
+    },
+    "Spanish": {
+      "attack_denominator": 30,
+      "benign_denominator": 10,
+      "adr": 0.7333,
+      "asr": 0.2667,
+      "adr_95ci": [
+        0.5555,
+        0.8582
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ],
+      "native_detected": "10/10",
+      "translit_unseen_detected": "4/10",
+      "mixed_paraphrase_detected": "8/10"
+    },
+    "French": {
+      "attack_denominator": 30,
+      "benign_denominator": 10,
+      "adr": 0.7333,
+      "asr": 0.2667,
+      "adr_95ci": [
+        0.5555,
+        0.8582
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ],
+      "native_detected": "8/10",
+      "translit_unseen_detected": "8/10",
+      "mixed_paraphrase_detected": "6/10"
+    },
+    "German": {
+      "attack_denominator": 30,
+      "benign_denominator": 10,
+      "adr": 0.6667,
+      "asr": 0.3333,
+      "adr_95ci": [
+        0.4878,
+        0.8077
+      ],
+      "fpr": 0.2,
+      "fpr_95ci": [
+        0.0567,
+        0.5098
+      ],
+      "native_detected": "6/10",
+      "translit_unseen_detected": "6/10",
+      "mixed_paraphrase_detected": "8/10"
+    },
+    "Russian": {
+      "attack_denominator": 30,
+      "benign_denominator": 10,
+      "adr": 0.6,
+      "asr": 0.4,
+      "adr_95ci": [
+        0.4232,
+        0.7541
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ],
+      "native_detected": "10/10",
+      "translit_unseen_detected": "0/10",
+      "mixed_paraphrase_detected": "8/10"
+    },
+    "Hindi": {
+      "attack_denominator": 30,
+      "benign_denominator": 10,
+      "adr": 0.8667,
+      "asr": 0.1333,
+      "adr_95ci": [
+        0.7032,
+        0.9469
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ],
+      "native_detected": "10/10",
+      "translit_unseen_detected": "8/10",
+      "mixed_paraphrase_detected": "8/10"
+    },
+    "Arabic": {
+      "attack_denominator": 30,
+      "benign_denominator": 10,
+      "adr": 0.5333,
+      "asr": 0.4667,
+      "adr_95ci": [
+        0.3614,
+        0.6977
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ],
+      "native_detected": "10/10",
+      "translit_unseen_detected": "0/10",
+      "mixed_paraphrase_detected": "6/10"
+    },
+    "Chinese": {
+      "attack_denominator": 30,
+      "benign_denominator": 10,
+      "adr": 0.5333,
+      "asr": 0.4667,
+      "adr_95ci": [
+        0.3614,
+        0.6977
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ],
+      "native_detected": "8/10",
+      "translit_unseen_detected": "0/10",
+      "mixed_paraphrase_detected": "8/10"
+    },
+    "Japanese": {
+      "attack_denominator": 30,
+      "benign_denominator": 10,
+      "adr": 0.4667,
+      "asr": 0.5333,
+      "adr_95ci": [
+        0.3023,
+        0.6386
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ],
+      "native_detected": "6/10",
+      "translit_unseen_detected": "0/10",
+      "mixed_paraphrase_detected": "8/10"
+    }
+  }
+}
