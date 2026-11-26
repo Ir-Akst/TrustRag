@@ -1,0 +1,145 @@
+{
+  "workstream": "G3 Independent Evidence Verification Stress Test",
+  "sample_counts": {
+    "total": 140,
+    "supported": 35,
+    "contradicted": 70,
+    "unsupported": 20,
+    "partially_supported": 15
+  },
+  "metrics": {
+    "overall_gate_accuracy": 0.9214,
+    "overall_gate_accuracy_95ci": [
+      0.8648,
+      0.9556
+    ],
+    "supported_acceptance_rate": 0.8286,
+    "supported_acceptance_95ci": [
+      0.6732,
+      0.919
+    ],
+    "false_abstention_rate": 0.1714,
+    "false_abstention_95ci": [
+      0.081,
+      0.3268
+    ],
+    "contradiction_recall": 0.7857,
+    "contradiction_recall_95ci": [
+      0.6761,
+      0.8656
+    ],
+    "unsupported_leakage_rate": 0.0,
+    "unsupported_leakage_95ci": [
+      0.0,
+      0.1611
+    ],
+    "partially_supported_leakage_rate": 0.0,
+    "partially_supported_leakage_95ci": [
+      0.0,
+      0.2039
+    ],
+    "release_precision": 0.8529,
+    "release_recall": 0.8286
+  },
+  "release_confusion_matrix": {
+    "tp": 29,
+    "fp": 5,
+    "tn": 100,
+    "fn": 6
+  },
+  "per_category_breakdown": {
+    "supported_exact": {
+      "total": 20,
+      "expected_status": "SUPPORTED",
+      "safe_to_release": 20,
+      "abstained": 0,
+      "contradiction_detected": 0,
+      "accurate_decision": 20,
+      "verdict_counts": {
+        "SUPPORTED": 20
+      }
+    },
+    "supported_paraphrase": {
+      "total": 15,
+      "expected_status": "SUPPORTED",
+      "safe_to_release": 9,
+      "abstained": 6,
+      "contradiction_detected": 3,
+      "accurate_decision": 9,
+      "verdict_counts": {
+        "INSUFFICIENT_EVIDENCE": 3,
+        "SUPPORTED": 9,
+        "CONTRADICTED": 3
+      }
+    },
+    "partially_supported": {
+      "total": 15,
+      "expected_status": "PARTIALLY_SUPPORTED",
+      "safe_to_release": 0,
+      "abstained": 15,
+      "contradiction_detected": 0,
+      "accurate_decision": 15,
+      "verdict_counts": {
+        "PARTIALLY_SUPPORTED": 15
+      }
+    },
+    "unsupported_hallucination": {
+      "total": 20,
+      "expected_status": "INSUFFICIENT_EVIDENCE",
+      "safe_to_release": 0,
+      "abstained": 20,
+      "contradiction_detected": 15,
+      "accurate_decision": 20,
+      "verdict_counts": {
+        "CONTRADICTED": 15,
+        "INSUFFICIENT_EVIDENCE": 5
+      }
+    },
+    "entity_substitution": {
+      "total": 20,
+      "expected_status": "CONTRADICTED",
+      "safe_to_release": 0,
+      "abstained": 20,
+      "contradiction_detected": 20,
+      "accurate_decision": 20,
+      "verdict_counts": {
+        "CONTRADICTED": 20
+      }
+    },
+    "geographic_contradiction": {
+      "total": 15,
+      "expected_status": "CONTRADICTED",
+      "safe_to_release": 5,
+      "abstained": 10,
+      "contradiction_detected": 10,
+      "accurate_decision": 10,
+      "verdict_counts": {
+        "CONTRADICTED": 10,
+        "SUPPORTED": 5
+      }
+    },
+    "temporal_numerical_contradiction": {
+      "total": 20,
+      "expected_status": "CONTRADICTED",
+      "safe_to_release": 0,
+      "abstained": 20,
+      "contradiction_detected": 20,
+      "accurate_decision": 20,
+      "verdict_counts": {
+        "CONTRADICTED": 20
+      }
+    },
+    "implicit_semantic_contradiction": {
+      "total": 15,
+      "expected_status": "CONTRADICTED",
+      "safe_to_release": 0,
+      "abstained": 15,
+      "contradiction_detected": 5,
+      "accurate_decision": 15,
+      "verdict_counts": {
+        "INSUFFICIENT_EVIDENCE": 10,
+        "CONTRADICTED": 5
+      }
+    }
+  }
+}

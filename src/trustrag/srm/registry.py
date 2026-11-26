@@ -15,6 +15,7 @@ from trustrag.srm.backends import (
     OpenAICompatibleAPIBackend,
 )
 from trustrag.srm.hf_local import HuggingFaceLocalSRMBackend
+from trustrag.srm.neural_nli import NeuralNLISRMBackend
 
 BackendBuilder = Callable[[SRMConfig, LLMProviderConfig], BaseSRMBackend]
 
@@ -27,6 +28,7 @@ class SRMBackendRegistry:
         "local_ollama": lambda srm_cfg, llm_cfg: LocalOllamaBackend(srm_cfg, llm_cfg),
         "openai_compatible": lambda srm_cfg, llm_cfg: OpenAICompatibleAPIBackend(srm_cfg, llm_cfg),
         "hf_local": lambda srm_cfg, llm_cfg: HuggingFaceLocalSRMBackend(srm_cfg, llm_cfg),
+        "neural_nli": lambda srm_cfg, llm_cfg: NeuralNLISRMBackend(srm_cfg, llm_cfg),
     }
 
     @classmethod

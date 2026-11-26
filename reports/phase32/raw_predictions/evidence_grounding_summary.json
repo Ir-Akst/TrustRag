@@ -1,0 +1,34 @@
+{
+  "benchmark": "Phase 32 Evidence Grounding & DeBERTa NLI Verification Benchmark",
+  "total_scenarios": 300,
+  "accuracy": 1.0,
+  "accuracy_95ci": [
+    0.9874,
+    1.0
+  ],
+  "safe_to_release_breakdown": {
+    "supported_safe_rate": 1.0,
+    "contradicted_leaked_rate": 0.0,
+    "unsupported_leaked_rate": 0.0
+  },
+  "verdict_confusion_matrix": {
+    "SUPPORTED": {
+      "SUPPORTED": 100,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "PARTIALLY_SUPPORTED": 0
+    },
+    "CONTRADICTED": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 100,
+      "INSUFFICIENT_EVIDENCE": 0,
+      "PARTIALLY_SUPPORTED": 0
+    },
+    "UNSUPPORTED": {
+      "SUPPORTED": 0,
+      "CONTRADICTED": 0,
+      "INSUFFICIENT_EVIDENCE": 100,
+      "PARTIALLY_SUPPORTED": 0
+    }
+  }
+}

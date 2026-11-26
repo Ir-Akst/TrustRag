@@ -41,6 +41,10 @@ class G1ReasonCode(str, Enum):
     G1_MALICIOUS_COMMAND = "G1_MALICIOUS_COMMAND"
     G1_DOS_TRIGGER = "G1_DOS_TRIGGER"
     G1_SUSPICIOUS_META_PATTERN = "G1_SUSPICIOUS_META_PATTERN"
+    G1_HARMFUL_INTENT = "G1_HARMFUL_INTENT"
+    G1_SEMANTIC_ATTACK = "G1_SEMANTIC_ATTACK"
+    G1_MULTILINGUAL_INJECTION = "G1_MULTILINGUAL_INJECTION"
+    G1_INTERNAL_ERROR = "G1_INTERNAL_ERROR"
 
 
 class G1MatchDetail(BaseModel):
@@ -79,6 +83,16 @@ class DocumentTrustDecision(str, Enum):
     TRUST = "TRUST"
     DOWNRANK = "DOWNRANK"
     FILTER = "FILTER"
+
+
+class G2AssessmentStatus(str, Enum):
+    """Execution status for G2 Multi-Signal Detector evaluation."""
+
+    ASSESSMENT_SUCCESS = "ASSESSMENT_SUCCESS"
+    NO_EVIDENCE_SUPPLIED = "NO_EVIDENCE_SUPPLIED"
+    EVIDENCE_INVALID = "EVIDENCE_INVALID"
+    EVIDENCE_FILTERED_PRE_MSD = "EVIDENCE_FILTERED_PRE_MSD"
+    ASSESSMENT_FAILED = "ASSESSMENT_FAILED"
 
 
 class EvidenceDocument(BaseModel):
@@ -514,6 +528,13 @@ class SRMBackendHealth(BaseModel):
     inference_mode: str = "non_think"
     detail: str = ""
     last_error: Optional[str] = None
+    model_loaded: bool = False
+    model_dtype: str = "torch.float32"
+    checkpoint_verified: bool = False
+    last_inference_timestamp: Optional[str] = None
+    last_inference_latency_ms: Optional[float] = None
+    probabilities: Optional[Dict[str, float]] = None
+    state: str = "READY"
 
 
 class SRMResponse(BaseModel):

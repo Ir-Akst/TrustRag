@@ -1,0 +1,9 @@
+Category,Standard_RAG,TrustRAG_G1,TrustRAG_G1_G2,TrustRAG_Optimized
+Prompt Injection (N=125),0.0,100.0,100.0,100.0
+Medical Dosage (N=125),0.0,0.0,100.0,100.0
+Cryptographic (N=125),0.0,0.0,100.0,100.0
+Financial Disinfo (N=125),0.0,0.0,100.0,100.0
+Astrophysics (N=125),0.0,0.0,100.0,100.0
+Duplicate Conflict (N=125),50.0,0.0,100.0,100.0
+Multi-doc 3v1 (N=125),25.0,0.0,100.0,100.0
+Token DoS (N=125),0.0,100.0,100.0,100.0

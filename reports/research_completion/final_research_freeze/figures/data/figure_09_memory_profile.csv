@@ -1,0 +1,6 @@
+Stage,Memory_MB
+Baseline RSS,289.29
+Model Allocated,438.96
+Total Loaded RSS,728.25
+Peak Batch RSS,774.54
+Memory Envelope,1500.0

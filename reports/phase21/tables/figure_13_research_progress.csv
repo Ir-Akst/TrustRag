@@ -1,0 +1,10 @@
+Phase,Date,Event,Metric_Name,Value,Type
+Phase 11.1,Nov 14,DeBERTa NLI Training,Macro F1,84.1,Model
+Phase 11.2,Nov 15,Clean Benchmark,False Contradiction,4.2,Utility
+Phase 13,Nov 16,Synthetic Hardening,Attack Defense,100.0,Security
+Phase 15,Nov 17,Public RAGTruth,Real LLM F1,62.3,Generalization
+Phase 16.1,Nov 18,Reconciliation,Astrophysical FPR,12.5,Audit
+Phase 16.2,Nov 19,Premise Normalization,Clean FPR,0.0,Remediation
+Phase 18,Nov 19,15-Category Red Team,Red-Team ADR,36.1,RedTeam
+Phase 19,Nov 19,CPU 2-Thread Sweetspot,P50 Latency (ms),55.8,Systems
+Phase 20,Nov 19,Immutable Research Freeze,Zero Leakage,100.0,Freeze

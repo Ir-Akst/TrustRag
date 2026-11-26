@@ -368,15 +368,44 @@ class VerificationConfig(_ValidatedConfigModel):
         gt=0.0,
         description="Maximum total retry budget (seconds) for controlled re-answering",
     )
+    # Neural NLI Extension (Phase 12)
+    nli_backend: str = Field(
+        default="heuristic",
+        description="G3 verification backend: 'heuristic', 'neural_nli', or 'hybrid'",
+    )
+    nli_model_path: Optional[str] = Field(
+        default="/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+        description="Path to staged/trained DeBERTa-v3-small NLI checkpoint",
+    )
+    nli_contradiction_threshold: float = Field(
+        default=0.20,
+        ge=0.0,
+        le=1.0,
+        description="Contradiction probability threshold for classifying a claim as CONTRADICTED",
+    )
+    nli_entailment_threshold: float = Field(
+        default=0.50,
+        ge=0.0,
+        le=1.0,
+        description="Entailment probability threshold for classifying a claim as SUPPORTED",
+    )
+    nli_neutral_policy: str = Field(
+        default="insufficient",
+        description="Policy for neutral evidence handling: 'insufficient' or 'uncertain'",
+    )
+    nli_device: str = Field(
+        default="cpu",
+        description="Execution device for neural NLI ('cpu')",
+    )
 
 
 class SRMConfig(_ValidatedConfigModel):
     """Configuration for HalluGuard-inspired Small Reasoning Model (SRM) integration."""
 
     enabled: bool = Field(default=True, description="Whether SRM verification stage is invoked")
-    backend: Literal["disabled", "local_ollama", "openai_compatible", "hf_local", "custom"] = Field(
+    backend: Literal["disabled", "local_ollama", "openai_compatible", "hf_local", "neural_nli", "custom"] = Field(
         default="disabled",
-        description="SRM backend type; 'disabled' activates deterministic fallback directly",
+        description="SRM backend type; 'disabled' activates deterministic fallback directly, 'neural_nli' activates frozen DeBERTa NLI",
     )
     model_name: str = Field(
         default="halluguard-srm-fallback",

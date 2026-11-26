@@ -7,6 +7,7 @@ from typing import Callable, List, Optional, Sequence, Tuple
 from trustrag.config.engine_config import GenerationConfig
 from trustrag.engine.schemas import EvidenceDocument, GeneratedAnswer
 from trustrag.engine.text_utils import compute_lexical_overlap, compute_tfidf_similarities, split_sentences
+from trustrag.retrieval.generator_boundary import GeneratorBoundaryEnforcer
 from trustrag.utils.logging import get_logger
 
 LOGGER = get_logger(__name__)
@@ -19,9 +20,11 @@ class AnswerGenerator:
         self,
         config: Optional[GenerationConfig] = None,
         llm_callable: Optional[Callable[[str, Sequence[EvidenceDocument]], str]] = None,
+        boundary_enforcer: Optional[GeneratorBoundaryEnforcer] = None,
     ) -> None:
         self.config = config or GenerationConfig()
         self.llm_callable = llm_callable
+        self.boundary_enforcer = boundary_enforcer or GeneratorBoundaryEnforcer()
 
     def generate(
         self,
@@ -39,7 +42,19 @@ class AnswerGenerator:
                 generator_mode="override",
             )
 
-        if not trusted_documents:
+        # Phase 40 Priority Zero: Fail-closed generator-boundary enforcement on exact context
+        boundary_res = self.boundary_enforcer.enforce(trusted_documents)
+        if boundary_res.fail_closed_triggered:
+            return GeneratedAnswer(
+                answer_text="Abstaining: retrieved context failed generator-boundary security revalidation.",
+                abstained=True,
+                abstention_reason="GENERATOR_BOUNDARY_FAIL_CLOSED",
+                cited_doc_ids=[],
+                generator_mode=self.config.mode,
+            )
+        safe_documents = boundary_res.safe_documents
+
+        if not safe_documents:
             if self.config.abstain_on_empty_context:
                 return GeneratedAnswer(
                     answer_text="Insufficient trusted evidence is available to answer this query reliably.",
@@ -56,7 +71,7 @@ class AnswerGenerator:
                 generator_mode=self.config.mode,
             )
 
-        context_docs = list(trusted_documents[: self.config.max_context_docs])
+        context_docs = list(safe_documents[: self.config.max_context_docs])
 
         if self.config.mode == "llm_with_fallback" and self.llm_callable is not None:
             try:

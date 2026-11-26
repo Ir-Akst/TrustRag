@@ -1,0 +1,164 @@
+{
+  "benchmark": "Phase 31 Independent G2 Sybil and Retrieval Audit",
+  "removal_cap": 5,
+  "total_k": 10,
+  "num_trials_per_ratio": 20,
+  "results_by_ratio": {
+    "10%": {
+      "ratio": 0.1,
+      "target_poison_passages": 1,
+      "target_clean_passages": 9,
+      "trials": 20,
+      "total_poison_injected": 20,
+      "total_poison_detected": 20,
+      "total_poison_removed": 20,
+      "total_residual_poison": 0,
+      "total_clean_presented": 180,
+      "total_clean_retained": 180,
+      "total_clean_falsely_removed": 0,
+      "detection_rate": 1.0,
+      "removal_rate": 1.0,
+      "residual_rate": 0.0,
+      "clean_retention_rate": 1.0,
+      "clean_fpr": 0.0,
+      "removal_ci_95": [
+        0.8389,
+        1.0
+      ],
+      "clean_retention_ci_95": [
+        0.9791,
+        1.0
+      ]
+    },
+    "20%": {
+      "ratio": 0.2,
+      "target_poison_passages": 2,
+      "target_clean_passages": 8,
+      "trials": 20,
+      "total_poison_injected": 40,
+      "total_poison_detected": 40,
+      "total_poison_removed": 40,
+      "total_residual_poison": 0,
+      "total_clean_presented": 160,
+      "total_clean_retained": 160,
+      "total_clean_falsely_removed": 0,
+      "detection_rate": 1.0,
+      "removal_rate": 1.0,
+      "residual_rate": 0.0,
+      "clean_retention_rate": 1.0,
+      "clean_fpr": 0.0,
+      "removal_ci_95": [
+        0.9124,
+        1.0
+      ],
+      "clean_retention_ci_95": [
+        0.9766,
+        1.0
+      ]
+    },
+    "40%": {
+      "ratio": 0.4,
+      "target_poison_passages": 4,
+      "target_clean_passages": 6,
+      "trials": 20,
+      "total_poison_injected": 80,
+      "total_poison_detected": 80,
+      "total_poison_removed": 80,
+      "total_residual_poison": 0,
+      "total_clean_presented": 120,
+      "total_clean_retained": 120,
+      "total_clean_falsely_removed": 0,
+      "detection_rate": 1.0,
+      "removal_rate": 1.0,
+      "residual_rate": 0.0,
+      "clean_retention_rate": 1.0,
+      "clean_fpr": 0.0,
+      "removal_ci_95": [
+        0.9542,
+        1.0
+      ],
+      "clean_retention_ci_95": [
+        0.969,
+        1.0
+      ]
+    },
+    "50%": {
+      "ratio": 0.5,
+      "target_poison_passages": 5,
+      "target_clean_passages": 5,
+      "trials": 20,
+      "total_poison_injected": 100,
+      "total_poison_detected": 100,
+      "total_poison_removed": 100,
+      "total_residual_poison": 0,
+      "total_clean_presented": 100,
+      "total_clean_retained": 100,
+      "total_clean_falsely_removed": 0,
+      "detection_rate": 1.0,
+      "removal_rate": 1.0,
+      "residual_rate": 0.0,
+      "clean_retention_rate": 1.0,
+      "clean_fpr": 0.0,
+      "removal_ci_95": [
+        0.963,
+        1.0
+      ],
+      "clean_retention_ci_95": [
+        0.963,
+        1.0
+      ]
+    },
+    "60%": {
+      "ratio": 0.6,
+      "target_poison_passages": 6,
+      "target_clean_passages": 4,
+      "trials": 20,
+      "total_poison_injected": 120,
+      "total_poison_detected": 120,
+      "total_poison_removed": 100,
+      "total_residual_poison": 20,
+      "total_clean_presented": 80,
+      "total_clean_retained": 80,
+      "total_clean_falsely_removed": 0,
+      "detection_rate": 1.0,
+      "removal_rate": 0.8333,
+      "residual_rate": 0.1667,
+      "clean_retention_rate": 1.0,
+      "clean_fpr": 0.0,
+      "removal_ci_95": [
+        0.7565,
+        0.8894
+      ],
+      "clean_retention_ci_95": [
+        0.9542,
+        1.0
+      ]
+    },
+    "80%": {
+      "ratio": 0.8,
+      "target_poison_passages": 8,
+      "target_clean_passages": 2,
+      "trials": 20,
+      "total_poison_injected": 160,
+      "total_poison_detected": 160,
+      "total_poison_removed": 100,
+      "total_residual_poison": 60,
+      "total_clean_presented": 40,
+      "total_clean_retained": 40,
+      "total_clean_falsely_removed": 0,
+      "detection_rate": 1.0,
+      "removal_rate": 0.625,
+      "residual_rate": 0.375,
+      "clean_retention_rate": 1.0,
+      "clean_fpr": 0.0,
+      "removal_ci_95": [
+        0.5479,
+        0.6963
+      ],
+      "clean_retention_ci_95": [
+        0.9124,
+        1.0
+      ]
+    }
+  }
+}

@@ -1,0 +1,6 @@
+Architecture,Latency_P50_ms,ADR_pct,Pareto
+Standard RAG,3.29,14.29,False
+TrustRAG G1,3.43,14.29,False
+TrustRAG G1+G2,3.36,100.0,True
+TrustRAG G1+G2+G3 Base,96.06,100.0,False
+TrustRAG G1+G2+G3 Opt,55.84,100.0,True

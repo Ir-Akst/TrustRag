@@ -26,12 +26,14 @@ COPY --from=builder /usr/local/bin /usr/local/bin
 # Copy application source, configs, and assets
 COPY src/ /app/src/
 COPY configs/ /app/configs/
+COPY frontend/ /app/frontend/
 COPY pyproject.toml /app/pyproject.toml
 
 ENV PYTHONPATH=/app/src
 ENV PYTHONUNBUFFERED=1
 ENV TRUSTRAG_HOST=0.0.0.0
-ENV TRUSTRAG_PORT=3000
+ENV TRUSTRAG_PORT=8000
+ENV TRUSTRAG_FRONTEND_DIR=/app/frontend
 
 # Create non-root user for security
 RUN useradd -m -u 1001 trustrag && \
@@ -40,10 +42,9 @@ RUN useradd -m -u 1001 trustrag && \
 
 USER trustrag
 
-EXPOSE 3000
+EXPOSE 8000
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
-    CMD curl -f http://localhost:3000/health || exit 1
+    CMD curl -f http://localhost:8000/health || exit 1
 
-CMD ["python", "-m", "trustrag.api.server", "--host", "0.0.0.0", "--port", "3000"]
-
+CMD ["python", "-m", "trustrag.api.server", "--host", "0.0.0.0", "--port", "8000", "--frontend-dir", "/app/frontend"]

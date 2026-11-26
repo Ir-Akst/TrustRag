@@ -1,0 +1,32 @@
+{
+  "checkpoint_name": "deberta-v3-small-nli-phase11_1-full3epoch",
+  "checkpoint_directory": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+  "architecture": "DeBERTaV2ForSequenceClassification",
+  "base_model": "microsoft/deberta-v3-small",
+  "parameter_count": 86853891,
+  "num_classes": 3,
+  "label_mapping": {
+    "0": "CONTRADICTION",
+    "1": "ENTAILMENT",
+    "2": "NEUTRAL"
+  },
+  "max_position_embeddings": 512,
+  "training_hyperparameters": {
+    "num_train_epochs": 3,
+    "per_device_train_batch_size": 32,
+    "learning_rate": 3e-5,
+    "warmup_ratio": 0.1,
+    "weight_decay": 0.01,
+    "seed": 42
+  },
+  "file_hashes_sha256": {
+    "config.json": "949987817ebcb00f576e2c39e247481ba93fb303530e70be38cf3f5b721e784d",
+    "pytorch_model.bin": "f758782a17058fc3cb630256860ee1f67f0b83e659b87b2b73dbb893bb079d8a",
+    "tokenizer_config.json": "cfd15024b89fa7ba88a53ea8f20387b99c8bfbe0aa314eb4ff1bf50284eb3b17",
+    "spm.model": "463690d56567554f676239121d51c31405e3f4ad3692a83e02029b4724cb4d1f",
+    "special_tokens_map.json": "a2007ff024dc5c4b143c7b20fc6abfc9825b29cb2fe98ab2dbf4bf12fb9471fc",
+    "tokenizer.json": "2350ef91e4695eb1df677d612e4b47eb5957d1976a4ba2ec06f7532dfc282664",
+    "added_tokens.json": "49733efd131f4ee7716f6b5b5c907bba0956b90de254c728795ff5eb578276f5",
+    "training_args.bin": "98471fb63cbff8d1e3dbe7cfdf9d9cc2cbe48ab65b1626f2945d812423914a2a"
+  }
+}

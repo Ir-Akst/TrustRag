@@ -1,0 +1,10 @@
+Benchmark,Split,Scenario,Total_Queries,Defended_A,Defended_D,Defended_F,ADR_F_Pct,95CI
+PoisonedRAG,HotpotQA,SingleDoc_k1,100,8,8,100,100.0,"[np.float64(96.3), 100.0]"
+PoisonedRAG,MSMARCO,SingleDoc_k1,100,11,11,100,100.0,"[np.float64(96.3), 100.0]"
+PoisonedRAG,NQ,SingleDoc_k1,100,9,9,100,100.0,"[np.float64(96.3), 100.0]"
+PoisonedRAG,Combined,SybilMultiDoc_k5,300,16,16,16,5.33,"[np.float64(3.31), np.float64(8.49)]"
+PoisonedRAG,Combined,CleanControl,300,300,300,300,100.0,"[np.float64(98.74), np.float64(100.0)]"
+RSB,MSMARCO,SingleDoc_k1,100,24,24,100,100.0,"[np.float64(96.3), 100.0]"
+RSB,NQ,SingleDoc_k1,100,28,28,100,100.0,"[np.float64(96.3), 100.0]"
+RSB,Combined,SybilMultiDoc_k5,200,49,49,49,24.5,"[np.float64(19.06), np.float64(30.9)]"
+RSB,Combined,CleanControl,200,200,200,200,100.0,"[np.float64(98.12), 100.0]"

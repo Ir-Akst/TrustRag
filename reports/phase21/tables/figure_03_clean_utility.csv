@@ -1,0 +1,3 @@
+Version,Clean_FPR,FPR_low,FPR_high,Clean_Delivery,Del_low,Del_high
+Phase 16.1 Baseline (Unnormalized),12.5,10.59,14.69,87.5,85.31,89.41
+Phase 16.2 Optimized (Citation Normalization),0.0,0.0,0.38,100.0,99.62,100.0

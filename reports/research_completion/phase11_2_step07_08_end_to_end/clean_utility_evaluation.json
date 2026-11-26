@@ -1,0 +1,310 @@
+{
+  "experiment_metadata": {
+    "experiment": "Phase 11.2 Step 07-08 Clean Utility Evaluation",
+    "dataset_sources": [
+      "TrustRAG Custom Security Benchmark (clean subset, N=1,000)",
+      "RAGTruth Held-Out Test Benchmark (clean evidence subset, N=2,231)",
+      "BoolQ Verification Subset (N=15)"
+    ],
+    "total_clean_samples_evaluated": 3246,
+    "frozen_checkpoint": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+    "random_seed": 42
+  },
+  "pipeline_configurations_clean_utility": {
+    "baseline_rag": {
+      "description": "Raw RAG without G1 screening, G2 filtering, or G3 verification",
+      "total_queries": 1000,
+      "clean_answers_delivered": 1000,
+      "delivery_rate": 1.0,
+      "delivery_rate_95ci": [
+        0.9961731014136095,
+        1.0
+      ],
+      "abstained_queries": 0,
+      "blocked_queries": 0,
+      "clean_evidence_preservation_rate": 1.0,
+      "clean_evidence_preservation_95ci": [
+        0.996,
+        1.0
+      ],
+      "clean_evidence_false_rejection_rate": 0.0,
+      "mean_latency_ms": 0.0005663069096044637
+    },
+    "g1_only": {
+      "description": "G1 Input Guardrail enabled; G2 and G3 disabled",
+      "total_queries": 1000,
+      "clean_answers_delivered": 1000,
+      "delivery_rate": 1.0,
+      "delivery_rate_95ci": [
+        0.9961731014136095,
+        1.0
+      ],
+      "abstained_queries": 0,
+      "blocked_queries": 0,
+      "clean_evidence_preservation_rate": 1.0,
+      "clean_evidence_preservation_95ci": [
+        0.996,
+        1.0
+      ],
+      "clean_evidence_false_rejection_rate": 0.0,
+      "mean_latency_ms": 0.07261482283502119
+    },
+    "g1_g2": {
+      "description": "G1 Input Guardrail + G2 Multi-Signal Detector; G3 disabled",
+      "total_queries": 1000,
+      "clean_answers_delivered": 1000,
+      "delivery_rate": 1.0,
+      "delivery_rate_95ci": [
+        0.9961731014136095,
+        1.0
+      ],
+      "abstained_queries": 0,
+      "blocked_queries": 0,
+      "clean_evidence_preservation_rate": 1.0,
+      "clean_evidence_preservation_95ci": [
+        0.996,
+        1.0
+      ],
+      "clean_evidence_false_rejection_rate": 0.0,
+      "mean_latency_ms": 1.4032468441146193
+    },
+    "full_trustrag_heuristic": {
+      "description": "Full TrustRAG (G1 + G2 + G3 Heuristic Verifier)",
+      "total_queries": 1000,
+      "clean_answers_delivered": 1000,
+      "delivery_rate": 1.0,
+      "delivery_rate_95ci": [
+        0.9961731014136095,
+        1.0
+      ],
+      "abstained_queries": 0,
+      "blocked_queries": 0,
+      "clean_evidence_preservation_rate": 1.0,
+      "clean_evidence_preservation_95ci": [
+        0.996,
+        1.0
+      ],
+      "clean_evidence_false_rejection_rate": 0.0,
+      "verdict_distribution": {
+        "SUPPORTED": 875,
+        "INSUFFICIENT_EVIDENCE": 125
+      },
+      "mean_latency_ms": 4.942244230056531
+    }
+  },
+  "neural_nli_clean_benchmark_operating_points": {
+    "0.16": {
+      "uncalibrated": {
+        "threshold": 0.16,
+        "clean_samples_total": 2231,
+        "clean_preserved_count": 1955,
+        "clean_preservation_rate": 0.8762886597938144,
+        "clean_preservation_95ci": [
+          0.8619756268496184,
+          0.8893080435456346
+        ],
+        "false_contradiction_count": 276,
+        "false_contradiction_rate": 0.12371134020618557,
+        "false_contradiction_95ci": [
+          0.11069195645436539,
+          0.13802437315038157
+        ],
+        "fp_entailment": 118,
+        "fp_neutral": 158,
+        "abstention_impact_rate": 0.12371134020618557
+      },
+      "calibrated": {
+        "threshold": 0.16,
+        "clean_samples_total": 2231,
+        "clean_preserved_count": 1412,
+        "clean_preservation_rate": 0.6329000448229494,
+        "clean_preservation_95ci": [
+          0.6126858290326489,
+          0.652657361285627
+        ],
+        "false_contradiction_count": 819,
+        "false_contradiction_rate": 0.36709995517705063,
+        "false_contradiction_95ci": [
+          0.3473426387143731,
+          0.3873141709673512
+        ],
+        "fp_entailment": 497,
+        "fp_neutral": 322,
+        "abstention_impact_rate": 0.36709995517705063
+      }
+    },
+    "0.20": {
+      "uncalibrated": {
+        "threshold": 0.2,
+        "clean_samples_total": 2231,
+        "clean_preserved_count": 2132,
+        "clean_preservation_rate": 0.9556252801434334,
+        "clean_preservation_95ci": [
+          0.9462684639636784,
+          0.9634156944124678
+        ],
+        "false_contradiction_count": 99,
+        "false_contradiction_rate": 0.04437471985656656,
+        "false_contradiction_95ci": [
+          0.03658430558753217,
+          0.05373153603632162
+        ],
+        "fp_entailment": 43,
+        "fp_neutral": 56,
+        "abstention_impact_rate": 0.04437471985656656
+      },
+      "calibrated": {
+        "threshold": 0.2,
+        "clean_samples_total": 2231,
+        "clean_preserved_count": 1753,
+        "clean_preservation_rate": 0.7857463021066786,
+        "clean_preservation_95ci": [
+          0.7682367054982383,
+          0.8022735266363344
+        ],
+        "false_contradiction_count": 478,
+        "false_contradiction_rate": 0.21425369789332138,
+        "false_contradiction_95ci": [
+          0.19772647336366553,
+          0.23176329450176172
+        ],
+        "fp_entailment": 235,
+        "fp_neutral": 243,
+        "abstention_impact_rate": 0.21425369789332138
+      }
+    },
+    "0.24": {
+      "uncalibrated": {
+        "threshold": 0.24,
+        "clean_samples_total": 2231,
+        "clean_preserved_count": 2172,
+        "clean_preservation_rate": 0.9735544598834603,
+        "clean_preservation_95ci": [
+          0.966038258158029,
+          0.9794426206657768
+        ],
+        "false_contradiction_count": 59,
+        "false_contradiction_rate": 0.026445540116539667,
+        "false_contradiction_95ci": [
+          0.020557379334223275,
+          0.033961741841971045
+        ],
+        "fp_entailment": 23,
+        "fp_neutral": 36,
+        "abstention_impact_rate": 0.026445540116539667
+      },
+      "calibrated": {
+        "threshold": 0.24,
+        "clean_samples_total": 2231,
+        "clean_preserved_count": 1982,
+        "clean_preservation_rate": 0.8883908561183326,
+        "clean_preservation_95ci": [
+          0.8746509357111727,
+          0.9007955209862506
+        ],
+        "false_contradiction_count": 249,
+        "false_contradiction_rate": 0.11160914388166741,
+        "false_contradiction_95ci": [
+          0.09920447901374944,
+          0.12534906428882733
+        ],
+        "fp_entailment": 96,
+        "fp_neutral": 153,
+        "abstention_impact_rate": 0.11160914388166741
+      }
+    },
+    "0.25": {
+      "uncalibrated": {
+        "threshold": 0.25,
+        "clean_samples_total": 2231,
+        "clean_preserved_count": 2173,
+        "clean_preservation_rate": 0.974002689376961,
+        "clean_preservation_95ci": [
+          0.9665403118466783,
+          0.979835484988319
+        ],
+        "false_contradiction_count": 58,
+        "false_contradiction_rate": 0.025997310623038995,
+        "false_contradiction_95ci": [
+          0.020164515011681046,
+          0.03345968815332179
+        ],
+        "fp_entailment": 22,
+        "fp_neutral": 36,
+        "abstention_impact_rate": 0.025997310623038995
+      },
+      "calibrated": {
+        "threshold": 0.25,
+        "clean_samples_total": 2231,
+        "clean_preserved_count": 2031,
+        "clean_preservation_rate": 0.9103541012998655,
+        "clean_preservation_95ci": [
+          0.8977836057102174,
+          0.9215138335355887
+        ],
+        "false_contradiction_count": 200,
+        "false_contradiction_rate": 0.08964589870013447,
+        "false_contradiction_95ci": [
+          0.07848616646441132,
+          0.10221639428978262
+        ],
+        "fp_entailment": 76,
+        "fp_neutral": 124,
+        "abstention_impact_rate": 0.08964589870013447
+      }
+    },
+    "0.50": {
+      "uncalibrated": {
+        "threshold": 0.5,
+        "clean_samples_total": 2231,
+        "clean_preserved_count": 2180,
+        "clean_preservation_rate": 0.9771402958314657,
+        "clean_preservation_95ci": [
+          0.9700695661879851,
+          0.9825706567253524
+        ],
+        "false_contradiction_count": 51,
+        "false_contradiction_rate": 0.02285970416853429,
+        "false_contradiction_95ci": [
+          0.01742934327464764,
+          0.029930433812014785
+        ],
+        "fp_entailment": 19,
+        "fp_neutral": 32,
+        "abstention_impact_rate": 0.02285970416853429
+      },
+      "calibrated": {
+        "threshold": 0.5,
+        "clean_samples_total": 2231,
+        "clean_preserved_count": 2184,
+        "clean_preservation_rate": 0.9789332138054684,
+        "clean_preservation_95ci": [
+          0.97209930617468,
+          0.9841205887834236
+        ],
+        "false_contradiction_count": 47,
+        "false_contradiction_rate": 0.0210667861945316,
+        "false_contradiction_95ci": [
+          0.01587941121657647,
+          0.027900693825320014
+        ],
+        "fp_entailment": 17,
+        "fp_neutral": 30,
+        "abstention_impact_rate": 0.0210667861945316
+      }
+    }
+  },
+  "boolq_verification_subset": {
+    "total_queries": 15,
+    "clean_answered": 12,
+    "abstained": 3,
+    "blocked": 0,
+    "clean_answer_rate": 0.8,
+    "clean_answer_rate_95ci": [
+      0.5481406466534955,
+      0.9295257935638959
+    ],
+    "abstention_rate": 0.2,
+    "mean_latency_ms": 27.242
+  }
+}

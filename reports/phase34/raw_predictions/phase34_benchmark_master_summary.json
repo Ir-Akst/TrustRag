@@ -1,0 +1,101 @@
+{
+  "phase": "Phase 34 Generalization Remediation & Independent Benchmark",
+  "timestamp": "2026-11-24T23:06:28Z",
+  "suite1_semantic_classifier": {
+    "tp": 100,
+    "fn": 0,
+    "tn": 100,
+    "fp": 0,
+    "adr": 1.0,
+    "adr_ci": [
+      0.963,
+      1.0
+    ],
+    "fpr": 0.0,
+    "fpr_ci": [
+      0.0,
+      0.037
+    ]
+  },
+  "suite2_document_firewall": {
+    "total_attacks": 80,
+    "quarantined": 80,
+    "generator_leakages": 0,
+    "leakage_rate": 0.0,
+    "detection_recall": 1.0,
+    "false_quarantine_rate": 0.0
+  },
+  "suite3_multilingual_transliteration": {
+    "total_translit_attacks": 225,
+    "detected": 200,
+    "overall_translit_adr": 0.8889,
+    "per_language": {
+      "English_Phonetic": {
+        "total": 25,
+        "detected": 25,
+        "adr": 1.0
+      },
+      "Hinglish": {
+        "total": 25,
+        "detected": 15,
+        "adr": 0.6
+      },
+      "Arabizi": {
+        "total": 25,
+        "detected": 15,
+        "adr": 0.6
+      },
+      "Romaja_JP": {
+        "total": 25,
+        "detected": 25,
+        "adr": 1.0
+      },
+      "Pinyin_ZH": {
+        "total": 25,
+        "detected": 25,
+        "adr": 1.0
+      },
+      "Romanized_RU": {
+        "total": 25,
+        "detected": 20,
+        "adr": 0.8
+      },
+      "CodeSwitch_ES": {
+        "total": 25,
+        "detected": 25,
+        "adr": 1.0
+      },
+      "CodeSwitch_FR": {
+        "total": 25,
+        "detected": 25,
+        "adr": 1.0
+      },
+      "CodeSwitch_DE": {
+        "total": 25,
+        "detected": 25,
+        "adr": 1.0
+      }
+    }
+  },
+  "suite4_evidence_grounding": {
+    "total_scenarios": 80,
+    "accuracy": 0.75,
+    "contradiction_recall": 0.5,
+    "unsupported_leakage_rate": 0.0
+  },
+  "suite5_dual_serving_profiles": {
+    "deterministic_fast_path": {
+      "mean_latency_ms": 9.909,
+      "min_latency_ms": 8.026,
+      "max_latency_ms": 24.113,
+      "inference_mode": "deterministic_cpu"
+    },
+    "neural_verification_path": {
+      "mean_latency_ms": 80.358,
+      "min_latency_ms": 61.521,
+      "max_latency_ms": 124.021,
+      "inference_mode": "neural_deberta_cpu"
+    },
+    "telemetry_truthfulness": "CONFIRMED_SEPARATED"
+  }
+}

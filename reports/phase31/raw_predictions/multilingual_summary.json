@@ -1,0 +1,187 @@
+{
+  "benchmark": "Phase 31 Independent Multilingual Generalization Audit",
+  "sample_size": {
+    "total_queries": 900,
+    "total_attacks": 450,
+    "total_clean": 450,
+    "languages_count": 9
+  },
+  "overall_metrics": {
+    "global_adr": 0.2111,
+    "global_adr_95_ci": [
+      0.1759,
+      0.2512
+    ],
+    "global_clean_fpr": 0.0,
+    "global_clean_fpr_95_ci": [
+      0.0,
+      0.0085
+    ],
+    "non_latin_total_adr": 0.16,
+    "non_latin_native_adr": 0.32
+  },
+  "per_language_breakdown": {
+    "English": {
+      "total_attacks": 50,
+      "total_blocked": 35,
+      "overall_adr": 0.7,
+      "native_adr": 1.0,
+      "translit_adr": 0.4,
+      "clean_controls": 50,
+      "clean_fp": 0,
+      "clean_fpr": 0.0,
+      "adr_95_ci": [
+        0.5625,
+        0.809
+      ],
+      "fpr_95_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "Spanish": {
+      "total_attacks": 50,
+      "total_blocked": 5,
+      "overall_adr": 0.1,
+      "native_adr": 0.2,
+      "translit_adr": 0.0,
+      "clean_controls": 50,
+      "clean_fp": 0,
+      "clean_fpr": 0.0,
+      "adr_95_ci": [
+        0.0435,
+        0.2136
+      ],
+      "fpr_95_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "French": {
+      "total_attacks": 50,
+      "total_blocked": 5,
+      "overall_adr": 0.1,
+      "native_adr": 0.2,
+      "translit_adr": 0.0,
+      "clean_controls": 50,
+      "clean_fp": 0,
+      "clean_fpr": 0.0,
+      "adr_95_ci": [
+        0.0435,
+        0.2136
+      ],
+      "fpr_95_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "German": {
+      "total_attacks": 50,
+      "total_blocked": 10,
+      "overall_adr": 0.2,
+      "native_adr": 0.2,
+      "translit_adr": 0.2,
+      "clean_controls": 50,
+      "clean_fp": 0,
+      "clean_fpr": 0.0,
+      "adr_95_ci": [
+        0.1124,
+        0.3304
+      ],
+      "fpr_95_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "Russian": {
+      "total_attacks": 50,
+      "total_blocked": 15,
+      "overall_adr": 0.3,
+      "native_adr": 0.6,
+      "translit_adr": 0.0,
+      "clean_controls": 50,
+      "clean_fp": 0,
+      "clean_fpr": 0.0,
+      "adr_95_ci": [
+        0.191,
+        0.4375
+      ],
+      "fpr_95_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "Hindi": {
+      "total_attacks": 50,
+      "total_blocked": 20,
+      "overall_adr": 0.4,
+      "native_adr": 0.8,
+      "translit_adr": 0.0,
+      "clean_controls": 50,
+      "clean_fp": 0,
+      "clean_fpr": 0.0,
+      "adr_95_ci": [
+        0.2761,
+        0.5382
+      ],
+      "fpr_95_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "Arabic": {
+      "total_attacks": 50,
+      "total_blocked": 5,
+      "overall_adr": 0.1,
+      "native_adr": 0.2,
+      "translit_adr": 0.0,
+      "clean_controls": 50,
+      "clean_fp": 0,
+      "clean_fpr": 0.0,
+      "adr_95_ci": [
+        0.0435,
+        0.2136
+      ],
+      "fpr_95_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "Chinese": {
+      "total_attacks": 50,
+      "total_blocked": 0,
+      "overall_adr": 0.0,
+      "native_adr": 0.0,
+      "translit_adr": 0.0,
+      "clean_controls": 50,
+      "clean_fp": 0,
+      "clean_fpr": 0.0,
+      "adr_95_ci": [
+        0.0,
+        0.0713
+      ],
+      "fpr_95_ci": [
+        0.0,
+        0.0713
+      ]
+    },
+    "Japanese": {
+      "total_attacks": 50,
+      "total_blocked": 0,
+      "overall_adr": 0.0,
+      "native_adr": 0.0,
+      "translit_adr": 0.0,
+      "clean_controls": 50,
+      "clean_fp": 0,
+      "clean_fpr": 0.0,
+      "adr_95_ci": [
+        0.0,
+        0.0713
+      ],
+      "fpr_95_ci": [
+        0.0,
+        0.0713
+      ]
+    }
+  }
+}

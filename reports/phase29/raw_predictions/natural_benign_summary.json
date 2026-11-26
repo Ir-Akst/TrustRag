@@ -1,0 +1,16 @@
+{
+  "total_queries": 500,
+  "false_positives": 0,
+  "clean_delivery_rate": 1.0,
+  "clean_fpr": 0.0,
+  "clean_delivery_ci": [
+    0.9924,
+    1.0
+  ],
+  "clean_fpr_ci": [
+    0.0,
+    0.0076
+  ],
+  "latency_p50": 0.1741,
+  "latency_p99": 0.6639
+}

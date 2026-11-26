@@ -391,6 +391,9 @@ class MultiSignalDetector:
             elif inst_risk >= self.config.instruction_poison_threshold:
                 decision = DocumentSecurityLabel.POISONED
                 reason_codes.append("G2_SUSPICIOUS_INSTRUCTION")
+            elif "UNTRUSTED_CONFLICT" in reason_codes:
+                decision = DocumentSecurityLabel.POISONED
+                reason_codes.append("G2_UNTRUSTED_FACTUAL_CONFLICT")
             elif trust_score < self.config.poison_threshold:
                 # Guard: conflict or missing provenance alone must not force POISONED
                 has_perplexity_spike = sig_f1.available and sig_f1.value is not None and sig_f1.value < 0.30

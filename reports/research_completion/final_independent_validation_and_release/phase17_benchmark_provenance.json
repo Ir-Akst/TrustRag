@@ -1,0 +1,105 @@
+{
+  "schema_version": "1.0.0",
+  "audit_phase": "Phase 17",
+  "campaign": "TrustRAG Master Campaign — Independent Public Benchmark Validation",
+  "timestamp": "2026-11-19T01:06:00Z",
+  "repository": "/home/aditya/rags/TrustRag-phase11",
+  "branch": "phase-17-20-final-release",
+  "external_benchmarks": {
+    "rsb_arxiv_2505_18543": {
+      "benchmark_name": "RAG Security Benchmark (RSB)",
+      "paper_reference": "Zhang et al., 'Benchmarking Poisoning Attacks against Retrieval-Augmented Generation', arXiv:2505.18543, May 2025",
+      "canonical_url": "https://arxiv.org/abs/2505.18543",
+      "license": "Pending Verification / Academic Research Reference",
+      "access_type": "LOCAL_IMPORT_ONLY",
+      "status": "BLOCKED",
+      "blocking_reason": "No public direct unauthenticated download URL exists; academic artifact requires local repository staging. Remote network fetch blocked by sandbox security boundaries.",
+      "total_records_evaluated": 0,
+      "local_files": []
+    },
+    "poisonedrag_usenix_2025": {
+      "benchmark_name": "PoisonedRAG",
+      "paper_reference": "Zou et al., 'PoisonedRAG: Knowledge Poisoning Attacks to Retrieval-Augmented Generation of Large Language Models', USENIX Security 2025 (arXiv:2402.07867)",
+      "canonical_url": "https://www.usenix.org/conference/usenixsecurity25/presentation/zou",
+      "license": "Academic / Non-commercial Research",
+      "access_type": "REMOTE_DOWNLOAD_PROHIBITED",
+      "status": "BLOCKED",
+      "blocking_reason": "Benchmark repository not pre-staged in local filesystem. External cloning / network downloads are prohibited under execution safety restrictions.",
+      "total_records_evaluated": 0,
+      "local_files": []
+    },
+    "ragtruth_acl_2024": {
+      "benchmark_name": "RAGTruth",
+      "paper_reference": "Niu et al., 'RAGTruth: A Hallucination Benchmark for Retrieval-Augmented Generation', ACL 2024",
+      "canonical_url": "https://github.com/ParticleMedia/RAGTruth",
+      "license": "MIT / Apache-2.0 Academic Research",
+      "access_type": "LOCAL_PRESTAGED",
+      "status": "ACCESSIBLE_AND_EVALUATED",
+      "blocking_reason": null,
+      "total_records_available": 2700,
+      "evaluation_sample_size": 200,
+      "sample_distribution": {
+        "clean_factual": 100,
+        "hallucinated": 100
+      },
+      "local_files": [
+        {
+          "file_path": "data/raw/ragtruth/response.jsonl",
+          "sha256": "e4c2e4ac24fff676d8984cc61c35d791612fadc58015335d97dd632375e18073"
+        },
+        {
+          "file_path": "data/raw/ragtruth/source_info.jsonl",
+          "sha256": "0dffc26ea9f3c1c3d7c7e8336b56ef1646e3cec876edffcca3c9c624d12d578b"
+        }
+      ]
+    },
+    "halueval_emnlp_2023": {
+      "benchmark_name": "HaluEval",
+      "paper_reference": "Wang et al., 'HaluEval: A Large-Scale Hallucination Evaluation Benchmark for Large Language Models', EMNLP 2023",
+      "canonical_url": "https://github.com/RUCAIBox/HaluEval",
+      "license": "Apache-2.0",
+      "access_type": "LOCAL_PRESTAGED",
+      "status": "ACCESSIBLE_AND_EVALUATED",
+      "blocking_reason": null,
+      "total_records_available": 3000,
+      "evaluation_sample_size": 200,
+      "sample_distribution": {
+        "clean_factual": 100,
+        "hallucinated": 100
+      },
+      "local_files": [
+        {
+          "file_path": "data/raw/halueval/manifest.json",
+          "sha256": "90b90f0fe3cf2d2e01786c794bff3a5ff8c186ffe99acade8a5de482c78a21eb"
+        },
+        {
+          "file_path": "data/raw/halueval/qa_data.json",
+          "sha256": "89ed139ec5e3a3169a0b30e45569ac1283846f76f27f7bb5e908ee6deed57e88"
+        }
+      ]
+    },
+    "custom_security_benchmark_v1": {
+      "benchmark_name": "TrustRAG Internal Security Benchmark v1.0",
+      "paper_reference": "TrustRAG Research Campaign Consortium (Phases 11-16)",
+      "canonical_url": "local://TrustRag-phase11/data/raw/custom_security/raw_train.jsonl",
+      "license": "MIT",
+      "access_type": "LOCAL_PRESTAGED",
+      "status": "ACCESSIBLE_AND_EVALUATED",
+      "blocking_reason": null,
+      "total_records_available": 2000,
+      "evaluation_sample_size": 1875,
+      "sample_distribution": {
+        "clean_controls": 1000,
+        "genuine_attacks": 875,
+        "benign_instruction_controls": 125
+      },
+      "local_files": [
+        {
+          "file_path": "data/raw/custom_security/raw_train.jsonl",
+          "sha256": "823bca9639587ff7170530a67c2b35c54d959ee2007bdb554c3e50143c4dae00"
+        }
+      ]
+    }
+  }
+}
+

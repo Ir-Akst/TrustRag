@@ -1,0 +1,25 @@
+{
+  "benchmark_name": "trustrag_phase11_2_clean_rag_benchmark",
+  "version": "1.0.0",
+  "creation_timestamp": "2026-11-17T21:14:37Z",
+  "source_dataset": "RAGTruth Held-out Test Split",
+  "license": "MIT",
+  "total_records": 2536,
+  "clean_evidence_records": 2231,
+  "class_distribution": {
+    "ENTAILMENT": 1757,
+    "CONTRADICTION": 305,
+    "NEUTRAL": 474
+  },
+  "quarantined_records": 164,
+  "leakage_verification": {
+    "train_doc_overlap": 0,
+    "val_doc_overlap": 0,
+    "unique_source_documents": 450
+  },
+  "provenance": {
+    "source_file": "/home/aditya/rags/TrustRag-phase11/data/processed/ragtruth/test.jsonl",
+    "source_sha256": "55f5ec8bf47039551fc5fe64fbdf35306422c50402a1d6cc9dd1b3bfe12540f1",
+    "annotation_type": "Human-verified character-level hallucination spans"
+  }
+}

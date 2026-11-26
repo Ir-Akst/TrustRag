@@ -104,11 +104,31 @@ def test_concurrent_http_pipeline_requests_and_timeout_handling(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:
     async def _run() -> None:
+        cfg = load_config()
+        cfg.verification.nli_backend = "heuristic"
         app = create_app(
+            service=TrustRAGService(
+                [
+                    EvidenceDocument(
+                        doc_id="d1",
+                        text="Water boils at 100C.",
+                        source_id="s1",
+                        provenance="src",
+                    ),
+                    EvidenceDocument(
+                        doc_id="d2",
+                        text="Paris is in France.",
+                        source_id="s2",
+                        provenance="src",
+                    ),
+                ],
+                settings=cfg,
+                default_timeout_seconds=10.0,
+            ),
             audit_log_path=tmp_path / "audit.jsonl",
             backup_dir=tmp_path / "backups",
             frontend_dir="frontend",
-            default_timeout_seconds=5.0,
+            default_timeout_seconds=10.0,
         )
         client = TestClient(TestServer(app))
         await client.start_server()

@@ -1,0 +1,263 @@
+{
+  "seed": 42,
+  "g1_fresh_160": {
+    "total": 160,
+    "attacks": 60,
+    "controls": 100,
+    "tp": 59,
+    "fp": 0,
+    "tn": 100,
+    "fn": 1,
+    "adr": 0.9833,
+    "adr_95ci": [
+      0.9114,
+      0.9971
+    ],
+    "asr": 0.0167,
+    "fpr": 0.0,
+    "fpr_95ci": [
+      0.0,
+      0.037
+    ],
+    "precision": 1.0,
+    "recall": 0.9833,
+    "f1": 0.9916,
+    "per_category": {
+      "direct_attacks": {
+        "total": 15,
+        "gt": "ATTACK",
+        "blocked": 15,
+        "rate": 1.0,
+        "ci_95": [
+          0.7961,
+          1.0
+        ]
+      },
+      "indirect_and_narrative": {
+        "total": 15,
+        "gt": "ATTACK",
+        "blocked": 15,
+        "rate": 1.0,
+        "ci_95": [
+          0.7961,
+          1.0
+        ]
+      },
+      "mixed_benign_embedded_attack": {
+        "total": 15,
+        "gt": "ATTACK",
+        "blocked": 14,
+        "rate": 0.9333,
+        "ci_95": [
+          0.7018,
+          0.9881
+        ]
+      },
+      "multilingual_and_translit": {
+        "total": 15,
+        "gt": "ATTACK",
+        "blocked": 15,
+        "rate": 1.0,
+        "ci_95": [
+          0.7961,
+          1.0
+        ]
+      },
+      "benign_security_education": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.1332
+        ]
+      },
+      "benign_quoted_malicious": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.1332
+        ]
+      },
+      "benign_soc_incident": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.1332
+        ]
+      },
+      "benign_threat_intel": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.1332
+        ]
+      }
+    }
+  },
+  "g1_p42_quoted_fpr_120_after": {
+    "total": 120,
+    "attacks": 20,
+    "controls": 100,
+    "tp": 20,
+    "fp": 5,
+    "tn": 95,
+    "fn": 0,
+    "adr": 1.0,
+    "adr_95ci": [
+      0.8389,
+      1.0
+    ],
+    "asr": 0.0,
+    "fpr": 0.05,
+    "fpr_95ci": [
+      0.0215,
+      0.1118
+    ],
+    "precision": 0.8,
+    "recall": 1.0,
+    "f1": 0.8889,
+    "per_category": {
+      "benign_security_education": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.1332
+        ]
+      },
+      "benign_quoted_attacks": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 5,
+        "rate": 0.2,
+        "ci_95": [
+          0.0886,
+          0.3913
+        ]
+      },
+      "benign_incident_reports": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.1332
+        ]
+      },
+      "benign_threat_intel": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.1332
+        ]
+      },
+      "malicious_instructions": {
+        "total": 20,
+        "gt": "ATTACK",
+        "blocked": 20,
+        "rate": 1.0,
+        "ci_95": [
+          0.8389,
+          1.0
+        ]
+      }
+    }
+  },
+  "g3": {
+    "halueval_200": {
+      "n": 200,
+      "confusion": {
+        "tp": 78,
+        "fp": 27,
+        "tn": 73,
+        "fn": 22
+      },
+      "coverage": 0.525,
+      "abstention_rate": 0.475,
+      "factual_precision": 0.7429,
+      "factual_recall": 0.78,
+      "factual_recall_95ci": [
+        0.6893,
+        0.85
+      ],
+      "hallucination_leakage": 0.27,
+      "hallucination_leakage_95ci": [
+        0.1927,
+        0.3643
+      ]
+    },
+    "ragtruth_summary_50": {
+      "n": 50,
+      "confusion": {
+        "tp": 19,
+        "fp": 12,
+        "tn": 13,
+        "fn": 6
+      },
+      "coverage": 0.62,
+      "abstention_rate": 0.38,
+      "factual_precision": 0.6129,
+      "factual_recall": 0.76,
+      "factual_recall_95ci": [
+        0.5657,
+        0.885
+      ],
+      "hallucination_leakage": 0.48,
+      "hallucination_leakage_95ci": [
+        0.3003,
+        0.665
+      ]
+    },
+    "controlled_120": {
+      "n": 120,
+      "gate_accuracy": 1.0,
+      "supported_acceptance": 1.0,
+      "contradiction_recall": 1.0,
+      "unsupported_leakage": 0.0
+    }
+  },
+  "security_and_production": {
+    "firewall": {
+      "malicious": 90,
+      "benign": 50,
+      "context_leakage": 0.0,
+      "context_leakage_95ci": [
+        0.0,
+        0.0409
+      ],
+      "direct_generator_leakage": 0.0,
+      "false_quarantine": 0.0
+    },
+    "production_neural": {
+      "warm_requests": 15,
+      "genuine_torch_forwards": 82,
+      "cache_hits": 209,
+      "cache_misses": 466,
+      "warm_mean_ms": 1642.258,
+      "p50_ms": 1622.672,
+      "p95_ms": 1887.055,
+      "p99_ms": 1994.663,
+      "peak_rss_mb": 1543.22,
+      "concurrency_8_ok": true,
+      "timeout_abstained": true,
+      "shutdown_abstained": true
+    }
+  }
+}

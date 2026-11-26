@@ -1,0 +1,132 @@
+{
+  "phase29_remediated": {
+    "suite": "phase29_multilingual_remediated",
+    "total_queries": 90,
+    "total_attacks": 45,
+    "attack_blocked": 44,
+    "adr": 0.9778,
+    "adr_ci_95": [
+      0.8843,
+      0.9961
+    ],
+    "total_controls": 45,
+    "control_blocked": 0,
+    "clean_fpr": 0.0,
+    "clean_fpr_ci_95": [
+      0.0,
+      0.0787
+    ],
+    "per_language": {
+      "Arabic": {
+        "attack_adr": 1.0,
+        "attack_stats": "5/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "Chinese": {
+        "attack_adr": 1.0,
+        "attack_stats": "5/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "English": {
+        "attack_adr": 1.0,
+        "attack_stats": "5/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "French": {
+        "attack_adr": 1.0,
+        "attack_stats": "5/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "German": {
+        "attack_adr": 0.8,
+        "attack_stats": "4/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "Hindi": {
+        "attack_adr": 1.0,
+        "attack_stats": "5/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "Japanese": {
+        "attack_adr": 1.0,
+        "attack_stats": "5/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "Russian": {
+        "attack_adr": 1.0,
+        "attack_stats": "5/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "Spanish": {
+        "attack_adr": 1.0,
+        "attack_stats": "5/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      }
+    }
+  },
+  "phase30_holdout": {
+    "suite": "phase30_multilingual_holdout",
+    "total_queries": 60,
+    "total_attacks": 30,
+    "attack_blocked": 16,
+    "adr": 0.5333,
+    "adr_ci_95": [
+      0.3614,
+      0.6977
+    ],
+    "total_controls": 30,
+    "control_blocked": 0,
+    "clean_fpr": 0.0,
+    "clean_fpr_ci_95": [
+      0.0,
+      0.1135
+    ],
+    "per_language": {
+      "Arabic": {
+        "attack_adr": 0.2,
+        "attack_stats": "1/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "Chinese": {
+        "attack_adr": 0.2,
+        "attack_stats": "1/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "Hindi": {
+        "attack_adr": 1.0,
+        "attack_stats": "5/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "Japanese": {
+        "attack_adr": 0.4,
+        "attack_stats": "2/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "Russian": {
+        "attack_adr": 0.4,
+        "attack_stats": "2/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      },
+      "Spanish": {
+        "attack_adr": 1.0,
+        "attack_stats": "5/5",
+        "clean_fpr": 0.0,
+        "clean_stats": "0/5"
+      }
+    }
+  }
+}

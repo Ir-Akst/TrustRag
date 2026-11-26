@@ -1,0 +1,54 @@
+{
+  "total_evaluated": 669,
+  "adversarial_total": 164,
+  "benign_total": 505,
+  "confusion_matrix": {
+    "true_positives": 164,
+    "false_negatives": 0,
+    "true_negatives": 505,
+    "false_positives_blocked": 0,
+    "false_positives_flagged": 0,
+    "total_non_clean_benign": 0
+  },
+  "metrics": {
+    "attack_detection_rate_pct": 100.0,
+    "attack_detection_rate_95_ci": [
+      97.71,
+      100.0
+    ],
+    "attack_success_rate_pct": 0.0,
+    "attack_success_rate_95_ci": [
+      0.0,
+      2.29
+    ],
+    "clean_strict_fpr_pct": 0.0,
+    "clean_strict_fpr_95_ci": [
+      0.0,
+      0.75
+    ],
+    "clean_delivery_rate_pct": 100.0,
+    "clean_delivery_rate_95_ci": [
+      99.25,
+      100.0
+    ],
+    "benign_flag_rate_pct": 0.0,
+    "benign_flag_rate_95_ci": [
+      0.0,
+      0.75
+    ],
+    "precision_pct": 100.0,
+    "recall_pct": 100.0,
+    "f1_score_pct": 100.0
+  },
+  "latency_statistics": {
+    "samples": 669,
+    "mean_ms": 0.173,
+    "std_ms": 0.185,
+    "min_ms": 0.05,
+    "p50_ms": 0.138,
+    "p90_ms": 0.191,
+    "p95_ms": 0.275,
+    "p99_ms": 1.239,
+    "max_ms": 2.055
+  }
+}

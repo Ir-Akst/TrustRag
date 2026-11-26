@@ -42,6 +42,7 @@ class ProductionQueryRequest(BaseModel):
     query: str = Field(min_length=1, max_length=8192)
     top_k: int = Field(default=5, ge=1, le=20)
     request_timeout_seconds: float | None = Field(default=None, gt=0.0)
+    enable_neural_verification: bool = Field(default=False, description="Enable real CPU DeBERTa NLI neural verification for response grounding")
 
 
 class ProductionQueryResponse(BaseModel):
@@ -60,6 +61,9 @@ class ProductionQueryResponse(BaseModel):
     adaptive_mode: str
     threshold_reasons: list[str] = Field(default_factory=list)
     fail_safe_events: list[str] = Field(default_factory=list)
+    inference_mode: str = "deterministic_cpu"
+    evidence_grounding_status: str | None = None
+    firewall_quarantined_spans: int = 0
 
 
 class ServiceHealthStatus(BaseModel):
@@ -252,11 +256,27 @@ class TrustRAGService:
         with self._lock:
             if self._shut_down:
                 raise RuntimeError("SERVICE_SHUTDOWN")
-            return self._controller.evaluate_query(
+            outcome = self._controller.evaluate_query(
                 req.query,
                 self._documents,
                 top_k=req.top_k,
             )
+            # If request explicitly requests neural verification or service default is neural
+            grounded_report = None
+            if req.enable_neural_verification and not outcome.abstained and not outcome.blocked_by_guardrail:
+                try:
+                    from trustrag.verification.grounded_verifier import EvidenceGroundedVerifier
+                    if not hasattr(self, "_neural_verifier") or self._neural_verifier is None:
+                        self._neural_verifier = EvidenceGroundedVerifier()
+                        self._neural_verifier.initialize()
+                    grounded_report = self._neural_verifier.verify_answer(
+                        query=req.query,
+                        answer_text=outcome.answer,
+                        retrieved_documents=outcome.retained_documents
+                    )
+                except Exception as exc:
+                    LOGGER.warning("Neural verification failed safely: %s", exc)
+            return outcome, grounded_report
 
     def handle_query(self, request: ProductionQueryRequest | dict[str, Any]) -> ProductionQueryResponse:
         """Execute validated inference request with timeout enforcement and failure isolation."""
@@ -287,11 +307,12 @@ class TrustRAGService:
         )
 
         outcome: Any = None
+        grounded_report: Any = None
         if effective_timeout is not None:
             pool = ThreadPoolExecutor(max_workers=1)
             future = pool.submit(self._execute_query_locked, req)
             try:
-                outcome = future.result(timeout=effective_timeout)
+                outcome, grounded_report = future.result(timeout=effective_timeout)
             except FuturesTimeoutError:
                 with self._lock:
                     self._timeout_requests += 1
@@ -322,7 +343,7 @@ class TrustRAGService:
                 pool.shutdown(wait=False, cancel_futures=True)
         else:
             try:
-                outcome = self._execute_query_locked(req)
+                outcome, grounded_report = self._execute_query_locked(req)
             except Exception as exc:
                 LOGGER.warning("TrustRAGService request failed safely: %s", exc)
                 with self._lock:
@@ -351,6 +372,17 @@ class TrustRAGService:
             if outcome.blocked_by_guardrail
             else ("ABSTAINED" if outcome.abstained else "OK")
         )
+        srm_health = self._srm_client.health_check()
+        if req.enable_neural_verification and grounded_report is not None:
+            active_mode = "neural_deberta_cpu"
+            evidence_status = grounded_report.overall_status
+        elif srm_health.available and self.settings.srm.backend == "neural_nli":
+            active_mode = "neural_deberta_cpu"
+            evidence_status = outcome.g3_verdict
+        else:
+            active_mode = "deterministic_cpu"
+            evidence_status = outcome.g3_verdict
+
         return ProductionQueryResponse(
             request_id=req.request_id,
             status=status,
@@ -365,6 +397,9 @@ class TrustRAGService:
             adaptive_mode=self.adaptive_config.mode.value,
             threshold_reasons=list(outcome.threshold_recommendation.reason_codes),
             fail_safe_events=list(outcome.fail_safe_events),
+            inference_mode=active_mode,
+            evidence_grounding_status=evidence_status,
+            firewall_quarantined_spans=0,
         )
 
     def health(self) -> ServiceHealthStatus:

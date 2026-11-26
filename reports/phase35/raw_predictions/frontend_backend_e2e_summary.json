@@ -1,0 +1,106 @@
+{
+  "workstream": "Workstream F - Frontend & Backend E2E Integration",
+  "tests_executed": 5,
+  "all_tests_passed": true,
+  "detailed_results": [
+    {
+      "test": "health_check",
+      "endpoint": "/api/v1/health",
+      "status_code": 200,
+      "data": {
+        "status": "healthy",
+        "ready": true,
+        "initialized": true,
+        "shut_down": false,
+        "version": "0.1.0",
+        "phase": "phase-9",
+        "environment": "testing",
+        "auth_mode": "local_dev_unauthenticated",
+        "corpus_documents": 100,
+        "adaptive_mode": "disabled",
+        "calibration_active": true,
+        "calibration_version": "temp-train-v1",
+        "components": {
+          "g1_guardrail": "active",
+          "g2_msd": "active",
+          "g3_verifier": "active",
+          "retrieval": "ready",
+          "srm": "fallback_deterministic",
+          "serving": "healthy"
+        },
+        "srm_backend_configured": "disabled",
+        "srm_health": {
+          "backend_name": "deterministic_fallback",
+          "model_name": "halluguard-srm-fallback",
+          "initialized": true,
+          "available": true,
+          "is_real_model": false,
+          "device": "cpu",
+          "inference_mode": "deterministic",
+          "detail": "Rule-based fallback active (NOT a trained neural SRM).",
+          "last_error": null,
+          "model_loaded": false,
+          "model_dtype": "torch.float32",
+          "checkpoint_verified": false,
+          "last_inference_timestamp": null,
+          "last_inference_latency_ms": null,
+          "probabilities": null,
+          "state": "READY"
+        },
+        "dependencies": {
+          "aiohttp": true,
+          "pydantic": true,
+          "scikit-learn": true,
+          "numpy": true,
+          "torch": true,
+          "transformers": true,
+          "peft": false,
+          "trl": false,
+          "datasets": false
+        },
+        "total_requests": 0,
+        "error_requests": 0,
+        "timeout_requests": 0,
+        "peak_rss_mib": 357.504,
+        "timestamp": "2026-11-24T23:37:05.214304+00:00"
+      }
+    },
+    {
+      "test": "clean_query_deterministic",
+      "endpoint": "/api/v1/pipeline/execute",
+      "status_code": 200,
+      "request_id": "36375dd1bb3d",
+      "inference_mode": null,
+      "status": "OK",
+      "g1_decision": "ALLOW",
+      "safe_to_display": true,
+      "latency_ms": 92.8859
+    },
+    {
+      "test": "direct_attack_query",
+      "endpoint": "/api/v1/pipeline/execute",
+      "status_code": 200,
+      "request_id": "69bcf4048ed8",
+      "status": "BLOCKED",
+      "g1_decision": "BLOCK",
+      "blocked_by_guardrail": true,
+      "safe_to_display": false,
+      "latency_ms": 2.9027
+    },
+    {
+      "test": "g3_verify_endpoint",
+      "endpoint": "/api/v1/g3/verify",
+      "status_code": 200,
+      "overall_status": "VERIFIED",
+      "verdict": "SUPPORTED",
+      "total_claims": 1,
+      "supported_count": 1
+    },
+    {
+      "test": "frontend_root_html",
+      "endpoint": "/",
+      "status_code": 200,
+      "contains_dashboard_ui": true
+    }
+  ]
+}

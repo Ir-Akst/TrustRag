@@ -1,0 +1,40 @@
+{
+  "manifest_version": "1.0.0",
+  "phase": "Phase 27",
+  "release_anchor_commit": "531bff32745ede1bd1b38609cc6daf653d3eff24",
+  "release_tag": "trustrag-v1.0.0-rc1",
+  "frozen_model_path": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+  "checkpoints": {
+    "checkpoint_meta.json": "77d3aa663e2715767eb2e1b1d7d27e77a06f7aa566d8b2d187747bbd35272a56",
+    "config.json": "9b56f849cf24c5e3f16fbc8a13ea2eb35ba05b0a373d6bb64c7684d081f969eb",
+    "model.safetensors": "d720c242a42095f32eb24e4d7d130a0058b76dfb37c0eb8971fce3f8a44ca708",
+    "optimizer.pt": "1c8bbaaa7b5b5976bfe4f6e5a04469d4d5a9daffca6ffbb3c329881643c516bc",
+    "rng_state.pt": "e9f291e5c26b52a5ca2cae2d93eeb6d729db527c76a9537d4022ca4a44b82db1",
+    "scheduler.pt": "f59992f96cfb33bcff5ce7f28ffb08bb25d1945bebb759dc3f1400d43f0ae90f",
+    "tokenizer.json": "cf613c77840130dbbe06eb664aebf8ef946be41ebf108f902ea6fb3a525f257a",
+    "tokenizer_config.json": "cefe06f2cfc3b31649646b9aeb6993be783fcb101ce1fa6d30e38a2e1d054e79"
+  },
+  "benchmark_generation": {
+    "engine_script": "tools/evaluation/run_phase26_evaluation.py",
+    "adversarial_cases": 500,
+    "benign_cases": 500,
+    "categories": 13
+  },
+  "raw_prediction_logs": {
+    "phase26_raw_predictions": {
+      "path": "reports/phase26/raw_predictions/phase26_raw_predictions.jsonl",
+      "sha256": "6b2a3a0e1017efad8d7f2679f1db4283da76059e6c646395350915f79be276f5",
+      "total_records": 1000
+    }
+  },
+  "reference_benchmarks": {
+    "clean_rag_train": {
+      "path": "data/benchmarks/clean_rag/train.jsonl",
+      "sha256": "76e651e089270e53a33909ea2b8e390c9b7f5835b1d428bfbce900f6b4991191"
+    },
+    "adversarial_robustness_test": {
+      "path": "data/benchmarks/adversarial_robustness/test.jsonl",
+      "sha256": "165ff74301fae29f0e1379ec8f9daea33d3c870aee491761614ae40683aee6a7"
+    }
+  }
+}

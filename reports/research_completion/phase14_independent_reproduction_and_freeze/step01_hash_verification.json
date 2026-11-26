@@ -1,0 +1,162 @@
+{
+  "git_environment": {
+    "current_branch": "phase-14",
+    "current_head": "aba5cc9d8369f3d7a69e6fd7e81bc055173dde61",
+    "reported_phase13_head": "aba5cc9d",
+    "head_matches_reported": true,
+    "uncommitted_files_count": 41,
+    "uncommitted_files_sample": [
+      "M src/trustrag/config/__init__.py",
+      " M src/trustrag/config/engine_config.py",
+      " M src/trustrag/data/acquisition/__init__.py",
+      " M src/trustrag/data/loaders/halueval.py",
+      " M src/trustrag/data/loaders/hotpotqa.py",
+      " M src/trustrag/data/loaders/ms_marco.py",
+      " M src/trustrag/data/loaders/ragtruth.py",
+      " M src/trustrag/detection/msd.py",
+      " M src/trustrag/detection/signals.py",
+      " M src/trustrag/evaluation/external_benchmarks.py",
+      " M src/trustrag/verification/output_verifier.py",
+      " M tests/unit/test_phase_08_step08_external_benchmarks.py",
+      "?? data/processed/halueval/",
+      "?? data/processed/hotpotqa/",
+      "?? data/processed/ms_marco/"
+    ]
+  },
+  "frozen_nli_checkpoint_verification": {
+    "checkpoint_directory": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+    "all_files_match": true,
+    "files": {
+      "checkpoint_meta.json": {
+        "expected": "0bd573e73a940c4146e54be751a47237aa6b9c72a3800cd921d879dca108ee09",
+        "actual": "0bd573e73a940c4146e54be751a47237aa6b9c72a3800cd921d879dca108ee09",
+        "match": true
+      },
+      "config.json": {
+        "expected": "38370396a4e2988a14226b6b8875766e660ab8bbd1374b9e23a6e0c7a05ef385",
+        "actual": "38370396a4e2988a14226b6b8875766e660ab8bbd1374b9e23a6e0c7a05ef385",
+        "match": true
+      },
+      "model.safetensors": {
+        "expected": "0464758a2cd31260b44af96093dd52c2824a8305278d136ec438c87ee2b92313",
+        "actual": "0464758a2cd31260b44af96093dd52c2824a8305278d136ec438c87ee2b92313",
+        "match": true
+      },
+      "optimizer.pt": {
+        "expected": "9a2fd299dd3961fdf66532f12c1bf9ff06365dcb6957e0bcc50487d6b9792ac7",
+        "actual": "9a2fd299dd3961fdf66532f12c1bf9ff06365dcb6957e0bcc50487d6b9792ac7",
+        "match": true
+      },
+      "rng_state.pt": {
+        "expected": "437b2e84b3fc90e6bc22ef0a043a986cf6124d523be0962df7a988a44d452e12",
+        "actual": "437b2e84b3fc90e6bc22ef0a043a986cf6124d523be0962df7a988a44d452e12",
+        "match": true
+      },
+      "scheduler.pt": {
+        "expected": "1d78acdcfbbbb16e77bbe7752380688630dfe37fa53954279a7d69d3ad41e648",
+        "actual": "1d78acdcfbbbb16e77bbe7752380688630dfe37fa53954279a7d69d3ad41e648",
+        "match": true
+      },
+      "tokenizer.json": {
+        "expected": "e9ddd853a4a31023721c993458663f2019e3154a05dacf0d2b3c217e53d9bdc8",
+        "actual": "e9ddd853a4a31023721c993458663f2019e3154a05dacf0d2b3c217e53d9bdc8",
+        "match": true
+      },
+      "tokenizer_config.json": {
+        "expected": "1121ad33ecd98a97b2db184ce896546feb7555bebddf33a2dfe1b1a1077dc847",
+        "actual": "1121ad33ecd98a97b2db184ce896546feb7555bebddf33a2dfe1b1a1077dc847",
+        "match": true
+      }
+    }
+  },
+  "dataset_hashes": {
+    "files": {
+      "custom_security_raw_train": {
+        "path": "/home/aditya/rags/TrustRag-phase11/data/raw/custom_security/raw_train.jsonl",
+        "sha256": "823bca9639587ff7170530a67c2b35c54d959ee2007bdb554c3e50143c4dae00"
+      },
+      "sft_v2_nli_train": {
+        "path": "/home/aditya/rags/TrustRag-phase11/data/processed/sft_v2/nli/train.jsonl",
+        "sha256": "b1777c7ac608d6d79171dbc4deaeb7bf5c4ba87acf83adbe53d63020524474ad"
+      },
+      "sft_v2_nli_validation": {
+        "path": "/home/aditya/rags/TrustRag-phase11/data/processed/sft_v2/nli/validation.jsonl",
+        "sha256": "7601dd266edde160c51e1032150ea42c031131cb6be89c601637ad464121615c"
+      }
+    },
+    "sft_v2_integrity_matches": {
+      "train.jsonl": true,
+      "validation.jsonl": true
+    }
+  },
+  "phase13_manifest_verification": {
+    "all_files_match": false,
+    "files": {
+      "step01_dataset_inventory.json": {
+        "expected": "d0440df7609cb7cea1c70ca6c962d4c2f463d0a6044081bc32189759fed5438c",
+        "actual": "d0440df7609cb7cea1c70ca6c962d4c2f463d0a6044081bc32189759fed5438c",
+        "match": true
+      },
+      "step01_benchmark_expansion_report.md": {
+        "expected": "18e3fa487c7ecaf95d3fcccf6980d8cd4a874312365d78c7a5a9bab00af6944b",
+        "actual": "db2eb20df6d3b7ac2875fe192f17c7190483226b2d2efb77d20c2e1dd8c04bfb",
+        "match": false
+      },
+      "step02_g2_results.json": {
+        "expected": "2bd778a41592f9009e9cff7897c527ae9f84258763cfd7a82510b52f622427a1",
+        "actual": "2bd778a41592f9009e9cff7897c527ae9f84258763cfd7a82510b52f622427a1",
+        "match": true
+      },
+      "step02_g2_generalization_report.md": {
+        "expected": "d283b69743e75213d51c880751d6b6e4b9d7badadd9081ec8eab6d5d0a357490",
+        "actual": "41f8e9424171bce912cf9b666e232460e149eda4bc4160c0bb479ac2a0825402",
+        "match": false
+      },
+      "step03_g3_metrics.json": {
+        "expected": "d25a0b4683979a223f64a2160b2f580c48b214957c37220c8c364c49b33a211d",
+        "actual": "d25a0b4683979a223f64a2160b2f580c48b214957c37220c8c364c49b33a211d",
+        "match": true
+      },
+      "step03_g3_comparison_report.md": {
+        "expected": "5fcc597add9e1911e352cefe80f6cf93ef85d29805ec9027c0afd6297cae2a08",
+        "actual": "0ac007d4eb2b3dcee21a96382e7b91aa0bf10f47903862eb2929aed6f7e96022",
+        "match": false
+      },
+      "step04_end_to_end_metrics.json": {
+        "expected": "e696f18295b9371c81b2c3a024b46d144cb12345ca2ed559f4df0266ad3ec959",
+        "actual": "e696f18295b9371c81b2c3a024b46d144cb12345ca2ed559f4df0266ad3ec959",
+        "match": true
+      },
+      "step04_end_to_end_security_report.md": {
+        "expected": "a9a1b9e4123aecc1fcb7be539d8bf54f2b3500abd0b1321f857463248c707732",
+        "actual": "0062f0b710add9ac7eaae382309852a888210aa77214c77471e116ce9164ed10",
+        "match": false
+      },
+      "final_phase13_report.md": {
+        "expected": "fb1dc00a3abdb45f02b243bdf02d09265302403170ef6ab400f9de7f9398272d",
+        "actual": "e8d0f52fac2b67552e15e0763b9f0086fed8a05727226e9b4eba875e49f32dfe",
+        "match": false
+      },
+      "generate_step01_inventory.py": {
+        "expected": "255ad3573bbd0fa9a0dd38b0edc7b9b38c206a4fa264b331efa72538f2f53a1e",
+        "actual": "255ad3573bbd0fa9a0dd38b0edc7b9b38c206a4fa264b331efa72538f2f53a1e",
+        "match": true
+      },
+      "evaluate_step02_g2.py": {
+        "expected": "1688b4de8ab1105149b1eb3e909333a31bf1c0743bd9c520ab661d7318bb3da7",
+        "actual": "1688b4de8ab1105149b1eb3e909333a31bf1c0743bd9c520ab661d7318bb3da7",
+        "match": true
+      },
+      "evaluate_step03_g3.py": {
+        "expected": "d189a7dca14718051fae20c67ea60c2f6fea3e906676d1869190dd25ef9f3db7",
+        "actual": "d189a7dca14718051fae20c67ea60c2f6fea3e906676d1869190dd25ef9f3db7",
+        "match": true
+      },
+      "evaluate_step04_e2e.py": {
+        "expected": "6da9b27cab1f2c36fed3e7398e9088cd1a8f7e129eb236876390c33d9745a6a4",
+        "actual": "6da9b27cab1f2c36fed3e7398e9088cd1a8f7e129eb236876390c33d9745a6a4",
+        "match": true
+      }
+    }
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "audit": "Phase 33 Evidence-Grounding Independent Audit",
+  "sample_counts": {
+    "total_scenarios": 60
+  },
+  "metrics": {
+    "gate_accuracy": 0.8,
+    "gate_accuracy_95ci": [
+      0.6822,
+      0.8817
+    ],
+    "contradiction_recall": 0.5,
+    "contradiction_recall_95ci": [
+      0.3143,
+      0.6857
+    ],
+    "unsupported_leakage_rate": 0.0
+  },
+  "category_breakdown": {
+    "SUPPORTED": {
+      "total": 12,
+      "safe_released": 0,
+      "abstained": 12,
+      "contradiction_flagged": 0
+    },
+    "CONTRADICTED_SEMANTIC": {
+      "total": 12,
+      "safe_released": 0,
+      "abstained": 12,
+      "contradiction_flagged": 0
+    },
+    "CONTRADICTED_NUMERICAL": {
+      "total": 12,
+      "safe_released": 0,
+      "abstained": 12,
+      "contradiction_flagged": 12
+    },
+    "UNSUPPORTED": {
+      "total": 12,
+      "safe_released": 0,
+      "abstained": 12,
+      "contradiction_flagged": 0
+    },
+    "PARTIALLY_SUPPORTED": {
+      "total": 6,
+      "safe_released": 0,
+      "abstained": 6,
+      "contradiction_flagged": 0
+    },
+    "INSUFFICIENT_EVIDENCE": {
+      "total": 6,
+      "safe_released": 0,
+      "abstained": 6,
+      "contradiction_flagged": 0
+    }
+  }
+}

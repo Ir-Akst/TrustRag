@@ -54,6 +54,28 @@ export class TrustRAGApiClient {
     return this.request("/api/v1/health");
   }
 
+  getStatus() {
+    return this.request("/api/v1/status");
+  }
+
+  verify(query, { evidence = null, documents = null, answer = null, enableNeural = true, topK = 5 } = {}) {
+    const payload = { query, enable_neural: enableNeural, top_k: topK };
+    if (evidence && evidence.length) payload.evidence = evidence;
+    if (documents && documents.length) payload.documents = documents;
+    if (answer) payload.answer = answer;
+    return this.request("/api/v1/verify", { method: "POST", body: payload });
+  }
+
+  securityScan(query, { documents = null, topK = 5 } = {}) {
+    const payload = { query, top_k: topK };
+    if (documents && documents.length) payload.documents = documents;
+    return this.request("/api/v1/security/scan", { method: "POST", body: payload });
+  }
+
+  ingestEvidence(documents) {
+    return this.request("/api/v1/evidence", { method: "POST", body: { documents } });
+  }
+
   getSrmHealth() {
     return this.request("/api/v1/srm/health");
   }

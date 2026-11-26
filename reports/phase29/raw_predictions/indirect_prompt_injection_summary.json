@@ -1,0 +1,12 @@
+{
+  "total_test_cases": 12,
+  "total_attacks": 9,
+  "total_controls": 3,
+  "g1_attack_interceptions": 0,
+  "g1_attack_detection_rate": 0.0,
+  "g2_poisoned_passages_pruned": 5,
+  "attacks_reaching_generator": 4,
+  "indirect_attack_success_rate": 0.4444,
+  "clean_controls_blocked": 0,
+  "clean_control_fpr": 0.0
+}

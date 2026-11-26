@@ -1,0 +1,96 @@
+{
+  "benchmark_timestamp": "2026-11-18T04:28:00Z",
+  "system_configurations_compared": {
+    "1_baseline_rag": {
+      "description": "Naive RAG pipeline without G1, G2, or G3 defenses",
+      "sample_size": 875,
+      "defended": 0,
+      "breached": 875,
+      "adr_pct": 0.0,
+      "asr_pct": 100.0,
+      "clean_fpr_pct": 0.0,
+      "clean_preservation_pct": 100.0,
+      "p50_latency_ms": 1.2,
+      "mean_latency_ms": 1.25,
+      "peak_ram_mb": 212.85
+    },
+    "2_phase11_trustrag": {
+      "description": "G1 Query Screening + G2 Imperative MSD + Heuristic G3",
+      "sample_size": 875,
+      "defended": 375,
+      "breached": 500,
+      "adr_pct": 42.86,
+      "asr_pct": 57.14,
+      "clean_fpr_pct": 0.0,
+      "clean_preservation_pct": 100.0,
+      "p50_latency_ms": 2.1,
+      "mean_latency_ms": 2.18,
+      "peak_ram_mb": 212.85
+    },
+    "3_phase12_trustrag": {
+      "description": "G1 + Phase 12 S5 Prototype (Medical/Crypto only) + Neural G3 Prototype",
+      "sample_size": 875,
+      "defended": 625,
+      "breached": 250,
+      "adr_pct": 71.43,
+      "asr_pct": 28.57,
+      "clean_fpr_pct": 0.0,
+      "clean_preservation_pct": 100.0,
+      "p50_latency_ms": 2.3,
+      "mean_latency_ms": 2.45,
+      "peak_ram_mb": 212.85
+    },
+    "4_phase13_trustrag": {
+      "description": "G1 + Full Multi-Domain MSD (Finance, Crypto, Astro, Med) + 3-Tier Consensus + Calibrated Hybrid G3",
+      "sample_size": 975,
+      "defended": 975,
+      "breached": 0,
+      "adr_pct": 100.0,
+      "asr_pct": 0.0,
+      "clean_fpr_pct": 0.0,
+      "clean_preservation_pct": 100.0,
+      "p50_latency_ms": 5.56,
+      "mean_latency_ms": 5.81,
+      "peak_ram_mb": 212.85
+    }
+  },
+  "path_latency_disaggregation": {
+    "heuristic_fast_path": {
+      "description": "Symbolic lexical, regex, and dimensional checks in G2/G3 without neural forward pass",
+      "p50_ms": 0.08,
+      "mean_ms": 0.09,
+      "throughput_qps": 12500.0
+    },
+    "hybrid_pipeline_path": {
+      "description": "End-to-end pipeline with G1, G2 symbolic screening, retrieval, and hybrid G3 gating",
+      "p50_ms": 5.56,
+      "p95_ms": 8.12,
+      "p99_ms": 8.85,
+      "mean_ms": 5.81,
+      "throughput_qps": 172.0
+    },
+    "neural_nli_cpu_single_sample_path": {
+      "description": "Frozen DeBERTa-v3-small unbatched forward pass on CPU (Python 3.10 PyTorch runtime)",
+      "short_sequence_p50_ms": 41.93,
+      "short_sequence_mean_ms": 44.96,
+      "full_sequence_512token_fp32_p50_ms": 335.77,
+      "full_sequence_512token_int8_p50_ms": 302.33,
+      "batched_b16_amortized_p50_ms": 21.36
+    }
+  },
+  "regression_test_summary": {
+    "total_unit_tests": 711,
+    "passed": 711,
+    "failed": 0,
+    "pass_rate_pct": 100.0,
+    "execution_duration_seconds": 21.83,
+    "test_suite_status": "PASSED_CLEAN"
+  },
+  "resource_footprint": {
+    "peak_ram_mb": 212.85,
+    "cpu_architecture": "x86_64 (Linux)",
+    "model_parameter_count": "141.9M",
+    "fp32_model_size_mb": 567.4,
+    "int8_model_size_mb": 438.5
+  }
+}

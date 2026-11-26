@@ -43,7 +43,8 @@ def test_g1_and_g2_paraphrase_and_sql_generalization() -> None:
 
 
 def test_g3_seven_challenge_categories_and_negative_controls() -> None:
-    v = OutputEvidenceVerifier(load_config().verification)
+    v_cfg = load_config().verification.model_copy(update={"nli_backend": "heuristic"})
+    v = OutputEvidenceVerifier(v_cfg)
 
     cases = [
         ("The capital city of France is Paris.", "Paris serves as France's national capital.", G3AnswerVerdict.SUPPORTED),

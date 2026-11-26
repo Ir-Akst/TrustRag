@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0.0",
+  "audit_phase": "Phase 21",
+  "timestamp": "2026-11-24T03:55:00Z",
+  "datasets": [
+    {
+      "name": "sft_v2_nli_train",
+      "path": "data/processed/sft_v2/nli/train.jsonl",
+      "sample_count": 10815,
+      "class_distribution": {
+        "entailment": 6707,
+        "neutral": 2688,
+        "contradiction": 1420
+      },
+      "sha256": "4b6bbec8fefcf55d082ca96b4ef8d407ff24976c16ce616625db1149953f92db"
+    },
+    {
+      "name": "sft_v2_nli_validation",
+      "path": "data/processed/sft_v2/nli/validation.jsonl",
+      "sample_count": 2662,
+      "class_distribution": {
+        "entailment": 1662,
+        "neutral": 644,
+        "contradiction": 356
+      },
+      "sha256": "3cb49a5ec1396b797dbd4860b72ca9e87bbccf59d482200234a9477bcf4201e7"
+    },
+    {
+      "name": "custom_security_benchmark",
+      "path": "data/processed/custom_security/raw_train.jsonl",
+      "sample_count": 2000,
+      "clean_controls": 1000,
+      "benign_instruction_controls": 125,
+      "genuine_attacks": 875,
+      "attack_subtypes_count": 7,
+      "samples_per_subtype": 125
+    },
+    {
+      "name": "phase18_advanced_redteam",
+      "path": "reports/research_completion/final_independent_validation_and_release/raw_predictions/phase18_redteam_predictions.jsonl",
+      "sample_count": 460,
+      "categories_count": 15
+    },
+    {
+      "name": "ragtruth_test_evaluation",
+      "sample_count": 200,
+      "clean_controls": 100,
+      "hallucination_attacks": 100
+    },
+    {
+      "name": "halueval_test_evaluation",
+      "sample_count": 200,
+      "clean_controls": 100,
+      "hallucination_attacks": 100
+    }
+  ]
+}

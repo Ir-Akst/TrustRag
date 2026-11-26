@@ -1,0 +1,67 @@
+{
+  "1_full_trustrag": {
+    "g1_adr": 0.9667,
+    "g1_asr": 0.0333,
+    "g1_fpr": 0.1,
+    "multilingual_adr": 0.9722,
+    "multilingual_fpr": 0.0,
+    "boundary_leakage": 0.0,
+    "boundary_false_quarantine": 0.0,
+    "g3_gate_accuracy": 1.0,
+    "g3_unsupported_leakage": 0.0,
+    "g3_contradiction_recall": 1.0,
+    "total_elapsed_ms": 4439.75
+  },
+  "2_no_g1_semantic": {
+    "g1_adr": 0.3667,
+    "g1_asr": 0.6333,
+    "g1_fpr": 0.05,
+    "multilingual_adr": 0.8611,
+    "multilingual_fpr": 0.0,
+    "boundary_leakage": 0.0,
+    "boundary_false_quarantine": 0.0,
+    "g3_gate_accuracy": 1.0,
+    "g3_unsupported_leakage": 0.0,
+    "g3_contradiction_recall": 1.0,
+    "total_elapsed_ms": 937.15
+  },
+  "3_no_generator_boundary": {
+    "g1_adr": 0.9667,
+    "g1_asr": 0.0333,
+    "g1_fpr": 0.1,
+    "multilingual_adr": 0.9722,
+    "multilingual_fpr": 0.0,
+    "boundary_leakage": 1.0,
+    "boundary_false_quarantine": 0.0,
+    "g3_gate_accuracy": 1.0,
+    "g3_unsupported_leakage": 0.0,
+    "g3_contradiction_recall": 1.0,
+    "total_elapsed_ms": 3069.4
+  },
+  "4_no_multilingual": {
+    "g1_adr": 0.9667,
+    "g1_asr": 0.0333,
+    "g1_fpr": 0.1,
+    "multilingual_adr": 0.6667,
+    "multilingual_fpr": 0.0,
+    "boundary_leakage": 0.0,
+    "boundary_false_quarantine": 0.0,
+    "g3_gate_accuracy": 1.0,
+    "g3_unsupported_leakage": 0.0,
+    "g3_contradiction_recall": 1.0,
+    "total_elapsed_ms": 2972.21
+  },
+  "5_no_g3_verifier": {
+    "g1_adr": 0.9667,
+    "g1_asr": 0.0333,
+    "g1_fpr": 0.1,
+    "multilingual_adr": 0.9722,
+    "multilingual_fpr": 0.0,
+    "boundary_leakage": 0.0,
+    "boundary_false_quarantine": 0.0,
+    "g3_gate_accuracy": 0.25,
+    "g3_unsupported_leakage": 1.0,
+    "g3_contradiction_recall": 0.0,
+    "total_elapsed_ms": 3075.4
+  }
+}

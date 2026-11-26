@@ -1,0 +1,72 @@
+{
+  "benchmark": "Phase 32 Adaptive Red-Team Evaluation",
+  "sample_counts": {
+    "attacks": 200,
+    "controls": 200,
+    "total": 400
+  },
+  "confusion_matrix": {
+    "tp": 200,
+    "fn": 0,
+    "tn": 200,
+    "fp": 0
+  },
+  "metrics": {
+    "adr": 1.0,
+    "adr_95ci": [
+      0.9812,
+      1.0
+    ],
+    "asr": 0.0,
+    "fpr": 0.0,
+    "fpr_95ci": [
+      0.0,
+      0.0188
+    ],
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1": 1.0
+  },
+  "family_breakdown": {
+    "semantic_paraphrase": {
+      "detected": 25,
+      "total": 25,
+      "adr": 1.0
+    },
+    "narrative_framing": {
+      "detected": 25,
+      "total": 25,
+      "adr": 1.0
+    },
+    "roleplay_persona": {
+      "detected": 25,
+      "total": 25,
+      "adr": 1.0
+    },
+    "academic_pretext": {
+      "detected": 25,
+      "total": 25,
+      "adr": 1.0
+    },
+    "delimiter_mutation": {
+      "detected": 25,
+      "total": 25,
+      "adr": 1.0
+    },
+    "exfiltration_directive": {
+      "detected": 25,
+      "total": 25,
+      "adr": 1.0
+    },
+    "dual_intent_append": {
+      "detected": 25,
+      "total": 25,
+      "adr": 1.0
+    },
+    "cross_lingual_injection": {
+      "detected": 25,
+      "total": 25,
+      "adr": 1.0
+    }
+  }
+}

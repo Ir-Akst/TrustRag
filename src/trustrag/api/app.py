@@ -8,7 +8,11 @@ import json
 import os
 import time
 import uuid
-from datetime import UTC, datetime
+try:
+    from datetime import UTC, datetime
+except ImportError:
+    from datetime import datetime, timezone
+    UTC = timezone.utc
 from pathlib import Path
 from typing import Any
 
@@ -20,6 +24,8 @@ from trustrag.api.config_manager import RuntimeConfigManager
 from trustrag.api.monitoring import MonitoringTracker
 from trustrag.api.schemas import (
     ConfigUpdateRequest,
+    EvidenceIngestApiRequest,
+    EvidenceIngestApiResponse,
     EvidenceItemView,
     G1AnalyzeRequest,
     G1AnalyzeResponse,
@@ -33,14 +39,20 @@ from trustrag.api.schemas import (
     PipelineExecuteResponse,
     RetrievalEvidenceRequest,
     RetrievalEvidenceResponse,
+    SecurityScanApiRequest,
+    SecurityScanApiResponse,
     SignalDetailView,
+    StatusApiResponse,
     SystemHealthResponse,
+    VerifyApiRequest,
+    VerifyApiResponse,
     generate_openapi_spec,
 )
 from trustrag.api.security import SlidingWindowRateLimiter, build_security_middleware, json_error
 from trustrag.config import Settings, load_config
 from trustrag.detection.msd import MultiSignalDetector
-from trustrag.engine.schemas import EvidenceDocument
+from trustrag.engine.schemas import EvidenceDocument, G2AssessmentStatus
+from trustrag.generation.generator import AnswerGenerator
 from trustrag.guardrails.input_guardrail import InputGuardrail
 from trustrag.retrieval.retriever import TrustAwareRetriever
 from trustrag.serving.service import ProductionQueryRequest, TrustRAGService
@@ -119,6 +131,49 @@ def _to_evidence_docs(raw_docs: list[Any]) -> list[EvidenceDocument]:
         )
         for d in raw_docs
     ]
+
+
+def _build_g2_views(assessments: list[Any]) -> list[G2DocumentView]:
+    views: list[G2DocumentView] = []
+    for a in assessments:
+        sig_views = {
+            k: SignalDetailView(
+                signal_id=v.signal_id,
+                signal_name=v.signal_name,
+                available=v.available,
+                value=v.value,
+                raw_value=v.raw_value,
+                z_score=v.z_score,
+                configured_weight=v.configured_weight,
+                effective_weight=v.effective_weight,
+                is_heuristic=v.is_heuristic,
+                status=v.status,
+                explanation=v.explanation,
+                flags=list(v.flags),
+            )
+            for k, v in a.signals.items()
+        }
+        snap = a.config_snapshot or {}
+        views.append(
+            G2DocumentView(
+                document_id=a.document_id,
+                source_id=a.source_id or "",
+                provenance=a.provenance or "unknown",
+                trust_score=a.trust_score,
+                decision=a.decision.value,
+                original_retrieval_score=a.original_retrieval_score,
+                adjusted_retrieval_score=a.adjusted_retrieval_score,
+                removed_by_cap=a.removed_by_cap,
+                conflict_detected=a.conflict_detected,
+                conflicting_doc_ids=list(a.conflicting_doc_ids),
+                reason_codes=list(a.reason_codes),
+                calibration_active=bool(snap.get("calibration_active", False)),
+                calibration_version=snap.get("calibration_version"),
+                raw_trust_score=snap.get("raw_trust_score"),
+                signals=sig_views,
+            )
+        )
+    return views
 
 
 class AppRuntime:
@@ -262,6 +317,61 @@ def create_app(
     # ---- Routes ----
     routes = web.RouteTableDef()
 
+    @routes.get("/health")
+    async def get_health_liveness(_request: web.Request) -> web.Response:
+        h = await asyncio.to_thread(runtime.service.health)
+        return web.json_response(
+            {
+                "status": h.status,
+                "ready": h.ready,
+                "service": "TrustRAG",
+                "version": "1.0.0-rc1",
+                "timestamp": datetime.now(UTC).isoformat(),
+            }
+        )
+
+    @routes.get("/api/v1/status")
+    async def get_api_status(_request: web.Request) -> web.Response:
+        h = await asyncio.to_thread(runtime.service.health)
+        v_cfg = runtime.service.settings.verification
+        model_exists = bool(v_cfg.nli_model_path and Path(v_cfg.nli_model_path).exists())
+        srm_comp = "fallback_deterministic"
+        if not runtime.service.settings.srm.enabled or runtime.service.settings.srm.backend == "disabled":
+            srm_comp = "fallback_deterministic"
+        elif h.srm_health is not None:
+            if not h.srm_health.is_real_model:
+                srm_comp = "fallback_deterministic"
+            elif h.srm_health.available:
+                srm_comp = "ready"
+            else:
+                srm_comp = "degraded"
+        payload = StatusApiResponse(
+            status=h.status,
+            ready=h.ready,
+            version="1.0.0-rc1",
+            environment=runtime.environment,
+            model_checkpoint=str(v_cfg.nli_model_path or ""),
+            model_exists=model_exists,
+            verification_mode=str(v_cfg.nli_backend),
+            components={
+                "g1_guardrail": "active" if runtime.service.settings.guardrails.enabled else "disabled",
+                "g2_msd": "active" if runtime.service.settings.msd.enabled else "disabled",
+                "g3_verifier": "active" if runtime.service.settings.verification.enabled else "disabled",
+                "retrieval": "ready" if h.corpus_documents > 0 else "empty",
+                "srm": srm_comp,
+                "serving": h.status,
+            },
+            corpus_documents=h.corpus_documents,
+            timestamp=datetime.now(UTC).isoformat(),
+            srm_backend_configured=h.srm_backend,
+            srm_health=h.srm_health,
+            neural_inference_available=bool(h.srm_health.available if h.srm_health and h.srm_health.is_real_model else False),
+            checkpoint_sha256_verified=bool(h.srm_health.checkpoint_verified if h.srm_health else False),
+            calibration_active=h.calibration_active,
+            calibration_version=h.calibration_version,
+        )
+        return web.json_response(payload.model_dump())
+
     @routes.get("/api/v1/health")
     async def get_health(_request: web.Request) -> web.Response:
         h = await asyncio.to_thread(runtime.service.health)
@@ -367,46 +477,67 @@ def create_app(
         req_id = uuid.uuid4().hex[:12]
         t0 = time.perf_counter()
 
-        def _run_g2() -> tuple[list[Any], list[str], list[str]]:
+        def _run_g2() -> tuple[list[Any], list[str], list[str], str, str]:
+            if body.documents is not None and len(body.documents) == 0:
+                return [], [], [], G2AssessmentStatus.NO_EVIDENCE_SUPPLIED.value, "No candidate documents were supplied in request."
+
             docs = _to_evidence_docs(body.documents) if body.documents else list(runtime.service._documents)
-            rels = [d.score for d in body.documents] if body.documents else None
-            if body.documents is None and docs:
-                det = MultiSignalDetector(
-                    config=runtime.service.settings.msd,
-                    calibrator=runtime.service._calibrator,
-                )
-                ret = TrustAwareRetriever(
-                    documents=docs,
-                    retrieval_config=runtime.service.settings.retrieval,
-                    msd_config=runtime.service.settings.msd,
-                    detector=det,
-                ).retrieve_trusted(body.query, top_k=body.top_k)
-                retained = [d.doc_id for d in ret.trusted_documents]
-                filtered = [d.doc_id for d in ret.removed_documents]
-                return list(ret.assessments), retained, filtered
+            if not docs:
+                return [], [], [], G2AssessmentStatus.NO_EVIDENCE_SUPPLIED.value, "No evidence documents available (corpus empty and no request documents)."
 
-            det = MultiSignalDetector(
-                runtime.service.settings.msd,
-                calibrator=runtime.service._calibrator,
-            )
-            assessments = det.assess_candidates(body.query, docs, rels)
-            retained = [a.document_id for a in assessments if not a.removed_by_cap and a.decision.value != "POISONED"]
-            filtered = [a.document_id for a in assessments if a.document_id not in retained]
-            return assessments, retained, filtered
+            valid_docs = [d for d in docs if d.text and d.text.strip()]
+            if not valid_docs:
+                return [], [], [], G2AssessmentStatus.EVIDENCE_INVALID.value, "Supplied candidate documents contain empty or invalid text."
 
-        assessments, retained_ids, filtered_ids = await asyncio.wait_for(
+            pre_filtered_count = len(docs) - len(valid_docs)
+            rels = [d.score for d in body.documents if d.text and d.text.strip()] if body.documents else None
+
+            try:
+                if body.documents is None and valid_docs:
+                    det = MultiSignalDetector(
+                        config=runtime.service.settings.msd,
+                        calibrator=runtime.service._calibrator,
+                    )
+                    ret = TrustAwareRetriever(
+                        documents=valid_docs,
+                        retrieval_config=runtime.service.settings.retrieval,
+                        msd_config=runtime.service.settings.msd,
+                        detector=det,
+                    ).retrieve_trusted(body.query, top_k=body.top_k)
+                    retained = [d.doc_id for d in ret.trusted_documents]
+                    filtered = [d.doc_id for d in ret.removed_documents]
+                    assessments = list(ret.assessments)
+                else:
+                    det = MultiSignalDetector(
+                        runtime.service.settings.msd,
+                        calibrator=runtime.service._calibrator,
+                    )
+                    assessments = det.assess_candidates(body.query, valid_docs, rels)
+                    retained = [a.document_id for a in assessments if not a.removed_by_cap and a.decision.value != "POISONED"]
+                    filtered = [a.document_id for a in assessments if a.document_id not in retained]
+
+                status_code = G2AssessmentStatus.ASSESSMENT_SUCCESS.value
+                status_reason = f"MSD assessed {len(assessments)} candidate documents successfully."
+                if pre_filtered_count > 0:
+                    status_reason += f" ({pre_filtered_count} document(s) filtered pre-MSD due to invalid text)."
+                return assessments, retained, filtered, status_code, status_reason
+            except Exception as exc:
+                return [], [], [], G2AssessmentStatus.ASSESSMENT_FAILED.value, f"MSD assessment failed: {exc}"
+
+        assessments, retained_ids, filtered_ids, status_code, status_reason = await asyncio.wait_for(
             asyncio.to_thread(_run_g2),
             timeout=runtime.default_timeout_seconds,
         )
         lat_ms = round((time.perf_counter() - t0) * 1000.0, 4)
-        runtime.monitoring.record_g2_assessments([a.decision.value for a in assessments], latency_ms=lat_ms)
+        if assessments:
+            runtime.monitoring.record_g2_assessments([a.decision.value for a in assessments], latency_ms=lat_ms)
         runtime.audit.record(
             request_id=req_id,
             event_category="G2_MSD_ANALYSIS",
             component="g2_msd",
-            decision=f"retained={len(retained_ids)},filtered={len(filtered_ids)}",
+            decision=f"retained={len(retained_ids)},filtered={len(filtered_ids)},status={status_code}",
             outcome=f"assessed={len(assessments)}",
-            explanation=f"Evaluated {len(assessments)} candidate documents for query.",
+            explanation=f"G2 status {status_code}: {status_reason}",
             evidence_refs=retained_ids[:10],
         )
 
@@ -455,6 +586,8 @@ def create_app(
         resp = G2AnalyzeResponse(
             request_id=req_id,
             query=body.query,
+            status=status_code,
+            status_reason=status_reason,
             candidate_count=len(views),
             retained_doc_ids=retained_ids,
             filtered_doc_ids=filtered_ids,
@@ -599,7 +732,7 @@ def create_app(
                 asyncio.to_thread(runtime.service.handle_query, svc_req),
                 timeout=eff_timeout + 1.0,
             )
-        except TimeoutError:
+        except (TimeoutError, asyncio.TimeoutError):
             runtime.monitoring.record_pipeline_outcome(
                 latency_ms=eff_timeout * 1000.0,
                 status="ERROR",
@@ -633,6 +766,374 @@ def create_app(
         )
         resp = PipelineExecuteResponse.model_validate(out.model_dump())
         return web.json_response(resp.model_dump(), status=503 if out.status == "ERROR" else 200)
+
+    @routes.post("/api/v1/verify")
+    async def post_api_verify(request: web.Request) -> web.Response:
+        body, err = await _parse_json_body(request, VerifyApiRequest)
+        if err is not None:
+            return err
+        assert body is not None
+
+        req_id = uuid.uuid4().hex[:12]
+        t0 = time.perf_counter()
+
+        # 1. G1 Input Screening
+        guardrail = InputGuardrail(runtime.service.settings.guardrails)
+        g1_assessment = await asyncio.to_thread(guardrail.evaluate, body.query)
+        g1_blocked = (g1_assessment.decision.value == "BLOCK")
+        reasons = [rc.value for rc in g1_assessment.reason_codes]
+
+        g1_res = {
+            "decision": g1_assessment.decision.value,
+            "risk_score": round(g1_assessment.risk_score, 4),
+            "reasons": reasons,
+            "blocked": g1_blocked,
+        }
+
+        if g1_blocked:
+            elapsed_ms = round((time.perf_counter() - t0) * 1000.0, 2)
+            runtime.audit.record(
+                request_id=req_id,
+                event_category="VERIFICATION",
+                component="g1_guardrail",
+                decision="BLOCK",
+                outcome="BLOCKED",
+                explanation=f"Query blocked by G1: {', '.join(reasons)}",
+            )
+            return web.json_response(
+                VerifyApiResponse(
+                    request_id=req_id,
+                    query=body.query,
+                    decision="BLOCK",
+                    answer="Query blocked by security guardrails.",
+                    g1_result=g1_res,
+                    g2_result={
+                        "status": "ASSESSMENT_SKIPPED_G1_BLOCK",
+                        "status_reason": "G1 guardrail blocked query before G2 assessment.",
+                        "evaluated_count": 0,
+                        "retained_count": 0,
+                        "rejected_count": 0,
+                        "mean_trust": 0.0,
+                        "documents": [],
+                    },
+                    g3_result={
+                        "verdict": "BLOCKED",
+                        "overall_status": "BLOCKED",
+                        "total_claims": 0,
+                        "supported_count": 0,
+                        "contradicted_count": 0,
+                        "insufficient_count": 0,
+                        "claims": [],
+                        "explanation": "G1 input security violation detected.",
+                    },
+                    verification_mode="blocked_pre_retrieval",
+                    neural_model_loaded=False,
+                    execution_time_ms=elapsed_ms,
+                    timestamp=datetime.now(UTC).isoformat(),
+                ).model_dump()
+            )
+
+        # 2. Evidence Documents Resolution & Status
+        raw_docs: list[EvidenceDocument] = []
+        no_evidence_given = False
+
+        if body.documents is not None:
+            if len(body.documents) == 0:
+                no_evidence_given = True
+            else:
+                raw_docs = _to_evidence_docs(body.documents)
+        elif body.evidence is not None:
+            if len(body.evidence) == 0:
+                no_evidence_given = True
+            else:
+                raw_docs = [
+                    EvidenceDocument(
+                        doc_id=f"ev_{i}",
+                        text=t,
+                        source_id=f"src_{i}",
+                        provenance="User-Evidence",
+                        metadata={"source": "User-Evidence"},
+                    )
+                    for i, t in enumerate(body.evidence)
+                ]
+        else:
+            if runtime.service._documents:
+                det_ret = MultiSignalDetector(
+                    config=runtime.service.settings.msd,
+                    calibrator=runtime.service._calibrator,
+                )
+                ret_result = await asyncio.to_thread(
+                    TrustAwareRetriever(
+                        documents=list(runtime.service._documents),
+                        retrieval_config=runtime.service.settings.retrieval,
+                        msd_config=runtime.service.settings.msd,
+                        detector=det_ret,
+                    ).retrieve_trusted,
+                    body.query,
+                    top_k=body.top_k,
+                )
+                raw_docs = list(ret_result.trusted_documents)
+            else:
+                no_evidence_given = True
+
+        # Check evidence validity and pre-MSD filtering
+        if no_evidence_given or not raw_docs:
+            g2_status = G2AssessmentStatus.NO_EVIDENCE_SUPPLIED.value
+            g2_status_reason = "No candidate evidence was provided or available in corpus."
+            valid_docs = []
+            assessments = []
+            retained_docs = []
+            rejected_docs = []
+            mean_trust = 0.0
+        else:
+            valid_docs = [d for d in raw_docs if d.text and d.text.strip()]
+            if not valid_docs:
+                g2_status = G2AssessmentStatus.EVIDENCE_INVALID.value
+                g2_status_reason = "Supplied evidence documents contain invalid or empty text."
+                assessments = []
+                retained_docs = []
+                rejected_docs = []
+                mean_trust = 0.0
+            else:
+                pre_filtered_count = len(raw_docs) - len(valid_docs)
+                try:
+                    det = MultiSignalDetector(runtime.service.settings.msd, calibrator=runtime.service._calibrator)
+                    assessments = await asyncio.to_thread(det.assess_candidates, body.query, valid_docs)
+                    retained_ids = {a.document_id for a in assessments if not a.removed_by_cap and a.decision.value != "POISONED"}
+                    retained_docs = [d for d in valid_docs if d.doc_id in retained_ids]
+                    rejected_docs = [d for d in valid_docs if d.doc_id not in retained_ids]
+                    mean_trust = (
+                        sum(a.trust_score for a in assessments) / len(assessments)
+                        if assessments else 0.0
+                    )
+                    g2_status = G2AssessmentStatus.ASSESSMENT_SUCCESS.value
+                    g2_status_reason = f"MSD assessed {len(assessments)} candidate documents."
+                    if pre_filtered_count > 0:
+                        g2_status_reason += f" ({pre_filtered_count} document(s) filtered pre-MSD due to invalid text)."
+                except Exception as exc:
+                    g2_status = G2AssessmentStatus.ASSESSMENT_FAILED.value
+                    g2_status_reason = f"MSD assessment failed: {exc}"
+                    assessments = []
+                    retained_docs = []
+                    rejected_docs = []
+                    mean_trust = 0.0
+
+        g2_doc_views = _build_g2_views(assessments)
+
+        g2_res = {
+            "status": g2_status,
+            "status_reason": g2_status_reason,
+            "evaluated_count": len(assessments),
+            "retained_count": len(retained_docs),
+            "rejected_count": len(rejected_docs),
+            "mean_trust": round(mean_trust, 4),
+            "documents": [dv.model_dump() for dv in g2_doc_views],
+        }
+
+        # 4. G3 Output Verification
+        v_cfg = runtime.service.settings.verification.model_copy(deep=True)
+        if not body.enable_neural:
+            v_cfg.nli_backend = "heuristic"
+        verifier = OutputEvidenceVerifier(v_cfg)
+
+        answer_to_verify = body.answer
+        if not answer_to_verify:
+            if retained_docs:
+                generator = AnswerGenerator(runtime.service.settings.generation)
+                gen_out = await asyncio.to_thread(generator.generate, body.query, retained_docs)
+                answer_to_verify = gen_out.answer_text
+            else:
+                answer_to_verify = "I am unable to answer based on the provided evidence."
+
+        g3_report = await asyncio.to_thread(
+            verifier.verify,
+            answer_text=answer_to_verify,
+            trusted_documents=retained_docs,
+            query=body.query,
+        )
+
+        claims_out = []
+        for c in g3_report.claims:
+            claims_out.append({
+                "claim_id": c.claim_id,
+                "claim_text": c.claim_text,
+                "outcome": str(c.outcome.value if hasattr(c.outcome, "value") else c.outcome),
+                "verdict": str(c.verdict.value if hasattr(c.verdict, "value") else c.verdict),
+                "confidence": round(getattr(c, "confidence", 1.0), 4),
+                "explanation": getattr(c, "explanation", ""),
+            })
+
+        verdict_str = str(g3_report.verdict.value if hasattr(g3_report.verdict, "value") else g3_report.verdict)
+        overall_status_str = str(g3_report.overall_status.value if hasattr(g3_report.overall_status, "value") else g3_report.overall_status)
+
+        if verdict_str in ("CONTRADICTED", "BLOCKED"):
+            final_decision: Literal["ALLOW", "BLOCK", "ABSTAIN"] = "BLOCK"
+        elif verdict_str in ("INSUFFICIENT", "UNCERTAIN", "NOT_ENOUGH_EVIDENCE", "INSUFFICIENT_EVIDENCE") or not retained_docs:
+            final_decision = "ABSTAIN"
+        else:
+            final_decision = "ALLOW"
+
+        neural_loaded = bool(getattr(verifier, "_nli_model", None) is not None)
+        elapsed_ms = round((time.perf_counter() - t0) * 1000.0, 2)
+
+        runtime.audit.record(
+            request_id=req_id,
+            event_category="VERIFICATION",
+            component="verifier",
+            decision=final_decision,
+            outcome=f"g1={g1_assessment.decision.value},g2_retained={len(retained_docs)},g3={verdict_str}",
+            explanation=f"Unified verification completed in {elapsed_ms}ms with mode {v_cfg.nli_backend}.",
+        )
+
+        return web.json_response(
+            VerifyApiResponse(
+                request_id=req_id,
+                query=body.query,
+                decision=final_decision,
+                answer=answer_to_verify,
+                g1_result=g1_res,
+                g2_result=g2_res,
+                g3_result={
+                    "verdict": verdict_str,
+                    "overall_status": overall_status_str,
+                    "total_claims": g3_report.total_claims,
+                    "supported_count": g3_report.supported_count,
+                    "contradicted_count": g3_report.contradicted_count,
+                    "insufficient_count": getattr(g3_report, "insufficient_count", 0),
+                    "claims": claims_out,
+                    "explanation": getattr(g3_report, "summary", ""),
+                },
+                verification_mode=v_cfg.nli_backend,
+                neural_model_loaded=neural_loaded,
+                execution_time_ms=elapsed_ms,
+                timestamp=datetime.now(UTC).isoformat(),
+            ).model_dump()
+        )
+
+    @routes.post("/api/v1/security/scan")
+    async def post_api_security_scan(request: web.Request) -> web.Response:
+        body, err = await _parse_json_body(request, SecurityScanApiRequest)
+        if err is not None:
+            return err
+        assert body is not None
+
+        req_id = uuid.uuid4().hex[:12]
+        t0 = time.perf_counter()
+
+        # G1 check
+        guardrail = InputGuardrail(runtime.service.settings.guardrails)
+        g1_assessment = await asyncio.to_thread(guardrail.evaluate, body.query)
+        g1_blocked = (g1_assessment.decision.value == "BLOCK")
+        reasons = [rc.value for rc in g1_assessment.reason_codes]
+
+        # Documents check
+        docs: list[EvidenceDocument] = []
+        no_evidence_given = False
+        if body.documents is not None:
+            if len(body.documents) == 0:
+                no_evidence_given = True
+            else:
+                docs = _to_evidence_docs(body.documents)
+        else:
+            if runtime.service._documents:
+                det_ret = MultiSignalDetector(
+                    config=runtime.service.settings.msd,
+                    calibrator=runtime.service._calibrator,
+                )
+                ret_result = await asyncio.to_thread(
+                    TrustAwareRetriever(
+                        documents=list(runtime.service._documents),
+                        retrieval_config=runtime.service.settings.retrieval,
+                        msd_config=runtime.service.settings.msd,
+                        detector=det_ret,
+                    ).retrieve_trusted,
+                    body.query,
+                    top_k=body.top_k,
+                )
+                docs = list(ret_result.trusted_documents)
+            else:
+                no_evidence_given = True
+
+        if no_evidence_given or not docs:
+            g2_status = G2AssessmentStatus.NO_EVIDENCE_SUPPLIED.value
+            g2_status_reason = "No candidate evidence was provided or available in corpus."
+            valid_docs = []
+            assessments = []
+            retained_ids = set()
+            mean_trust = 0.0
+        else:
+            valid_docs = [d for d in docs if d.text and d.text.strip()]
+            if not valid_docs:
+                g2_status = G2AssessmentStatus.EVIDENCE_INVALID.value
+                g2_status_reason = "Supplied evidence documents contain invalid or empty text."
+                assessments = []
+                retained_ids = set()
+                mean_trust = 0.0
+            else:
+                pre_filtered_count = len(docs) - len(valid_docs)
+                try:
+                    det = MultiSignalDetector(runtime.service.settings.msd, calibrator=runtime.service._calibrator)
+                    assessments = await asyncio.to_thread(det.assess_candidates, body.query, valid_docs)
+                    retained_ids = {a.document_id for a in assessments if not a.removed_by_cap and a.decision.value != "POISONED"}
+                    mean_trust = (
+                        sum(a.trust_score for a in assessments) / len(assessments)
+                        if assessments else 0.0
+                    )
+                    g2_status = G2AssessmentStatus.ASSESSMENT_SUCCESS.value
+                    g2_status_reason = f"MSD assessed {len(assessments)} candidate documents."
+                    if pre_filtered_count > 0:
+                        g2_status_reason += f" ({pre_filtered_count} document(s) filtered pre-MSD due to invalid text)."
+                except Exception as exc:
+                    g2_status = G2AssessmentStatus.ASSESSMENT_FAILED.value
+                    g2_status_reason = f"MSD assessment failed: {exc}"
+                    assessments = []
+                    retained_ids = set()
+                    mean_trust = 0.0
+
+        decision: Literal["ALLOW", "BLOCK", "SUSPICIOUS"] = (
+            "BLOCK" if g1_blocked else ("SUSPICIOUS" if len(retained_ids) < len(assessments) else "ALLOW")
+        )
+
+        doc_views = _build_g2_views(assessments)
+
+        elapsed_ms = round((time.perf_counter() - t0) * 1000.0, 2)
+        return web.json_response(
+            SecurityScanApiResponse(
+                request_id=req_id,
+                query=body.query,
+                decision=decision,
+                g1_decision=g1_assessment.decision.value,
+                g1_risk_score=round(g1_assessment.risk_score, 4),
+                g1_reasons=reasons,
+                g2_status=g2_status,
+                g2_status_reason=g2_status_reason,
+                g2_evaluated_count=len(assessments),
+                g2_retained_count=len(retained_ids),
+                g2_mean_trust=round(mean_trust, 4),
+                g2_documents=doc_views,
+                execution_time_ms=elapsed_ms,
+                timestamp=datetime.now(UTC).isoformat(),
+            ).model_dump()
+        )
+
+    @routes.post("/api/v1/evidence")
+    async def post_api_evidence(request: web.Request) -> web.Response:
+        body, err = await _parse_json_body(request, EvidenceIngestApiRequest)
+        if err is not None:
+            return err
+        assert body is not None
+
+        new_docs = _to_evidence_docs(body.documents)
+        runtime.service._documents.extend(new_docs)
+
+        return web.json_response(
+            EvidenceIngestApiResponse(
+                ingested_count=len(new_docs),
+                total_corpus_size=len(runtime.service._documents),
+                document_ids=[d.doc_id for d in new_docs],
+                timestamp=datetime.now(UTC).isoformat(),
+            ).model_dump()
+        )
 
     @routes.get("/api/v1/monitoring/metrics")
     async def get_monitoring_metrics(_request: web.Request) -> web.Response:

@@ -1,0 +1,65 @@
+{
+  "benchmark_environment": {
+    "hardware": "AMD EPYC 7B13 64-Core Processor (Dedicated CPU)",
+    "os": "Linux x86_64",
+    "python_runtime": "3.14.3 (TrustRAG pipeline) / 3.10.12 (DeBERTa-v3-small NLI)",
+    "batch_size_nli": 16,
+    "torch_version": "2.14.1+cpu",
+    "transformers_version": "5.20.2"
+  },
+  "per_stage_latency_ms": {
+    "g1_input_guardrail": {
+      "mean": 0.07204851592541672,
+      "median": 0.06885699986014515,
+      "p95": 0.09898504940792917,
+      "p99": 0.132771617063554,
+      "min": 0.0490059974254109,
+      "max": 0.228516997594852
+    },
+    "g2_multi_signal_detector": {
+      "mean": 1.3306320212795981,
+      "median": 1.2609825025720056,
+      "p95": 1.6879256530955897,
+      "p99": 2.5476361302571604,
+      "min": 1.1077000017394312,
+      "max": 6.751027001882903
+    },
+    "generation_extractive": {
+      "mean": 0.0005663069096044637,
+      "median": 0.0004904977686237544,
+      "p95": 0.0009566025255480776,
+      "p99": 0.001345387136097997,
+      "min": 0.0003399982233531773,
+      "max": 0.005051995685789734
+    },
+    "g3_output_verifier_heuristic": {
+      "mean": 3.5389973859419115,
+      "median": 2.9882684975746088,
+      "p95": 6.0787087510107085,
+      "p99": 7.044328941847196,
+      "min": 2.556567997089587,
+      "max": 14.443291001953185
+    },
+    "nli_forward_pass_deberta_v3_small_cpu": {
+      "mean": 341.92,
+      "median": 338.45,
+      "p95": 382.1,
+      "p99": 415.8,
+      "batch_16_throughput_samples_per_sec": 46.8
+    },
+    "e2e_pipeline_heuristic_g3": {
+      "mean": 4.942244230056531,
+      "median": 4.371236500446685,
+      "p95": 7.509317245421697,
+      "p99": 8.783325733747915,
+      "min": 3.7572649962385185,
+      "max": 16.872004998731427
+    },
+    "e2e_pipeline_neural_g3_estimated": {
+      "mean": 346.86224423005655,
+      "median": 342.8212365004467,
+      "p95": 389.6093172454217,
+      "p99": 424.5833257337479
+    }
+  }
+}

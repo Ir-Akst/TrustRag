@@ -1,0 +1,111 @@
+{
+  "benchmark": "Phase 31 Comprehensive Fail-Safe Integration Audit",
+  "total_scenarios": 8,
+  "all_scenarios_compliant": true,
+  "scenarios": [
+    {
+      "scenario_id": 1,
+      "name": "g1_exception_injection",
+      "component": "G1_InputGuardrail",
+      "injected_fault": "RuntimeError inside _evaluate_internal",
+      "returned_decision": "BLOCK",
+      "risk_score": 1.0,
+      "reason_codes": [
+        "G1_INTERNAL_ERROR"
+      ],
+      "fail_safe_compliant": true,
+      "behavior": "FAIL_SAFE_BLOCK_CLOSED",
+      "generation_suppressed": true
+    },
+    {
+      "scenario_id": 2,
+      "name": "g2_msd_exception_injection",
+      "component": "G2_MultiSignalDetector",
+      "injected_fault": "ValueError inside MultiSignalDetector.assess_candidates",
+      "status": "ERROR",
+      "abstained": true,
+      "fail_safe_events": [
+        "INTERNAL_ERROR:ValueError"
+      ],
+      "answer_preview": "Internal service error: abstaining safely.",
+      "fail_safe_compliant": true,
+      "behavior": "FAIL_SAFE_ABSTAINED_CLOSED",
+      "generation_suppressed": true
+    },
+    {
+      "scenario_id": 3,
+      "name": "g3_nli_exception_injection",
+      "component": "G3_NeuralNLI",
+      "injected_fault": "Neural model CUDA/Torch failure",
+      "fail_safe_compliant": true,
+      "behavior": "FAIL_SAFE_DETERMINISTIC_FALLBACK",
+      "generation_suppressed": false,
+      "details": "Deterministic fallback CPU guardrail takes over verification automatically"
+    },
+    {
+      "scenario_id": 4,
+      "name": "retrieval_timeout_injection",
+      "component": "Retrieval_Pipeline",
+      "injected_fault": "request_timeout_seconds=0.0000001 (retrieval deadline expired)",
+      "status": "ERROR",
+      "abstained": true,
+      "fail_safe_events": [
+        "REQUEST_TIMEOUT"
+      ],
+      "fail_safe_compliant": true,
+      "behavior": "FAIL_SAFE_ABSTAINED_CLOSED",
+      "generation_suppressed": true
+    },
+    {
+      "scenario_id": 5,
+      "name": "model_inference_timeout_injection",
+      "component": "Generation_Engine",
+      "injected_fault": "request_timeout_seconds=0.0000001 (inference deadline expired)",
+      "status": "ERROR",
+      "abstained": true,
+      "fail_safe_events": [
+        "REQUEST_TIMEOUT"
+      ],
+      "fail_safe_compliant": true,
+      "behavior": "FAIL_SAFE_ABSTAINED_CLOSED",
+      "generation_suppressed": true
+    },
+    {
+      "scenario_id": 6,
+      "name": "malformed_input_stream",
+      "component": "G1_InputGuardrail",
+      "injected_fault": "4KB Null and binary stream",
+      "decision": "BLOCK",
+      "risk_score": 0.75,
+      "fail_safe_compliant": true,
+      "behavior": "FAIL_SAFE_HANDLED_CLOSED",
+      "generation_suppressed": true
+    },
+    {
+      "scenario_id": 7,
+      "name": "backend_shutdown_query",
+      "component": "Service_Lifecycle",
+      "injected_fault": "Query dispatched to shut down service instance",
+      "status": "ERROR",
+      "abstained": true,
+      "fail_safe_events": [
+        "SERVICE_SHUTDOWN"
+      ],
+      "fail_safe_compliant": true,
+      "behavior": "FAIL_SAFE_ABSTAINED_CLOSED",
+      "generation_suppressed": true
+    },
+    {
+      "scenario_id": 8,
+      "name": "partial_dependency_empty_retrieval",
+      "component": "Corpus_Dependency",
+      "injected_fault": "Empty corpus documents supplied",
+      "status": "ABSTAINED",
+      "abstained": true,
+      "retained_docs": 0,
+      "fail_safe_compliant": true,
+      "behavior": "FAIL_SAFE_ABSTAINED_CLOSED",
+      "generation_suppressed": true
+    }
+  ]
+}

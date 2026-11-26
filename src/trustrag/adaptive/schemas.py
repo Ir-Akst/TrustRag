@@ -4,8 +4,17 @@ from __future__ import annotations
 
 import hashlib
 import json
-from datetime import UTC, datetime
-from enum import StrEnum
+try:
+    from datetime import UTC, datetime
+except ImportError:
+    from datetime import datetime, timezone
+    UTC = timezone.utc
+try:
+    from enum import StrEnum
+except ImportError:
+    from enum import Enum
+    class StrEnum(str, Enum):
+        pass
 from typing import Any, Literal
 
 from pydantic import BaseModel, Field, model_validator

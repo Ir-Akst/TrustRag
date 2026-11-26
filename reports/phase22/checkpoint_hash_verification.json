@@ -1,0 +1,23 @@
+{
+  "audit_phase": "Phase 22",
+  "timestamp": "2026-11-24T04:15:00Z",
+  "checkpoint_name": "deberta-v3-small-nli-phase11_1-full3epoch",
+  "checkpoint_directory": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+  "status": "VERIFIED_BIT_FOR_BIT_IDENTICAL",
+  "pre_evaluation_verification": {
+    "checkpoint_meta.json": "0bd573e73a940c4146e54be751a47237aa6b9c72a3800cd921d879dca108ee09",
+    "config.json": "38370396a4e2988a14226b6b8875766e660ab8bbd1374b9e23a6e0c7a05ef385",
+    "model.safetensors": "0464758a2cd31260b44af96093dd52c2824a8305278d136ec438c87ee2b92313",
+    "optimizer.pt": "9a2fd299dd3961fdf66532f12c1bf9ff06365dcb6957e0bcc50487d6b9792ac7",
+    "rng_state.pt": "437b2e84b3fc90e6bc22ef0a043a986cf6124d523be0962df7a988a44d452e12",
+    "scheduler.pt": "1d78acdcfbbbb16e77bbe7752380688630dfe37fa53954279a7d69d3ad41e648",
+    "tokenizer.json": "e9ddd853a4a31023721c993458663f2019e3154a05dacf0d2b3c217e53d9bdc8",
+    "tokenizer_config.json": "1121ad33ecd98a97b2db184ce896546feb7555bebddf33a2dfe1b1a1077dc847"
+  },
+  "immutable_constraints_respected": {
+    "retrained": false,
+    "fine_tuned": false,
+    "quantized": false,
+    "modified": false
+  }
+}

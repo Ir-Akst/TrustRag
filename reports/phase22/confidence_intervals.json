@@ -1,0 +1,148 @@
+{
+  "audit_phase": "Phase 22",
+  "methodology": "Wilson score 95% confidence intervals with continuity bounding",
+  "poisonedrag": {
+    "single_doc_k1": {
+      "Config_A": {
+        "defended": 28,
+        "total": 300,
+        "adr_pct": 9.33,
+        "95ci": [
+          6.54,
+          13.16
+        ]
+      },
+      "Config_D": {
+        "defended": 28,
+        "total": 300,
+        "adr_pct": 9.33,
+        "95ci": [
+          6.54,
+          13.16
+        ]
+      },
+      "Config_F": {
+        "defended": 300,
+        "total": 300,
+        "adr_pct": 100.0,
+        "95ci": [
+          98.74,
+          100.0
+        ]
+      }
+    },
+    "sybil_multidoc_k5": {
+      "Config_A": {
+        "defended": 16,
+        "total": 300,
+        "adr_pct": 5.33,
+        "95ci": [
+          3.31,
+          8.49
+        ]
+      },
+      "Config_D": {
+        "defended": 16,
+        "total": 300,
+        "adr_pct": 5.33,
+        "95ci": [
+          3.31,
+          8.49
+        ]
+      },
+      "Config_F": {
+        "defended": 16,
+        "total": 300,
+        "adr_pct": 5.33,
+        "95ci": [
+          3.31,
+          8.49
+        ]
+      }
+    },
+    "clean_controls": {
+      "Config_F": {
+        "delivered": 300,
+        "total": 300,
+        "clean_delivery_pct": 100.0,
+        "clean_fpr_pct": 0.0,
+        "95ci_fpr": [
+          0.0,
+          1.26
+        ]
+      }
+    }
+  },
+  "rsb": {
+    "single_doc_k1": {
+      "Config_A": {
+        "defended": 52,
+        "total": 200,
+        "adr_pct": 26.0,
+        "95ci": [
+          20.41,
+          32.49
+        ]
+      },
+      "Config_D": {
+        "defended": 52,
+        "total": 200,
+        "adr_pct": 26.0,
+        "95ci": [
+          20.41,
+          32.49
+        ]
+      },
+      "Config_F": {
+        "defended": 200,
+        "total": 200,
+        "adr_pct": 100.0,
+        "95ci": [
+          98.12,
+          100.0
+        ]
+      }
+    },
+    "sybil_multidoc_k5": {
+      "Config_A": {
+        "defended": 49,
+        "total": 200,
+        "adr_pct": 24.5,
+        "95ci": [
+          19.06,
+          30.9
+        ]
+      },
+      "Config_D": {
+        "defended": 49,
+        "total": 200,
+        "adr_pct": 24.5,
+        "95ci": [
+          19.06,
+          30.9
+        ]
+      },
+      "Config_F": {
+        "defended": 49,
+        "total": 200,
+        "adr_pct": 24.5,
+        "95ci": [
+          19.06,
+          30.9
+        ]
+      }
+    },
+    "clean_controls": {
+      "Config_F": {
+        "delivered": 200,
+        "total": 200,
+        "clean_delivery_pct": 100.0,
+        "clean_fpr_pct": 0.0,
+        "95ci_fpr": [
+          0.0,
+          1.88
+        ]
+      }
+    }
+  }
+}

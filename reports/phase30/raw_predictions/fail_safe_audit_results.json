@@ -1,0 +1,68 @@
+{
+  "total_tests": 5,
+  "all_passed": true,
+  "g1_exception_behavior": "FAIL_SAFE_BLOCK_CLOSED",
+  "pipeline_timeout_behavior": "FAIL_SAFE_ABSTAINED_CLOSED",
+  "tests": [
+    {
+      "test_name": "clean_query_nominal",
+      "component": "G1",
+      "scenario": "Nominal benign execution",
+      "decision": "ALLOW",
+      "risk_score": 0.0,
+      "reasons": [
+        "G1_CLEAN"
+      ],
+      "fail_safe_status": "PASS",
+      "behavior": "FAIL_SAFE_OK"
+    },
+    {
+      "test_name": "adversarial_query_blocked",
+      "component": "G1",
+      "scenario": "Adversarial injection blocked cleanly",
+      "decision": "BLOCK",
+      "risk_score": 1.0,
+      "reasons": [
+        "G1_PROMPT_INJECTION"
+      ],
+      "fail_safe_status": "PASS",
+      "behavior": "CONTAINED_BY_G1"
+    },
+    {
+      "test_name": "g1_fault_injection_exception",
+      "component": "G1",
+      "scenario": "Unhandled internal parser exception in G1",
+      "decision": "BLOCK",
+      "risk_score": 1.0,
+      "reasons": [
+        "G1_INTERNAL_ERROR"
+      ],
+      "fail_safe_status": "PASS",
+      "behavior": "FAIL_SAFE_BLOCK_CLOSED"
+    },
+    {
+      "test_name": "pipeline_timeout_fault_injection",
+      "component": "Service",
+      "scenario": "Request execution exceeded timeout threshold",
+      "abstained": true,
+      "fail_safe_events": [
+        "REQUEST_TIMEOUT"
+      ],
+      "answer_snippet": "Request timed out safely prior to answer release.",
+      "fail_safe_status": "PASS",
+      "behavior": "FAIL_SAFE_ABSTAINED_CLOSED"
+    },
+    {
+      "test_name": "service_shutdown_fault_injection",
+      "component": "Service",
+      "scenario": "Query received while service is shut down",
+      "abstained": true,
+      "fail_safe_events": [
+        "SERVICE_SHUTDOWN"
+      ],
+      "answer_snippet": "Service has shut down and cannot process requests.",
+      "fail_safe_status": "PASS",
+      "behavior": "FAIL_SAFE_ABSTAINED_CLOSED"
+    }
+  ]
+}

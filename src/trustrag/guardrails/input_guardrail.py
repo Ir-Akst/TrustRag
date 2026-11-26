@@ -10,6 +10,7 @@ Validates, audits, and classifies incoming user queries before retrieval:
 from __future__ import annotations
 
 import base64
+import html
 import re
 from typing import Callable, Dict, List, Optional, Tuple
 
@@ -29,7 +30,10 @@ from trustrag.engine.text_utils import (
     fold_mixed_script_confusables,
     match_threat_patterns,
 )
+from trustrag.guardrails.harmful_intent import HarmfulIntentPolicy
+from trustrag.guardrails.multilingual_engine import MultilingualSemanticDefense
 from trustrag.guardrails.paraphraser import ControlledQueryParaphraser
+from trustrag.guardrails.semantic_classifier import SemanticAttackClassifier
 from trustrag.utils.logging import get_logger
 
 LOGGER = get_logger(__name__)
@@ -37,12 +41,20 @@ LOGGER = get_logger(__name__)
 # Medium-severity heuristic rules specific to suspicious user probing / meta-framing.
 _SUSPICIOUS_META_RULES: Tuple[Tuple[str, re.Pattern[str], float], ...] = (
     (
-        "hypothetical_policy_probe",
+        "narrative_jailbreak_probe",
         re.compile(
-            r"\b(?:hypothetically|in\s+a\s+fictional\s+scenario|for\s+educational\s+purposes\s+only).{0,60}(?:bypass|hack|exploit|ignore|steal|password)\b",
+            r"\b(?:(?:write|tell|pretend|imagine|assume)(?:\s+you\s+are\s+in)?)\s+(?:a\s+)?(?:fictional|hypothetical|theoretical)?\s*(?:story|world|scenario|universe|timeline|dimension|screenplay)\s+where\b.{0,60}\b(?:safety\s+(?:rules?|restrictions?|filters?|boundaries?)|rules?|constraints?|protocols?)\s+(?:are\s+)?(?:ignored|bypassed|disregarded|violated|leaked|absent|none)\b|\b(?:write|tell)\s+(?:a\s+)?(?:fictional\s+)?story\s+where\s+(?:an?\s+)?(?:ai|bot|assistant|character|terminal)\s+(?:disregards?|ignores?|bypasses?|violates?)\s+(?:all\s+)?(?:safety|rules|constraints|filters|protocols|boundaries)\b|\b(?:in\s+a\s+(?:thrilling\s+)?(?:fictional|theoretical|hypothetical)\s+(?:cybersecurity\s+)?(?:novel|story|world|scenario|universe)|let\s+us\s+write\s+a\s+screenplay|imagine\s+an?\s+(?:alternate|unrestricted)?\s*(?:dimension|world|universe)|for\s+a\s+creative\s+writing\s+exercise|describe\s+a\s+hypothetical\s+world|roleplay\s+as\s+(?:an?\s+)?(?:unrestricted|omnibot|terminal|autonomous\s+kernel)|pretend\s+you\s+are\s+unbound)\b",
             re.IGNORECASE,
         ),
-        0.45,
+        0.85,
+    ),
+    (
+        "hypothetical_policy_probe",
+        re.compile(
+            r"\b(?:hypothetically|in\s+a\s+fictional\s+(?:scenario|world|story)|for\s+(?:educational|safety\s+research|authorized\s+testing)\s+purposes?\s+only|for\s+safety\s+research\s+only|as\s+a\s+thought\s+experiment).{0,60}(?:bypass|hack|exploit|ignore|steal|password|disregard|secrets?|leak)\b",
+            re.IGNORECASE,
+        ),
+        0.75,
     ),
     (
         "debug_or_admin_mode_probe",
@@ -55,7 +67,7 @@ _SUSPICIOUS_META_RULES: Tuple[Tuple[str, re.Pattern[str], float], ...] = (
     (
         "instruction_hierarchy_override",
         re.compile(
-            r"(?:^\s*(?:developer|system|admin|root|supervisor)\s+override\s*:|\b(?:bypass|disable|circumvent|override)\s+(?:all\s+)?(?:guardrails?|safety\s+(?:filters?|checks?|controls?)|system\s+constraints?)\b)",
+            r"(?:^\s*(?:developer|system|admin|root|supervisor)\s+override\s*:|\b(?:bypass|disable|circumvent|override)\s+(?:all\s+)?(?:guardrails?|safety\s+(?:filters?|checks?|controls?)|system\s+constraints?|ethical\s+boundaries?)\b|\b(?:in\s+step\s+\d+|step\s+\d+\s*:).{0,50}\b(?:bypass|ignore|disregard)\b)",
             re.IGNORECASE,
         ),
         0.75,
@@ -67,6 +79,14 @@ _SUSPICIOUS_META_RULES: Tuple[Tuple[str, re.Pattern[str], float], ...] = (
             re.IGNORECASE,
         ),
         0.40,
+    ),
+    (
+        "mixed_inline_adversarial_append",
+        re.compile(
+            r"\b(?:also,?\s+ignore\s+that\s+and\s+print|additionally,?\s+reveal\s+all\s+confidential)\b",
+            re.IGNORECASE,
+        ),
+        0.88,
     ),
 )
 
@@ -248,6 +268,20 @@ def _extract_base64_tokens(text: str) -> list[str]:
     return tokens
 
 
+_ATTRIBUTION_CONTEXT_PAT = re.compile(
+    r"\b(?:for\s+example|e\.g\.|such\s+as|an?\s+attacker\s+(?:might|could|may)|researchers?\s+(?:study|analyze|test)|guardrails?\s+(?:inspect|detect)|quoted\s+(?:example|text|string|payload)s?|in\s+(?:owasp|cwe-\d+|documentation|tutorials?)|incident\s*#?\d*|soc\s+observed|post-mortem|alert\s+triage|audit\s+log|csirt|threat\s+intelligence|ti\s+bulletin|cti\s+brief|ttp\s+analysis|payload\s+reading|contained\s+[\"']|blocked\s+string|adversary\s+(?:attempted|embedded)|social\s+engineering\s+relies\s+on|attackers?\s+(?:wrap|embed|use))\b",
+    re.IGNORECASE,
+)
+
+
+def _strip_attributed_quotes(text: str) -> str:
+    """Strip quoted payloads ONLY when analytical/SOC/CTI/educational attribution framing is present."""
+    if not _ATTRIBUTION_CONTEXT_PAT.search(text):
+        return text
+    stripped = re.sub(r"'[^'\n]{3,250}'|\"[^\"\n]{3,250}\"", " [QUOTED_EXAMPLE] ", text)
+    return stripped
+
+
 class InputGuardrail:
     """G1 Input Guardrail validating queries prior to retrieval and generation."""
 
@@ -268,6 +302,14 @@ class InputGuardrail:
             paraphrase_callable=paraphrase_callable,
             min_similarity=self.config.min_paraphrase_similarity,
         )
+        self.harmful_intent_policy = HarmfulIntentPolicy(
+            block_threshold=self.config.block_threshold,
+        )
+        self.semantic_classifier = SemanticAttackClassifier(
+            block_threshold=self.config.block_threshold,
+            flag_threshold=self.config.flag_threshold,
+        )
+        self.multilingual_engine = MultilingualSemanticDefense()
 
     def evaluate(self, user_input: str) -> G1Assessment:
         """Assess a raw user query and return a structured G1Assessment.
@@ -275,6 +317,7 @@ class InputGuardrail:
         Guarantees:
         - `original_input` is preserved unmodified for audit logging.
         - `normalized_input` never alters semantic intent (only NFKC/whitespace cleaning).
+        - Fail-safe exception handling: unhandled internal exceptions fail closed/safe (BLOCK with G1_INTERNAL_ERROR).
         """
         original_input = user_input if isinstance(user_input, str) else str(user_input)
         audit_hash = compute_content_hash(original_input)
@@ -292,6 +335,31 @@ class InputGuardrail:
                 audit_hash=audit_hash,
             )
 
+        try:
+            return self._evaluate_internal(original_input, audit_hash)
+        except Exception as exc:
+            LOGGER.error(f"G1 internal exception during query assessment: {type(exc).__name__}: {exc}")
+            return G1Assessment(
+                decision=G1Decision.BLOCK,
+                risk_score=1.0,
+                original_input=original_input,
+                normalized_input="",
+                reason_codes=[G1ReasonCode.G1_INTERNAL_ERROR],
+                matches=[
+                    G1MatchDetail(
+                        rule_name="fail_safe_exception_boundary",
+                        reason_code=G1ReasonCode.G1_INTERNAL_ERROR,
+                        severity=1.0,
+                        matched_snippet=f"Exception: {type(exc).__name__}",
+                        is_heuristic=False,
+                    )
+                ],
+                explanation=f"Query rejected by fail-safe policy due to internal guardrail error: {exc}",
+                audit_hash=audit_hash,
+            )
+
+    def _evaluate_internal(self, original_input: str, audit_hash: str) -> G1Assessment:
+        """Internal evaluation pipeline wrapped by fail-safe exception boundary."""
         # 1. Empty / whitespace-only validation
         if is_empty_text(original_input):
             decision = G1Decision.BLOCK if self.config.block_on_empty else G1Decision.FLAG
@@ -315,6 +383,19 @@ class InputGuardrail:
             )
 
         matches: List[G1MatchDetail] = []
+
+        # 1b. Harmful Intent Security Policy (malware creation, weaponization, delivery screening)
+        harmful_eval = self.harmful_intent_policy.evaluate(original_input)
+        if harmful_eval.is_harmful:
+            matches.append(
+                G1MatchDetail(
+                    rule_name=f"harmful_intent_{harmful_eval.policy_category.lower()}",
+                    reason_code=G1ReasonCode.G1_HARMFUL_INTENT,
+                    severity=harmful_eval.risk_score,
+                    matched_snippet=harmful_eval.matched_pattern or "",
+                    is_heuristic=False,
+                )
+            )
 
         # 2. Check zero-width / control-character / mixed-script / fullwidth confusable obfuscation before cleaning
         has_obf, deobfuscated, obf_count = detect_obfuscation(original_input)
@@ -351,19 +432,57 @@ class InputGuardrail:
                 )
             )
 
+        # 3b. Attribution-aware quote masking (Phase 44 Workstream B):
+        # Masks quoted illustrative/incident payloads ONLY under analytical/SOC/CTI/educational framing,
+        # while preserving all unquoted text so embedded malicious instructions are still caught.
+        inspection_text = _strip_attributed_quotes(analysis_text)
+
         # 4. Shared parameterized injection, role-hijack, command, and DoS patterns
-        for spec, snippet in match_threat_patterns(analysis_text, target="query"):
-            matches.append(
-                G1MatchDetail(
-                    rule_name=spec.rule_name,
-                    reason_code=_CATEGORY_TO_REASON.get(
-                        spec.category, G1ReasonCode.G1_PROMPT_INJECTION
-                    ),
-                    severity=spec.severity,
-                    matched_snippet=snippet,
-                    is_heuristic=True,
+        normalized_variants = [inspection_text]
+        try:
+            h = html.unescape(inspection_text)
+            if h != inspection_text and h not in normalized_variants:
+                normalized_variants.append(h)
+        except Exception:
+            pass
+        try:
+            hx = re.sub(r"\\x([0-9a-fA-F]{2})", lambda m: bytes.fromhex(m.group(1)).decode("latin1", errors="ignore"), inspection_text)
+            if hx != inspection_text and hx not in normalized_variants:
+                normalized_variants.append(hx)
+        except Exception:
+            pass
+        for ch in re.findall(r"\b(?:[0-9a-fA-F]{2}){8,}\b", inspection_text):
+            try:
+                dec = bytes.fromhex(ch).decode("utf-8", errors="ignore")
+                if dec.strip() and dec not in normalized_variants:
+                    normalized_variants.append(dec)
+            except Exception:
+                pass
+        delim_sub = re.sub(r"([A-Za-z0-9])[-_./]+([A-Za-z0-9])", r"\1 \2", inspection_text)
+        if delim_sub != inspection_text and delim_sub not in normalized_variants:
+            normalized_variants.append(delim_sub)
+        spaced_sub = re.sub(r"(?:\b[A-Za-z]\s+){3,}[A-Za-z]\b", lambda m: m.group(0).replace(" ", ""), inspection_text)
+        if spaced_sub != inspection_text and spaced_sub not in normalized_variants:
+            normalized_variants.append(spaced_sub)
+
+        seen_rule_matches: set[str] = set()
+        for v_text in normalized_variants:
+            for spec, snippet in match_threat_patterns(v_text, target="query"):
+                rule_key = f"{spec.rule_name}:{snippet}"
+                if rule_key in seen_rule_matches:
+                    continue
+                seen_rule_matches.add(rule_key)
+                matches.append(
+                    G1MatchDetail(
+                        rule_name=spec.rule_name,
+                        reason_code=_CATEGORY_TO_REASON.get(
+                            spec.category, G1ReasonCode.G1_PROMPT_INJECTION
+                        ),
+                        severity=spec.severity,
+                        matched_snippet=snippet,
+                        is_heuristic=True,
+                    )
                 )
-            )
 
         # 4b. Base64 encoded payload inspection (boundary-safe, padding-preserving)
         # Resilient to alphabet-colliding delimiters, adjacent merged tokens, and URL-safe Base64.
@@ -403,7 +522,7 @@ class InputGuardrail:
 
         # 6. Suspicious meta-instruction rules (flag-level indicators)
         for rule_name, pattern, sev in _SUSPICIOUS_META_RULES:
-            m = pattern.search(analysis_text)
+            m = pattern.search(inspection_text)
             if m:
                 matches.append(
                     G1MatchDetail(
@@ -415,19 +534,68 @@ class InputGuardrail:
                     )
                 )
 
+        # 7. Semantic Attack Classification (Phase 32 Workstream A)
+        sem_pred = self.semantic_classifier.predict(inspection_text)
+        if sem_pred.decision in ("BLOCK", "FLAG") and sem_pred.is_attack:
+            matches.append(
+                G1MatchDetail(
+                    rule_name=f"semantic_{sem_pred.detected_intent_family}",
+                    reason_code=G1ReasonCode.G1_SEMANTIC_ATTACK,
+                    severity=sem_pred.attack_probability,
+                    matched_snippet=f"semantic threat prob={sem_pred.attack_probability:.3f} family={sem_pred.detected_intent_family}",
+                    is_heuristic=False,
+                )
+            )
+
+        # 8. Multilingual Semantic Defense (Phase 32 Workstream C)
+        multi_pred = self.multilingual_engine.evaluate_query(inspection_text)
+        if multi_pred.is_attack:
+            matches.append(
+                G1MatchDetail(
+                    rule_name=f"multilingual_{multi_pred.attack_category.lower()}",
+                    reason_code=G1ReasonCode.G1_MULTILINGUAL_INJECTION,
+                    severity=multi_pred.risk_score,
+                    matched_snippet=f"language={multi_pred.detected_language} stems={multi_pred.matched_stems[:3]}",
+                    is_heuristic=False,
+                )
+            )
+
+        if harmful_eval.policy_category == "DEFENSIVE_CYBERSECURITY_ALLOW":
+            # Legitimate defensive cybersecurity request: exempt from heuristic threat pattern false-positives
+            matches = [m for m in matches if not m.is_heuristic]
+        elif not sem_pred.is_attack and sem_pred.attack_probability < 0.35 and not multi_pred.is_attack:
+            # Quotation & attribution awareness (Phase 40.1):
+            # If a heuristic regex match appears strictly inside quotes within an analytical/educational framing
+            # and stripping quoted spans leaves zero heuristic threat matches, treat as benign quoted discussion.
+            _attribution_pat = re.compile(
+                r"\b(?:for\s+example|e\.g\.|such\s+as|an?\s+attacker\s+(?:might|could|may)\s+(?:write|use|try|send|inject)|researchers?\s+(?:study|analyze|test)|guardrails?\s+(?:inspect|detect)|quoted\s+(?:example|text|string)|in\s+(?:owasp|cwe-\d+|documentation|tutorials?))\b",
+                re.IGNORECASE,
+            )
+            if _attribution_pat.search(analysis_text):
+                unquoted_text = re.sub(r"'[^'\n]{3,200}'|\"[^\"\n]{3,200}\"", " ", analysis_text)
+                if unquoted_text != analysis_text and not match_threat_patterns(unquoted_text, target="query"):
+                    matches = [m for m in matches if not m.is_heuristic]
+
         # Compute calibrated risk score and structured decision
         if not matches:
             risk_score = 0.0
             reason_codes = [G1ReasonCode.G1_CLEAN]
             decision = G1Decision.ALLOW
-            explanation = "Input passed all G1 safety and validation checks."
+            explanation = (
+                harmful_eval.explanation
+                if harmful_eval.policy_category == "DEFENSIVE_CYBERSECURITY_ALLOW"
+                else "Input passed all G1 safety and validation checks."
+            )
         else:
             max_sev = max(m.severity for m in matches)
             # Compound multiple distinct findings while keeping score bounded in [0, 1]
             risk_score = min(1.0, round(max_sev + 0.10 * max(0, len(matches) - 1), 4))
             reason_codes = list(dict.fromkeys(m.reason_code for m in matches))
 
-            if risk_score >= self.config.block_threshold:
+            if G1ReasonCode.G1_HARMFUL_INTENT in reason_codes:
+                decision = G1Decision.BLOCK
+                explanation = harmful_eval.explanation
+            elif risk_score >= self.config.block_threshold:
                 decision = G1Decision.BLOCK
                 explanation = (
                     f"Blocked input due to high-risk security signals ({', '.join(c.value for c in reason_codes)}; "

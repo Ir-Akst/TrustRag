@@ -1,0 +1,73 @@
+{
+  "total": 120,
+  "gate_accuracy": 1.0,
+  "gate_accuracy_95ci": [
+    0.969,
+    1.0
+  ],
+  "supported_acceptance": 1.0,
+  "supported_acceptance_95ci": [
+    0.8865,
+    1.0
+  ],
+  "false_abstention": 0.0,
+  "false_abstention_95ci": [
+    0.0,
+    0.1135
+  ],
+  "contradiction_recall": 1.0,
+  "contradiction_recall_95ci": [
+    0.9347,
+    1.0
+  ],
+  "unsupported_leakage": 0.0,
+  "unsupported_leakage_95ci": [
+    0.0,
+    0.1611
+  ],
+  "partially_supported_leakage": 0.0,
+  "per_category": {
+    "supported": {
+      "total": 30,
+      "accurate": 30,
+      "safe_to_release": 30,
+      "contradiction_detected": 0
+    },
+    "partially_supported": {
+      "total": 15,
+      "accurate": 15,
+      "safe_to_release": 0,
+      "contradiction_detected": 0
+    },
+    "unsupported": {
+      "total": 20,
+      "accurate": 20,
+      "safe_to_release": 0,
+      "contradiction_detected": 20
+    },
+    "geo_contradiction": {
+      "total": 19,
+      "accurate": 19,
+      "safe_to_release": 0,
+      "contradiction_detected": 19
+    },
+    "entity_contradiction": {
+      "total": 9,
+      "accurate": 9,
+      "safe_to_release": 0,
+      "contradiction_detected": 9
+    },
+    "numerical_contradiction": {
+      "total": 9,
+      "accurate": 9,
+      "safe_to_release": 0,
+      "contradiction_detected": 9
+    },
+    "implicit_contradiction": {
+      "total": 18,
+      "accurate": 18,
+      "safe_to_release": 0,
+      "contradiction_detected": 18
+    }
+  }
+}

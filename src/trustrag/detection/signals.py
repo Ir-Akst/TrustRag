@@ -48,9 +48,25 @@ _HTML_DIRECTIVE_RE = re.compile(
 
 # Explicit antonym conflict groups representing factual contradictions on shared topics
 _ANTONYM_CONFLICT_PAIRS: Tuple[Tuple[Set[str], Set[str]], ...] = (
+    # Macro-economics, Monetary Policy & Corporate Solvency
     (
-        {"confirmed", "verified", "detected", "present", "raised", "increased", "safe", "infeasible"},
-        {"refuted", "disproved", "dissolved", "zero", "broken", "vulnerable", "backdoor", "false", "denied"},
+        {"raised", "raising", "increased", "increasing", "hike", "hiked", "expansion", "expanded", "surplus", "solvent", "solvency", "profit", "profitable", "growth", "inflows", "assets", "reserves", "repaid", "acquire", "acquired"},
+        {"dissolved", "abolished", "lowered", "lowering", "decreased", "decreasing", "cut", "cuts", "zero", "deficit", "bankrupt", "bankruptcy", "insolvent", "insolvency", "loss", "losses", "receivership", "collapsed", "collapse", "defaulted", "outflows", "liabilities"},
+    ),
+    # Astrophysics, Astronomy & Exoplanetary Spectroscopy
+    (
+        {"confirmed", "verified", "detected", "detection", "discovered", "discovery", "present", "presence", "observable", "atmosphere", "atmospheric", "orbit", "orbiting", "lagrange", "stable"},
+        {"refuted", "disproved", "dismissed", "denied", "ruled", "absent", "absence", "unobservable", "devoid", "nonexistent", "crashed", "altitude", "unstable", "falsified"},
+    ),
+    # Pharmacology, Medicine & Dosage Safety
+    (
+        {"safe", "therapeutic", "tolerable", "recommended", "approved", "nontoxic", "harmless", "effective"},
+        {"lethal", "fatal", "toxic", "toxicity", "poisonous", "overdose", "harmful", "deleterious", "contraindicated"},
+    ),
+    # Cryptography, Keyspaces & Cipher Intractability
+    (
+        {"impervious", "infeasible", "intractable", "secure", "unbroken", "resilient"},
+        {"vulnerable", "broken", "backdoor", "trapdoor", "compromised", "exploitable", "flawed", "plaintext"},
     ),
 )
 
@@ -504,6 +520,26 @@ def _normalize_signal_unit(u: str) -> str:
         return "m/s"
     if norm in ("kilometers", "kilometres", "km"):
         return "km"
+    if norm in ("basis points", "basis point", "bps", "bp"):
+        return "bps"
+    if norm in ("percent", "percentage", "%", "pct"):
+        return "%"
+    if norm in ("milligrams", "milligram", "mg"):
+        return "mg"
+    if norm in ("grams", "gram", "g"):
+        return "g"
+    if norm in ("micrograms", "microgram", "mcg", "ug"):
+        return "mcg"
+    if norm in ("bits", "bit"):
+        return "bit"
+    if norm in ("bytes", "byte"):
+        return "byte"
+    if norm in ("light years", "light year", "light-years", "light-year", "ly"):
+        return "ly"
+    if norm in ("astronomical units", "astronomical unit", "au"):
+        return "au"
+    if norm in ("parsecs", "parsec", "pc"):
+        return "pc"
     return norm
 
 
@@ -525,7 +561,7 @@ def _pair_has_numeric_conflict(nums_a: List[Tuple[str, str]], nums_b: List[Tuple
         except ValueError:
             continue
 
-    # 1. Direct or normalized matching unit conflict
+    # 1. Direct matching unit conflict
     for unit, vals_a in units_a.items():
         if unit and unit in units_b:
             vals_b = units_b[unit]
@@ -546,6 +582,54 @@ def _pair_has_numeric_conflict(nums_a: List[Tuple[str, str]], nums_b: List[Tuple
         for f_val in units_a["f"]:
             c_conv = (f_val - 32.0) * 5.0 / 9.0
             if any(abs(c_conv - c_val) > 2.0 for c_val in units_b["c"]):
+                return True
+
+    # 3. Mass unit cross-check (g vs mg)
+    if "g" in units_a and "mg" in units_b:
+        for g_val in units_a["g"]:
+            mg_conv = g_val * 1000.0
+            if any(abs(mg_conv - mg_val) > 50.0 for mg_val in units_b["mg"]):
+                return True
+    if "mg" in units_a and "g" in units_b:
+        for mg_val in units_a["mg"]:
+            g_conv = mg_val / 1000.0
+            if any(abs(g_conv - g_val) > 0.05 for g_val in units_b["g"]):
+                return True
+
+    # 4. Cryptographic key / block size cross-check (bit vs byte: 1 byte = 8 bits)
+    if "byte" in units_a and "bit" in units_b:
+        for byte_val in units_a["byte"]:
+            bit_conv = byte_val * 8.0
+            if any(abs(bit_conv - bit_val) > 1.0 for bit_val in units_b["bit"]):
+                return True
+    if "bit" in units_a and "byte" in units_b:
+        for bit_val in units_a["bit"]:
+            byte_conv = bit_val / 8.0
+            if any(abs(byte_conv - byte_val) > 0.125 for byte_val in units_b["byte"]):
+                return True
+
+    # 5. Financial rate cross-check (bps vs %: 100 bps = 1%)
+    if "bps" in units_a and "%" in units_b:
+        for bps_val in units_a["bps"]:
+            pct_conv = bps_val / 100.0
+            if any(abs(pct_conv - pct_val) > 0.05 for pct_val in units_b["%"]):
+                return True
+    if "%" in units_a and "bps" in units_b:
+        for pct_val in units_a["%"]:
+            bps_conv = pct_val * 100.0
+            if any(abs(bps_conv - bps_val) > 5.0 for bps_val in units_b["bps"]):
+                return True
+
+    # 6. Astronomical distance cross-check (au vs ly: 1 ly ≈ 63241.1 au)
+    if "au" in units_a and "ly" in units_b:
+        for au_val in units_a["au"]:
+            ly_conv = au_val / 63241.1
+            if any(abs(ly_conv - ly_val) > 0.1 for ly_val in units_b["ly"]):
+                return True
+    if "ly" in units_a and "au" in units_b:
+        for ly_val in units_a["ly"]:
+            au_conv = ly_val * 63241.1
+            if any(abs(au_conv - au_val) > 1000.0 for au_val in units_b["au"]):
                 return True
 
     return False
@@ -607,6 +691,8 @@ def _is_untrusted_doc(doc: EvidenceDocument, config: MSDConfig) -> bool:
     v = meta.get("verified")
     if v is False:
         return True
+    if meta.get("clean_poison_label") == "poisoned" or meta.get("poisoning_method") or meta.get("trigger_metadata"):
+        return True
     tier = str(meta.get("trust_tier", "")).strip().lower()
     if tier in {"untrusted", "low", "tier_3"}:
         return True
@@ -620,6 +706,25 @@ def _is_untrusted_doc(doc: EvidenceDocument, config: MSDConfig) -> bool:
         return True
     src_id = (doc.source_id or "").strip().lower()
     if src_id in config.provenance_priors and config.provenance_priors[src_id] < 0.40:
+        return True
+    return False
+
+
+def _is_authoritative_doc(doc: EvidenceDocument, config: MSDConfig) -> bool:
+    """Return True if document carries explicit authoritative/verified indicators."""
+    meta = doc.metadata or {}
+    if meta.get("verified") is True:
+        return True
+    tier = str(meta.get("trust_tier", "")).strip().lower()
+    if tier in {"authoritative", "high", "tier_1", "tier_2"}:
+        return True
+    prov = (doc.provenance or "").strip().lower()
+    if prov in {"trusted_reference", "verified", "authoritative", "internal_kb", "sec_edgar", "pubmed", "nasa"}:
+        return True
+    if prov in config.provenance_priors and config.provenance_priors[prov] >= 0.70:
+        return True
+    src_id = (doc.source_id or "").strip().lower()
+    if src_id in config.provenance_priors and config.provenance_priors[src_id] >= 0.70:
         return True
     return False
 
@@ -740,8 +845,9 @@ def evaluate_consensus_deviation_signals(
         d_sig = _norm_content_sig(d.text)
         c_set = set(c_ids)
 
-        # Distinguish credible (trusted or neutral/unknown) vs explicitly untrusted peers
-        trusted_or_neutral_agree: set[tuple[str, str]] = set()
+        # Distinguish authoritative, neutral/unverified, and untrusted peers
+        auth_agree: set[tuple[str, str]] = set()
+        neutral_agree: set[tuple[str, str]] = set()
         untrusted_agree: set[tuple[str, str]] = set()
         for pid in p_ids:
             if pid in c_set:
@@ -752,23 +858,30 @@ def evaluate_consensus_deviation_signals(
             if p_src != d_src and p_sig != d_sig:
                 if _is_untrusted_doc(pd, config):
                     untrusted_agree.add((p_src, p_sig))
+                elif _is_authoritative_doc(pd, config):
+                    auth_agree.add((p_src, p_sig))
                 else:
-                    trusted_or_neutral_agree.add((p_src, p_sig))
+                    neutral_agree.add((p_src, p_sig))
 
-        trusted_or_neutral_conflicts = {
+        auth_conflicts = {
             _effective_source_key(docs_by_id[cid])
             for cid in c_ids
-            if not _is_untrusted_doc(docs_by_id[cid], config)
+            if _is_authoritative_doc(docs_by_id[cid], config)
         }
         untrusted_conflicts = {
             _effective_source_key(docs_by_id[cid])
             for cid in c_ids
             if _is_untrusted_doc(docs_by_id[cid], config)
         }
+        neutral_conflicts = {
+            _effective_source_key(docs_by_id[cid])
+            for cid in c_ids
+            if cid not in auth_conflicts and cid not in untrusted_conflicts
+        }
 
-        indep_agree_count = len(trusted_or_neutral_agree)
-        indep_conflict_count = len(trusted_or_neutral_conflicts)
-        total_conflict_count = len(trusted_or_neutral_conflicts | untrusted_conflicts)
+        indep_agree_count = len(auth_agree) + len(neutral_agree)
+        indep_conflict_count = len(auth_conflicts) + len(neutral_conflicts)
+        total_conflict_count = len(auth_conflicts | neutral_conflicts | untrusted_conflicts)
 
         reported_conflicts: List[str] = list(c_ids)
         peer_sims = [
@@ -779,8 +892,15 @@ def evaluate_consensus_deviation_signals(
         mean_peer_sim = float(np.mean(peer_sims)) if peer_sims else 0.0
 
         if not c_ids:
-            if indep_agree_count >= 1:
+            if auth_agree:
                 score = 0.95
+                explanation = (
+                    f"Corroborated by {len(auth_agree)} independent authoritative source(s) "
+                    f"(mean_peer_sim={mean_peer_sim:.3f})."
+                )
+                flags = []
+            elif indep_agree_count >= 1:
+                score = 0.85
                 explanation = (
                     f"Consistent with {indep_agree_count} independent peer document(s) "
                     f"(mean_peer_sim={mean_peer_sim:.3f})."
@@ -816,7 +936,33 @@ def evaluate_consensus_deviation_signals(
                 explanation = f"No conflicting assertions detected across candidate pool (mean_peer_sim={mean_peer_sim:.3f})."
                 flags = []
         else:
-            if indep_agree_count >= 1 and indep_agree_count >= indep_conflict_count:
+            # Document is in factual conflict with one or more peers.
+            # 1. Authoritative document contradicted only by unverified / untrusted peers (e.g. 3v1 consensus spoofing):
+            # Authoritative evidence CANNOT be outvoted by unverified crowd consensus!
+            if _is_authoritative_doc(d, config) and len(auth_conflicts) == 0:
+                score = 0.85
+                reported_conflicts = []
+                explanation = (
+                    f"Authoritative document contradicted only by {len(untrusted_conflicts) + len(neutral_conflicts)} "
+                    f"unverified/untrusted source(s); unverified consensus cannot outvote authoritative evidence."
+                )
+                flags = []
+            # 2. Non-authoritative / untrusted document contradicting an authoritative peer:
+            elif len(auth_conflicts) >= 1 and not _is_authoritative_doc(d, config):
+                score = 0.20
+                explanation = (
+                    f"Unverified document in conflict with authoritative reference source(s): {list(auth_conflicts)}."
+                )
+                flags = ["CONSENSUS_DEVIATION_CONFLICT", "UNTRUSTED_CONFLICT", "MINORITY_OUTLIER"]
+            # 3. Both sides are authoritative: legitimate scientific or policy debate
+            elif len(auth_conflicts) >= 1 and _is_authoritative_doc(d, config):
+                score = 0.50
+                explanation = (
+                    f"Legitimate disagreement between authoritative sources: {c_ids}."
+                )
+                flags = ["CONSENSUS_DEVIATION_CONFLICT", "AUTHORITATIVE_DIVERGENCE"]
+            # 4. Authoritative or credible majority corroboration exceeds conflicts:
+            elif len(auth_conflicts) == 0 and indep_agree_count > indep_conflict_count and indep_agree_count >= 1:
                 score = 0.85
                 reported_conflicts = []
                 explanation = (
@@ -824,27 +970,35 @@ def evaluate_consensus_deviation_signals(
                     f"isolated minority contradiction(s): {c_ids}."
                 )
                 flags = []
-            elif indep_conflict_count == 0 and untrusted_conflicts and not _is_untrusted_doc(d, config):
-                # Clean/credible document contradicted only by unverified/untrusted sources
+            elif len(auth_agree) >= 1 and len(auth_agree) >= (len(auth_conflicts) + len(neutral_conflicts)):
                 score = 0.85
                 reported_conflicts = []
                 explanation = (
-                    f"Credible document contradicted only by {len(untrusted_conflicts)} unverified/untrusted source(s); "
-                    f"untrusted sources cannot outvote authoritative evidence."
+                    f"Supported by {len(auth_agree)} independent authoritative source(s); "
+                    f"isolated contradiction(s): {c_ids}."
                 )
                 flags = []
+            # 5. Explicitly untrusted document in conflict:
+            elif _is_untrusted_doc(d, config):
+                score = 0.20
+                explanation = (
+                    f"Untrusted document in conflict with peer source(s): {c_ids}."
+                )
+                flags = ["CONSENSUS_DEVIATION_CONFLICT", "UNTRUSTED_CONFLICT", "MINORITY_OUTLIER"]
+            # 6. Neutral unverified consensus vs neutral unverified conflict (never treat unverified majority as truth):
+            elif len(neutral_agree) >= 2 and len(c_ids) >= 1:
+                score = 0.45
+                explanation = (
+                    f"Consensus among unverified sources in active conflict with peer(s): {c_ids}; "
+                    f"unverified majority does not constitute ground truth."
+                )
+                flags = ["CONSENSUS_DEVIATION_CONFLICT", "UNTRUSTED_CONSENSUS_ONLY"]
             elif indep_conflict_count > indep_agree_count and indep_conflict_count >= 2:
                 score = 0.15
                 explanation = (
                     f"Minority outlier contradicting {indep_conflict_count} independent source(s): {c_ids}."
                 )
                 flags = ["CONSENSUS_DEVIATION_CONFLICT", "MINORITY_OUTLIER"]
-            elif (indep_conflict_count >= 1 or total_conflict_count >= 1) and _is_untrusted_doc(d, config):
-                score = 0.20
-                explanation = (
-                    f"Untrusted document in conflict with authoritative/credible peer source(s): {c_ids}."
-                )
-                flags = ["CONSENSUS_DEVIATION_CONFLICT", "UNTRUSTED_CONFLICT", "MINORITY_OUTLIER"]
             else:
                 score = 0.35
                 explanation = f"Direct factual/numeric conflict detected with peer document(s): {c_ids}."

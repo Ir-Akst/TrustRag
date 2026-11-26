@@ -125,3 +125,65 @@ test("XSS-safe el() stores untrusted payload strictly as text node", () => {
   assert.equal(div.children.length, 0);
   delete globalThis.document;
 });
+
+test("TrustRAGApiClient supports unified verify, status, securityScan, and ingestEvidence", async () => {
+  const calls = [];
+  const mockFetch = async (url, opts) => {
+    calls.push({ url, opts });
+    if (url.endsWith("/api/v1/status")) {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          status: "healthy",
+          model_checkpoint: { loaded: true, path: "/path/to/model" },
+          components: { g1_input_guard: true, g2_multi_signal_detector: true, g3_evidence_verifier: true },
+        }),
+      };
+    }
+    if (url.endsWith("/api/v1/verify")) {
+      const body = JSON.parse(opts.body);
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          decision: "ALLOW",
+          verification_mode: body.enable_neural ? "hybrid" : "heuristic",
+          neural_model_loaded: true,
+          execution_time_ms: 12.3,
+          g3_result: { claims: [{ claim_id: "c1", verdict: "SUPPORTED", confidence: 0.95 }] },
+        }),
+      };
+    }
+    if (url.endsWith("/api/v1/evidence")) {
+      return {
+        ok: true,
+        status: 200,
+        json: async () => ({
+          ingested_count: 1,
+          total_corpus_size: 15,
+          document_ids: ["doc_1"],
+          timestamp: "2026-11-19T00:00:00Z",
+        }),
+      };
+    }
+    return { ok: false, status: 404, json: async () => ({ error: "Not found" }) };
+  };
+
+  const client = new TrustRAGApiClient({
+    baseUrl: "http://127.0.0.1:8000",
+    fetchImpl: mockFetch,
+  });
+
+  const status = await client.getStatus();
+  assert.equal(status.status, "healthy");
+  assert.equal(status.model_checkpoint.loaded, true);
+
+  const verifyRes = await client.verify({ query: "Test query?", enable_neural: true });
+  assert.equal(verifyRes.decision, "ALLOW");
+  assert.equal(verifyRes.verification_mode, "hybrid");
+
+  const ingestRes = await client.ingestEvidence([{ text: "Some fact" }]);
+  assert.equal(ingestRes.ingested_count, 1);
+  assert.equal(ingestRes.total_corpus_size, 15);
+});

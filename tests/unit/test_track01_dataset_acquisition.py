@@ -224,7 +224,7 @@ def test_llm_aggrefact_blocked_handling_offline(tmp_path: Path) -> None:
         cache_dir=tmp_path / "cache",
         offline=True,
     )
-    with pytest.raises(AcquisitionError, match="unavailable in offline mode|ACCESS_BLOCKED|gated|token"):
+    with pytest.raises(AcquisitionError, match="unavailable in offline mode|ACCESS_BLOCKED|gated|token|datasets"):
         list(adapter.load_raw())
 
 

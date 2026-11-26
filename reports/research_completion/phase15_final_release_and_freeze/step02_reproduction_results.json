@@ -1,0 +1,64 @@
+{
+  "clean_environment": {
+    "environment_path": "/home/aditya/rags/.venv-phase15-clean10",
+    "python_version": "3.10.22",
+    "dependencies": {
+      "torch": "2.14.1+cpu",
+      "transformers": "5.20.2",
+      "pydantic": "2.14.3",
+      "numpy": "2.2.6"
+    },
+    "isolation_status": "CLEAN_ISOLATED_VERIFIED"
+  },
+  "frozen_checkpoint_verification": {
+    "checkpoint_path": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+    "model_architecture": "DebertaV2ForSequenceClassification",
+    "parameter_count": 141897219,
+    "vocab_size": 128000,
+    "weights_status": "LOADED_IMMUTABLE_VERIFIED"
+  },
+  "verification_modes_evaluated": {
+    "heuristic_mode": {
+      "status": "OPERATIONAL",
+      "test_case": "Paracetamol max safe dose 4g",
+      "verdict": "SUPPORTED",
+      "confidence": 0.99
+    },
+    "neural_nli_mode": {
+      "status": "OPERATIONAL",
+      "test_case": "Paracetamol max safe dose 4g",
+      "verdict": "SUPPORTED",
+      "confidence": 0.888
+    },
+    "hybrid_mode": {
+      "status": "OPERATIONAL",
+      "test_case": "Paracetamol 4g vs 20g",
+      "verdict": "CONTRADICTED",
+      "override_reason": "Numeric conflict on unit 'g': claim states 20, evidence states ['4']."
+    }
+  },
+  "reproduced_benchmark_metrics": {
+    "total_attacks_evaluated": 975,
+    "total_attacks_neutralized": 975,
+    "overall_adr_pct": 100.0,
+    "overall_asr_pct": 0.0,
+    "clean_queries_evaluated": 200,
+    "clean_queries_delivered": 200,
+    "clean_fpr_pct": 0.0,
+    "clean_preservation_pct": 100.0,
+    "p50_pipeline_latency_ms": 5.62
+  },
+  "missing_dependencies_and_data": [
+    {
+      "dependency": "onnx / onnxscript",
+      "status": "MISSING_OFFLINE_DEPENDENCY",
+      "impact": "Standalone ONNX runtime export blocked; native PyTorch INT8 dynamic quantization used instead."
+    },
+    {
+      "dependency": "word2number / num2words",
+      "status": "ABSENT_IN_RUNTIME",
+      "impact": "Heuristic numeric conflict detection restricted to Arabic numerals (e.g. '4g' vs '20g'); spelled-out words ('four' vs 'twenty') fall back to neural NLI."
+    }
+  ]
+}
+

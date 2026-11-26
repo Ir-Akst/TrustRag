@@ -1,0 +1,82 @@
+{
+  "phase": "Phase 35 Independent Generalization, Evidence Utility & Production Neural Verification Audit",
+  "parent_commit": "9a3cf20cf30bca0c0c64221a020e8a282343bf77",
+  "immutable_release_anchor": "531bff32745ede1bd1b38609cc6daf653d3eff24",
+  "frozen_model_checkpoint": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+  "checkpoint_hashes_verified": true,
+  "final_verdict": "BORDERLINE / REVISION REQUIRED",
+  "summary_metrics": {
+    "workstream_a_g1_semantic": {
+      "total_samples": 240,
+      "total_attacks": 160,
+      "overall_adr": 0.3000,
+      "overall_adr_95ci": [0.2344, 0.3750],
+      "overall_asr": 0.7000,
+      "overall_fpr": 0.2000,
+      "overall_fpr_95ci": [0.1270, 0.3005],
+      "security_education_fpr": 0.4000,
+      "general_domain_fpr": 0.0000,
+      "precision": 0.7500,
+      "recall": 0.3000,
+      "f1_score": 0.4286,
+      "novel_action_verbs_adr": 0.0000,
+      "status": "FAIL_TARGET (Target >= 85%, Observed = 30.0%)"
+    },
+    "workstream_b_document_firewall": {
+      "total_documents": 120,
+      "total_attacks": 80,
+      "total_controls": 40,
+      "detection_recall": 0.5000,
+      "detection_recall_95ci": [0.3930, 0.6070],
+      "generator_boundary_leakage": 0.5000,
+      "generator_boundary_leakage_95ci": [0.3930, 0.6070],
+      "false_quarantine_rate": 0.0000,
+      "false_quarantine_95ci": [0.0000, 0.0876],
+      "mean_utility_retention": 0.7778,
+      "status": "FAIL_TARGET (Target Leakage <= 5%, Observed = 50.0%)"
+    },
+    "workstream_c_multilingual_defense": {
+      "total_samples": 270,
+      "overall_native_adr": 0.7778,
+      "overall_native_adr_95ci": [0.7005, 0.8397],
+      "overall_transliteration_adr": 0.7778,
+      "overall_transliteration_adr_95ci": [0.7005, 0.8397],
+      "overall_combined_adr": 0.7778,
+      "overall_combined_adr_95ci": [0.7245, 0.8233],
+      "status": "BORDERLINE (Target >= 85%, Observed = 77.8%; English/German native and Hinglish translit vulnerable)"
+    },
+    "workstream_d_evidence_verification": {
+      "total_scenarios": 80,
+      "overall_decision_accuracy": 0.8125,
+      "overall_decision_accuracy_95ci": [0.7134, 0.8829],
+      "supported_claim_acceptance_rate": 0.2500,
+      "supported_claim_acceptance_95ci": [0.1119, 0.4687],
+      "false_abstention_rate": 0.7500,
+      "contradiction_recall": 0.5000,
+      "contradiction_recall_95ci": [0.2993, 0.7007],
+      "unsupported_claim_leakage_rate": 0.0000,
+      "unsupported_claim_leakage_95ci": [0.0000, 0.1611],
+      "status": "MIXED (Hallucination leakage = 0.0% [PERFECT], but supported acceptance = 25.0% [Target >= 90%])"
+    },
+    "workstream_e_neural_production": {
+      "profile_a_deterministic_mean_ms": 8.77,
+      "profile_a_deterministic_p50_ms": 8.14,
+      "profile_a_deberta_forward_passes": 0,
+      "profile_b_neural_mean_ms": 408.45,
+      "profile_b_neural_p50_ms": 323.60,
+      "profile_b_deberta_forward_passes": 100,
+      "forward_passes_per_request": 4.0,
+      "mean_latency_per_forward_pass_ms": 102.11,
+      "telemetry_truthfulness": "VERIFIED_SEPARATED",
+      "timeout_stress_passed": true,
+      "concurrency_stress_passed": true,
+      "shutdown_stress_passed": true,
+      "status": "PASS (Genuine neural forward execution proven; telemetry honest)"
+    },
+    "workstream_f_e2e_integration": {
+      "api_endpoints_verified": 5,
+      "all_endpoints_passed": true,
+      "status": "PASS"
+    }
+  }
+}

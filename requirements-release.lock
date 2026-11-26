@@ -1,0 +1,18 @@
+# TrustRAG v1.0.0-rc1 Production Dependency Lock File
+# Generated during Phase 15 Release Engineering
+# Platform: Linux x86_64, Python 3.10+
+
+torch==2.14.1+cpu
+transformers==5.20.2
+pydantic==2.14.3
+pydantic-core==2.14.3
+numpy==2.2.6
+sentencepiece==0.2.0
+scikit-learn==1.4.2
+scipy==1.13.1
+pyyaml==6.0.1
+safetensors==0.4.3
+tokenizers==0.19.1
+tqdm==4.66.4
+typing_extensions==4.12.2
+pytest==9.1.1

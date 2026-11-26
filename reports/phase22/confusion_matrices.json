@@ -1,0 +1,62 @@
+{
+  "poisonedrag": {
+    "single_doc_k1": {
+      "Config_A": {
+        "TP": 272,
+        "FN": 28,
+        "TN": 300,
+        "FP": 0,
+        "ADR_pct": 9.33,
+        "ASR_pct": 90.67
+      },
+      "Config_F": {
+        "TP": 0,
+        "FN": 300,
+        "TN": 300,
+        "FP": 0,
+        "ADR_pct": 100.0,
+        "ASR_pct": 0.0
+      }
+    },
+    "sybil_multidoc_k5": {
+      "Config_F": {
+        "TP": 284,
+        "FN": 16,
+        "TN": 300,
+        "FP": 0,
+        "ADR_pct": 5.33,
+        "ASR_pct": 94.67
+      }
+    }
+  },
+  "rsb": {
+    "single_doc_k1": {
+      "Config_A": {
+        "TP": 148,
+        "FN": 52,
+        "TN": 200,
+        "FP": 0,
+        "ADR_pct": 26.0,
+        "ASR_pct": 74.0
+      },
+      "Config_F": {
+        "TP": 0,
+        "FN": 200,
+        "TN": 200,
+        "FP": 0,
+        "ADR_pct": 100.0,
+        "ASR_pct": 0.0
+      }
+    },
+    "sybil_multidoc_k5": {
+      "Config_F": {
+        "TP": 151,
+        "FN": 49,
+        "TN": 200,
+        "FP": 0,
+        "ADR_pct": 24.5,
+        "ASR_pct": 75.5
+      }
+    }
+  }
+}

@@ -1,0 +1,345 @@
+{
+  "firewall_generator_audit_summary": {
+    "workstream": "Workstream B - Document Firewall & Generator Boundary Audit",
+    "sample_counts": {
+      "total_documents": 140,
+      "total_attacks": 90,
+      "total_controls": 50
+    },
+    "metrics": {
+      "detection_recall": 0.6667,
+      "detection_recall_95ci": [
+        0.5642,
+        0.7555
+      ],
+      "generator_leakage_rate": 0.3333,
+      "generator_leakage_95ci": [
+        0.2445,
+        0.4358
+      ],
+      "false_quarantine_rate": 0.0,
+      "false_quarantine_95ci": [
+        0.0,
+        0.0713
+      ],
+      "mean_utility_retention_attacks": 0.7861,
+      "mean_utility_retention_all_docs": 0.8625
+    },
+    "subset_breakdown": {
+      "meta_declarative": {
+        "total": 15,
+        "quarantined": 15,
+        "leaked": 0,
+        "clean": 0
+      },
+      "bracketed_split": {
+        "total": 15,
+        "quarantined": 15,
+        "leaked": 0,
+        "clean": 0
+      },
+      "hidden_html_comment": {
+        "total": 15,
+        "quarantined": 15,
+        "leaked": 0,
+        "clean": 0
+      },
+      "citation_spoofing": {
+        "total": 15,
+        "quarantined": 0,
+        "leaked": 15,
+        "clean": 15
+      },
+      "multi_sentence_injection": {
+        "total": 15,
+        "quarantined": 15,
+        "leaked": 0,
+        "clean": 0
+      },
+      "misleading_role_header": {
+        "total": 15,
+        "quarantined": 0,
+        "leaked": 15,
+        "clean": 15
+      },
+      "benign_documentation": {
+        "total": 50,
+        "quarantined": 0,
+        "leaked": 0,
+        "clean": 50
+      }
+    }
+  },
+  "g1_semantic_audit_summary": {
+    "workstream": "Workstream A - G1 Semantic Generalization Audit",
+    "sample_counts": {
+      "total_samples": 260,
+      "attacks": 160,
+      "controls": 100
+    },
+    "confusion_matrix": {
+      "tp": 114,
+      "fn": 46,
+      "tn": 100,
+      "fp": 0
+    },
+    "metrics": {
+      "adr": 0.7125,
+      "adr_95ci": [
+        0.638,
+        0.777
+      ],
+      "asr": 0.2875,
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.037
+      ],
+      "precision": 1.0,
+      "recall": 0.7125,
+      "f1_score": 0.8321
+    },
+    "subset_breakdown": {
+      "unseen_imperative_verbs": {
+        "total": 40,
+        "blocked": 10,
+        "allowed": 30
+      },
+      "indirect_narrative_framing": {
+        "total": 40,
+        "blocked": 24,
+        "allowed": 16
+      },
+      "obfuscated_fragmented": {
+        "total": 40,
+        "blocked": 40,
+        "allowed": 0
+      },
+      "adaptive_benign_prefaced": {
+        "total": 40,
+        "blocked": 40,
+        "allowed": 0
+      },
+      "benign_cybersecurity_education": {
+        "total": 50,
+        "blocked": 0,
+        "allowed": 50
+      },
+      "benign_imperative_general": {
+        "total": 50,
+        "blocked": 0,
+        "allowed": 50
+      }
+    }
+  },
+  "neural_production_audit_summary": {
+    "workstream": "Workstream E - Production Neural Verification & Lifecycle Audit",
+    "profile_a_deterministic": {
+      "requests_audited": 25,
+      "reported_modes": [
+        "deterministic_cpu"
+      ],
+      "forward_passes_observed": 0,
+      "mean_latency_ms": 20.035,
+      "p50_latency_ms": 19.167,
+      "p90_latency_ms": 20.244,
+      "p99_latency_ms": 33.03
+    },
+    "profile_b_neural_deberta": {
+      "requests_audited": 25,
+      "reported_modes": [
+        "neural_deberta_cpu"
+      ],
+      "total_forward_passes_observed": 600,
+      "forward_passes_per_request": 24.0,
+      "mean_latency_ms": 1584.968,
+      "p50_latency_ms": 1485.182,
+      "p90_latency_ms": 1755.078,
+      "p99_latency_ms": 3044.479,
+      "mean_latency_per_forward_pass_ms": 66.04
+    },
+    "lifecycle_failure_stress": {
+      "timeout_test": {
+        "status": "ERROR",
+        "g1_decision": "TIMEOUT",
+        "abstained": true,
+        "fail_safe_events": [
+          "REQUEST_TIMEOUT"
+        ],
+        "latency_ms": 55.5174,
+        "passed": true
+      },
+      "concurrency_test": {
+        "total_requests": 20,
+        "successful_responses": 20,
+        "modes_observed": [
+          "deterministic_cpu",
+          "neural_deberta_cpu"
+        ],
+        "passed": true
+      },
+      "shutdown_test": {
+        "status": "ERROR",
+        "g1_decision": "SERVICE_SHUTDOWN",
+        "abstained": true,
+        "passed": true
+      }
+    }
+  },
+  "evidence_verification_audit_summary": {
+    "workstream": "Workstream D - Evidence Verification Reliability Audit",
+    "sample_counts": {
+      "total_scenarios": 100,
+      "supported_scenarios": 25,
+      "contradicted_scenarios": 25,
+      "unsupported_scenarios": 25,
+      "partially_supported_scenarios": 25
+    },
+    "metrics": {
+      "overall_accuracy": 0.49,
+      "overall_accuracy_95ci": [
+        0.3942,
+        0.5865
+      ],
+      "supported_acceptance_rate": 0.4,
+      "supported_acceptance_95ci": [
+        0.234,
+        0.5926
+      ],
+      "false_abstention_rate": 0.6,
+      "contradiction_recall": 0.4,
+      "contradiction_recall_95ci": [
+        0.234,
+        0.5926
+      ],
+      "unsupported_leakage_rate": 0.32,
+      "unsupported_leakage_95ci": [
+        0.1721,
+        0.5159
+      ],
+      "partially_supported_leakage_rate": 0.52
+    },
+    "subset_breakdown": {
+      "SUPPORTED": {
+        "total": 25,
+        "safe_to_release": 10,
+        "accurate_decision": 10,
+        "contradiction_detected": 5
+      },
+      "CONTRADICTED_SEMANTIC": {
+        "total": 15,
+        "safe_to_release": 15,
+        "accurate_decision": 0,
+        "contradiction_detected": 0
+      },
+      "CONTRADICTED_NUMERICAL": {
+        "total": 10,
+        "safe_to_release": 0,
+        "accurate_decision": 10,
+        "contradiction_detected": 10
+      },
+      "UNSUPPORTED": {
+        "total": 25,
+        "safe_to_release": 8,
+        "accurate_decision": 17,
+        "contradiction_detected": 8
+      },
+      "PARTIALLY_SUPPORTED": {
+        "total": 25,
+        "safe_to_release": 13,
+        "accurate_decision": 12,
+        "contradiction_detected": 0
+      }
+    }
+  },
+  "multilingual_audit_summary": {
+    "workstream": "Workstream C - Multilingual Generalization Audit",
+    "sample_counts": {
+      "total_samples": 270,
+      "native_attacks": 135,
+      "translit_attacks": 135
+    },
+    "metrics": {
+      "overall_native_adr": 0.8889,
+      "overall_native_adr_95ci": [
+        0.8248,
+        0.9315
+      ],
+      "overall_translit_adr": 0.5556,
+      "overall_translit_adr_95ci": [
+        0.4714,
+        0.6367
+      ],
+      "overall_combined_adr": 0.7222,
+      "overall_combined_adr_95ci": [
+        0.666,
+        0.7722
+      ]
+    },
+    "per_language_breakdown": {
+      "English": {
+        "native_adr": 0.0,
+        "translit_adr": 0.0,
+        "combined_adr": 0.0,
+        "native_detected": "0/15",
+        "translit_detected": "0/15"
+      },
+      "Spanish": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "French": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "German": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "Russian": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "Hindi": {
+        "native_adr": 1.0,
+        "translit_adr": 1.0,
+        "combined_adr": 1.0,
+        "native_detected": "15/15",
+        "translit_detected": "15/15"
+      },
+      "Arabic": {
+        "native_adr": 1.0,
+        "translit_adr": 0.0,
+        "combined_adr": 0.5,
+        "native_detected": "15/15",
+        "translit_detected": "0/15"
+      },
+      "Chinese": {
+        "native_adr": 1.0,
+        "translit_adr": 0.0,
+        "combined_adr": 0.5,
+        "native_detected": "15/15",
+        "translit_detected": "0/15"
+      },
+      "Japanese": {
+        "native_adr": 1.0,
+        "translit_adr": 0.0,
+        "combined_adr": 0.5,
+        "native_detected": "15/15",
+        "translit_detected": "0/15"
+      }
+    }
+  }
+}

@@ -1,0 +1,65 @@
+{
+  "workstream": "Workstream B - Document Firewall & Generator Boundary Audit",
+  "sample_counts": {
+    "total_documents": 150,
+    "total_attacks": 100,
+    "total_controls": 50
+  },
+  "metrics": {
+    "detection_recall": 1.0,
+    "detection_recall_95ci": [
+      0.963,
+      1.0
+    ],
+    "generator_leakage_rate": 0.0,
+    "generator_leakage_95ci": [
+      0.0,
+      0.037
+    ],
+    "false_quarantine_rate": 0.0,
+    "false_quarantine_95ci": [
+      0.0,
+      0.0713
+    ],
+    "mean_utility_retention_attacks": 0.6833,
+    "mean_utility_retention_all_docs": 0.7889
+  },
+  "subset_breakdown": {
+    "citation_spoofing": {
+      "total": 20,
+      "quarantined": 20,
+      "leaked": 0,
+      "clean": 0
+    },
+    "misleading_role_header": {
+      "total": 20,
+      "quarantined": 20,
+      "leaked": 0,
+      "clean": 0
+    },
+    "meta_declarative": {
+      "total": 20,
+      "quarantined": 20,
+      "leaked": 0,
+      "clean": 0
+    },
+    "bracketed_split": {
+      "total": 20,
+      "quarantined": 20,
+      "leaked": 0,
+      "clean": 0
+    },
+    "hidden_html_comment": {
+      "total": 20,
+      "quarantined": 20,
+      "leaked": 0,
+      "clean": 0
+    },
+    "benign_technical_doc": {
+      "total": 50,
+      "quarantined": 0,
+      "leaked": 0,
+      "clean": 50
+    }
+  }
+}

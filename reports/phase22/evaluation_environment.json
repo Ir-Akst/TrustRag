@@ -1,0 +1,28 @@
+{
+  "audit_phase": "Phase 22",
+  "timestamp": "2026-11-24T04:15:00Z",
+  "system": {
+    "os": "Linux (Ubuntu/Debian)",
+    "kernel": "Linux 6.6+",
+    "cpu": "Intel/AMD x86_64 Multi-core",
+    "python_version": "3.10.x",
+    "torch_version": "2.x",
+    "transformers_version": "4.30+"
+  },
+  "git_environment": {
+    "repository": "/home/aditya/rags/TrustRag-phase11",
+    "branch": "phase-22-external-benchmark-validation",
+    "anchor_release_commit": "531bff32745ede1bd1b38609cc6daf653d3eff24",
+    "anchor_release_tag": "trustrag-v1.0.0-rc1",
+    "phase21_commit": "3bcb1ecba8975c790bd17cd856d56ace0bf12870",
+    "remote": "https://github.com/Ir-Akst/TrustRag.git"
+  },
+  "evaluation_parameters": {
+    "random_seed": 42,
+    "top_k_retrieval": 5,
+    "removal_cap_cr": 0.50,
+    "g3_entailment_threshold": 0.65,
+    "g3_device": "cpu",
+    "g3_intra_op_threads": 2
+  }
+}

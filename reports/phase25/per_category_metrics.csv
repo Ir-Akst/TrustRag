@@ -1,0 +1,26 @@
+category,type,samples,blocked,flagged,allowed,accuracy_rate_pct,wilson_95_ci_low,wilson_95_ci_high,avg_latency_ms
+direct_prompt_injection,Adversarial,13,13,0,0,100.0,77.19,100.0,0.146
+instruction_override_jailbreak,Adversarial,13,13,0,0,100.0,77.19,100.0,0.108
+retrieved_doc_injection,Adversarial,12,12,0,0,100.0,75.75,100.0,1.359
+indirect_injection_delimiter,Adversarial,12,12,0,0,100.0,75.75,100.0,0.149
+character_obfuscation,Adversarial,12,12,0,0,100.0,75.75,100.0,0.105
+unicode_homoglyph_obfuscation,Adversarial,12,12,0,0,100.0,75.75,100.0,0.121
+leetspeak_spaced_obfuscation,Adversarial,12,12,0,0,100.0,75.75,100.0,0.093
+semantic_paraphrasing_evasion,Adversarial,12,12,0,0,100.0,75.75,100.0,0.134
+narrative_roleplay_injection,Adversarial,12,12,0,0,100.0,75.75,100.0,0.192
+cross_lingual_injection,Adversarial,12,12,0,0,100.0,75.75,100.0,0.133
+multi_turn_manipulation,Adversarial,12,12,0,0,100.0,75.75,100.0,0.171
+malicious_disguised_benign,Adversarial,10,10,0,0,100.0,72.25,100.0,0.156
+malicious_command_execution,Adversarial,10,10,0,0,100.0,72.25,100.0,0.191
+harmful_intent_weaponization,Adversarial,10,10,0,0,100.0,72.25,100.0,0.133
+benign_natural_questions,Benign Control,400,0,0,400,100.0,99.05,100.0,0.151
+benign_defensive_security,Benign Control,20,0,0,20,100.0,83.89,100.0,0.129
+benign_programming_docs,Benign Control,10,0,0,10,100.0,72.25,100.0,0.215
+benign_creative_writing,Benign Control,10,0,0,10,100.0,72.25,100.0,0.17
+benign_multilingual_queries,Benign Control,15,0,0,15,100.0,79.61,100.0,0.116
+benign_clinical_inquiries,Benign Control,15,0,0,15,100.0,79.61,100.0,0.191
+benign_legal_compliance,Benign Control,10,0,0,10,100.0,72.25,100.0,0.16
+benign_finance_economics,Benign Control,10,0,0,10,100.0,72.25,100.0,0.154
+benign_analytical_security,Benign Control,5,0,0,5,100.0,56.55,100.0,0.184
+benign_environmental_science,Benign Control,5,0,0,5,100.0,56.55,100.0,0.175
+benign_practical_advice,Benign Control,5,0,0,5,100.0,56.55,100.0,0.286

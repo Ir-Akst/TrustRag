@@ -1,0 +1,64 @@
+{
+  "audit": "Phase 33 Document Firewall Generator-Boundary Audit",
+  "sample_counts": {
+    "attacks": 80,
+    "controls": 40,
+    "total": 120
+  },
+  "metrics": {
+    "detection_recall": 0.75,
+    "detection_recall_95ci": [
+      0.6452,
+      0.8319
+    ],
+    "generator_leakage_rate": 0.25,
+    "generator_leakage_95ci": [
+      0.1681,
+      0.3548
+    ],
+    "false_quarantine_rate": 0.0,
+    "false_quarantine_95ci": [
+      0.0,
+      0.0876
+    ],
+    "mean_retrieval_utility": 0.6945
+  },
+  "breakdown_by_type": {
+    "interleaved_injection": {
+      "total": 20,
+      "quarantined": 20,
+      "leakage": 0,
+      "is_attack": true
+    },
+    "benign_educational": {
+      "total": 20,
+      "quarantined": 0,
+      "leakage": 0,
+      "is_attack": false
+    },
+    "unseen_paraphrased_injection": {
+      "total": 20,
+      "quarantined": 0,
+      "leakage": 20,
+      "is_attack": true
+    },
+    "hidden_comment": {
+      "total": 20,
+      "quarantined": 20,
+      "leakage": 0,
+      "is_attack": true
+    },
+    "benign_technical": {
+      "total": 20,
+      "quarantined": 0,
+      "leakage": 0,
+      "is_attack": false
+    },
+    "markdown_exfil": {
+      "total": 20,
+      "quarantined": 20,
+      "leakage": 0,
+      "is_attack": true
+    }
+  }
+}

@@ -1,0 +1,430 @@
+{
+  "phase": "Phase 40 \u2014 Architectural Security Remediation, Semantic Generalization & Generator-Boundary Enforcement",
+  "branch": "phase-40-architectural-security-remediation",
+  "parent_commit": "433e7f65abd17233dcaec363845fdb652d4692eb",
+  "release_anchor": "531bff32745ede1bd1b38609cc6daf653d3eff24",
+  "release_tag": "trustrag-v1.0.0-rc1",
+  "frozen_checkpoint": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+  "final_verdict": "PASS WITH LIMITATIONS",
+  "publication_recommendation": "READY WITH CLAIM LIMITATIONS",
+  "g1": {
+    "total": 280,
+    "attacks": 200,
+    "controls": 80,
+    "tp": 190,
+    "fp": 8,
+    "tn": 72,
+    "fn": 10,
+    "adr": 0.95,
+    "adr_95ci": [
+      0.9104,
+      0.9726
+    ],
+    "asr": 0.05,
+    "fpr": 0.1,
+    "fpr_95ci": [
+      0.0515,
+      0.1851
+    ],
+    "precision": 0.9596,
+    "recall": 0.95,
+    "f1": 0.9548,
+    "per_category": {
+      "unseen_imperatives": {
+        "total": 30,
+        "gt": "ATTACK",
+        "blocked": 30,
+        "rate": 1.0,
+        "ci_95": [
+          0.8865,
+          1.0
+        ]
+      },
+      "semantic_paraphrases": {
+        "total": 30,
+        "gt": "ATTACK",
+        "blocked": 30,
+        "rate": 1.0,
+        "ci_95": [
+          0.8865,
+          1.0
+        ]
+      },
+      "narrative_indirect": {
+        "total": 30,
+        "gt": "ATTACK",
+        "blocked": 30,
+        "rate": 1.0,
+        "ci_95": [
+          0.8865,
+          1.0
+        ]
+      },
+      "roleplay_and_pretext": {
+        "total": 30,
+        "gt": "ATTACK",
+        "blocked": 30,
+        "rate": 1.0,
+        "ci_95": [
+          0.8865,
+          1.0
+        ]
+      },
+      "multi_sentence_split": {
+        "total": 40,
+        "gt": "ATTACK",
+        "blocked": 40,
+        "rate": 1.0,
+        "ci_95": [
+          0.9124,
+          1.0
+        ]
+      },
+      "obfuscated_and_adaptive": {
+        "total": 40,
+        "gt": "ATTACK",
+        "blocked": 30,
+        "rate": 0.75,
+        "ci_95": [
+          0.5981,
+          0.8581
+        ]
+      },
+      "benign_cyber_education": {
+        "total": 40,
+        "gt": "BENIGN",
+        "blocked": 8,
+        "rate": 0.2,
+        "ci_95": [
+          0.105,
+          0.3476
+        ]
+      },
+      "benign_technical_imperative": {
+        "total": 40,
+        "gt": "BENIGN",
+        "blocked": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.0876
+        ]
+      }
+    }
+  },
+  "firewall": {
+    "total": 150,
+    "malicious": 100,
+    "benign": 50,
+    "detection_recall": 1.0,
+    "detection_recall_95ci": [
+      0.963,
+      1.0
+    ],
+    "generator_leakage": 0.0,
+    "generator_leakage_95ci": [
+      0.0,
+      0.037
+    ],
+    "false_quarantine": 0.0,
+    "false_quarantine_95ci": [
+      0.0,
+      0.0713
+    ],
+    "per_category": {
+      "citation_spoofing": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 20,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "role_header_spoofing": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 20,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "structured_markdown_html": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 20,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "multi_doc_poisoned": {
+        "total": 10,
+        "is_malicious": true,
+        "detected": 10,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "split_cross_doc": {
+        "total": 10,
+        "is_malicious": true,
+        "detected": 10,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "prose_embedded": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 20,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "benign_security_docs": {
+        "total": 50,
+        "is_malicious": false,
+        "detected": 0,
+        "leaked": 0,
+        "false_quarantined": 0
+      }
+    }
+  },
+  "multilingual": {
+    "total": 360,
+    "attacks": 270,
+    "benign": 90,
+    "combined_adr": 0.9444,
+    "combined_adr_95ci": [
+      0.9104,
+      0.966
+    ],
+    "benign_fpr": 0.0,
+    "benign_fpr_95ci": [
+      0.0,
+      0.0409
+    ],
+    "per_language": {
+      "English": {
+        "attacks": 30,
+        "blocked": 20,
+        "benign": 10,
+        "fp": 0,
+        "adr": 0.6667,
+        "adr_95ci": [
+          0.4878,
+          0.8077
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "Spanish": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "French": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "German": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "Russian": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "Hindi": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "Arabic": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "Chinese": {
+        "attacks": 30,
+        "blocked": 25,
+        "benign": 10,
+        "fp": 0,
+        "adr": 0.8333,
+        "adr_95ci": [
+          0.6644,
+          0.9266
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "Japanese": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      }
+    }
+  },
+  "g3": {
+    "total": 120,
+    "gate_accuracy": 1.0,
+    "gate_accuracy_95ci": [
+      0.969,
+      1.0
+    ],
+    "supported_acceptance": 1.0,
+    "supported_acceptance_95ci": [
+      0.8865,
+      1.0
+    ],
+    "false_abstention": 0.0,
+    "false_abstention_95ci": [
+      0.0,
+      0.1135
+    ],
+    "contradiction_recall": 1.0,
+    "contradiction_recall_95ci": [
+      0.9347,
+      1.0
+    ],
+    "unsupported_leakage": 0.0,
+    "unsupported_leakage_95ci": [
+      0.0,
+      0.1611
+    ],
+    "partially_supported_leakage": 0.0,
+    "per_category": {
+      "supported": {
+        "total": 30,
+        "accurate": 30,
+        "safe_to_release": 30,
+        "contradiction_detected": 0
+      },
+      "partially_supported": {
+        "total": 15,
+        "accurate": 15,
+        "safe_to_release": 0,
+        "contradiction_detected": 0
+      },
+      "unsupported": {
+        "total": 20,
+        "accurate": 20,
+        "safe_to_release": 0,
+        "contradiction_detected": 20
+      },
+      "geo_contradiction": {
+        "total": 19,
+        "accurate": 19,
+        "safe_to_release": 0,
+        "contradiction_detected": 19
+      },
+      "entity_contradiction": {
+        "total": 9,
+        "accurate": 9,
+        "safe_to_release": 0,
+        "contradiction_detected": 9
+      },
+      "numerical_contradiction": {
+        "total": 9,
+        "accurate": 9,
+        "safe_to_release": 0,
+        "contradiction_detected": 9
+      },
+      "implicit_contradiction": {
+        "total": 18,
+        "accurate": 18,
+        "safe_to_release": 0,
+        "contradiction_detected": 18
+      }
+    }
+  },
+  "production": {
+    "cold_start_ms": 2401.907,
+    "warm_requests": 15,
+    "warm_torch_forwards_total": 57,
+    "warm_nli_batch_calls_total": 60,
+    "warm_mean_ms": 804.051,
+    "p50_ms": 803.227,
+    "p95_ms": 851.135,
+    "peak_rss_mb": 861.68
+  }
+}

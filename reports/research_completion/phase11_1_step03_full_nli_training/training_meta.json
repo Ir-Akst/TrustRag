@@ -1,0 +1,26 @@
+{
+  "model_dir": "/home/aditya/rags/models/pretrained/deberta-v3-small",
+  "train_file": "/home/aditya/rags/TrustRag-phase11/data/processed/sft_v2/nli/train.jsonl",
+  "val_file": "/home/aditya/rags/TrustRag-phase11/data/processed/sft_v2/nli/validation.jsonl",
+  "output_dir": "/home/aditya/rags/models/trained/deberta-v3-small-nli-phase11_1-full3epoch",
+  "epochs": 3,
+  "gradient_accumulation_steps": 4,
+  "sampler_strategy": "sequential",
+  "class_weights": [
+    1.0,
+    3.5,
+    1.5
+  ],
+  "learning_rate": 2e-05,
+  "warmup_steps": 100,
+  "weight_decay": 0.01,
+  "max_seq_len": 384,
+  "min_premise_tokens": 64,
+  "seed": 42,
+  "num_threads": 10,
+  "max_duration_seconds": 86400.0,
+  "best_epoch": 3,
+  "best_step": 8112,
+  "best_macro_f1": 0.550382866935089,
+  "best_val_loss": 0.8838039773049646
+}
