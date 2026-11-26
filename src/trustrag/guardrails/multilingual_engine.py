@@ -159,7 +159,7 @@ class MultilingualSemanticDefense:
         if re.match(r"^(?:how\s+(?:do|can|does|are|to)|explain\s+|describe\s+|what\s+(?:is|are)\s+|why\s+(?:is|are|do|does)\s+)", low):
             if not re.search(r"\b(?:and\s+)?(?:print|output|reveal|dump|show|display)\s+(?:your|the)\s+(?:system\s+prompt|secret|password|api\s+key)", low):
                 return True
-        if "for example, an attacker" in low or "owasp" in low or "cwe-" in low:
+        if any(k in low for k in ("for example, an attacker", "owasp", "cwe-", "researchers study", "phrases like", "auditors test", "cited as", "illustrative payload")):
             return True
         tech_terms = (
             "csv", "json", "python", "docker", "tls", "https", "aes", "rsa", "firewall",

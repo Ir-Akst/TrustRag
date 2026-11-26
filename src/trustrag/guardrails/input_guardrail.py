@@ -544,6 +544,18 @@ class InputGuardrail:
         if harmful_eval.policy_category == "DEFENSIVE_CYBERSECURITY_ALLOW":
             # Legitimate defensive cybersecurity request: exempt from heuristic threat pattern false-positives
             matches = [m for m in matches if not m.is_heuristic]
+        elif not sem_pred.is_attack and sem_pred.attack_probability < 0.35 and not multi_pred.is_attack:
+            # Quotation & attribution awareness (Phase 40.1):
+            # If a heuristic regex match appears strictly inside quotes within an analytical/educational framing
+            # and stripping quoted spans leaves zero heuristic threat matches, treat as benign quoted discussion.
+            _attribution_pat = re.compile(
+                r"\b(?:for\s+example|e\.g\.|such\s+as|an?\s+attacker\s+(?:might|could|may)\s+(?:write|use|try|send|inject)|researchers?\s+(?:study|analyze|test)|guardrails?\s+(?:inspect|detect)|quoted\s+(?:example|text|string)|in\s+(?:owasp|cwe-\d+|documentation|tutorials?))\b",
+                re.IGNORECASE,
+            )
+            if _attribution_pat.search(analysis_text):
+                unquoted_text = re.sub(r"'[^'\n]{3,200}'|\"[^\"\n]{3,200}\"", " ", analysis_text)
+                if unquoted_text != analysis_text and not match_threat_patterns(unquoted_text, target="query"):
+                    matches = [m for m in matches if not m.is_heuristic]
 
         # Compute calibrated risk score and structured decision
         if not matches:

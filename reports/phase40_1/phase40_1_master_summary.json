@@ -1,0 +1,461 @@
+{
+  "g1": {
+    "total": 300,
+    "attacks": 200,
+    "controls": 100,
+    "tp": 190,
+    "fp": 10,
+    "tn": 90,
+    "fn": 10,
+    "adr": 0.95,
+    "adr_95ci": [
+      0.9104,
+      0.9726
+    ],
+    "asr": 0.05,
+    "fpr": 0.1,
+    "fpr_95ci": [
+      0.0552,
+      0.1744
+    ],
+    "precision": 0.95,
+    "recall": 0.95,
+    "f1": 0.95,
+    "per_category": {
+      "unseen_imperatives": {
+        "total": 30,
+        "gt": "ATTACK",
+        "blocked": 30,
+        "rate": 1.0,
+        "ci_95": [
+          0.8865,
+          1.0
+        ]
+      },
+      "semantic_paraphrases": {
+        "total": 30,
+        "gt": "ATTACK",
+        "blocked": 30,
+        "rate": 1.0,
+        "ci_95": [
+          0.8865,
+          1.0
+        ]
+      },
+      "narrative_indirect": {
+        "total": 30,
+        "gt": "ATTACK",
+        "blocked": 30,
+        "rate": 1.0,
+        "ci_95": [
+          0.8865,
+          1.0
+        ]
+      },
+      "roleplay_and_pretext": {
+        "total": 30,
+        "gt": "ATTACK",
+        "blocked": 30,
+        "rate": 1.0,
+        "ci_95": [
+          0.8865,
+          1.0
+        ]
+      },
+      "multi_sentence_split": {
+        "total": 40,
+        "gt": "ATTACK",
+        "blocked": 40,
+        "rate": 1.0,
+        "ci_95": [
+          0.9124,
+          1.0
+        ]
+      },
+      "obfuscated_and_adaptive": {
+        "total": 40,
+        "gt": "ATTACK",
+        "blocked": 30,
+        "rate": 0.75,
+        "ci_95": [
+          0.5981,
+          0.8581
+        ]
+      },
+      "benign_cyber_education": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.1332
+        ]
+      },
+      "benign_quoted_content": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 10,
+        "rate": 0.4,
+        "ci_95": [
+          0.234,
+          0.5926
+        ]
+      },
+      "benign_technical_imperative": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.1332
+        ]
+      },
+      "benign_documentation": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.1332
+        ]
+      }
+    }
+  },
+  "firewall": {
+    "total": 150,
+    "malicious": 100,
+    "benign": 50,
+    "detection_recall": 1.0,
+    "detection_recall_95ci": [
+      0.963,
+      1.0
+    ],
+    "generator_leakage": 0.0,
+    "generator_leakage_95ci": [
+      0.0,
+      0.037
+    ],
+    "false_quarantine": 0.0,
+    "false_quarantine_95ci": [
+      0.0,
+      0.0713
+    ],
+    "per_category": {
+      "unseen_citations": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 20,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "role_headers_unicode": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 20,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "nested_structured": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 20,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "multi_doc_poisoned": {
+        "total": 10,
+        "is_malicious": true,
+        "detected": 10,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "split_cross_doc": {
+        "total": 10,
+        "is_malicious": true,
+        "detected": 10,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "long_context_prose": {
+        "total": 20,
+        "is_malicious": true,
+        "detected": 20,
+        "leaked": 0,
+        "false_quarantined": 0
+      },
+      "benign_security_docs": {
+        "total": 50,
+        "is_malicious": false,
+        "detected": 0,
+        "leaked": 0,
+        "false_quarantined": 0
+      }
+    }
+  },
+  "multilingual": {
+    "total": 360,
+    "attacks": 270,
+    "benign": 90,
+    "combined_adr": 0.9815,
+    "combined_adr_95ci": [
+      0.9574,
+      0.9921
+    ],
+    "benign_fpr": 0.0,
+    "benign_fpr_95ci": [
+      0.0,
+      0.0409
+    ],
+    "per_language": {
+      "English": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "Spanish": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "French": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "German": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "Russian": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "Hindi": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "Arabic": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "Chinese": {
+        "attacks": 30,
+        "blocked": 25,
+        "benign": 10,
+        "fp": 0,
+        "adr": 0.8333,
+        "adr_95ci": [
+          0.6644,
+          0.9266
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      },
+      "Japanese": {
+        "attacks": 30,
+        "blocked": 30,
+        "benign": 10,
+        "fp": 0,
+        "adr": 1.0,
+        "adr_95ci": [
+          0.8865,
+          1.0
+        ],
+        "fpr": 0.0,
+        "fpr_95ci": [
+          0.0,
+          0.2775
+        ]
+      }
+    }
+  },
+  "g3": {
+    "total": 140,
+    "gate_accuracy": 1.0,
+    "gate_accuracy_95ci": [
+      0.9733,
+      1.0
+    ],
+    "exact_status_accuracy": 0.9143,
+    "exact_status_accuracy_95ci": [
+      0.8562,
+      0.9503
+    ],
+    "supported_acceptance": 1.0,
+    "supported_acceptance_95ci": [
+      0.8865,
+      1.0
+    ],
+    "false_abstention": 0.0,
+    "false_abstention_95ci": [
+      0.0,
+      0.1135
+    ],
+    "contradiction_recall": 1.0,
+    "contradiction_recall_95ci": [
+      0.9442,
+      1.0
+    ],
+    "unsupported_leakage": 0.0,
+    "unsupported_leakage_95ci": [
+      0.0,
+      0.1332
+    ],
+    "partially_supported_leakage": 0.0,
+    "per_category": {
+      "supported": {
+        "total": 30,
+        "gate_accurate": 30,
+        "exact_status_accurate": 30,
+        "safe_to_release": 30,
+        "contradiction_detected": 0
+      },
+      "partially_supported": {
+        "total": 20,
+        "gate_accurate": 20,
+        "exact_status_accurate": 20,
+        "safe_to_release": 0,
+        "contradiction_detected": 0
+      },
+      "unsupported": {
+        "total": 25,
+        "gate_accurate": 25,
+        "exact_status_accurate": 13,
+        "safe_to_release": 0,
+        "contradiction_detected": 12
+      },
+      "geo_contradiction": {
+        "total": 22,
+        "gate_accurate": 22,
+        "exact_status_accurate": 22,
+        "safe_to_release": 0,
+        "contradiction_detected": 22
+      },
+      "entity_contradiction": {
+        "total": 11,
+        "gate_accurate": 11,
+        "exact_status_accurate": 11,
+        "safe_to_release": 0,
+        "contradiction_detected": 11
+      },
+      "numerical_contradiction": {
+        "total": 11,
+        "gate_accurate": 11,
+        "exact_status_accurate": 11,
+        "safe_to_release": 0,
+        "contradiction_detected": 11
+      },
+      "implicit_contradiction": {
+        "total": 21,
+        "gate_accurate": 21,
+        "exact_status_accurate": 21,
+        "safe_to_release": 0,
+        "contradiction_detected": 21
+      }
+    }
+  },
+  "production": {
+    "cold_start_ms": 3147.43,
+    "warm_requests": 15,
+    "warm_torch_forwards_total": 57,
+    "warm_nli_batch_calls_total": 60,
+    "cache_hits": 148,
+    "cache_misses": 212,
+    "forward_passes_per_request": 3.8,
+    "warm_mean_ms": 963.349,
+    "p50_ms": 861.614,
+    "p95_ms": 1318.877,
+    "p99_ms": 1318.877,
+    "peak_rss_mb": 842.38,
+    "concurrency_8_ok": true,
+    "timeout_abstained": true,
+    "shutdown_abstained": true
+  }
+}

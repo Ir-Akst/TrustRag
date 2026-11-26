@@ -125,7 +125,7 @@ class SemanticAttackClassifier:
                 re.IGNORECASE
             ),
             "feat_security_education": re.compile(
-                r"\b(?:how\s+(?:do|can|does|are|to)\b|explain\s+(?:how|owasp|the)\b|what\s+are\s+the\b|describe\s+how\b|principles\s+of\b|overview\s+of\b|methods\s+used\s+to\b|best\s+practices\s+for\b|in\s+application\s+security\b|owasp|cwe-\d+|mitre\s+att&ck|red\s+teams?\s+test|security\s+auditors?|defensive\s+research|vulnerability\s+research|risk\s+analysis\b|threat\s+modeling\b|for\s+example,\s+an\s+attacker|guardrails?\s+inspect|nli-based\s+verifiers?)",
+                r"\b(?:how\s+(?:do|can|does|are|to)\b|explain\s+(?:how|owasp|the)\b|what\s+are\s+the\b|describe\s+how\b|principles\s+of\b|overview\s+of\b|methods\s+used\s+to\b|best\s+practices\s+for\b|in\s+application\s+security\b|owasp|cwe-\d+|mitre\s+att&ck|red\s+teams?\s+test|security\s+auditors?|defensive\s+research|vulnerability\s+research|risk\s+analysis\b|threat\s+modeling\b|for\s+example,\s+an\s+attacker|guardrails?\s+inspect|nli-based\s+verifiers?|researchers?\s+(?:study|analyze|test)|phrases?\s+like|cited\s+as|illustrative\s+payload|when\s+benchmarking)\b",
                 re.IGNORECASE
             )
         }

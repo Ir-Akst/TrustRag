@@ -136,7 +136,15 @@ def _detect_semantic_entity_contradiction(premise: str, hypothesis: str, query: 
             unmatched_premise_ents.add(pe)
 
     if unmatched_claim_ents and unmatched_premise_ents:
-        return True, f"Entity substitution contradiction: claim introduces {sorted(unmatched_claim_ents)} contradicting premise {sorted(unmatched_premise_ents)}"
+        # Require subject/focal-slot entity mismatch (opening proper entity of claim or premise is unmatched)
+        # so extra detail entities on a matched subject (e.g. 'Acme Corp ... Q4' vs 'Acme Corp ... Ohio')
+        # are treated as INSUFFICIENT_EVIDENCE rather than CONTRADICTED.
+        h_tokens = [w.strip(".,;:!?\"'()").lower() for w in hypothesis.split()]
+        p_tokens = [w.strip(".,;:!?\"'()").lower() for w in premise.split()]
+        h_head = next((w for w in h_tokens[:5] if w in c_ents), None)
+        p_head = next((w for w in p_tokens[:5] if w in p_ents), None)
+        if (h_head and h_head in unmatched_claim_ents) or (p_head and p_head in unmatched_premise_ents):
+            return True, f"Entity substitution contradiction: claim introduces {sorted(unmatched_claim_ents)} contradicting premise {sorted(unmatched_premise_ents)}"
     return False, ""
 
 
@@ -151,7 +159,8 @@ def _check_numerical_consistency(
     if not claim_nums:
         return True, False
     if not span_nums:
-        return False, True
+        # Premise contains no numbers: claim is unsupported by numeric evidence, not numerically contradicted
+        return False, False
 
     has_approx = bool(_APPROX_CUES.search(claim) or _APPROX_CUES.search(span or ""))
     tol = 0.02 if (has_approx or best_ent >= 0.65) else 0.001
