@@ -1,0 +1,252 @@
+{
+  "halueval_diagnosis": {
+    "n": 200,
+    "short_claims_lt_3_words": 70,
+    "raw_answer_eval": {
+      "n": 200,
+      "confusion": {
+        "tp": 10,
+        "fp": 24,
+        "tn": 76,
+        "fn": 90
+      },
+      "coverage": 0.17,
+      "abstention_rate": 0.83,
+      "factual_precision": 0.2941,
+      "factual_recall": 0.1,
+      "factual_recall_95ci": [
+        0.0552,
+        0.1744
+      ],
+      "hallucination_leakage": 0.24,
+      "hallucination_leakage_95ci": [
+        0.1669,
+        0.3323
+      ]
+    },
+    "sentence_wrapped_eval": {
+      "n": 200,
+      "confusion": {
+        "tp": 52,
+        "fp": 42,
+        "tn": 58,
+        "fn": 48
+      },
+      "coverage": 0.47,
+      "abstention_rate": 0.53,
+      "factual_precision": 0.5532,
+      "factual_recall": 0.52,
+      "factual_recall_95ci": [
+        0.4232,
+        0.6154
+      ],
+      "hallucination_leakage": 0.42,
+      "hallucination_leakage_95ci": [
+        0.328,
+        0.5179
+      ]
+    }
+  },
+  "ragtruth_stratified": {
+    "total_ragtruth_test_records": 2700,
+    "excluded_structured_dict_docs": 1800,
+    "by_task_type": {
+      "QA": {
+        "n": 0,
+        "note": "Excluded: all records in this task_type have structured dict documents"
+      },
+      "Summary": {
+        "n": 50,
+        "confusion": {
+          "tp": 4,
+          "fp": 2,
+          "tn": 23,
+          "fn": 21
+        },
+        "coverage": 0.12,
+        "abstention_rate": 0.88,
+        "factual_precision": 0.6667,
+        "factual_recall": 0.16,
+        "factual_recall_95ci": [
+          0.064,
+          0.3465
+        ],
+        "hallucination_leakage": 0.08,
+        "hallucination_leakage_95ci": [
+          0.0222,
+          0.2497
+        ],
+        "factual_claim_contradiction_causes": {
+          "neural_con": 20,
+          "entity_sub": 29,
+          "num_conflict": 5,
+          "polarity": 0
+        }
+      },
+      "Data2txt": {
+        "n": 0,
+        "note": "Excluded: all records in this task_type have structured dict documents"
+      }
+    }
+  },
+  "g3_seven_regimes": {
+    "short_factual_sentence": {
+      "n": 20,
+      "accepted_or_accurate": 20,
+      "rate": 1.0,
+      "ci_95": [
+        0.8389,
+        1.0
+      ]
+    },
+    "multi_sentence_supported": {
+      "n": 20,
+      "accepted_or_accurate": 20,
+      "rate": 1.0,
+      "ci_95": [
+        0.8389,
+        1.0
+      ]
+    },
+    "supported": {
+      "n": 30,
+      "gate_accurate": 30,
+      "rate": 1.0,
+      "ci_95": [
+        0.8865,
+        1.0
+      ]
+    },
+    "partially_supported": {
+      "n": 20,
+      "gate_accurate": 20,
+      "rate": 1.0,
+      "ci_95": [
+        0.8389,
+        1.0
+      ]
+    },
+    "unsupported": {
+      "n": 25,
+      "gate_accurate": 25,
+      "rate": 1.0,
+      "ci_95": [
+        0.8668,
+        1.0
+      ]
+    },
+    "geo_contradiction": {
+      "n": 12,
+      "gate_accurate": 12,
+      "rate": 1.0,
+      "ci_95": [
+        0.7575,
+        1.0
+      ]
+    },
+    "entity_contradiction": {
+      "n": 11,
+      "gate_accurate": 11,
+      "rate": 1.0,
+      "ci_95": [
+        0.7412,
+        1.0
+      ]
+    },
+    "numerical_contradiction": {
+      "n": 11,
+      "gate_accurate": 11,
+      "rate": 1.0,
+      "ci_95": [
+        0.7412,
+        1.0
+      ]
+    },
+    "implicit_contradiction": {
+      "n": 11,
+      "gate_accurate": 11,
+      "rate": 1.0,
+      "ci_95": [
+        0.7412,
+        1.0
+      ]
+    }
+  },
+  "g1_benign_utility": {
+    "total": 120,
+    "benign_total": 100,
+    "benign_fp": 45,
+    "overall_benign_fpr": 0.45,
+    "overall_benign_fpr_95ci": [
+      0.3561,
+      0.5476
+    ],
+    "per_category": {
+      "benign_security_education": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 0,
+        "sem_fired": 0,
+        "ml_fired": 0,
+        "heur_fired": 0,
+        "rate": 0.0,
+        "ci_95": [
+          0.0,
+          0.1332
+        ]
+      },
+      "benign_quoted_attacks": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 10,
+        "sem_fired": 0,
+        "ml_fired": 0,
+        "heur_fired": 20,
+        "rate": 0.4,
+        "ci_95": [
+          0.234,
+          0.5926
+        ]
+      },
+      "benign_incident_reports": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 20,
+        "sem_fired": 10,
+        "ml_fired": 5,
+        "heur_fired": 20,
+        "rate": 0.8,
+        "ci_95": [
+          0.6087,
+          0.9114
+        ]
+      },
+      "benign_threat_intel": {
+        "total": 25,
+        "gt": "BENIGN",
+        "blocked": 15,
+        "sem_fired": 15,
+        "ml_fired": 5,
+        "heur_fired": 5,
+        "rate": 0.6,
+        "ci_95": [
+          0.4074,
+          0.766
+        ]
+      },
+      "malicious_instructions": {
+        "total": 20,
+        "gt": "ATTACK",
+        "blocked": 20,
+        "sem_fired": 20,
+        "ml_fired": 5,
+        "heur_fired": 5,
+        "rate": 1.0,
+        "ci_95": [
+          0.8389,
+          1.0
+        ]
+      }
+    }
+  }
+}
