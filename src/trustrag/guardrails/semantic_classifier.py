@@ -47,9 +47,10 @@ class SemanticAttackPrediction:
     latency_ms: float = 0.0
 
 class SemanticAttackClassifier:
-    """Calibrated Multi-Feature Semantic Attack Classifier."""
+    """Calibrated Multi-Feature + TF-IDF Semantic Attack Classifier (v3.0)."""
 
-    MODEL_VERSION = "semantic-sec-v2.0-calibrated"
+    MODEL_VERSION = "semantic-sec-v3.0-hybrid"
+    DEFAULT_ML_MODEL_PATH = Path(__file__).resolve().parents[3] / "models" / "semantic_sec_v3.pkl"
 
     def __init__(
         self,
@@ -57,22 +58,29 @@ class SemanticAttackClassifier:
         *,
         block_threshold: float = 0.65,
         flag_threshold: float = 0.35,
-        min_confidence_for_block: float = 0.40,
+        min_confidence_for_block: float = 0.30,
     ) -> None:
         self.model_path = Path(model_path) if model_path else None
         self.block_threshold = block_threshold
         self.flag_threshold = flag_threshold
         self.min_confidence_for_block = min_confidence_for_block
         self._weights: Dict[str, float] = {}
-        self._bias: float = -3.20  # Base logit: empty features -> prob = sigmoid(-3.2) ~ 0.039 (Clean!)
+        self._bias: float = -3.20
         self._temperature: float = 1.0
         self._is_loaded = False
+        self._ml_pipeline: Any = None
         self._compile_feature_extractors()
 
         if self.model_path and self.model_path.is_file():
             self.load(self.model_path)
         else:
             self._set_default_weights()
+            if self.DEFAULT_ML_MODEL_PATH.is_file():
+                try:
+                    with open(self.DEFAULT_ML_MODEL_PATH, "rb") as f:
+                        self._ml_pipeline = pickle.load(f)
+                except Exception:
+                    self._ml_pipeline = None
 
     def _compile_feature_extractors(self) -> None:
         self.feature_patterns = {
@@ -117,7 +125,7 @@ class SemanticAttackClassifier:
                 re.IGNORECASE
             ),
             "feat_security_education": re.compile(
-                r"\b(?:how\s+(?:do|can|does|are|to)\b|explain\s+how\b|what\s+are\s+the\b|describe\s+how\b|principles\s+of\b|overview\s+of\b|methods\s+used\s+to\b|best\s+practices\s+for\b|in\s+application\s+security\b|owasp|cwe-\d+|mitre\s+att&ck|red\s+teams?\s+test|security\s+auditors?|defensive\s+research|vulnerability\s+research|risk\s+analysis\b|threat\s+modeling\b|how\s+do\s+modern\s+llm\s+guardrails)",
+                r"\b(?:how\s+(?:do|can|does|are|to)\b|explain\s+(?:how|owasp|the)\b|what\s+are\s+the\b|describe\s+how\b|principles\s+of\b|overview\s+of\b|methods\s+used\s+to\b|best\s+practices\s+for\b|in\s+application\s+security\b|owasp|cwe-\d+|mitre\s+att&ck|red\s+teams?\s+test|security\s+auditors?|defensive\s+research|vulnerability\s+research|risk\s+analysis\b|threat\s+modeling\b|for\s+example,\s+an\s+attacker|guardrails?\s+inspect|nli-based\s+verifiers?)",
                 re.IGNORECASE
             )
         }
@@ -168,10 +176,45 @@ class SemanticAttackClassifier:
 
         return feats
 
-    def predict(self, text: str) -> SemanticAttackPrediction:
-        feats = self.extract_features(text)
+    def _split_clauses(self, text: str) -> List[str]:
+        """Decompose multi-sentence, multi-turn, or dual-intent inputs into clauses."""
+        parts = re.split(r"(?<=[.!?])\s+|\n+|;\s+|\b(?:Also,|By the way,|P\.S\.|Turn \d+:|Step \d+:)\s*", text)
+        clauses = [p.strip() for p in parts if p and len(p.strip()) >= 8]
+        return clauses if clauses else [text]
 
-        # Compute logit
+    @staticmethod
+    def _is_benign_technical_imperative(text: str) -> bool:
+        """Detect ordinary software/data-processing imperatives without prompt/secret targets."""
+        low = text.lower()
+        tech_markers = (
+            "csv", "json", "redis", "cache", "timeout", "docker", "postgresql", "sql",
+            "whitespace", "trailing comma", "logging", "staging table", "quadratic formula",
+            "font size", "css", "localhost", "pytest", "empty line", "null entr",
+        )
+        sec_targets = (
+            "system prompt", "developer prompt", "developer instruction", "hidden instruction",
+            "secret key", "secret token", "api key", "admin password", "root key", "safety",
+            "guardrail", "bootstrap", "preamble", "initial instruction", "initialization",
+        )
+        return any(t in low for t in tech_markers) and not any(s in low for s in sec_targets)
+
+    @staticmethod
+    def _has_meta_or_security_intent(text: str) -> bool:
+        """Check whether text references model/system/security/meta-instruction concepts."""
+        low = text.lower()
+        meta_cues = (
+            "prompt", "instruction", "directive", "rule", "guideline", "policy", "policies",
+            "constraint", "boundary", "boundaries", "filter", "guardrail", "preamble",
+            "bootstrap", "charter", "config", "secret", "key", "token", "password",
+            "credential", "environment", "verbatim", "unfiltered", "unrestricted",
+            "maintenance mode", "developer", "system", "oracle", "mainframe", "dialogue",
+            "story", "play", "novel", "bug report", "transcript", "guidance", "mandate",
+            "limitation", "restriction", "moderation", "auditbot", "kernel", "echo",
+        )
+        return any(c in low for c in meta_cues)
+
+    def _predict_single(self, text: str, *, full_text_edu: bool = False) -> Tuple[float, Dict[str, float], List[Tuple[str, float]]]:
+        feats = self.extract_features(text)
         logit = self._bias
         active_contributions: List[Tuple[str, float]] = []
 
@@ -182,13 +225,48 @@ class SemanticAttackClassifier:
                 active_contributions.append((f_name, round(contrib, 3)))
 
         scaled_logit = logit / self._temperature
-        prob = float(1.0 / (1.0 + math.exp(-max(-15.0, min(15.0, scaled_logit)))))
+        rule_prob = float(1.0 / (1.0 + math.exp(-max(-15.0, min(15.0, scaled_logit)))))
 
-        # Confidence: distance from decision boundary
+        # Calibrated TF-IDF semantic intent model probability
+        ml_prob = 0.0
+        if self._ml_pipeline is not None:
+            try:
+                ml_prob = float(self._ml_pipeline.predict_proba([text])[0][1])
+                if (
+                    self._is_benign_technical_imperative(text)
+                    or feats.get("feat_security_education", 0.0) > 0
+                    or full_text_edu
+                    or not self._has_meta_or_security_intent(text)
+                ):
+                    ml_prob *= 0.25
+                if ml_prob >= 0.55:
+                    active_contributions.append(("semantic_tfidf_intent", round(ml_prob * 3.0, 3)))
+            except Exception:
+                ml_prob = 0.0
+
+        # Combine rule-feature posterior and TF-IDF semantic intent posterior
+        prob = max(rule_prob, ml_prob)
+        return prob, feats, active_contributions
+
+    def predict(self, text: str) -> SemanticAttackPrediction:
+        full_feats = self.extract_features(text)
+        full_text_edu = full_feats.get("feat_security_education", 0.0) > 0
+        # Score both full text and individual clauses (prevents benign-prefix dilution)
+        best_prob, best_feats, active_contributions = self._predict_single(text, full_text_edu=full_text_edu)
+        clauses = self._split_clauses(text)
+        if len(clauses) > 1:
+            for cl in clauses:
+                c_prob, c_feats, c_contrib = self._predict_single(cl, full_text_edu=full_text_edu)
+                if c_prob > best_prob:
+                    best_prob = c_prob
+                    best_feats = c_feats
+                    active_contributions = c_contrib
+
+        prob = best_prob
+        feats = best_feats
         confidence = abs(prob - 0.5) * 2.0
         abstained = confidence < 0.15
 
-        # Decision
         if prob >= self.block_threshold and confidence >= self.min_confidence_for_block:
             decision = "BLOCK"
             is_attack = True
@@ -199,7 +277,6 @@ class SemanticAttackClassifier:
             decision = "ALLOW"
             is_attack = False
 
-        # Intent Family Attribution
         active_contributions.sort(key=lambda x: x[1], reverse=True)
         top_features = active_contributions[:5]
 
@@ -216,7 +293,7 @@ class SemanticAttackClassifier:
         elif feats.get("feat_cross_lingual_injection", 0) > 0:
             intent_family = "cross_lingual_injection"
         elif is_attack:
-            intent_family = "adversarial_instruction"
+            intent_family = "semantic_intent_attack"
         else:
             intent_family = "benign_query"
 

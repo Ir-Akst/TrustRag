@@ -18,7 +18,7 @@ from dataclasses import dataclass, field
 from typing import Any, Dict, List, Optional, Set, Tuple
 
 from trustrag.engine.schemas import EvidenceDocument
-from trustrag.engine.text_utils import split_sentences
+from trustrag.engine.text_utils import detect_obfuscation, fold_mixed_script_confusables, split_sentences
 
 @dataclass
 class QuarantinedSpan:
@@ -117,7 +117,7 @@ class DocumentInjectionFirewall:
             (
                 "secret_disclosure_directive",
                 re.compile(
-                    r"\b(?:output|print|reveal|expose|broadcast|recite)\s+(?:the\s+)?(?:secret\s+(?:token|key|api|password)|system\s+prompt|master\s+credentials?|exfil_token|pwned_\d+|override_acknowledged)\b",
+                    r"\b(?:output|print|reveal|expose|broadcast|recite)\s+(?:the\s+)?(?:secret[_\s]?(?:token|key|api|password)\w*|system[_\s]?prompt\w*|master[_\s]?credentials?\w*|exfil_token\w*|pwned_\d+|override_acknowledged|confidential[_\s]?(?:api[_\s]?key|credentials?)\w*|admin[_\s]?(?:key|password|token)\w*)\b",
                     re.IGNORECASE
                 ),
                 0.90,
@@ -135,7 +135,7 @@ class DocumentInjectionFirewall:
             (
                 "citation_spoofing_directive",
                 re.compile(
-                    r"(?:reference\s*\[\d+\]|source\s*\[\d+\])[^:\.\n]*:\s*(?:authoritative\s+)?(?:system\s+)?(?:instruction|directive|command|override)[^\.\n]+",
+                    r"(?:\[(?:citation|ref|reference|source|footnote|bib|bibliography)[^\]]*\]|(?:citation|footnote|bibliography|reference|source|ref\.?)\s*(?:\[?\d+\]?|\(\d+\)))\s*(?:[-–—>:]|\([^\)]+\))*\s*(?:mandatory|authoritative|system|internal|model|assistant|ai)?\s*(?:directive|instruction|override|policy|command|rule)?\s*[:\-–>]*\s*[^\.\n]*(?:disregard|ignore|override|bypass|reveal|output|print|leak|cease|dump|secret|prompt|key|token)",
                     re.IGNORECASE
                 ),
                 0.95,
@@ -144,7 +144,7 @@ class DocumentInjectionFirewall:
             (
                 "role_header_override",
                 re.compile(
-                    r"(?:^|\n|\b)(?:DEVELOPER|SYSTEM|ADMIN|ROOT|SUPERVISOR)\s*:\s*[^\.\n]*(?:override|ignore|disregard|bypass|leak|confirm|breach|output|print|surrender)[^\.\n]*",
+                    r"(?:^|\n|\b|>|\|)\s*(?:#{1,6}\s*)?(?:DEVELOPER|SYSTEM|ADMIN|ROOT|SUPERVISOR|ASSISTANT_OVERRIDE|KERNEL_ADMIN|POLICY_ENGINE|SYSTEM\s+PROMPT|SYSTEM_MESSAGE)\b\s*[:\]]\s*[^\n]*(?:override|ignore|disregard|bypass|leak|confirm|breach|output|print|surrender|reveal|dump|secret|prompt|key|token|env_vars|instructions?)",
                     re.IGNORECASE
                 ),
                 0.95,
@@ -153,27 +153,61 @@ class DocumentInjectionFirewall:
             (
                 "embedded_authority_override",
                 re.compile(
-                    r"\b(?:authoritative\s+system\s+instruction|system\s+override\s+notice|administrative\s+mandate)\s*:[^\.\n]+",
+                    r"\b(?:authoritative\s+system\s+instruction|system\s+override\s+notice|administrative\s+mandate|mandatory\s+model\s+directive|note\s+for\s+the\s+(?:language\s+)?model|important\s+note\s+to\s+ai)\s*:\s*[^\.\n]+",
                     re.IGNORECASE
                 ),
                 0.95,
                 "Authority override masquerading as document content"
+            ),
+            (
+                "prose_or_table_injection",
+                re.compile(
+                    r"(?:\|\s*AI\s*\||>\s*\*\*|<!--[\s\S]*?(?:override|ignore|disregard|bypass|secret|system_prompt|pwned|admin_token|assistant|internal\s+note)[\s\S]*?-->|\b(?:ignore|disregard|override|bypass)\s+(?:all\s+)?(?:safety|prior|security|user)?\s*(?:rules?|instructions?|directives?|filters?|constraints?|query|evidence)\b.{0,50}\b(?:print|output|reveal|dump|leak|secret|prompt|key|token|password|credentials?)\b)",
+                    re.IGNORECASE
+                ),
+                0.92,
+                "Prose, table, blockquote, or comment injection directive"
             )
         ]
 
         # Quoted documentation exception: allow discussion of attacks IF clearly pedagogical
         self.quoted_educational_pattern = re.compile(
-            r"\b(?:owasp\s+llm\d+|cwe-\d+|vulnerability\s+research|discussed\s+in\s+section|mitigation\s+strategies?|security\s+filters?\s+must|for\s+example,\s+an\s+attacker)\b",
+            r"\b(?:owasp\s+llm\d+|cwe-\d+|vulnerability\s+research|discussed\s+in\s+section|mitigation\s+strategies?|security\s+filters?\s+must|for\s+example,\s+an\s+attacker|syslog\s+messages\s+often\s+begin|never\s+hardcode\s+api\s+keys)\b",
             re.IGNORECASE
         )
 
+    def _segment_document_units(self, raw_text: str) -> List[str]:
+        """Extract multi-line structural blocks (code fences, HTML comments, tables, blockquotes) and sentences."""
+        # Pre-split around fenced code blocks and multi-line HTML comments so they stay intact
+        block_pat = re.compile(r"(```[\s\S]*?```|<!--[\s\S]*?-->)", re.MULTILINE)
+        parts = block_pat.split(raw_text)
+        units: List[str] = []
+        for part in parts:
+            p = part.strip()
+            if not p:
+                continue
+            if p.startswith("```") or p.startswith("<!--"):
+                units.append(p)
+            else:
+                # Split lines first if markdown tables or blockquotes or role headers exist
+                for line in p.splitlines():
+                    ln = line.strip()
+                    if not ln:
+                        continue
+                    if ln.startswith(">") or ln.startswith("|") or ln.startswith("#"):
+                        units.append(ln)
+                    else:
+                        units.extend(split_sentences(ln))
+        return units
+
     def inspect_and_sanitize(self, document: EvidenceDocument) -> SanitizedDocumentResult:
-        """Inspect document sentence-by-sentence.
+        """Inspect document unit-by-unit (blocks, lines, sentences).
         
         Preserves genuine factual sentences while quarantining malicious injection clauses.
         """
-        raw_text = unicodedata.normalize("NFKC", document.text)
-        sentences = split_sentences(raw_text)
+        _, cleaned, _ = detect_obfuscation(unicodedata.normalize("NFKC", document.text))
+        raw_text, _ = fold_mixed_script_confusables(cleaned or document.text)
+        sentences = self._segment_document_units(raw_text)
 
         quarantined: List[QuarantinedSpan] = []
         safe_sentences: List[str] = []

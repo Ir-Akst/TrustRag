@@ -1,0 +1,10 @@
+{
+  "cold_start_ms": 2401.907,
+  "warm_requests": 15,
+  "warm_torch_forwards_total": 57,
+  "warm_nli_batch_calls_total": 60,
+  "warm_mean_ms": 804.051,
+  "p50_ms": 803.227,
+  "p95_ms": 851.135,
+  "peak_rss_mb": 861.68
+}

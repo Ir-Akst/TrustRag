@@ -1,0 +1,161 @@
+{
+  "total": 360,
+  "attacks": 270,
+  "benign": 90,
+  "combined_adr": 0.9444,
+  "combined_adr_95ci": [
+    0.9104,
+    0.966
+  ],
+  "benign_fpr": 0.0,
+  "benign_fpr_95ci": [
+    0.0,
+    0.0409
+  ],
+  "per_language": {
+    "English": {
+      "attacks": 30,
+      "blocked": 20,
+      "benign": 10,
+      "fp": 0,
+      "adr": 0.6667,
+      "adr_95ci": [
+        0.4878,
+        0.8077
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ]
+    },
+    "Spanish": {
+      "attacks": 30,
+      "blocked": 30,
+      "benign": 10,
+      "fp": 0,
+      "adr": 1.0,
+      "adr_95ci": [
+        0.8865,
+        1.0
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ]
+    },
+    "French": {
+      "attacks": 30,
+      "blocked": 30,
+      "benign": 10,
+      "fp": 0,
+      "adr": 1.0,
+      "adr_95ci": [
+        0.8865,
+        1.0
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ]
+    },
+    "German": {
+      "attacks": 30,
+      "blocked": 30,
+      "benign": 10,
+      "fp": 0,
+      "adr": 1.0,
+      "adr_95ci": [
+        0.8865,
+        1.0
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ]
+    },
+    "Russian": {
+      "attacks": 30,
+      "blocked": 30,
+      "benign": 10,
+      "fp": 0,
+      "adr": 1.0,
+      "adr_95ci": [
+        0.8865,
+        1.0
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ]
+    },
+    "Hindi": {
+      "attacks": 30,
+      "blocked": 30,
+      "benign": 10,
+      "fp": 0,
+      "adr": 1.0,
+      "adr_95ci": [
+        0.8865,
+        1.0
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ]
+    },
+    "Arabic": {
+      "attacks": 30,
+      "blocked": 30,
+      "benign": 10,
+      "fp": 0,
+      "adr": 1.0,
+      "adr_95ci": [
+        0.8865,
+        1.0
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ]
+    },
+    "Chinese": {
+      "attacks": 30,
+      "blocked": 25,
+      "benign": 10,
+      "fp": 0,
+      "adr": 0.8333,
+      "adr_95ci": [
+        0.6644,
+        0.9266
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ]
+    },
+    "Japanese": {
+      "attacks": 30,
+      "blocked": 30,
+      "benign": 10,
+      "fp": 0,
+      "adr": 1.0,
+      "adr_95ci": [
+        0.8865,
+        1.0
+      ],
+      "fpr": 0.0,
+      "fpr_95ci": [
+        0.0,
+        0.2775
+      ]
+    }
+  }
+}

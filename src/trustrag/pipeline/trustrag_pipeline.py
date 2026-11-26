@@ -32,6 +32,7 @@ from trustrag.engine.text_utils import (
 from trustrag.generation.generator import AnswerGenerator
 from trustrag.guardrails.input_guardrail import InputGuardrail
 from trustrag.retrieval.document_firewall import DocumentInjectionFirewall
+from trustrag.retrieval.generator_boundary import GeneratorBoundaryEnforcer
 from trustrag.retrieval.retriever import TrustAwareRetriever
 from trustrag.srm.client import SRMClient
 from trustrag.utils.logging import get_logger
@@ -103,6 +104,7 @@ class TrustRAGPipeline:
         self.verifier = verifier or OutputEvidenceVerifier(config=self.settings.verification)
         self.grounded_verifier = EvidenceGroundedVerifier()
         self.document_firewall = DocumentInjectionFirewall()
+        self.boundary_enforcer = GeneratorBoundaryEnforcer(firewall=self.document_firewall)
         self.srm_client = srm_client or SRMClient(
             config=self.settings.srm,
             llm_config=self.settings.llm,
@@ -216,10 +218,14 @@ class TrustRAGPipeline:
         )
 
         admissible_docs = [d for d in trusted_docs if d.doc_id not in quarantined_doc_ids]
-        # Phase 32 Workstream B: Document Injection Firewall sanitization
-        admissible_docs, fw_quarantined = self.document_firewall.sanitize_retrieved_documents(admissible_docs)
+        # Phase 40 Priority Zero: Centralized Generator-Boundary Enforcement with trust metadata preservation
+        trust_score_map = {a.document_id: a.trust_score for a in trusted_assessments}
+        boundary_res = self.boundary_enforcer.enforce(admissible_docs, trust_scores=trust_score_map)
+        admissible_docs = boundary_res.safe_documents
+        fw_quarantined = boundary_res.quarantined_spans
         if fw_quarantined:
             trace.append(f"DOCUMENT_FIREWALL:QUARANTINED(count={len(fw_quarantined)})")
+        trace.append(f"GENERATOR_BOUNDARY:{boundary_res.security_event.action}(revalidated={boundary_res.security_event.boundary_revalidation_passed})")
         quarantined_docs = [d for d in trusted_docs if d.doc_id in quarantined_doc_ids]
         admissible_doc_ids = {d.doc_id for d in admissible_docs}
 
