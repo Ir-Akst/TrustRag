@@ -10,3 +10,4 @@
 | C6 | G3 remediation recovers short-QA factual recall on HaluEval | `STATISTICAL_RESULTS.json` (`halueval_200`) | Factual recall `78.0%` (78/100, CI `[68.93%, 85.00%]`, up from `10.0%`), Precision `74.29%`, Leakage `27.0%` | **Supported with limitation** (`27.0%` leakage) |
 | C7 | G3 remediation improves coverage and recall on RAGTruth Summary | `STATISTICAL_RESULTS.json` (`ragtruth_summary_50`) | Coverage `62.0%` (up from `12.0%`), Recall `76.0%` (19/25, up from `16.0%`), Leakage `48.0%` (12/25, up from `8.0%`) | **Scoped limitation** (trade-off: higher recall vs. higher leakage on long summaries) |
 | C8 | Profile B executes genuine DeBERTa-v3-small torch inference with bounded latency and fail-closed lifecycle | `STATISTICAL_RESULTS.json` (`production_neural`) | 82 torch forwards, 209 cache hits, mean `1642.26 ms`, p95 `1887.06 ms`, RSS `1543.22 MB`, 8-thread ok, fail-closed timeout/shutdown | **Supported** (CPU latency ~1.64s warm mean) |
+

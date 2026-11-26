@@ -38,3 +38,4 @@
 2. **HaluEval Residual Leakage (`27.0%`):** Short-QA verification improved recall from `10.0%` to `78.0%` and precision to `74.29%`, with `27.0%` leakage on unsupported short answers.
 3. **Residual G1 Benign FPR (`5.0%`) & Embedded Attack Miss (`1/15`):** Five of 25 Phase 42 `benign_quoted_attacks` still triggered blocks, and `1/15` `mixed_benign_embedded_attack` in the fresh holdout bypassed detection.
 4. **CPU NLI Latency:** Warm mean latency is `1642.26 ms` (p95 `1887.06 ms`) on CPU with `1543.22 MB` peak RSS.
+

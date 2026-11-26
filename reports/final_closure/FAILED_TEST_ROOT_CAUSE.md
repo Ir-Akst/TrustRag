@@ -27,3 +27,4 @@ Both tests were executed in an isolated `git worktree` checked out at the exact 
 
 ## 4. Disposition
 Both failures are **proven pre-existing** prior to Phase 44 (`9d6874e7ca65d5eb5e1440ab1205a7dffdf36cc1`), left unmodified to preserve release-anchor behavior, and explicitly disclosed in all Phase 44 and closure reports.
+

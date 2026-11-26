@@ -41,3 +41,4 @@ PYTHONPATH=src /home/aditya/rags/.venv-phase15-clean10/bin/python \
 cd /home/aditya/rags/TrustRag-phase11
 sha256sum -c reports/phase44/ARTIFACT_SHA256_MANIFEST.txt
 ```
+

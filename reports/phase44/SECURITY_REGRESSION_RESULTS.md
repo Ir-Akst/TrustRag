@@ -27,3 +27,4 @@ Measured with the frozen DeBERTa-v3-small NLI checkpoint (`/home/aditya/rags/mod
 ## 4. Frozen Checkpoint & Release Anchor Integrity
 - **Frozen Model SHA-256 (`checksums.sha256`):** All 8 files (`checkpoint_meta.json`, `config.json`, `model.safetensors`, `optimizer.pt`, `rng_state.pt`, `scheduler.pt`, `tokenizer.json`, `tokenizer_config.json`) verified `OK`.
 - **Release Anchor (`531bff32745ede1bd1b38609cc6daf653d3eff24` / `trustrag-v1.0.0-rc1`):** Verified intact in Git ancestry (`git merge-base --is-ancestor` exited 0).
+

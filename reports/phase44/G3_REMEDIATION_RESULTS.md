@@ -46,3 +46,4 @@ Phase 43 identified two primary causes of low factual recall on naturalistic ben
 ## 4. Honest Limitations & Operating Trade-off
 - On `HaluEval` ($N=200$), removing `< 3` word exclusion and adding query-contextualized NLI lifted factual recall from `10.0%` to `78.0%` and factual precision from `29.41%` to `74.29%` with only a `+3.0 pp` shift in hallucination leakage (`24.0%` to `27.0%`).
 - On `RAGTruth Summary` ($N=50$), lifting coverage from `12.0%` to `62.0%` and recall from `16.0%` to `76.0%` introduced a clear precision/leakage trade-off: hallucination leakage rose from `8.0%` (2/25, mostly abstained) to `48.0%` (12/25). Long-form abstractive summaries with subtle entity/relation distortions remain challenging for a small 141M-parameter DeBERTa-v3-small NLI model without abstaining heavily.
+

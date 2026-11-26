@@ -29,3 +29,4 @@ In Phase 44 (`seed=42`), `EvidenceGroundedVerifier` accepted **12 of 25** (`48.0
 
 ## 4. Decision on Production Code
 Production code is **left unchanged**. Adjusting `entailment_threshold`, `min_support_ratio_to_release`, or removing full-document cross-sentence fallbacks to target `RAGTruth Summary` would overfit to this 25-record split and regress `HaluEval` (`78.0%` recall) and cross-sentence synthesis. Instead, the `48.0%` RAGTruth Summary leakage is prominently disclosed as a scoped limitation.
+

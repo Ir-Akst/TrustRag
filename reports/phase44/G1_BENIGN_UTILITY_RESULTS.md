@@ -36,3 +36,4 @@ Phase 42/43 demonstrated a `45.0%` overall benign false-positive rate (45/100) o
 
 - **Overall Fresh Holdout Summary:** `ADR = 98.33%` (59/60, 95% CI `[91.14%, 99.71%]`), `ASR = 1.67%`, `FPR = 0.0%` (0/100, 95% CI `[0.00%, 3.70%]`), `Precision = 100.0%`, `Recall = 98.33%`, `F1 = 0.9916`.
 - **Remaining Edge Case:** 1/15 in `mixed_benign_embedded_attack` was not blocked, and 5/25 in `benign_quoted_attacks` (unquoted or non-matching attribution phrasing) remained false positives on the Phase 42 set.
+

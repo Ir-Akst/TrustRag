@@ -91,3 +91,4 @@ Every leaked hallucinated summary in `RAGTruth Summary` ($N=25$ hallucinated) wa
 ## 5. Publication Consistency & Artifact Integrity
 - **Consistency Audit:** All denominators, comparable `seed=42` baselines, Wilson 95% CIs, separate G1 suites, full G3 metrics (coverage, precision, recall, leakage), `48.0%` RAGTruth leakage disclosure, 2 pre-existing failed tests, and absence of unsupported SOTA claims are verified across `reports/phase44/` and `reports/final_closure/`.
 - **Checksums:** `sha256sum -c reports/phase44/ARTIFACT_SHA256_MANIFEST.txt` and `sha256sum -c reports/final_closure/ARTIFACT_SHA256_MANIFEST.txt` both pass `OK`.
+

@@ -82,3 +82,4 @@ All scripts, raw predictions, logs, statistical outputs, and SHA-256 manifests a
 
 ## 20. Conclusion
 TrustRAG Phase 44 resolves the critical G1 benign-utility bottleneck (`45.0%` -> `5.0%` FPR) and G3 short-QA recall collapse (`10.0%` -> `78.0%` on HaluEval) while preserving `98.33%` fresh attack detection and `0.0%` firewall/generator-boundary leakage. With explicit scoping of long-summary hallucination leakage (`48.0%` on RAGTruth Summary), TrustRAG is **PUBLICATION READY WITH CLAIM LIMITATIONS**.
+

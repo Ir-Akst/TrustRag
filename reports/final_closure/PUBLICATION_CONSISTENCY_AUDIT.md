@@ -14,3 +14,4 @@ Audited all Phase 44 reports (`PHASE44_FINAL_REPORT.md`, `G3_REMEDIATION_RESULTS
 | **RAGTruth 48% leakage is prominently disclosed** | **PASS** | Explicitly highlighted in `PHASE44_FINAL_REPORT.md`, `G3_REMEDIATION_RESULTS.md`, `INDEPENDENT_EVALUATION.md`, `PUBLICATION_CLAIM_MATRIX.md`, and `FINAL_RESEARCH_PAPER.md` (Sections 13, 17, 20), and fully diagnosed in `reports/final_closure/RAGTRUTH_ERROR_ANALYSIS.md`. |
 | **Two failed unit tests are disclosed accurately** | **PASS** | Both `test_suspicious_inputs_flagged_and_original_preserved` and `test_temperature_calibrator_preserves_zero_clean_fpr` are accurately disclosed (`819 passed, 2 skipped, 2 failed`) and proven pre-existing via parent commit `9d6874e7ca65d5eb5e1440ab1205a7dffdf36cc1`. |
 | **No unsupported state-of-the-art claims** | **PASS** | No SOTA claims made; verdict is scoped to `READY WITH CLAIM LIMITATIONS`. |
+
